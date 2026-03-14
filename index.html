@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jishnu EC — Cybersecurity Analyst</title>
+<meta name="description" content="Cybersecurity Analyst & SOC Analyst — Penetration Testing, SIEM, OSINT, Digital Forensics. BCA Graduate, Kozhikode Kerala."/>
+<meta property="og:title" content="Jishnu EC — Cybersecurity Analyst"/>
+<meta property="og:description" content="SOC Analyst & Penetration Tester — Hands-on with Splunk, Metasploit, Burp Suite, Nmap and more. Open to work."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://jishnuec.github.io"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jishnu EC — Cybersecurity Analyst"/>
+<meta name="twitter:description" content="SOC Analyst & Penetration Tester — Open to work."/>
+<meta name="twitter:site" content="@jishxec"/>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --g:#00ff41;--g2:#00cc33;--g4:rgba(0,255,65,.08);
+  --amber:#ffcc00;--cyan:#00f0ff;--red:#ff4444;--purple:#dd88ff;
+  --bg:#010a01;--bg2:#051505;--bg3:#0a1f0a;
+  --border:rgba(0,255,65,.45);--border2:rgba(0,255,65,.22);
+  --text:#f5fff6;--text2:#bde8c0;
+  --mono:'Share Tech Mono',monospace;
+  --vt:'VT323',monospace;
+  --orb:'Orbitron',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);overflow-x:hidden}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--g2)}
+
+/* CRT */
+.crt-l{position:fixed;inset:0;pointer-events:none;z-index:9990;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.055) 3px,rgba(0,0,0,.055) 4px)}
+.crt-v{position:fixed;inset:0;pointer-events:none;z-index:9989;background:radial-gradient(ellipse 88% 88% at 50% 50%,transparent 48%,rgba(0,0,0,.78) 100%)}
+
+/* NAV */
+nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;background:rgba(1,8,1,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nlogo{font-family:var(--vt);font-size:1.1rem;color:var(--g);text-shadow:0 0 14px var(--g);letter-spacing:3px}
+.nlogo em{color:var(--text2);font-style:normal}
+.nlinks{display:flex;gap:1.8rem;list-style:none}
+.nlinks a{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .2s;position:relative;padding-bottom:4px}
+.nlinks a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--g);transform:scaleX(0);transition:transform .22s}
+.nlinks a:hover{color:var(--g)}.nlinks a:hover::after{transform:scaleX(1)}
+.nstatus{display:flex;align-items:center;gap:.6rem;font-size:.58rem;letter-spacing:2px;color:var(--text2)}
+.npulse{width:7px;height:7px;border-radius:50%;background:var(--g);position:relative}
+.npulse::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--g);animation:sonar 2s ease-out infinite}
+@keyframes sonar{0%{transform:scale(.4);opacity:1}100%{transform:scale(2.6);opacity:0}}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 3rem 3rem;position:relative;overflow:hidden}
+#mc{position:absolute;inset:0;opacity:.09;z-index:0}
+.hgrid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(0,255,65,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,.03) 1px,transparent 1px);background-size:55px 55px}
+.hglow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,65,.09) 0%,transparent 68%);top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;animation:gp 5s ease-in-out infinite alternate}
+@keyframes gp{from{opacity:.5;transform:translate(-50%,-50%) scale(.94)}to{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
+.hinner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 450px;gap:4rem;align-items:center;max-width:1200px;width:100%}
+
+/* hero text — no opacity tricks, always visible */
+.heyebrow{font-size:.62rem;letter-spacing:5px;color:var(--text2);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.heyebrow::before{content:'';width:28px;height:1px;background:var(--g)}
+.hphoto-name{display:flex;align-items:center;gap:2.5rem;margin-bottom:1.2rem}
+.hphoto-box{flex-shrink:0;width:160px;height:200px;border:2px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.hphoto-box img{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(15%) contrast(1.05);display:block}
+.hphoto-box img.hidden{display:none}
+.hphoto-init{font-family:var(--vt);font-size:3.2rem;color:var(--g);text-shadow:0 0 20px var(--g);letter-spacing:4px}
+.hname{font-family:var(--vt);font-size:clamp(4rem,9vw,8rem);line-height:.9;color:var(--g);text-shadow:0 0 28px var(--g),0 0 75px rgba(0,255,65,.28);letter-spacing:.1em;display:block}
+.hrole{font-family:var(--orb);font-size:.58rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-top:.8rem;text-shadow:0 0 12px rgba(255,165,0,.4)}
+.htagline{font-family:var(--vt);font-size:clamp(1.2rem,2.5vw,1.7rem);color:var(--text);min-height:2.2rem;margin-top:1.5rem}
+.twc{display:inline-block;width:2px;height:1em;background:var(--g);margin-left:2px;vertical-align:middle;animation:blink .75s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:.55rem;padding:.72rem 1.8rem;font-family:var(--mono);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .2s;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.btn:hover::before{transform:translateX(0)}
+.btn span{position:relative;z-index:1;transition:color .3s}
+.btn-p{border:1px solid var(--g);color:var(--g)}.btn-p:hover span{color:var(--bg)}
+.btn-o{border:1px solid var(--border);color:var(--text2)}.btn-o::before{background:rgba(0,255,65,.07)}.btn-o:hover{border-color:rgba(0,255,65,.4)}.btn-o:hover span{color:var(--g)}
+
+/* terminal */
+.tcard{background:var(--bg2);border:1px solid var(--border)}
+.tbar{background:var(--bg3);border-bottom:1px solid var(--border);padding:.55rem 1rem;display:flex;align-items:center;gap:.5rem}
+.tdots{display:flex;gap:.35rem}
+.tdot{width:10px;height:10px;border-radius:50%}
+.tdot:nth-child(1){background:#ff5f56}.tdot:nth-child(2){background:#ffbd2e}.tdot:nth-child(3){background:#27c93f}
+.ttitle{font-size:.6rem;letter-spacing:3px;color:var(--text2);margin-left:.5rem}
+.tbody{padding:1.4rem 1.5rem}
+.tl{font-size:.8rem;line-height:2.1}
+.tl .pr{color:var(--g)}.tl .cm{color:#7ecf85}.tl .ky{color:var(--cyan)}.tl .vl{color:#eafff0}.tl .am{color:var(--amber)}.tl .rd{color:var(--red)}.tl .pu{color:var(--purple)}
+.hire-badge{margin:0 1.5rem 1.5rem;padding:.75rem 1rem;border:1px solid rgba(0,255,65,.55);background:rgba(0,255,65,.07);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.hb-left{font-family:var(--orb);font-size:.6rem;letter-spacing:2px;color:var(--g);line-height:1.8}
+.hb-left small{display:block;font-family:var(--mono);font-size:.56rem;color:var(--text2);letter-spacing:1px;margin-top:.2rem}
+.hb-dot{width:9px;height:9px;border-radius:50%;background:var(--g);box-shadow:0 0 10px var(--g);flex-shrink:0;animation:blink 1.4s step-end infinite}
+
+/* SECTION SHELL */
+.sw{padding:7rem 3rem;max-width:1200px;margin:0 auto}
+.sh{display:flex;align-items:center;gap:1.5rem;margin-bottom:4rem}
+.sn{font-family:var(--vt);font-size:5rem;color:var(--g);opacity:.7;line-height:1;user-select:none;text-shadow:0 0 25px rgba(0,255,65,.5)}
+.st{font-family:var(--orb);font-size:clamp(.85rem,1.8vw,1.25rem);letter-spacing:5px;text-transform:uppercase;color:var(--g);text-shadow:0 0 18px rgba(0,255,65,.22)}
+.sl{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+
+/* ABOUT */
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.ap{font-size:.84rem;line-height:2.2;color:var(--text);padding-left:1rem;border-left:2px solid var(--border);margin-bottom:1rem}
+.ap .hl{color:var(--g)}
+.igrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem}
+.ii{padding:.85rem 1rem;border:1px solid var(--border2);background:var(--bg2);transition:border-color .2s}
+.ii:hover{border-color:var(--border)}
+.ik{font-size:.56rem;letter-spacing:3px;color:#7ecf85;text-transform:uppercase;margin-bottom:.3rem}
+.iv{font-size:.76rem;color:var(--text)}.iv a{color:var(--g);text-decoration:none}
+
+/* SKILLS */
+.sk-flood{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.sk-section{background:var(--bg2);border:1px solid var(--border2);padding:1.4rem;transition:border-color .3s}
+.sk-section:hover{border-color:var(--border)}
+.sk-cat{font-family:var(--orb);font-size:.58rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.8rem}
+.sk-cat::after{content:'';flex:1;height:1px;opacity:.3}
+.sk-cat.g-l{color:var(--g)}.sk-cat.g-l::after{background:var(--g)}
+.sk-cat.a-l{color:var(--amber)}.sk-cat.a-l::after{background:var(--amber)}
+.sk-cat.c-l{color:var(--cyan)}.sk-cat.c-l::after{background:var(--cyan)}
+.sk-cat.p-l{color:var(--purple)}.sk-cat.p-l::after{background:var(--purple)}
+.sk-tags{display:flex;flex-wrap:wrap;gap:.4rem;max-height:110px;overflow-y:auto;padding-right:4px}
+.sk-tags::-webkit-scrollbar{width:2px}
+.sk-tags::-webkit-scrollbar-track{background:transparent}
+.sk-tags::-webkit-scrollbar-thumb{background:var(--border)}
+.sk{padding:.36rem .9rem;border:1px solid var(--border2);background:var(--bg3);font-size:.72rem;letter-spacing:1px;color:var(--text2);transition:all .22s;cursor:pointer;position:relative;user-select:none}
+.sk:hover{transform:translateY(-2px)}
+.sk.g:hover{border-color:rgba(0,255,65,.55);color:var(--text)}
+.sk.a{border-color:rgba(255,183,50,.15)}.sk.a:hover{border-color:rgba(255,183,50,.6);color:var(--amber)}
+.sk.c{border-color:rgba(0,229,255,.12)}.sk.c:hover{border-color:rgba(0,229,255,.6);color:var(--cyan)}
+.sk.p{border-color:rgba(204,119,255,.12)}.sk.p:hover{border-color:rgba(204,119,255,.6);color:var(--purple)}
+/* SKILL TOOLTIP */
+.sk-tip{
+  position:fixed;z-index:9000;
+  background:var(--bg3);border:1px solid var(--border);
+  padding:.8rem 1rem;max-width:240px;
+  pointer-events:none;display:none;
+}
+.sk-tip.show{display:block}
+.sk-tip-name{font-family:var(--orb);font-size:.62rem;letter-spacing:2px;color:var(--g);margin-bottom:.4rem}
+.sk-tip-desc{font-size:.7rem;line-height:1.7;color:var(--text2)}
+.sk-flex{display:flex;flex-wrap:wrap;gap:.5rem}
+.sk{padding:.36rem .9rem;border:1px solid var(--border2);background:var(--bg2);font-size:.72rem;letter-spacing:1px;color:var(--text2);transition:all .22s;cursor:default;position:relative;overflow:hidden}
+.sk::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--g4),transparent);opacity:0;transition:opacity .22s}
+.sk:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,255,65,.1)}.sk:hover::before{opacity:1}
+.sk.g:hover{border-color:rgba(0,255,65,.55);color:var(--text)}
+.sk.a{border-color:rgba(255,183,50,.15)}.sk.a:hover{border-color:rgba(255,183,50,.6);color:var(--amber)}
+.sk.c{border-color:rgba(0,229,255,.12)}.sk.c:hover{border-color:rgba(0,229,255,.6);color:var(--cyan)}
+.sk.p{border-color:rgba(204,119,255,.12)}.sk.p:hover{border-color:rgba(204,119,255,.6);color:var(--purple)}
+
+/* EDUCATION */
+.egrid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.ecard{background:var(--bg2);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:all .3s}
+.ecard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--cyan));opacity:0;transition:opacity .3s}
+.ecard:hover{border-color:rgba(0,255,65,.5);box-shadow:0 0 35px rgba(0,255,65,.07)}.ecard:hover::before{opacity:1}
+.eico{font-family:var(--vt);font-size:3rem;color:var(--g);text-shadow:0 0 10px var(--g);margin-bottom:1rem;opacity:.7}
+.edeg{font-family:var(--orb);font-size:.75rem;letter-spacing:2px;color:var(--g);margin-bottom:.4rem}
+.eschool{font-size:.76rem;color:var(--text);margin-bottom:.3rem}
+.eyear{font-size:.66rem;color:var(--text2);letter-spacing:2px}
+.cert-row{margin-top:1.2rem;display:flex;flex-wrap:wrap;gap:.6rem}
+.cert{display:inline-flex;align-items:center;gap:.5rem;padding:.32rem .85rem;border:1px solid rgba(255,183,50,.3);color:var(--amber);font-size:.66rem;letter-spacing:2px;background:rgba(255,183,50,.04)}
+.cert::before{content:'⚡';font-size:.78rem}
+
+/* PROJECTS */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.pcard{background:var(--bg2);border:1px solid var(--border);padding:2.4rem;position:relative;overflow:hidden;transition:all .3s;display:flex;flex-direction:column}
+.pcard::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--g),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.pcard:hover{border-color:rgba(0,255,65,.6);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.5)}.pcard:hover::before{transform:scaleX(1)}
+.ptag{font-size:.56rem;letter-spacing:4px;color:var(--text2);text-transform:uppercase;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.ptag::before{content:'';width:10px;height:1px;background:var(--text2)}
+.pname{font-family:var(--orb);font-size:.95rem;color:var(--g);letter-spacing:2px;text-shadow:0 0 12px rgba(0,255,65,.2);margin-bottom:.3rem}
+.pver{font-size:.66rem;color:var(--amber);letter-spacing:2px;margin-bottom:1.2rem}
+.pdesc{font-size:.78rem;line-height:2;color:var(--text2);flex:1;margin-bottom:1.5rem}
+.pstack{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem}
+.pstag{font-size:.6rem;padding:.2rem .6rem;background:rgba(0,255,65,.04);border:1px solid rgba(0,255,65,.15);color:var(--g);letter-spacing:1px}
+.plinks{display:flex;gap:1.5rem}
+.plink{font-size:.66rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.plink:hover{color:var(--g)}
+.plink svg{transition:transform .2s}.plink:hover svg{transform:translateX(3px)}
+
+/* RESEARCH */
+.res-intro{font-size:.8rem;line-height:2.1;color:var(--text2);padding:1rem 1.4rem;border-left:2px solid rgba(0,229,255,.3);background:rgba(0,229,255,.02);margin-bottom:3rem}
+.res-intro span{color:var(--cyan)}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.rcard{background:var(--bg2);border:1px dashed rgba(0,255,65,.15);padding:1.7rem;transition:all .3s;display:flex;flex-direction:column;gap:.9rem;min-height:195px}
+.rcard:hover{border-color:rgba(0,229,255,.35);transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
+.rbadge{display:inline-flex;align-items:center;gap:.4rem;font-size:.56rem;letter-spacing:3px;text-transform:uppercase;padding:.22rem .65rem;width:fit-content}
+.rb-w{background:rgba(180,79,255,.05);border:1px solid rgba(180,79,255,.25);color:var(--purple)}
+.rb-p{background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.2);color:var(--cyan)}
+.rb-v{background:rgba(255,49,49,.05);border:1px solid rgba(255,49,49,.2);color:var(--red)}
+.rb-d{background:rgba(255,165,0,.05);border:1px solid rgba(255,165,0,.2);color:var(--amber)}
+.rtitle{font-family:var(--orb);font-size:.72rem;color:var(--text);letter-spacing:1px;line-height:1.5}
+.rdesc{font-size:.72rem;line-height:1.9;color:var(--text2);flex:1}
+.rsoon{font-family:var(--vt);font-size:1.3rem;color:#6dcc75;letter-spacing:3px;margin-top:auto}
+
+/* LABS */
+.labs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-bottom:2rem}
+.lcard{background:var(--bg2);border:1px dashed rgba(180,79,255,.22);padding:1.7rem;display:flex;flex-direction:column;gap:.9rem;min-height:185px;cursor:pointer;transition:all .3s}
+.lcard.act{border-style:solid;border-color:rgba(0,255,65,.4)}
+.lcard.act:hover{border-color:rgba(0,255,65,.65);transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
+.lcard:not(.act):hover{border-color:rgba(180,79,255,.5);transform:translateY(-2px)}
+.lbdg{display:inline-flex;align-items:center;gap:.4rem;font-size:.58rem;letter-spacing:3px;text-transform:uppercase;padding:.25rem .7rem;width:fit-content;background:rgba(180,79,255,.06);border:1px solid rgba(180,79,255,.3);color:var(--purple)}
+.lbdg.ab{background:rgba(0,255,65,.06);border-color:rgba(0,255,65,.4);color:var(--g)}
+.ltitle{font-family:var(--orb);font-size:.72rem;color:var(--text);letter-spacing:1px;line-height:1.5}
+.ldesc{font-size:.72rem;line-height:1.9;color:var(--text2);flex:1}
+.lsoon{font-family:var(--vt);font-size:1.2rem;color:#6dcc75;letter-spacing:3px}
+.ltags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.3rem}
+.lclick{font-size:.6rem;letter-spacing:2px;color:rgba(0,255,65,.4);text-transform:uppercase;margin-top:.4rem;transition:color .2s}
+.lcard:hover .lclick{color:var(--g)}
+
+/* LAB MODAL */
+.lmodal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:5000;display:none;align-items:center;justify-content:center;padding:2rem;backdrop-filter:blur(8px)}
+.lmodal.open{display:flex}
+.lmodal-box{background:var(--bg2);border:1px solid var(--border);max-width:680px;width:100%;max-height:85vh;overflow-y:auto}
+.lmodal-close{width:100%;background:var(--bg3);border:none;border-bottom:1px solid var(--border);padding:.75rem 1.5rem;font-family:var(--mono);font-size:.65rem;letter-spacing:3px;color:var(--text2);text-align:right;cursor:pointer;transition:color .2s;display:block}
+.lmodal-close:hover{color:var(--g)}
+.lmodal-inner{padding:2rem}
+.lm-badge{display:inline-flex;align-items:center;gap:.5rem;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;padding:.25rem .7rem;margin-bottom:1.2rem}
+.lm-title{font-family:var(--orb);font-size:1.05rem;color:var(--g);letter-spacing:2px;margin-bottom:.5rem;text-shadow:0 0 12px rgba(0,255,65,.2)}
+.lm-sub{font-size:.72rem;color:var(--amber);letter-spacing:2px;margin-bottom:1.5rem}
+.lm-sec-title{font-family:var(--orb);font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:.6rem;padding-bottom:.35rem;border-bottom:1px solid rgba(0,229,255,.15);margin-top:1.4rem}
+.lm-text{font-size:.78rem;line-height:2;color:var(--text2)}
+.lm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.lm-coming{font-family:var(--vt);font-size:1.5rem;color:#6dcc75;letter-spacing:3px;text-align:center;padding:2rem}
+
+/* CONTACT */
+.ctop{text-align:center;margin-bottom:4rem}
+.cbig{font-family:var(--vt);font-size:clamp(2rem,5.5vw,4rem);color:var(--text);line-height:1.2;margin-bottom:1rem}
+.cbig span{color:var(--g);text-shadow:0 0 18px var(--g)}
+.csub{font-size:.72rem;color:var(--text2);letter-spacing:2px}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:900px;margin:0 auto}
+.ccrd{background:var(--bg2);border:1px solid var(--border);padding:1.5rem;text-decoration:none;display:flex;align-items:center;gap:1.2rem;transition:all .3s;color:var(--text2)}
+.ccrd:hover{border-color:rgba(0,255,65,.5);color:var(--g);transform:translateY(-3px);box-shadow:0 10px 38px rgba(0,0,0,.4)}
+.cico{width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--vt);font-size:1.45rem;color:var(--g);flex-shrink:0;transition:all .3s}
+.ccrd:hover .cico{border-color:var(--g);box-shadow:0 0 12px rgba(0,255,65,.18)}
+.clbl{font-size:.56rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:.3rem}
+.cval{font-size:.72rem;color:var(--text);transition:color .3s;word-break:break-all}
+.ccrd:hover .cval{color:var(--g)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fl{font-size:.66rem;color:var(--text2);letter-spacing:2px;line-height:2}.fl span{color:var(--g)}
+
+/* SCROLL REVEAL */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:none}
+.rv[data-d="1"]{transition-delay:.08s}.rv[data-d="2"]{transition-delay:.16s}
+.rv[data-d="3"]{transition-delay:.24s}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+  .hinner,.agrid,.pgrid,.egrid,.res-grid,.labs-grid{grid-template-columns:1fr}
+  .hright{display:none}
+  .cgrid{grid-template-columns:repeat(2,1fr)}
+  nav{padding:0 1.5rem}.nlinks{display:none}
+  .sw{padding:5rem 1.5rem}
+  footer{padding:2rem 1.5rem}
+}
+@media(max-width:650px){
+  .igrid{grid-template-columns:1fr 1fr}
+  .cgrid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="crt-l"></div>
+<div class="crt-v"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nlogo">[ <em>JISHNU EC</em> ]</div>
+  <ul class="nlinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#labs">Labs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nstatus"><div class="npulse"></div>AVAILABLE FOR HIRE</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="mc"></canvas>
+  <div class="hgrid"></div>
+  <div class="hglow"></div>
+  <div class="hinner">
+    <div>
+      <div class="heyebrow">Cybersecurity Portfolio</div>
+      <div class="hphoto-name">
+        <div class="hphoto-box">
+          <img src="photo.jpg" alt="Jishnu EC" id="hphoto" onerror="this.classList.add('hidden');document.getElementById('hinit').style.display='flex'"/>
+          <div class="hphoto-init" id="hinit" style="display:none">JEC</div>
+        </div>
+        <div>
+          <div class="hname" id="hname">JISHNU EC</div>
+          <div class="hrole">Cybersecurity Analyst &nbsp;·&nbsp; SOC Analyst &nbsp;·&nbsp; Ethical Hacker</div>
+        </div>
+      </div>
+      <div class="htagline"><span id="tw"></span><span class="twc"></span></div>
+      <div class="hbtns">
+        <a href="#projects" class="btn btn-p"><span>View Projects</span></a>
+        <a href="resume.pdf" download class="btn btn-p"><span>Download CV</span></a>
+        <a href="#research" class="btn btn-o"><span>Research & Papers</span></a>
+        <a href="#contact" class="btn btn-o"><span>Get In Touch</span></a>
+      </div>
+    </div>
+    <div class="hright">
+      <div class="tcard">
+        <div class="tbar">
+          <div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>
+          <span class="ttitle">jishnu@kali:~$ bash</span>
+        </div>
+        <div class="tbody">
+          <div class="tl"><span class="pr">❯</span> <span class="ky">whoami</span></div>
+          <div class="tl"><span class="vl">jishnu_ec — cybersecurity analyst</span></div>
+          <div class="tl">&nbsp;</div>
+          <div class="tl"><span class="pr">❯</span> <span class="ky">cat</span> <span class="vl">skills.conf</span></div>
+          <div class="tl"><span class="am">pentesting</span>    <span class="vl">= enabled</span></div>
+          <div class="tl"><span class="am">siem_analysis</span> <span class="vl">= enabled</span></div>
+          <div class="tl"><span class="am">osint</span>         <span class="vl">= enabled</span></div>
+          <div class="tl"><span class="am">forensics</span>     <span class="vl">= enabled</span></div>
+          <div class="tl"><span class="am">network_sec</span>   <span class="vl">= enabled</span></div>
+          <div class="tl">&nbsp;</div>
+          <div class="tl"><span class="pr">❯</span> <span class="ky">cat</span> <span class="vl">profile.conf</span></div>
+          <div class="tl"><span class="am">location</span>  <span class="vl">= Kozhikode, Kerala</span></div>
+          <div class="tl"><span class="am">degree</span>    <span class="vl">= BCA, Calicut Univ 2025</span></div>
+          <div class="tl"><span class="am">cert</span>      <span class="pu">= CEH [IN PROGRESS]</span></div>
+          <div class="tl"><span class="am">status</span>    <span class="rd">= OPEN_TO_WORK ●</span></div>
+          <div class="tl">&nbsp;</div>
+          <div class="tl"><span class="pr">❯</span> <span style="display:inline-block;width:8px;height:.82em;background:var(--g);vertical-align:middle;animation:blink .75s step-end infinite"></span></div>
+        </div>
+        <div class="hire-badge">
+          <div class="hb-left">OPEN TO WORK — HIRE ME<small>SOC Analyst · Cybersecurity Analyst · Pentest</small></div>
+          <div class="hb-dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sw">
+    <div class="sh rv"><span class="sn">01</span><span class="st">About Me</span><div class="sl"></div></div>
+    <div class="agrid">
+      <div>
+        <p class="ap rv" data-d="1">I'm a <span class="hl">cybersecurity enthusiast</span> with a strong foundation in both offensive and defensive security. From understanding how attacks are carried out to building defenses that stop them — I'm passionate about both sides of the field.</p>
+        <p class="ap rv" data-d="2">My focus areas include <span class="hl">penetration testing</span>, privilege escalation, SOC operations, SIEM & log analysis, OSINT, network security, and digital forensics. I believe the best defenders think like attackers — so I invest heavily in understanding real-world attack techniques, not just theory.</p>
+        <p class="ap rv" data-d="3">I'm ready to contribute as a <span class="hl">SOC Analyst or Penetration Tester</span> — bringing a sharp eye for threats, a hands-on technical mindset, and the drive to protect what matters.</p>
+      </div>
+      <div class="igrid rv" data-d="2">
+        <div class="ii"><div class="ik">Name</div><div class="iv">Jishnu EC</div></div>
+        <div class="ii"><div class="ik">Location</div><div class="iv">Kozhikode, Kerala</div></div>
+        <div class="ii"><div class="ik">Degree</div><div class="iv">BCA — 2025</div></div>
+        <div class="ii"><div class="ik">Status</div><div class="iv" style="color:var(--g)">Open to Work</div></div>
+        <div class="ii"><div class="ik">Email</div><div class="iv"><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a></div></div>
+        <div class="ii"><div class="ik">GitHub</div><div class="iv"><a href="https://github.com/Jishnuec" target="_blank">github.com/Jishnuec</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sw">
+    <div class="sh rv"><span class="sn">02</span><span class="st">Skills & Arsenal</span><div class="sl"></div></div>
+    <div class="sk-flood rv">
+      <div class="sk-section">
+        <div class="sk-cat g-l">// Offensive Security</div>
+        <div class="sk-tags">
+          <span class="sk g">Nmap</span><span class="sk g">Metasploit</span><span class="sk g">Burp Suite</span>
+          <span class="sk g">Hydra</span><span class="sk g">Netcat</span><span class="sk g">John the Ripper</span>
+          <span class="sk g">Nikto</span><span class="sk g">Gobuster</span><span class="sk g">SQLMap</span>
+          <span class="sk g">Aircrack-ng</span><span class="sk g">Dirb</span>
+        </div>
+      </div>
+      <div class="sk-section">
+        <div class="sk-cat c-l">// Defensive & Monitoring</div>
+        <div class="sk-tags">
+          <span class="sk c">Splunk</span><span class="sk c">Wireshark</span><span class="sk c">OPNsense</span>
+        </div>
+      </div>
+      <div class="sk-section">
+        <div class="sk-cat a-l">// Languages & Scripting</div>
+        <div class="sk-tags">
+          <span class="sk a">Python</span><span class="sk a">Bash</span><span class="sk a">HTML / CSS</span><span class="sk a">SQL</span>
+        </div>
+      </div>
+      <div class="sk-section">
+        <div class="sk-cat g-l">// Operating Systems</div>
+        <div class="sk-tags">
+          <span class="sk g">Kali Linux</span><span class="sk g">Parrot OS</span><span class="sk g">Arch Linux</span>
+          <span class="sk g">Linux Mint</span><span class="sk g">Ubuntu / Debian</span><span class="sk g">Windows Server</span>
+        </div>
+      </div>
+      <div class="sk-section">
+        <div class="sk-cat c-l">// Security Concepts</div>
+        <div class="sk-tags">
+          <span class="sk c">OWASP Top 10</span><span class="sk c">TCP/IP & Networking</span>
+          <span class="sk c">Active Directory</span><span class="sk c">Incident Response</span>
+          <span class="sk c">Threat Intelligence</span><span class="sk c">Vulnerability Assessment</span>
+          <span class="sk c">Penetration Testing</span><span class="sk c">SIEM & Log Analysis</span>
+          <span class="sk c">Digital Forensics</span><span class="sk c">OSINT</span><span class="sk c">CTF Competitions</span>
+        </div>
+      </div>
+      <div class="sk-section">
+        <div class="sk-cat p-l">// Virtualization & Infra</div>
+        <div class="sk-tags">
+          <span class="sk p">VirtualBox</span><span class="sk p">Docker</span><span class="sk p">OPNsense Firewall</span>
+          <span class="sk p">VM Networking</span><span class="sk p">NAT / Bridge Config</span><span class="sk p">VLAN Setup</span>
+        </div>
+      </div>
+      <div class="sk-section">
+        <div class="sk-cat a-l">// Dev & Workflow</div>
+        <div class="sk-tags">
+          <span class="sk a">Git & GitHub</span><span class="sk a">VS Code</span>
+          <span class="sk a">Linux Terminal</span><span class="sk a">Markdown</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sw">
+    <div class="sh rv"><span class="sn">03</span><span class="st">Education & Certifications</span><div class="sl"></div></div>
+    <div class="egrid">
+      <div class="ecard rv" data-d="1">
+        <div class="eico">🎓</div>
+        <div class="edeg">Bachelor of Computer Applications</div>
+        <div class="eschool">Calicut University, Kerala</div>
+        <div class="eyear">2022 — 2025</div>
+      </div>
+      <div class="ecard rv" data-d="2">
+        <div class="eico">🛡️</div>
+        <div class="edeg">Certifications</div>
+        <div class="eschool">Currently preparing for CEH certification</div>
+        <div class="eyear">IN PROGRESS</div>
+        <div class="cert-row"><span class="cert">CEH — Certified Ethical Hacker</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sw">
+    <div class="sh rv"><span class="sn">04</span><span class="st">Projects</span><div class="sl"></div></div>
+    <div class="pgrid">
+      <div class="pcard rv" data-d="1">
+        <div class="ptag">OSINT Tool</div>
+        <div class="pname">InstaGrep</div>
+        <div class="pver">v4.0 — ~3,000 Lines of Code</div>
+        <p class="pdesc">Professional Instagram OSINT desktop application. Extract public profile data, analyze posting patterns, download media, generate reports. Features dark UI, keyboard navigation, recent searches, activity charts, and multi-format exports (JSON/Excel/PDF/HTML).</p>
+        <div class="pstack">
+          <span class="pstag">Python</span><span class="pstag">CustomTkinter</span><span class="pstag">Instagrapi</span>
+          <span class="pstag">Matplotlib</span><span class="pstag">Pillow</span><span class="pstag">OSINT</span>
+        </div>
+        <div class="plinks">
+          <a href="https://github.com/Jishnuec/InstaGrep" target="_blank" class="plink">View on GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="pcard rv" data-d="2">
+        <div class="ptag">Recon Framework</div>
+        <div class="pname">ReconFrame</div>
+        <div class="pver">Advanced Reconnaissance Framework — 12 Integrated Tools</div>
+        <p class="pdesc">Professional-grade reconnaissance framework that unifies 12 security tools with intelligent automation. Features cinematic startup animation, smart IP/domain detection, beautifully formatted results, and smart target validation.</p>
+        <div class="pstack">
+          <span class="pstag">Python</span><span class="pstag">Nmap</span><span class="pstag">Bash</span>
+          <span class="pstag">ANSI</span><span class="pstag">Terminal UI</span>
+        </div>
+        <div class="plinks">
+          <a href="https://github.com/Jishnuec/reconframe" target="_blank" class="plink">View on GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="sw">
+    <div class="sh rv"><span class="sn">05</span><span class="st">Research, Papers & Write-Ups</span><div class="sl"></div></div>
+    <div class="res-grid">
+      <div class="rcard rv" data-d="1">
+        <div class="rbadge rb-w">⚙ In Progress</div>
+        <div class="rtitle">DVWA Full Attack Chain Report</div>
+        <div class="rdesc">Complete 19-finding kill chain attack sequence on DVWA documented as a professional OWASP-style pentest report with Splunk SIEM evidence.</div>
+        <div class="rsoon">// IN PROGRESS</div>
+      </div>
+      <div class="rcard rv" data-d="2">
+        <div class="rbadge rb-p">📄 Research Paper</div>
+        <div class="rtitle">OSINT Methodology Paper</div>
+        <div class="rdesc">Deep-dive into open source intelligence gathering techniques, ethical boundaries, and automation using Python tooling.</div>
+        <div class="rsoon">// COMING SOON</div>
+      </div>
+      <div class="rcard rv" data-d="3">
+        <div class="rbadge rb-v">▶ Video Walkthrough</div>
+        <div class="rtitle">Lab & CTF Walkthroughs</div>
+        <div class="rdesc">Recorded hands-on lab walkthroughs and CTF solutions with detailed explanations for the cybersecurity community.</div>
+        <div class="rsoon">// COMING SOON</div>
+      </div>
+      <div class="rcard rv" data-d="1">
+        <div class="rbadge rb-d">📑 PDF Write-Up</div>
+        <div class="rtitle">Penetration Test Reports</div>
+        <div class="rdesc">Detailed OWASP-style pentest reports from home lab environments — findings, impact analysis, and remediation steps.</div>
+        <div class="rsoon">// COMING SOON</div>
+      </div>
+      <div class="rcard rv" data-d="2">
+        <div class="rbadge rb-v">▶ Video Series</div>
+        <div class="rtitle">Home Lab Setup Guide</div>
+        <div class="rdesc">Video series walking through building a cybersecurity home lab — attacker, targets, SIEM integration.</div>
+        <div class="rsoon">// COMING SOON</div>
+      </div>
+      <div class="rcard rv" data-d="3">
+        <div class="rbadge rb-p">📄 Research Paper</div>
+        <div class="rtitle">Network Threat Detection</div>
+        <div class="rdesc">Research covering network-based attack detection techniques, traffic analysis, and automated alerting with SIEM platforms.</div>
+        <div class="rsoon">// COMING SOON</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LABS -->
+<section id="labs">
+  <div class="sw">
+    <div class="sh rv"><span class="sn">06</span><span class="st">Home Labs</span><div class="sl"></div></div>
+    <div class="labs-grid">
+      <div class="lcard act rv" data-d="1" onclick="openLab('dvwa')">
+        <div class="lbdg ab">● Active Lab</div>
+        <div class="ltitle">Kali vs DVWA Attack Lab</div>
+        <div class="ldesc">Kali Linux attacker vs Linux Mint running DVWA. Full red team kill chain with Splunk SIEM monitoring.</div>
+        <div class="ltags">
+          <span class="sk g" style="font-size:.6rem">Kali Linux</span>
+          <span class="sk g" style="font-size:.6rem">DVWA</span>
+          <span class="sk c" style="font-size:.6rem">Splunk</span>
+          <span class="sk a" style="font-size:.6rem">VirtualBox</span>
+        </div>
+        <div class="lclick">Click to read writeup →</div>
+      </div>
+      <div class="lcard rv" data-d="2" onclick="openLab('ad')">
+        <div class="lbdg">⏳ Planned</div>
+        <div class="ltitle">Active Directory Lab</div>
+        <div class="ldesc">Windows Server 2019 domain controller — AD enumeration, privilege escalation, pass-the-hash attacks.</div>
+        <div class="lsoon">// COMING SOON</div>
+        <div class="lclick">Click for details →</div>
+      </div>
+      <div class="lcard rv" data-d="3" onclick="openLab('network')">
+        <div class="lbdg">⏳ Planned</div>
+        <div class="ltitle">Network Security Lab</div>
+        <div class="ldesc">OPNsense firewall + segmented VLANs + IDS/IPS. Traffic analysis with Wireshark and Zeek.</div>
+        <div class="lsoon">// COMING SOON</div>
+        <div class="lclick">Click for details →</div>
+      </div>
+      <div class="lcard rv" data-d="1" onclick="openLab('malware')">
+        <div class="lbdg">⏳ Planned</div>
+        <div class="ltitle">Malware Analysis Sandbox</div>
+        <div class="ldesc">Isolated VM sandbox for safe malware execution and behavioral analysis.</div>
+        <div class="lsoon">// COMING SOON</div>
+        <div class="lclick">Click for details →</div>
+      </div>
+      <div class="lcard rv" data-d="2" onclick="openLab('ctf')">
+        <div class="lbdg">⏳ Planned</div>
+        <div class="ltitle">CTF Practice Environment</div>
+        <div class="lsoon">// COMING SOON</div>
+        <div class="lclick">Click for details →</div>
+      </div>
+      <div class="lcard rv" data-d="3" onclick="openLab('docker')">
+        <div class="lbdg">⏳ Planned</div>
+        <div class="ltitle">Docker Security Lab</div>
+        <div class="ldesc">Containerized vulnerable applications for web app security and container escape practice.</div>
+        <div class="lsoon">// COMING SOON</div>
+        <div class="lclick">Click for details →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LAB MODAL -->
+<div id="labModal" class="lmodal" onclick="closeLab(event)">
+  <div class="lmodal-box">
+    <button class="lmodal-close" onclick="document.getElementById('labModal').classList.remove('open');document.body.style.overflow=''">✕ CLOSE</button>
+    <div id="labModalContent"></div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sw">
+    <div class="sh rv"><span class="sn">07</span><span class="st">Contact</span><div class="sl"></div></div>
+    <div class="ctop rv">
+      <div class="cbig">Let's secure the<br><span>digital world</span> together.</div>
+      <div class="csub">Open to SOC Analyst · Cybersecurity Analyst · Penetration Tester roles</div>
+    </div>
+    <div class="cgrid rv" data-d="1">
+      <a href="mailto:jishnuwhoopofficial@gmail.com" class="ccrd">
+        <div class="cico">@</div>
+        <div><div class="clbl">Email</div><div class="cval">jishnuwhoopofficial@gmail.com</div></div>
+      </a>
+      <a href="tel:+917510572360" class="ccrd">
+        <div class="cico">☏</div>
+        <div><div class="clbl">Phone</div><div class="cval">+91 7510572360</div></div>
+      </a>
+      <a href="https://www.linkedin.com/in/jishnuec" target="_blank" class="ccrd">
+        <div class="cico">in</div>
+        <div><div class="clbl">LinkedIn</div><div class="cval">linkedin.com/in/jishnuec</div></div>
+      </a>
+      <a href="https://github.com/Jishnuec" target="_blank" class="ccrd">
+        <div class="cico">&lt;/&gt;</div>
+        <div><div class="clbl">GitHub</div><div class="cval">github.com/Jishnuec</div></div>
+      </a>
+      <a href="https://x.com/jishxec" target="_blank" class="ccrd">
+        <div class="cico">𝕏</div>
+        <div><div class="clbl">Twitter / X</div><div class="cval">@jishxec</div></div>
+      </a>
+      <a href="resume.pdf" download class="ccrd">
+        <div class="cico">↓</div>
+        <div><div class="clbl">Resume</div><div class="cval">Download CV — PDF</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fl">Built by <span>Jishnu EC</span> &nbsp;·&nbsp; <span>jishnuec.github.io</span><br>All systems operational. No vulnerabilities found.</div>
+</footer>
+
+<!-- SKILL TOOLTIP -->
+<div class="sk-tip" id="skTip">
+  <div class="sk-tip-name" id="skTipName"></div>
+  <div class="sk-tip-desc" id="skTipDesc"></div>
+</div>
+
+<script>
+/* SKILL DESCRIPTIONS */
+const skillInfo={
+  'Nmap':'Network scanner for host discovery, port scanning, and service/OS detection.',
+  'Metasploit':'Exploitation framework for developing and executing exploit code against targets.',
+  'Burp Suite':'Web application security testing platform for intercepting and modifying HTTP traffic.',
+  'Hydra':'Fast network login cracker supporting many protocols including SSH, FTP, HTTP.',
+  'Netcat':'Networking utility for reading/writing data across network connections. The "Swiss Army knife".',
+  'John the Ripper':'Password cracking tool supporting many hash types and wordlist attacks.',
+  'Nikto':'Web server scanner that detects dangerous files, outdated software, and misconfigurations.',
+  'Gobuster':'Directory and DNS brute-forcing tool for discovering hidden paths and subdomains.',
+  'SQLMap':'Automated SQL injection detection and exploitation tool.',
+  'Aircrack-ng':'Suite for auditing wireless network security including WEP/WPA cracking.',
+  'Dirb':'Web content scanner using wordlists to find hidden directories and files.',
+  'Splunk':'SIEM platform for searching, monitoring, and analyzing machine-generated data.',
+  'Wireshark':'Network protocol analyzer for capturing and inspecting packets in real time.',
+  'OPNsense':'Open-source firewall and routing platform based on FreeBSD.',
+  'Python':'High-level scripting language — primary tool for automation and tool development.',
+  'Bash':'Unix shell scripting for automation, task scheduling, and system administration.',
+  'HTML / CSS':'Web markup and styling languages for building front-end interfaces.',
+  'SQL':'Structured query language for database management and injection testing.',
+  'Kali Linux':'Debian-based distro designed for penetration testing and digital forensics.',
+  'Parrot OS':'Security-focused Linux distro for pentesting, privacy, and development.',
+  'Arch Linux':'Lightweight, flexible Linux distro with rolling release model.',
+  'Linux Mint':'User-friendly Debian/Ubuntu-based distro used as target machine in labs.',
+  'Ubuntu / Debian':'Widely-used Linux distros for servers and development environments.',
+  'Windows Server':'Microsoft server OS — used in Active Directory and enterprise environments.',
+  'OWASP Top 10':'Standard awareness document for the 10 most critical web application security risks.',
+  'TCP/IP & Networking':'Core networking protocols — fundamental to understanding attack surfaces.',
+  'Active Directory':'Microsoft directory service — common target for privilege escalation attacks.',
+  'Incident Response':'Process of identifying, containing, and recovering from security incidents.',
+  'Threat Intelligence':'Gathering and analyzing data about current and emerging cyber threats.',
+  'Vulnerability Assessment':'Systematic process of identifying and quantifying security weaknesses.',
+  'Penetration Testing':'Simulated cyber attack to evaluate the security of a system.',
+  'SIEM & Log Analysis':'Security event correlation and log analysis for threat detection.',
+  'Digital Forensics':'Collection and analysis of digital evidence for investigation.',
+  'OSINT':'Open Source Intelligence — gathering data from publicly available sources.',
+  'CTF Competitions':'Capture The Flag — competitive cybersecurity challenges for skill building.',
+  'VirtualBox':'Open-source virtualization software for running multiple OS environments.',
+  'Docker':'Container platform for building and running isolated application environments.',
+  'OPNsense Firewall':'Deployed as virtual firewall in home lab for network segmentation.',
+  'VM Networking':'Configuring virtual network interfaces, bridges, and isolated lab networks.',
+  'NAT / Bridge Config':'Network address translation and bridged adapter setup for VM communication.',
+  'VLAN Setup':'Virtual LAN configuration for network segmentation and traffic isolation.',
+  'Git & GitHub':'Version control system and platform for hosting and sharing code.',
+  'VS Code':'Lightweight but powerful code editor with extensive extension support.',
+  'Linux Terminal':'Command-line interface — primary working environment for security tasks.',
+  'Markdown':'Lightweight markup language for writing documentation and README files.'
+};
+
+const tip=document.getElementById('skTip'),tn=document.getElementById('skTipName'),td=document.getElementById('skTipDesc');
+let tipVisible=false;
+
+document.querySelectorAll('.sk').forEach(el=>{
+  el.addEventListener('click',e=>{
+    const name=el.textContent.trim();
+    const desc=skillInfo[name];
+    if(!desc)return;
+    tn.textContent=name;
+    td.textContent=desc;
+    const r=el.getBoundingClientRect();
+    let x=r.left,y=r.bottom+8;
+    if(x+250>window.innerWidth)x=window.innerWidth-258;
+    if(y+100>window.innerHeight)y=r.top-110;
+    tip.style.left=x+'px';tip.style.top=y+'px';
+    tip.classList.add('show');
+    tipVisible=true;
+    e.stopPropagation();
+  });
+});
+document.addEventListener('click',()=>{if(tipVisible){tip.classList.remove('show');tipVisible=false;}});
+
+const cv=document.getElementById('mc'),ctx=cv.getContext('2d');
+let cols,drops;
+function initM(){cv.width=window.innerWidth;cv.height=window.innerHeight;cols=Math.floor(cv.width/18);drops=Array(cols).fill(1)}
+initM();window.addEventListener('resize',initM);
+const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*<>/|ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ';
+setInterval(()=>{
+  ctx.fillStyle='rgba(1,8,1,.055)';ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.fillStyle='#00ff41';ctx.font='13px Share Tech Mono';
+  drops.forEach((y,i)=>{ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*18,y*18);if(y*18>cv.height&&Math.random()>.975)drops[i]=0;drops[i]++});
+},50);
+
+/* TYPEWRITER */
+const phrases=['Hunting threats. Building defenses.','I break things to make them secure.','Turning vulnerabilities into victories.','Ready to secure your infrastructure.','OSINT. Pentest. Forensics.'];
+let pi=0,ci=0,del=false;
+const tw=document.getElementById('tw');
+function type(){const p=phrases[pi];if(!del){tw.textContent=p.slice(0,++ci);if(ci===p.length){del=true;setTimeout(type,2200);return}}else{tw.textContent=p.slice(0,--ci);if(ci===0){del=false;pi=(pi+1)%phrases.length}}setTimeout(type,del?32:72)}
+type();
+
+/* SCROLL REVEAL */
+const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on')})},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+/* GLITCH */
+const hn=document.getElementById('hname');
+setInterval(()=>{
+  hn.style.textShadow='3px 0 #ff0055,-3px 0 #00ffff,0 0 28px var(--g)';
+  hn.style.transform='skewX(-1.5deg)';
+  setTimeout(()=>{hn.style.textShadow='0 0 28px var(--g),0 0 75px rgba(0,255,65,.28)';hn.style.transform=''},90);
+},5500);
+
+/* LAB MODAL */
+const labData={
+  dvwa:{active:true,title:'Kali vs DVWA Attack Lab',sub:'Kali Linux Attacker · Linux Mint Target · Splunk SIEM · VirtualBox',overview:'A full red team attack simulation. Kali Linux (attacker) targets a Linux Mint machine running DVWA, with all traffic monitored by Splunk SIEM on Windows.',tools:['Kali Linux','Linux Mint','DVWA','Splunk','Metasploit','Burp Suite','SQLMap','Nmap','Hydra','Netcat'],findings:'19 findings across the kill chain including SQL Injection, Blind SQLi, XSS (Reflected & Stored), Command Injection, File Inclusion (LFI/RFI), CSRF, Brute Force, File Upload bypass, and more.'},
+  ad:{active:false,title:'Active Directory Lab',sub:'Windows Server 2019 · VirtualBox',overview:'Planned lab with Windows Server 2019 domain controller for practicing AD enumeration, privilege escalation, pass-the-hash, and lateral movement.',tools:['Windows Server 2019','Kali Linux','BloodHound','Impacket','CrackMapExec']},
+  network:{active:false,title:'Network Security Lab',sub:'OPNsense · Wireshark · Zeek',overview:'Planned segmented network lab with OPNsense firewall, VLAN config, IDS/IPS rules, and traffic analysis.',tools:['OPNsense','Wireshark','Zeek','Suricata','VirtualBox']},
+  malware:{active:false,title:'Malware Analysis Sandbox',sub:'Isolated VM · Static & Dynamic Analysis',overview:'Planned isolated sandbox for safe malware execution and behavioral analysis.',tools:['FlareVM','PEStudio','x64dbg','Wireshark','Process Monitor']},
+  docker:{active:false,title:'Docker Security Lab',sub:'Docker · Vulnerable Apps',overview:'Planned containerized lab for web app security testing and Docker-specific attack vector practice.',tools:['Docker','DVWA','WebGoat','Trivy','Kali Linux']}
+};
+function openLab(id){
+  const d=labData[id];if(!d)return;
+  let html=`<div class="lmodal-inner">
+    <div class="lm-badge ${d.active?'lbdg ab':'lbdg'}">${d.active?'● ACTIVE LAB':'⏳ PLANNED'}</div>
+    <div class="lm-title">${d.title}</div>
+    <div class="lm-sub">${d.sub}</div>
+    <div class="lm-sec-title">Overview</div>
+    <div class="lm-text">${d.overview}</div>
+    <div class="lm-sec-title">Tools & Technologies</div>
+    <div class="lm-tags">${d.tools.map(t=>`<span class="sk ${d.active?'g':'p'}" style="font-size:.68rem">${t}</span>`).join('')}</div>`;
+  if(d.findings){html+=`<div class="lm-sec-title">Findings Summary</div><div class="lm-text">${d.findings}</div><div class="lm-sec-title">Writeup Status</div><div class="lm-text">Full OWASP-style penetration test report in progress. Will be published in the Research & Papers section once complete.</div>`;}
+  else{html+=`<div class="lm-coming">// WRITEUP COMING SOON</div>`;}
+  html+=`</div>`;
+  document.getElementById('labModalContent').innerHTML=html;
+  document.getElementById('labModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLab(e){
+  if(e&&e.target!==document.getElementById('labModal'))return;
+  document.getElementById('labModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('labModal').classList.remove('open');document.body.style.overflow=''}});
+</script>
+</body>
+</html>
