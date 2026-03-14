@@ -65,8 +65,10 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .hphoto-box img{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(15%) contrast(1.05);display:block}
 .hphoto-box img.hidden{display:none}
 .hphoto-init{font-family:var(--vt);font-size:3.2rem;color:var(--g);text-shadow:0 0 20px var(--g);letter-spacing:4px}
+.hname-block{display:flex;flex-direction:column;gap:.5rem}
 .hname{font-family:var(--vt);font-size:clamp(4rem,9vw,8rem);line-height:.9;color:var(--g);text-shadow:0 0 28px var(--g),0 0 75px rgba(0,255,65,.28);letter-spacing:.1em;display:block}
-.hrole{font-family:var(--orb);font-size:.58rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-top:.8rem;text-shadow:0 0 12px rgba(255,165,0,.4)}
+.hrole{font-family:var(--orb);font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--amber);text-shadow:0 0 15px rgba(255,204,0,.5)}
+.hsubrole{font-family:var(--mono);font-size:.68rem;color:var(--text2);letter-spacing:2px}
 .htagline{font-family:var(--vt);font-size:clamp(1.2rem,2.5vw,1.7rem);color:var(--text);min-height:2.2rem;margin-top:1.5rem}
 .twc{display:inline-block;width:2px;height:1em;background:var(--g);margin-left:2px;vertical-align:middle;animation:blink .75s step-end infinite}
 @keyframes blink{50%{opacity:0}}
@@ -258,10 +260,19 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   nav{padding:0 1.5rem}.nlinks{display:none}
   .sw{padding:5rem 1.5rem}
   footer{padding:2rem 1.5rem}
+  .hphoto-name{flex-direction:column;align-items:flex-start;gap:1.5rem}
+  .hname{font-size:clamp(3.5rem,15vw,6rem)}
 }
 @media(max-width:650px){
   .igrid{grid-template-columns:1fr 1fr}
   .cgrid{grid-template-columns:1fr}
+  .hphoto-box{width:120px;height:150px}
+  .hphoto-name{flex-direction:row;align-items:center;gap:1.2rem}
+  .hname{font-size:clamp(2.8rem,12vw,4.5rem)}
+  .hrole{font-size:.58rem;letter-spacing:2px}
+  .hsubrole{font-size:.58rem}
+  .sk-flood{grid-template-columns:1fr}
+  .res-grid,.labs-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -294,12 +305,13 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
       <div class="heyebrow">Cybersecurity Portfolio</div>
       <div class="hphoto-name">
         <div class="hphoto-box">
-        <img src="photo.jpg" alt="Jishnu EC" id="hphoto" style="width:100%; height:100%; object-fit:cover;"/>
-        <div class="hphoto-init" id="hinit" style="display:none">JEC</div>
+          <img src="photo.jpg" alt="Jishnu EC" id="hphoto" onerror="this.style.display='none';document.getElementById('hinit').style.display='flex'"/>
+          <div class="hphoto-init" id="hinit" style="display:none">JEC</div>
         </div>
-        <div>
-          <a href="https://jishnuec.github.io" style="text-decoration: none; color: inherit;"><div class="nlogo">[ <em>JISHNU EC</em> ]</div></a>
-          <div class="hrole">Cybersecurity Analyst &nbsp;·&nbsp; SOC Analyst &nbsp;·&nbsp; Ethical Hacker</div>
+        <div class="hname-block">
+          <div class="hname" id="hname">JISHNU EC</div>
+          <div class="hrole">Offensive &amp; Defensive Security Specialist</div>
+          <div class="hsubrole">Penetration Tester &nbsp;·&nbsp; SOC Analyst &nbsp;·&nbsp; OSINT Researcher</div>
         </div>
       </div>
       <div class="htagline"><span id="tw"></span><span class="twc"></span></div>
@@ -570,6 +582,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
       <div class="lcard rv" data-d="2" onclick="openLab('ctf')">
         <div class="lbdg">⏳ Planned</div>
         <div class="ltitle">CTF Practice Environment</div>
+        <div class="ldesc">VulnHub and HackTheBox machines spun up locally. Writeups published once challenges are completed.</div>
         <div class="lsoon">// COMING SOON</div>
         <div class="lclick">Click for details →</div>
       </div>
@@ -631,7 +644,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 
 <!-- FOOTER -->
 <footer>
-  <div class="fl">Built by <span>Jishnu EC</span> &nbsp;·&nbsp; <span><a href="https://jishnuec.github.io" style="color: #00ff41; text-decoration: none;">jishnuec.github.io</a></span><br>All systems operational. No vulnerabilities found.</div>
+  <div class="fl">Built by <span>Jishnu EC</span> &nbsp;·&nbsp; <span>jishnuec.github.io</span><br>All systems operational. No vulnerabilities found.</div>
 </footer>
 
 <!-- SKILL TOOLTIP -->
@@ -748,6 +761,7 @@ const labData={
   ad:{active:false,title:'Active Directory Lab',sub:'Windows Server 2019 · VirtualBox',overview:'Planned lab with Windows Server 2019 domain controller for practicing AD enumeration, privilege escalation, pass-the-hash, and lateral movement.',tools:['Windows Server 2019','Kali Linux','BloodHound','Impacket','CrackMapExec']},
   network:{active:false,title:'Network Security Lab',sub:'OPNsense · Wireshark · Zeek',overview:'Planned segmented network lab with OPNsense firewall, VLAN config, IDS/IPS rules, and traffic analysis.',tools:['OPNsense','Wireshark','Zeek','Suricata','VirtualBox']},
   malware:{active:false,title:'Malware Analysis Sandbox',sub:'Isolated VM · Static & Dynamic Analysis',overview:'Planned isolated sandbox for safe malware execution and behavioral analysis.',tools:['FlareVM','PEStudio','x64dbg','Wireshark','Process Monitor']},
+  ctf:{active:false,title:'CTF Practice Environment',sub:'VulnHub · HackTheBox · Offline Practice',overview:'Planned environment for spinning up VulnHub and HackTheBox machines locally for offline practice. Writeups will be published in the Research & Papers section once challenges are completed.',tools:['Kali Linux','VulnHub','HackTheBox','VirtualBox','Nmap','Gobuster','SQLMap']},
   docker:{active:false,title:'Docker Security Lab',sub:'Docker · Vulnerable Apps',overview:'Planned containerized lab for web app security testing and Docker-specific attack vector practice.',tools:['Docker','DVWA','WebGoat','Trivy','Kali Linux']}
 };
 function openLab(id){
