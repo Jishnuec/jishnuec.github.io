@@ -169,6 +169,10 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 
 /* PROJECTS */
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.pgrid-wrap{overflow-x:auto;padding-bottom:1rem}
+.pgrid-wrap::-webkit-scrollbar{height:3px}
+.pgrid-wrap::-webkit-scrollbar-track{background:var(--bg3)}
+.pgrid-wrap::-webkit-scrollbar-thumb{background:var(--g2)}
 .pcard{background:var(--bg2);border:1px solid var(--border);padding:2.4rem;position:relative;overflow:hidden;transition:all .3s;display:flex;flex-direction:column}
 .pcard::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--g),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
 .pcard:hover{border-color:rgba(0,255,65,.6);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.5)}.pcard:hover::before{transform:scaleX(1)}
@@ -265,7 +269,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .hname{font-size:clamp(3.5rem,15vw,6rem)}
 }
 @media(max-width:1200px){
-  .pgrid{grid-template-columns:1fr 1fr}
+  .pgrid{grid-template-columns:1fr 1fr;min-width:600px}
 }
 @media(max-width:650px){
   .igrid{grid-template-columns:1fr 1fr}
@@ -468,6 +472,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 <section id="projects">
   <div class="sw">
     <div class="sh rv"><span class="sn">04</span><span class="st">Projects</span><div class="sl"></div></div>
+    <div class="pgrid-wrap">
     <div class="pgrid">
       <div class="pcard rv" data-d="1">
         <div class="ptag">OSINT Tool</div>
@@ -505,14 +510,13 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           <span class="pstag">Ably SSE</span><span class="pstag">Render</span><span class="pstag">Terminal UI</span>
         </div>
         <div class="plinks">
-          <a href="https://github.com/Jishnuec/TerminalChat" target="_blank" class="plink">View on GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="https://github.com/Jishnuec/TerminalChat" target="_blank" class="plink">GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="terminalchat.html" target="_blank" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
-    </div>
+    </div><!-- end pgrid-wrap -->
   </div>
 </section>
-
-<!-- RESEARCH -->
 <section id="research">
   <div class="sw">
     <div class="sh rv"><span class="sn">05</span><span class="st">Research, Papers & Write-Ups</span><div class="sl"></div></div>
@@ -522,6 +526,12 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="rtitle">Calicut University Vulnerability Assessment Report</div>
         <div class="rdesc">A professional vulnerability assessment of the Calicut University web platform — identifying security weaknesses, risk ratings, and remediation recommendations.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to open PDF</div>
+      </div>
+      <div class="rcard rv" data-d="2" onclick="window.open('terminalchat.html','_blank')" style="cursor:pointer">
+        <div class="rbadge rb-p">📄 Project Writeup</div>
+        <div class="rtitle">TerminalChat — Technical Writeup</div>
+        <div class="rdesc">Deep-dive into building an anonymous real-time terminal chat application — architecture, tech stack, challenges, and how SSE-based messaging works across platforms.</div>
+        <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to read</div>
       </div>
       <div class="rcard rv" data-d="2">
         <div class="rbadge rb-p">📄 Research Paper</div>
