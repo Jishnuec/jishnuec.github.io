@@ -720,20 +720,16 @@ const skillInfo={
 };
 
 const tip=document.getElementById('skTip'),tn=document.getElementById('skTipName'),td=document.getElementById('skTipDesc');
-let activeSk=null;
+let activeSk=null,tipTimer=null;
+
+function closeTip(){tip.classList.remove('show');activeSk=null;}
 
 document.querySelectorAll('.sk').forEach(el=>{
   el.addEventListener('click',e=>{
     const name=el.textContent.trim();
     const desc=skillInfo[name];
     if(!desc)return;
-    // if clicking same tag — close it
-    if(activeSk===el){
-      tip.classList.remove('show');
-      activeSk=null;
-      e.stopPropagation();
-      return;
-    }
+    if(activeSk===el){closeTip();e.stopPropagation();return;}
     activeSk=el;
     tn.textContent=name;
     td.textContent=desc;
@@ -743,13 +739,13 @@ document.querySelectorAll('.sk').forEach(el=>{
     if(y+100>window.innerHeight)y=r.top-110;
     tip.style.left=x+'px';tip.style.top=y+'px';
     tip.classList.add('show');
+    clearTimeout(tipTimer);
+    tipTimer=setTimeout(closeTip,2500);
     e.stopPropagation();
   });
 });
-document.addEventListener('click',()=>{
-  tip.classList.remove('show');
-  activeSk=null;
-});
+document.addEventListener('click',closeTip);
+document.addEventListener('scroll',closeTip,true);
 
 const cv=document.getElementById('mc'),ctx=cv.getContext('2d');
 let cols,drops;
