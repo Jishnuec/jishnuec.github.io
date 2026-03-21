@@ -168,7 +168,7 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .cert::before{content:'⚡';font-size:.78rem}
 
 /* PROJECTS */
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
 .pcard{background:var(--bg2);border:1px solid var(--border);padding:2.4rem;position:relative;overflow:hidden;transition:all .3s;display:flex;flex-direction:column}
 .pcard::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--g),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
 .pcard:hover{border-color:rgba(0,255,65,.6);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.5)}.pcard:hover::before{transform:scaleX(1)}
@@ -264,6 +264,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .hphoto-name{flex-direction:column;align-items:flex-start;gap:1.5rem}
   .hname{font-size:clamp(3.5rem,15vw,6rem)}
 }
+@media(max-width:1200px){
+  .pgrid{grid-template-columns:1fr 1fr}
+}
 @media(max-width:650px){
   .igrid{grid-template-columns:1fr 1fr}
   .cgrid{grid-template-columns:1fr}
@@ -303,7 +306,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   <div class="hglow"></div>
   <div class="hinner">
     <div>
-      <div class="heyebrow">Cybersecurity Portfolio</div>
       <div class="hphoto-name">
         <div class="hphoto-box">
           <img src="photo.jpg" alt="Jishnu EC" id="hphoto" onerror="this.style.display='none';document.getElementById('hinit').style.display='flex'"/>
@@ -491,6 +493,19 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         </div>
         <div class="plinks">
           <a href="https://github.com/Jishnuec/reconframe" target="_blank" class="plink">View on GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="pcard rv" data-d="3">
+        <div class="ptag">Terminal Application</div>
+        <div class="pname">TerminalChat</div>
+        <div class="pver">Anonymous Real-Time Terminal Chatrooms</div>
+        <p class="pdesc">Anonymous real-time chat rooms from the command line — no account, no signup, no setup. Create or join rooms using just a number. Features password-protected rooms, admin controls, emoji reactions, typing indicators, DMs, and reply/quote. Works across Linux, Windows and macOS.</p>
+        <div class="pstack">
+          <span class="pstag">Go</span><span class="pstag">Bubble Tea</span><span class="pstag">Lipgloss</span>
+          <span class="pstag">Ably SSE</span><span class="pstag">Render</span><span class="pstag">Terminal UI</span>
+        </div>
+        <div class="plinks">
+          <a href="https://github.com/Jishnuec/TerminalChat" target="_blank" class="plink">View on GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
     </div>
@@ -705,13 +720,21 @@ const skillInfo={
 };
 
 const tip=document.getElementById('skTip'),tn=document.getElementById('skTipName'),td=document.getElementById('skTipDesc');
-let tipVisible=false;
+let activeSk=null;
 
 document.querySelectorAll('.sk').forEach(el=>{
   el.addEventListener('click',e=>{
     const name=el.textContent.trim();
     const desc=skillInfo[name];
     if(!desc)return;
+    // if clicking same tag — close it
+    if(activeSk===el){
+      tip.classList.remove('show');
+      activeSk=null;
+      e.stopPropagation();
+      return;
+    }
+    activeSk=el;
     tn.textContent=name;
     td.textContent=desc;
     const r=el.getBoundingClientRect();
@@ -720,11 +743,13 @@ document.querySelectorAll('.sk').forEach(el=>{
     if(y+100>window.innerHeight)y=r.top-110;
     tip.style.left=x+'px';tip.style.top=y+'px';
     tip.classList.add('show');
-    tipVisible=true;
     e.stopPropagation();
   });
 });
-document.addEventListener('click',()=>{if(tipVisible){tip.classList.remove('show');tipVisible=false;}});
+document.addEventListener('click',()=>{
+  tip.classList.remove('show');
+  activeSk=null;
+});
 
 const cv=document.getElementById('mc'),ctx=cv.getContext('2d');
 let cols,drops;
