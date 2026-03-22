@@ -841,20 +841,24 @@ footer {
       </div>
       <div class="install-body">
         <div class="install-step">
-          <div class="step-n">Step 1 — Download</div>
-          <div class="code-block"><span class="p">$</span> wget <span class="c">https://github.com/Jishnuec/terminalchat/releases/tag/v1.0.0/tag/v1.0.0</span></div>
+          <div class="step-n">Step 1 — Install Go</div>
+          <div class="code-block"><span class="p">$</span> sudo apt install golang-go -y<br><span style="color:var(--over)"># or download from https://go.dev/dl/</span></div>
         </div>
         <div class="install-step">
-          <div class="step-n">Step 2 — Make executable</div>
-          <div class="code-block"><span class="p">$</span> chmod +x termchat-linux</div>
+          <div class="step-n">Step 2 — Clone the repo</div>
+          <div class="code-block"><span class="p">$</span> git clone https://github.com/Jishnuec/terminalchat.git<br><span class="p">$</span> cd terminalchat</div>
         </div>
         <div class="install-step">
-          <div class="step-n">Step 3 — Run</div>
-          <div class="code-block"><span class="p">$</span> ./termchat-linux 1337</div>
+          <div class="step-n">Step 3 — Build</div>
+          <div class="code-block"><span class="p">$</span> go mod tidy<br><span class="p">$</span> go build -ldflags="-s -w" -o termchat ./main.go</div>
+        </div>
+        <div class="install-step">
+          <div class="step-n">Step 4 — Run</div>
+          <div class="code-block"><span class="p">$</span> ./termchat 1337<br><span class="p">$</span> ./termchat -create 1337</div>
         </div>
         <div class="install-step">
           <div class="step-n">Optional — Install globally</div>
-          <div class="code-block"><span class="p">$</span> sudo mv termchat-linux /usr/local/bin/termchat</div>
+          <div class="code-block"><span class="p">$</span> sudo mv termchat /usr/local/bin/termchat</div>
         </div>
         <div class="install-note">After global install: <code style="color:var(--cyan)">termchat 1337</code> works from anywhere.</div>
       </div>
@@ -871,18 +875,22 @@ footer {
       </div>
       <div class="install-body">
         <div class="install-step">
-          <div class="step-n">Step 1 — Download (PowerShell)</div>
-          <div class="code-block"><span class="p">></span> Invoke-WebRequest -Uri <span class="c">https://github.com/Jishnuec/terminalchat/releases/tag/v1.0.0/tag/v1.0.0</span> -OutFile termchat.exe</div>
+          <div class="step-n">Step 1 — Install Go</div>
+          <div class="code-block"><span class="p">></span> <span style="color:var(--over)"># Download Go installer from</span><br><span class="c">https://go.dev/dl/</span><br><span style="color:var(--over)"># Run the .msi and restart PowerShell</span></div>
         </div>
         <div class="install-step">
-          <div class="step-n">Step 2 — Run</div>
-          <div class="code-block"><span class="p">></span> .\termchat.exe 1337</div>
+          <div class="step-n">Step 2 — Clone the repo</div>
+          <div class="code-block"><span class="p">></span> git clone https://github.com/Jishnuec/terminalchat.git<br><span class="p">></span> cd terminalchat</div>
         </div>
         <div class="install-step">
-          <div class="step-n">Optional — Install globally</div>
-          <div class="code-block"><span class="p">></span> Move-Item termchat.exe C:\Windows\System32\termchat.exe</div>
+          <div class="step-n">Step 3 — Build</div>
+          <div class="code-block"><span class="p">></span> go build -o termchat.exe main.go</div>
         </div>
-        <div class="install-note">Or just double-click <code style="color:var(--cyan)">termchat.exe</code> in File Explorer — Windows Terminal will open automatically.</div>
+        <div class="install-step">
+          <div class="step-n">Step 4 — Run</div>
+          <div class="code-block"><span class="p">></span> .\termchat.exe 1337<br><span class="p">></span> .\termchat.exe -create 1337</div>
+        </div>
+        <div class="install-note">Requires Go from <code style="color:var(--cyan)">https://go.dev/dl/</code> — install once, build anywhere.</div>
       </div>
     </div>
 
@@ -897,21 +905,22 @@ footer {
       </div>
       <div class="install-body">
         <div class="install-step">
-          <div class="step-n">Step 1 — Download</div>
-          <div class="code-block"><span class="p">$</span> curl -LO <span class="c">https://github.com/Jishnuec/terminalchat/releases/tag/v1.0.0/tag/v1.0.0</span></div>
+          <div class="step-n">Step 1 — Install Go</div>
+          <div class="code-block"><span class="p">$</span> brew install go<br><span style="color:var(--over)"># or download .pkg from https://go.dev/dl/</span></div>
         </div>
         <div class="install-step">
-          <div class="step-n">Step 2 — Make executable</div>
-          <div class="code-block"><span class="p">$</span> chmod +x termchat-linux</div>
+          <div class="step-n">Step 2 — Clone the repo</div>
+          <div class="code-block"><span class="p">$</span> git clone https://github.com/Jishnuec/terminalchat.git<br><span class="p">$</span> cd terminalchat</div>
         </div>
         <div class="install-step">
-          <div class="step-n">Step 3 — Allow in Security settings</div>
-          <div class="code-block"><span class="p">$</span> xattr -d com.apple.quarantine ./termchat-linux</div>
+          <div class="step-n">Step 3 — Build</div>
+          <div class="code-block"><span class="p">$</span> go mod tidy<br><span class="p">$</span> go build -ldflags="-s -w" -o termchat ./main.go</div>
         </div>
         <div class="install-step">
           <div class="step-n">Step 4 — Run</div>
-          <div class="code-block"><span class="p">$</span> ./termchat-linux 1337</div>
+          <div class="code-block"><span class="p">$</span> ./termchat 1337<br><span class="p">$</span> ./termchat -create 1337</div>
         </div>
+        <div class="install-note">Requires Go — get free at <code style="color:var(--cyan)">https://go.dev/dl/</code> or via Homebrew.</div>
       </div>
     </div>
   </div>
@@ -919,7 +928,7 @@ footer {
   <!-- Build from source -->
   <div class="oneliner-box reveal">
     <div class="oneliner-head">Build from source · requires Go 1.22+</div>
-    <div class="oneliner-code"><span class="p">$</span> git clone https://github.com/Jishnuec/terminalchat &amp;&amp; cd TerminalChat &amp;&amp; go mod tidy &amp;&amp; go build -ldflags="-s -w" -o termchat ./main.go</div>
+    <div class="oneliner-code"><span class="p">$</span> git clone https://github.com/Jishnuec/terminalchat.git &amp;&amp; cd terminalchat &amp;&amp; go mod tidy &amp;&amp; go build -ldflags="-s -w" -o termchat ./main.go &amp;&amp; ./termchat 1337</div>
   </div>
   <div class="oneliner-box reveal" style="margin-top:16px">
     <div class="oneliner-head">Cross-compile from Linux · produces all platform binaries</div>
