@@ -58,9 +58,7 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 @keyframes gp{from{opacity:.5;transform:translate(-50%,-50%) scale(.94)}to{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
 .hinner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 450px;gap:4rem;align-items:center;max-width:1200px;width:100%}
 
-/* hero text — no opacity tricks, always visible */
-.heyebrow{font-size:.62rem;letter-spacing:5px;color:var(--text2);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
-.heyebrow::before{content:'';width:28px;height:1px;background:var(--g)}
+/* hero text */
 .hphoto-name{display:flex;align-items:center;gap:2.5rem;margin-bottom:1.2rem}
 .hphoto-box{flex-shrink:0;width:160px;height:200px;border:2px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .hphoto-box img{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(15%) contrast(1.05);display:block}
@@ -257,30 +255,39 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 .rv[data-d="1"]{transition-delay:.08s}.rv[data-d="2"]{transition-delay:.16s}
 .rv[data-d="3"]{transition-delay:.24s}
 
-/* RESPONSIVE */
+/* RESPONSIVE — ordered large to small */
+@media(max-width:1200px){
+  .pgrid{grid-template-columns:1fr 1fr}
+  .hinner{gap:2rem}
+}
 @media(max-width:1000px){
-  .hinner,.agrid,.pgrid,.egrid,.res-grid,.labs-grid{grid-template-columns:1fr}
+  .hinner,.agrid,.egrid{grid-template-columns:1fr}
   .hright{display:none}
+  .pgrid{grid-template-columns:1fr 1fr;min-width:0}
+  .pgrid-wrap{overflow-x:auto;padding-bottom:1rem}
   .cgrid{grid-template-columns:repeat(2,1fr)}
+  .res-grid{grid-template-columns:1fr 1fr}
+  .labs-grid{grid-template-columns:1fr 1fr}
   nav{padding:0 1.5rem}.nlinks{display:none}
   .sw{padding:5rem 1.5rem}
   footer{padding:2rem 1.5rem}
-  .hphoto-name{flex-direction:column;align-items:flex-start;gap:1.5rem}
-  .hname{font-size:clamp(3.5rem,15vw,6rem)}
-}
-@media(max-width:1200px){
-  .pgrid{grid-template-columns:1fr 1fr;min-width:600px}
+  .hphoto-name{flex-direction:row;align-items:center;gap:1.5rem}
+  .hname{font-size:clamp(3rem,12vw,6rem)}
+  .sk-flood{grid-template-columns:1fr 1fr}
 }
 @media(max-width:650px){
   .igrid{grid-template-columns:1fr 1fr}
   .cgrid{grid-template-columns:1fr}
-  .hphoto-box{width:120px;height:150px}
-  .hphoto-name{flex-direction:row;align-items:center;gap:1.2rem}
-  .hname{font-size:clamp(2.8rem,12vw,4.5rem)}
-  .hrole{font-size:.58rem;letter-spacing:2px}
-  .hsubrole{font-size:.58rem}
-  .sk-flood{grid-template-columns:1fr}
-  .res-grid,.labs-grid{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:1fr;min-width:0}
+  .res-grid,.labs-grid,.sk-flood{grid-template-columns:1fr}
+  .hphoto-box{width:110px;height:140px}
+  .hphoto-name{gap:1rem}
+  .hname{font-size:clamp(2.5rem,11vw,4rem)}
+  .hrole{font-size:.55rem;letter-spacing:2px}
+  .hsubrole{font-size:.55rem}
+  .hbtns{gap:.6rem}
+  .btn{padding:.6rem 1.2rem;font-size:.62rem}
+  .sw{padding:4rem 1.2rem}
 }
 </style>
 </head>
@@ -512,6 +519,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="plinks">
           <a href="https://github.com/Jishnuec/TerminalChat" target="_blank" class="plink">GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <a href="terminalchat.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="https://medium.com/@jishnuwhoopofficial/how-i-built-a-real-time-anonymous-chat-app-for-free-architecture-deep-dive-f6d73b11434e" target="_blank" class="plink" style="color:var(--amber)">Medium <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
     </div><!-- end pgrid-wrap -->
@@ -532,6 +540,12 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="rtitle">TerminalChat — Technical Writeup</div>
         <div class="rdesc">Deep-dive into building an anonymous real-time terminal chat application — architecture, tech stack, challenges, and how SSE-based messaging works across platforms.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to read</div>
+      </div>
+      <div class="rcard rv" data-d="3" onclick="window.open('https://medium.com/@jishnuwhoopofficial/how-i-built-a-real-time-anonymous-chat-app-for-free-architecture-deep-dive-f6d73b11434e','_blank')" style="cursor:pointer">
+        <div class="rbadge rb-v">✍ Medium Article</div>
+        <div class="rtitle">How I Built a Real-Time Anonymous Chat App for Free</div>
+        <div class="rdesc">Architecture deep-dive published on Medium — covering SSE, Ably, Go, Bubble Tea and deploying for free on Render.</div>
+        <div class="rsoon" style="color:var(--amber);font-size:1rem;letter-spacing:2px">→ Read on Medium</div>
       </div>
       <div class="rcard rv" data-d="2">
         <div class="rbadge rb-p">📄 Research Paper</div>
