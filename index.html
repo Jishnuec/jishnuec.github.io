@@ -249,6 +249,60 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 .fl{font-size:.66rem;color:var(--text2);letter-spacing:2px;line-height:2}.fl span{color:var(--g)}
 
+/* PRO SKILL CARDS */
+.sk-pro-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2.5rem}
+.sk-pro-card{padding:2rem;border:1px solid;position:relative;overflow:hidden}
+.sk-pro-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.red-card{border-color:rgba(255,68,68,.4);background:rgba(255,68,68,.03)}
+.red-card::before{background:linear-gradient(90deg,var(--red),transparent)}
+.blue-card{border-color:rgba(0,150,255,.4);background:rgba(0,150,255,.03)}
+.blue-card::before{background:linear-gradient(90deg,#0096ff,transparent)}
+.sk-pro-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+.sk-pro-badge{font-family:var(--orb);font-size:.55rem;letter-spacing:3px;padding:.3rem .8rem;border:1px solid;flex-shrink:0}
+.red-badge{color:var(--red);border-color:rgba(255,68,68,.5);background:rgba(255,68,68,.08);text-shadow:0 0 8px rgba(255,68,68,.4)}
+.blue-badge{color:#0096ff;border-color:rgba(0,150,255,.5);background:rgba(0,150,255,.08);text-shadow:0 0 8px rgba(0,150,255,.4)}
+.sk-pro-title{font-family:var(--orb);font-size:.7rem;letter-spacing:2px;color:var(--text)}
+.sk.r{border-color:rgba(255,68,68,.2);color:var(--text2)}.sk.r:hover{border-color:rgba(255,68,68,.7);color:var(--red);box-shadow:0 0 12px rgba(255,68,68,.15)}
+.sk.b{border-color:rgba(0,150,255,.2);color:var(--text2)}.sk.b:hover{border-color:rgba(0,150,255,.7);color:#0096ff;box-shadow:0 0 12px rgba(0,150,255,.15)}
+
+/* SECONDARY SKILLS */
+.sk-secondary{border-top:1px solid var(--border2);padding-top:2rem}
+.sk-sec-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.sk-cat{font-family:var(--orb);font-size:.56rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:.8rem;display:block;opacity:.8}
+.sk-cat.g-l{color:var(--g)}.sk-cat.a-l{color:var(--amber)}.sk-cat.c-l{color:var(--cyan)}.sk-cat.p-l{color:var(--purple)}
+.sk-tags{display:flex;flex-wrap:wrap;gap:.4rem;max-height:110px;overflow-y:auto;padding-right:2px}
+.sk-tags::-webkit-scrollbar{width:2px}.sk-tags::-webkit-scrollbar-thumb{background:var(--border)}
+
+/* TIMELINE / FIELD NOTES */
+.tl-intro{font-size:.76rem;color:var(--text2);line-height:1.9;margin-bottom:2.5rem;padding:.8rem 1.2rem;border-left:2px solid rgba(0,255,65,.3);background:rgba(0,255,65,.02)}
+.tl-intro span{color:var(--g)}
+.tl-wrap{position:relative;padding-left:2rem}
+.tl-line{position:absolute;left:.4rem;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--g),rgba(0,255,65,.05))}
+.tl-posts{display:flex;flex-direction:column;gap:2rem}
+.tl-post{position:relative;transition:opacity .3s}
+.tl-post.hidden{display:none}
+.tl-dot{position:absolute;left:-1.72rem;top:1.2rem;width:10px;height:10px;border-radius:50%;background:var(--g);box-shadow:0 0 10px var(--g);border:2px solid var(--bg)}
+.tl-card{background:var(--bg2);border:1px solid var(--border2);padding:1.5rem;transition:border-color .3s}
+.tl-card:hover{border-color:var(--border)}
+.tl-card-header{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+.tl-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-family:var(--orb);font-size:.5rem;color:var(--bg);font-weight:700;flex-shrink:0}
+.tl-handle{font-family:var(--mono);font-size:.72rem;color:var(--g);letter-spacing:1px}
+.tl-time{font-size:.62rem;color:var(--text2);letter-spacing:1px;margin-top:.1rem}
+.tl-type-badge{margin-left:auto;font-size:.6rem;letter-spacing:2px;color:var(--text2);background:var(--bg3);border:1px solid var(--border2);padding:.2rem .6rem}
+.tl-title{font-family:var(--orb);font-size:.8rem;color:var(--text);letter-spacing:1px;margin-bottom:.7rem;line-height:1.5}
+.tl-body{font-size:.76rem;line-height:1.9;color:var(--text2);margin-bottom:.5rem}
+.tl-findings{background:var(--bg3);border:1px solid var(--border2);padding:1rem;margin:.8rem 0;display:flex;flex-direction:column;gap:.4rem}
+.tl-finding-title{font-family:var(--orb);font-size:.56rem;letter-spacing:2px;color:var(--cyan);margin-bottom:.3rem}
+.tl-finding{font-size:.72rem;color:var(--text2);padding-left:.8rem;border-left:2px solid var(--border2)}
+.tl-finding span{color:var(--g)}
+.tl-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.68rem;letter-spacing:2px;color:var(--cyan);text-decoration:none;margin-top:.6rem;transition:color .2s}
+.tl-link:hover{color:var(--g)}
+.tl-tags-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--border2)}
+.tl-tag{font-size:.62rem;padding:.2rem .7rem;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s;letter-spacing:1px;background:var(--bg3)}
+.tl-tag:hover{border-color:var(--g);color:var(--g)}
+.tl-tag.active-tag{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.07)}
+.tl-empty{font-family:var(--vt);font-size:1.5rem;color:var(--text2);letter-spacing:3px;text-align:center;padding:3rem;opacity:.5}
+
 /* SCROLL REVEAL */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s cubic-bezier(.16,1,.3,1)}
 .rv.on{opacity:1;transform:none}
@@ -268,18 +322,19 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .cgrid{grid-template-columns:repeat(2,1fr)}
   .res-grid{grid-template-columns:1fr 1fr}
   .labs-grid{grid-template-columns:1fr 1fr}
+  .sk-pro-grid{grid-template-columns:1fr}
+  .sk-sec-row{grid-template-columns:1fr 1fr}
   nav{padding:0 1.5rem}.nlinks{display:none}
   .sw{padding:5rem 1.5rem}
   footer{padding:2rem 1.5rem}
   .hphoto-name{flex-direction:row;align-items:center;gap:1.5rem}
   .hname{font-size:clamp(3rem,12vw,6rem)}
-  .sk-flood{grid-template-columns:1fr 1fr}
 }
 @media(max-width:650px){
   .igrid{grid-template-columns:1fr 1fr}
   .cgrid{grid-template-columns:1fr}
   .pgrid{grid-template-columns:1fr;min-width:0}
-  .res-grid,.labs-grid,.sk-flood{grid-template-columns:1fr}
+  .res-grid,.labs-grid,.sk-pro-grid,.sk-sec-row{grid-template-columns:1fr}
   .hphoto-box{width:110px;height:140px}
   .hphoto-name{gap:1rem}
   .hname{font-size:clamp(2.5rem,11vw,4rem)}
@@ -288,6 +343,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .hbtns{gap:.6rem}
   .btn{padding:.6rem 1.2rem;font-size:.62rem}
   .sw{padding:4rem 1.2rem}
+  .tl-wrap{padding-left:1.2rem}
 }
 </style>
 </head>
@@ -305,6 +361,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     <li><a href="#projects">Projects</a></li>
     <li><a href="#research">Research</a></li>
     <li><a href="#labs">Labs</a></li>
+    <li><a href="#timeline">Field Notes</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nstatus"><div class="npulse"></div>AVAILABLE FOR HIRE</div>
@@ -396,60 +453,71 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 <section id="skills">
   <div class="sw">
     <div class="sh rv"><span class="sn">02</span><span class="st">Skills & Arsenal</span><div class="sl"></div></div>
-    <div class="sk-flood rv">
-      <div class="sk-section">
-        <div class="sk-cat g-l">// Offensive Security</div>
+
+    <!-- PRO HIGHLIGHT CARDS -->
+    <div class="sk-pro-grid rv">
+      <div class="sk-pro-card red-card">
+        <div class="sk-pro-header">
+          <div class="sk-pro-badge red-badge">● OFFENSIVE</div>
+          <div class="sk-pro-title">Attack & Penetration</div>
+        </div>
         <div class="sk-tags">
-          <span class="sk g">Nmap</span><span class="sk g">Metasploit</span><span class="sk g">Burp Suite</span>
-          <span class="sk g">Hydra</span><span class="sk g">Netcat</span><span class="sk g">John the Ripper</span>
-          <span class="sk g">Nikto</span><span class="sk g">Gobuster</span><span class="sk g">SQLMap</span>
-          <span class="sk g">Aircrack-ng</span><span class="sk g">Dirb</span>
+          <span class="sk r">Nmap</span><span class="sk r">Metasploit</span><span class="sk r">Burp Suite</span>
+          <span class="sk r">Hydra</span><span class="sk r">Netcat</span><span class="sk r">John the Ripper</span>
+          <span class="sk r">Nikto</span><span class="sk r">Gobuster</span><span class="sk r">SQLMap</span>
+          <span class="sk r">Aircrack-ng</span><span class="sk r">Dirb</span>
         </div>
       </div>
-      <div class="sk-section">
-        <div class="sk-cat c-l">// Defensive & Monitoring</div>
-        <div class="sk-tags">
-          <span class="sk c">Splunk</span><span class="sk c">Wireshark</span><span class="sk c">OPNsense</span>
+      <div class="sk-pro-card blue-card">
+        <div class="sk-pro-header">
+          <div class="sk-pro-badge blue-badge">● DEFENSIVE</div>
+          <div class="sk-pro-title">Detection & Monitoring</div>
         </div>
-      </div>
-      <div class="sk-section">
-        <div class="sk-cat a-l">// Languages & Scripting</div>
         <div class="sk-tags">
-          <span class="sk a">Python</span><span class="sk a">Bash</span><span class="sk a">HTML / CSS</span><span class="sk a">SQL</span>
-        </div>
-      </div>
-      <div class="sk-section">
-        <div class="sk-cat g-l">// Operating Systems</div>
-        <div class="sk-tags">
-          <span class="sk g">Kali Linux</span><span class="sk g">Parrot OS</span><span class="sk g">Arch Linux</span>
-          <span class="sk g">Linux Mint</span><span class="sk g">Ubuntu / Debian</span><span class="sk g">Windows Server</span>
-        </div>
-      </div>
-      <div class="sk-section">
-        <div class="sk-cat c-l">// Security Concepts</div>
-        <div class="sk-tags">
-          <span class="sk c">OWASP Top 10</span><span class="sk c">TCP/IP & Networking</span>
-          <span class="sk c">Active Directory</span><span class="sk c">Incident Response</span>
-          <span class="sk c">Threat Intelligence</span><span class="sk c">Vulnerability Assessment</span>
-          <span class="sk c">Penetration Testing</span><span class="sk c">SIEM & Log Analysis</span>
-          <span class="sk c">Digital Forensics</span><span class="sk c">OSINT</span><span class="sk c">CTF Competitions</span>
-        </div>
-      </div>
-      <div class="sk-section">
-        <div class="sk-cat p-l">// Virtualization & Infra</div>
-        <div class="sk-tags">
-          <span class="sk p">VirtualBox</span><span class="sk p">Docker</span><span class="sk p">OPNsense Firewall</span>
-          <span class="sk p">VM Networking</span><span class="sk p">NAT / Bridge Config</span><span class="sk p">VLAN Setup</span>
-        </div>
-      </div>
-      <div class="sk-section">
-        <div class="sk-cat a-l">// Dev & Workflow</div>
-        <div class="sk-tags">
-          <span class="sk a">Git & GitHub</span><span class="sk a">VS Code</span>
-          <span class="sk a">Linux Terminal</span><span class="sk a">Markdown</span>
+          <span class="sk b">Splunk</span><span class="sk b">Wireshark</span><span class="sk b">OPNsense</span>
+          <span class="sk b">SIEM & Log Analysis</span><span class="sk b">Incident Response</span>
+          <span class="sk b">Threat Intelligence</span><span class="sk b">Vulnerability Assessment</span>
+          <span class="sk b">OWASP Top 10</span><span class="sk b">TCP/IP & Networking</span>
+          <span class="sk b">Active Directory</span><span class="sk b">Digital Forensics</span>
+          <span class="sk b">OSINT</span><span class="sk b">CTF Competitions</span>
+          <span class="sk b">Penetration Testing</span>
         </div>
       </div>
     </div>
+
+    <!-- SECONDARY SKILLS -->
+    <div class="sk-secondary rv" data-d="2">
+      <div class="sk-sec-row">
+        <div class="sk-sec-block">
+          <div class="sk-cat a-l">// Languages & Scripting</div>
+          <div class="sk-tags">
+            <span class="sk a">Python</span><span class="sk a">Bash</span><span class="sk a">HTML / CSS</span><span class="sk a">SQL</span>
+          </div>
+        </div>
+        <div class="sk-sec-block">
+          <div class="sk-cat g-l">// Operating Systems</div>
+          <div class="sk-tags">
+            <span class="sk g">Kali Linux</span><span class="sk g">Parrot OS</span><span class="sk g">Arch Linux</span>
+            <span class="sk g">Linux Mint</span><span class="sk g">Ubuntu / Debian</span><span class="sk g">Windows Server</span>
+          </div>
+        </div>
+        <div class="sk-sec-block">
+          <div class="sk-cat p-l">// Virtualization & Infra</div>
+          <div class="sk-tags">
+            <span class="sk p">VirtualBox</span><span class="sk p">Docker</span><span class="sk p">OPNsense Firewall</span>
+            <span class="sk p">VM Networking</span><span class="sk p">NAT / Bridge Config</span><span class="sk p">VLAN Setup</span>
+          </div>
+        </div>
+        <div class="sk-sec-block">
+          <div class="sk-cat a-l">// Dev & Workflow</div>
+          <div class="sk-tags">
+            <span class="sk a">Git & GitHub</span><span class="sk a">VS Code</span>
+            <span class="sk a">Linux Terminal</span><span class="sk a">Markdown</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -645,6 +713,57 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   </div>
 </div>
 
+<!-- TIMELINE / FIELD NOTES -->
+<section id="timeline">
+  <div class="sw">
+    <div class="sh rv"><span class="sn">07</span><span class="st">Field Notes</span><div class="sl"></div></div>
+    <div class="tl-intro rv">
+      <span>Live learning log</span> — challenges completed, tools explored, writeups and observations. Click any skill tag to filter posts.
+      <span id="tl-filter-active" style="display:none"> — Filtering: <span id="tl-filter-name" style="color:var(--g)"></span> <button onclick="clearFilter()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-family:var(--mono);font-size:.65rem;letter-spacing:2px;margin-left:.5rem">✕ clear</button></span>
+    </div>
+    <div class="tl-wrap rv" data-d="1">
+      <div class="tl-line"></div>
+      <div class="tl-posts" id="tlPosts">
+
+        <div class="tl-post" data-tags="Digital Forensics,OSINT,Splunk,Incident Response">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-card-header">
+              <div class="tl-avatar">JEC</div>
+              <div class="tl-meta">
+                <div class="tl-handle">@jishxec</div>
+                <div class="tl-time">Feb 24, 2025</div>
+              </div>
+              <div class="tl-type-badge">🔬 Challenge</div>
+            </div>
+            <div class="tl-content">
+              <p class="tl-title">Just crushed the MemLoot challenge on Let's Defend 🔥</p>
+              <p class="tl-body">Spent the last few hours digging into a Windows memory dump using Volatility 3 and honestly? This was eye-opening.</p>
+              <div class="tl-findings">
+                <div class="tl-finding-title">// What I found:</div>
+                <div class="tl-finding">Malicious file: <span>Spotify_setup.exe</span> hiding in Downloads</div>
+                <div class="tl-finding">Real name: <span>Dark Havoc ransomware</span></div>
+                <div class="tl-finding">Execution time: <span>2025-02-24 10:51:16</span></div>
+                <div class="tl-finding">Files encrypted with: <span>.havoc extension</span></div>
+                <div class="tl-finding">C2 server: <span>104.152.52.238:6548</span></div>
+                <div class="tl-finding">Parent process: <span>explorer.exe</span> (user double-clicked it)</div>
+              </div>
+              <p class="tl-body" style="margin-top:.8rem">Memory forensics is no joke. You can't always find malware on disk — but it lives in RAM. That's where Volatility comes in.</p>
+              <a href="https://app.letsdefend.io/challenge/memloot" target="_blank" class="tl-link">→ Challenge link</a>
+            </div>
+            <div class="tl-tags-row">
+              <span class="tl-tag" onclick="filterByTag('Digital Forensics')">Digital Forensics</span>
+              <span class="tl-tag" onclick="filterByTag('Incident Response')">Incident Response</span>
+              <span class="tl-tag" onclick="filterByTag('OSINT')">OSINT</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact">
   <div class="sw">
@@ -833,6 +952,38 @@ function closeLab(e){
   document.body.style.overflow='';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('labModal').classList.remove('open');document.body.style.overflow=''}});
+
+/* TIMELINE FILTER */
+let activeFilter=null;
+function filterByTag(tag){
+  activeFilter=tag;
+  document.getElementById('tl-filter-active').style.display='inline';
+  document.getElementById('tl-filter-name').textContent=tag;
+  document.querySelectorAll('.tl-post').forEach(p=>{
+    const tags=p.dataset.tags||'';
+    p.classList.toggle('hidden',!tags.split(',').map(t=>t.trim()).includes(tag));
+  });
+  document.querySelectorAll('.tl-tag').forEach(t=>{
+    t.classList.toggle('active-tag',t.textContent.trim()===tag);
+  });
+  // scroll to timeline
+  document.getElementById('timeline').scrollIntoView({behavior:'smooth'});
+}
+function clearFilter(){
+  activeFilter=null;
+  document.getElementById('tl-filter-active').style.display='none';
+  document.querySelectorAll('.tl-post').forEach(p=>p.classList.remove('hidden'));
+  document.querySelectorAll('.tl-tag').forEach(t=>t.classList.remove('active-tag'));
+}
+
+/* SKILL TAG → FILTER TIMELINE */
+document.querySelectorAll('.sk').forEach(el=>{
+  el.addEventListener('dblclick',e=>{
+    const name=el.textContent.trim();
+    filterByTag(name);
+    e.stopPropagation();
+  });
+});
 </script>
 </body>
 </html>
