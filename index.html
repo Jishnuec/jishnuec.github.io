@@ -327,6 +327,20 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 .tl-tag.active-tag{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.07)}
 .tl-empty{font-family:var(--vt);font-size:1.5rem;color:var(--text2);letter-spacing:3px;text-align:center;padding:3rem;opacity:.5}
 
+/* GRID WRAPPERS */
+.res-grid-wrap,.labs-grid-wrap{max-height:520px;overflow-y:auto;padding-right:4px}
+.res-grid-wrap::-webkit-scrollbar,.labs-grid-wrap::-webkit-scrollbar{width:3px}
+.res-grid-wrap::-webkit-scrollbar-track{background:var(--bg)}
+.res-grid-wrap::-webkit-scrollbar-thumb,.labs-grid-wrap::-webkit-scrollbar-thumb{background:var(--g2)}
+
+/* COMPACT FIELD NOTES */
+.tl-posts{display:flex;flex-direction:column;gap:1.2rem}
+.tl-card{background:var(--bg2);border:1px solid var(--border2);padding:1.1rem;transition:border-color .3s}
+.tl-card:hover{border-color:var(--border)}
+.tl-title{font-family:var(--orb);font-size:.75rem;color:var(--text);letter-spacing:1px;margin-bottom:.5rem;line-height:1.5}
+.tl-body{font-size:.72rem;line-height:1.8;color:var(--text2);margin-bottom:.4rem}
+.tl-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-family:var(--orb);font-size:.48rem;color:var(--bg);font-weight:700;flex-shrink:0}
+
 /* SCROLL REVEAL */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s cubic-bezier(.16,1,.3,1)}
 .rv.on{opacity:1;transform:none}
@@ -475,7 +489,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           </div>
           <div class="otw-scroll-wrap">
             <div class="otw-scroll">
-              <span>India &nbsp;·&nbsp;</span><span>Remote &nbsp;·&nbsp;</span><span>Kerala &nbsp;·&nbsp;</span><span>Bangalore &nbsp;·&nbsp;</span><span>Hyderabad &nbsp;·&nbsp;</span><span>Mumbai &nbsp;·&nbsp;</span><span>India &nbsp;·&nbsp;</span><span>Remote &nbsp;·&nbsp;</span>
+              <span>SOC Analyst &nbsp;·&nbsp;</span><span>Penetration Tester &nbsp;·&nbsp;</span><span>Cybersecurity Analyst &nbsp;·&nbsp;</span><span>Threat Hunter &nbsp;·&nbsp;</span><span>SOC Analyst &nbsp;·&nbsp;</span><span>Penetration Tester &nbsp;·&nbsp;</span><span>Cybersecurity Analyst &nbsp;·&nbsp;</span><span>Threat Hunter &nbsp;·&nbsp;</span>
             </div>
           </div>
         </div>
@@ -609,47 +623,69 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 <section id="projects">
   <div class="sw">
     <div class="sh rv"><span class="sn">04</span><span class="st">Projects</span><div class="sl"></div></div>
+    <!-- PROJECT FILTER -->
+    <div class="fn-filter-bar rv" style="margin-bottom:1.5rem">
+      <div class="fn-chips">
+        <button class="fn-chip active" onclick="filterProjects(null,this)">All</button>
+        <button class="fn-chip" onclick="filterProjects('tool',this)">🛠 Tools</button>
+        <button class="fn-chip" onclick="filterProjects('ctf',this)">🚩 CTF</button>
+      </div>
+    </div>
     <div class="pgrid-wrap">
-    <div class="pgrid">
-      <div class="pcard rv" data-d="1">
-        <div class="ptag">OSINT Tool</div>
-        <div class="pname">InstaGrep</div>
-        <div class="pver">v4.0 — ~3,000 Lines of Code</div>
-        <p class="pdesc">Professional Instagram OSINT desktop application. Extract public profile data, analyze posting patterns, download media, generate reports. Features dark UI, keyboard navigation, recent searches, activity charts, and multi-format exports (JSON/Excel/PDF/HTML).</p>
-        <div class="pstack">
-          <span class="pstag">Python</span><span class="pstag">CustomTkinter</span><span class="pstag">Instagrapi</span>
-          <span class="pstag">Matplotlib</span><span class="pstag">Pillow</span><span class="pstag">OSINT</span>
+      <div class="pgrid" id="pgrid">
+        <div class="pcard rv" data-ptype="tool">
+          <div class="ptag">OSINT Tool</div>
+          <div class="pname">InstaGrep</div>
+          <div class="pver">v4.0 — ~3,000 Lines of Code</div>
+          <p class="pdesc">Professional Instagram OSINT desktop application. Extract public profile data, analyze posting patterns, download media, generate reports. Features dark UI, keyboard navigation, recent searches, activity charts, and multi-format exports (JSON/Excel/PDF/HTML).</p>
+          <div class="pstack">
+            <span class="pstag">Python</span><span class="pstag">CustomTkinter</span><span class="pstag">Instagrapi</span>
+            <span class="pstag">Matplotlib</span><span class="pstag">Pillow</span><span class="pstag">OSINT</span>
+          </div>
+          <div class="plinks">
+            <a href="https://github.com/Jishnuec/InstaGrep" target="_blank" class="plink">GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="plinks">
-          <a href="https://github.com/Jishnuec/InstaGrep" target="_blank" class="plink">View on GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="pcard rv" data-ptype="tool">
+          <div class="ptag">Recon Framework</div>
+          <div class="pname">ReconFrame</div>
+          <div class="pver">Advanced Reconnaissance Framework — 12 Integrated Tools</div>
+          <p class="pdesc">Professional-grade reconnaissance framework that unifies 12 security tools with intelligent automation. Features cinematic startup animation, smart IP/domain detection, and beautifully formatted results.</p>
+          <div class="pstack">
+            <span class="pstag">Python</span><span class="pstag">Nmap</span><span class="pstag">Bash</span>
+            <span class="pstag">ANSI</span><span class="pstag">Terminal UI</span>
+          </div>
+          <div class="plinks">
+            <a href="https://github.com/Jishnuec/reconframe" target="_blank" class="plink">GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-      </div>
-      <div class="pcard rv" data-d="2">
-        <div class="ptag">Recon Framework</div>
-        <div class="pname">ReconFrame</div>
-        <div class="pver">Advanced Reconnaissance Framework — 12 Integrated Tools</div>
-        <p class="pdesc">Professional-grade reconnaissance framework that unifies 12 security tools with intelligent automation. Features cinematic startup animation, smart IP/domain detection, beautifully formatted results, and smart target validation.</p>
-        <div class="pstack">
-          <span class="pstag">Python</span><span class="pstag">Nmap</span><span class="pstag">Bash</span>
-          <span class="pstag">ANSI</span><span class="pstag">Terminal UI</span>
+        <div class="pcard rv" data-ptype="tool">
+          <div class="ptag">Terminal Application</div>
+          <div class="pname">TerminalChat</div>
+          <div class="pver">Anonymous Real-Time Terminal Chatrooms</div>
+          <p class="pdesc">Anonymous real-time chat rooms from the command line — no account, no signup. Create or join rooms with just a number. Password-protected rooms, admin controls, emoji reactions, typing indicators, DMs. Cross-platform.</p>
+          <div class="pstack">
+            <span class="pstag">Go</span><span class="pstag">Bubble Tea</span><span class="pstag">Lipgloss</span>
+            <span class="pstag">Ably SSE</span><span class="pstag">Render</span><span class="pstag">Terminal UI</span>
+          </div>
+          <div class="plinks">
+            <a href="https://github.com/Jishnuec/TerminalChat" target="_blank" class="plink">GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="terminalchat.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://medium.com/@jishnuwhoopofficial/how-i-built-a-real-time-anonymous-chat-app-for-free-architecture-deep-dive-f6d73b11434e" target="_blank" class="plink" style="color:var(--amber)">Medium <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
-        <div class="plinks">
-          <a href="https://github.com/Jishnuec/reconframe" target="_blank" class="plink">View on GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-      </div>
-      <div class="pcard rv" data-d="3">
-        <div class="ptag">Terminal Application</div>
-        <div class="pname">TerminalChat</div>
-        <div class="pver">Anonymous Real-Time Terminal Chatrooms</div>
-        <p class="pdesc">Anonymous real-time chat rooms from the command line — no account, no signup, no setup. Create or join rooms using just a number. Features password-protected rooms, admin controls, emoji reactions, typing indicators, DMs, and reply/quote. Works across Linux, Windows and macOS.</p>
-        <div class="pstack">
-          <span class="pstag">Go</span><span class="pstag">Bubble Tea</span><span class="pstag">Lipgloss</span>
-          <span class="pstag">Ably SSE</span><span class="pstag">Render</span><span class="pstag">Terminal UI</span>
-        </div>
-        <div class="plinks">
-          <a href="https://github.com/Jishnuec/TerminalChat" target="_blank" class="plink">GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="terminalchat.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="https://medium.com/@jishnuwhoopofficial/how-i-built-a-real-time-anonymous-chat-app-for-free-architecture-deep-dive-f6d73b11434e" target="_blank" class="plink" style="color:var(--amber)">Medium <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="pcard rv" data-ptype="ctf">
+          <div class="ptag" style="color:var(--amber)">🚩 CTF Machine</div>
+          <div class="pname">Udyama (उद्यम)</div>
+          <div class="pver">Linux Privilege Escalation · Intermediate → Advanced · Feb 2026</div>
+          <p class="pdesc">A custom CTF VM I designed and released — 2 flags (User + Root) focused on Linux privilege escalation, persistence techniques, and incident response mindset. Packaged as Ubuntu OVA for VirtualBox.</p>
+          <div class="pstack">
+            <span class="pstag">Linux</span><span class="pstag">Privilege Escalation</span><span class="pstag">Ubuntu</span>
+            <span class="pstag">VirtualBox OVA</span><span class="pstag">CTF Design</span>
+          </div>
+          <div class="plinks">
+            <a href="https://archive.org/details/Udyama" target="_blank" class="plink" style="color:var(--amber)">Download OVA <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
       </div>
     </div><!-- end pgrid-wrap -->
@@ -658,7 +694,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 <section id="research">
   <div class="sw">
     <div class="sh rv"><span class="sn">05</span><span class="st">Research, Papers & Write-Ups</span><div class="sl"></div></div>
-    <div class="res-grid">
+    <div class="res-grid-wrap"><div class="res-grid">
       <div class="rcard rv" data-d="1" onclick="window.open('VAR-University%20of%20calicut.pdf','_blank')" style="cursor:pointer">
         <div class="rbadge rb-d">📑 Security Report</div>
         <div class="rtitle">Calicut University Vulnerability Assessment Report</div>
@@ -671,12 +707,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="rdesc">Deep-dive into building an anonymous real-time terminal chat application — architecture, tech stack, challenges, and how SSE-based messaging works across platforms.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to read</div>
       </div>
-      <div class="rcard rv" data-d="3" onclick="window.open('https://medium.com/@jishnuwhoopofficial/how-i-built-a-real-time-anonymous-chat-app-for-free-architecture-deep-dive-f6d73b11434e','_blank')" style="cursor:pointer">
-        <div class="rbadge rb-v">✍ Medium Article</div>
-        <div class="rtitle">How I Built a Real-Time Anonymous Chat App for Free</div>
-        <div class="rdesc">Architecture deep-dive published on Medium — covering SSE, Ably, Go, Bubble Tea and deploying for free on Render.</div>
-        <div class="rsoon" style="color:var(--amber);font-size:1rem;letter-spacing:2px">→ Read on Medium</div>
-      </div>
+
       <div class="rcard rv" data-d="2">
         <div class="rbadge rb-p">📄 Research Paper</div>
         <div class="rtitle">OSINT Methodology Paper</div>
@@ -707,7 +738,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="rdesc">Research covering network-based attack detection techniques, traffic analysis, and automated alerting with SIEM platforms.</div>
         <div class="rsoon">// COMING SOON</div>
       </div>
-    </div>
+    </div></div>
   </div>
 </section>
 
@@ -715,7 +746,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 <section id="labs">
   <div class="sw">
     <div class="sh rv"><span class="sn">06</span><span class="st">Home Labs</span><div class="sl"></div></div>
-    <div class="labs-grid">
+    <div class="labs-grid-wrap"><div class="labs-grid">
       <div class="lcard act rv" data-d="1" onclick="openLab('dvwa')">
         <div class="lbdg ab">● Active Lab</div>
         <div class="ltitle">Kali vs DVWA Attack Lab</div>
@@ -763,7 +794,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="lsoon">// COMING SOON</div>
         <div class="lclick">Click for details →</div>
       </div>
-    </div>
+    </div></div>
   </div>
 </section>
 
@@ -825,6 +856,33 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
             </div>
           </div>
         </div>
+        <div class="tl-post" data-tags="Digital Forensics,Incident Response" data-date="2025-03-10">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-card-header">
+              <div class="tl-avatar">JEC</div>
+              <div class="tl-meta">
+                <div class="tl-handle">@jishxec <span class="tl-type-badge">📚 Learning</span></div>
+                <div class="tl-time">Mar 10, 2025</div>
+              </div>
+            </div>
+            <div class="tl-content">
+              <p class="tl-title">Completed the DFIR Intro room on TryHackMe 🛡️</p>
+              <p class="tl-body">Solid introduction to Digital Forensics & Incident Response fundamentals — the kind of knowledge that separates a reactive responder from a methodical one.</p>
+              <div class="tl-findings">
+                <div class="tl-finding">Framework: <span>PICERL</span> — Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned</div>
+                <div class="tl-finding">Key concepts: <span>Chain of Custody</span> · <span>Evidence Preservation</span> · <span>Order of Volatility</span></div>
+                <div class="tl-finding">Tools introduced: <span>EZ Tools</span> · <span>KAPE</span> · <span>Autopsy</span> · <span>Volatility</span></div>
+              </div>
+              <p class="tl-body">The order of volatility matters — RAM disappears when the machine powers off, disk stays. Always collect most volatile first.</p>
+              <a href="https://tryhackme.com/room/introductoryroomdfirmodule" target="_blank" class="tl-link">→ THM Room</a>
+            </div>
+            <div class="tl-tags-row">
+              <span class="tl-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
+              <span class="tl-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="tlEmpty" class="tl-empty" style="display:none">// No posts found</div>
     </div>
@@ -834,7 +892,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 <!-- CONTACT -->
 <section id="contact">
   <div class="sw">
-    <div class="sh rv"><span class="sn">07</span><span class="st">Contact</span><div class="sl"></div></div>
+    <div class="sh rv"><span class="sn">08</span><span class="st">Contact</span><div class="sl"></div></div>
     <div class="ctop rv">
       <div class="cbig">Let's secure the<br><span>digital world</span> together.</div>
       <div class="csub">Open to SOC Analyst · Cybersecurity Analyst · Penetration Tester roles</div>
@@ -1019,6 +1077,16 @@ function closeLab(e){
   document.body.style.overflow='';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('labModal').classList.remove('open');document.body.style.overflow=''}});
+
+/* PROJECT FILTER */
+function filterProjects(type, btn){
+  document.querySelectorAll('.fn-chip').forEach(c=>c.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.pcard').forEach(p=>{
+    if(!type){p.style.display='flex';return;}
+    p.style.display=p.dataset.ptype===type?'flex':'none';
+  });
+}
 
 /* TIMELINE FILTER */
 function filterByTag(tag, btn){
