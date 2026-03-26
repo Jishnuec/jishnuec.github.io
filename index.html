@@ -103,15 +103,38 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .st{font-family:var(--orb);font-size:clamp(.85rem,1.8vw,1.25rem);letter-spacing:5px;text-transform:uppercase;color:var(--g);text-shadow:0 0 18px rgba(0,255,65,.22)}
 .sl{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
 
-/* ABOUT */
-.agrid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
-.ap{font-size:.84rem;line-height:2.2;color:var(--text);padding-left:1rem;border-left:2px solid var(--border);margin-bottom:1rem}
-.ap .hl{color:var(--g)}
+/* ABOUT RIGHT */
+.about-right{display:flex;flex-direction:column;gap:1.2rem}
+/* OPEN TO WORK BANNER */
+.otw-banner{background:rgba(0,255,65,.04);border:1px solid rgba(0,255,65,.4);padding:1.2rem 1.4rem;position:relative;overflow:hidden}
+.otw-pulse{position:absolute;top:1rem;right:1rem;width:10px;height:10px;border-radius:50%;background:var(--g);box-shadow:0 0 10px var(--g);animation:blink 1.4s step-end infinite}
+.otw-title{font-family:var(--orb);font-size:.72rem;letter-spacing:3px;color:var(--g);text-shadow:0 0 12px rgba(0,255,65,.4);margin-bottom:.3rem}
+.otw-roles{font-size:.66rem;color:var(--text2);letter-spacing:1px;margin-bottom:.8rem}
+.otw-scroll-wrap{overflow:hidden;border-top:1px solid var(--border2);padding-top:.6rem}
+.otw-scroll{display:flex;width:max-content;animation:marquee 12s linear infinite;font-size:.62rem;color:var(--text2);letter-spacing:2px}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* INFO GRID */
 .igrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem}
-.ii{padding:.85rem 1rem;border:1px solid var(--border2);background:var(--bg2);transition:border-color .2s}
-.ii:hover{border-color:var(--border)}
-.ik{font-size:.56rem;letter-spacing:3px;color:#7ecf85;text-transform:uppercase;margin-bottom:.3rem}
-.iv{font-size:.76rem;color:var(--text)}.iv a{color:var(--g);text-decoration:none}
+.ii{padding:.8rem 1rem;border:1px solid var(--border2);background:var(--bg2);transition:all .2s}
+.ii:hover{border-color:var(--border);transform:translateY(-1px)}
+.ik{font-size:.56rem;letter-spacing:2px;color:var(--text2);text-transform:uppercase;margin-bottom:.3rem}
+.iv{font-size:.74rem;color:var(--text)}.iv a{color:var(--g);text-decoration:none}
+
+/* FIELD NOTES FILTER BAR */
+.fn-filter-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.fn-chips{display:flex;gap:.5rem;flex-wrap:wrap;flex:1}
+.fn-chip{background:var(--bg2);border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.65rem;letter-spacing:2px;padding:.35rem .9rem;cursor:pointer;transition:all .2s}
+.fn-chip:hover{border-color:var(--border);color:var(--text)}
+.fn-chip.active{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
+.fn-sort{background:var(--bg2);border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.65rem;letter-spacing:1px;padding:.35rem .8rem;cursor:pointer;outline:none}
+.fn-sort:focus{border-color:var(--border)}
+
+/* COMPACT TIMELINE CARDS */
+.tl-card-header{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem}
+.tl-type-badge{font-size:.58rem;letter-spacing:1px;color:var(--text2);background:var(--bg3);border:1px solid var(--border2);padding:.15rem .5rem;margin-left:.4rem}
+.tl-findings{background:var(--bg3);border:1px solid var(--border2);padding:.8rem 1rem;margin:.6rem 0;display:flex;flex-direction:column;gap:.35rem}
+.tl-finding{font-size:.7rem;color:var(--text2);border-left:2px solid var(--border2);padding-left:.6rem}
+.tl-finding span{color:var(--g)}
 
 /* SKILLS */
 .sk-flood{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
@@ -249,7 +272,10 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 .fl{font-size:.66rem;color:var(--text2);letter-spacing:2px;line-height:2}.fl span{color:var(--g)}
 
-/* PRO SKILL CARDS */
+/* ABOUT */
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.ap{font-size:.84rem;line-height:2.2;color:var(--text);padding-left:1rem;border-left:2px solid var(--border);margin-bottom:1rem}
+.ap .hl{color:var(--g)}
 .sk-pro-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2.5rem}
 .sk-pro-card{padding:2rem;border:1px solid;position:relative;overflow:hidden}
 .sk-pro-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
@@ -273,9 +299,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 .sk-tags{display:flex;flex-wrap:wrap;gap:.4rem;max-height:110px;overflow-y:auto;padding-right:2px}
 .sk-tags::-webkit-scrollbar{width:2px}.sk-tags::-webkit-scrollbar-thumb{background:var(--border)}
 
-/* TIMELINE / FIELD NOTES */
-.tl-intro{font-size:.76rem;color:var(--text2);line-height:1.9;margin-bottom:2.5rem;padding:.8rem 1.2rem;border-left:2px solid rgba(0,255,65,.3);background:rgba(0,255,65,.02)}
-.tl-intro span{color:var(--g)}
+/* TIMELINE */
 .tl-wrap{position:relative;padding-left:2rem}
 .tl-line{position:absolute;left:.4rem;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--g),rgba(0,255,65,.05))}
 .tl-posts{display:flex;flex-direction:column;gap:2rem}
@@ -329,6 +353,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   footer{padding:2rem 1.5rem}
   .hphoto-name{flex-direction:row;align-items:center;gap:1.5rem}
   .hname{font-size:clamp(3rem,12vw,6rem)}
+  .igrid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:650px){
   .igrid{grid-template-columns:1fr 1fr}
@@ -344,6 +369,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .btn{padding:.6rem 1.2rem;font-size:.62rem}
   .sw{padding:4rem 1.2rem}
   .tl-wrap{padding-left:1.2rem}
+  .fn-filter-bar{flex-direction:column;align-items:flex-start}
+  .fn-sort{width:100%}
+  .otw-scroll-wrap{display:none}
 }
 </style>
 </head>
@@ -437,13 +465,47 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <p class="ap rv" data-d="2">My focus areas include <span class="hl">penetration testing</span>, privilege escalation, SOC operations, SIEM & log analysis, OSINT, network security, and digital forensics. I believe the best defenders think like attackers — so I invest heavily in understanding real-world attack techniques, not just theory.</p>
         <p class="ap rv" data-d="3">I'm ready to contribute as a <span class="hl">SOC Analyst or Penetration Tester</span> — bringing a sharp eye for threats, a hands-on technical mindset, and the drive to protect what matters.</p>
       </div>
-      <div class="igrid rv" data-d="2">
-        <div class="ii"><div class="ik">Name</div><div class="iv">Jishnu EC</div></div>
-        <div class="ii"><div class="ik">Location</div><div class="iv">Kozhikode, Kerala</div></div>
-        <div class="ii"><div class="ik">Degree</div><div class="iv">BCA — 2025</div></div>
-        <div class="ii"><div class="ik">Status</div><div class="iv" style="color:var(--g)">Open to Work</div></div>
-        <div class="ii"><div class="ik">Email</div><div class="iv"><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a></div></div>
-        <div class="ii"><div class="ik">GitHub</div><div class="iv"><a href="https://github.com/Jishnuec" target="_blank">github.com/Jishnuec</a></div></div>
+      <div class="about-right rv" data-d="2">
+        <!-- OPEN TO WORK BANNER -->
+        <div class="otw-banner">
+          <div class="otw-pulse"></div>
+          <div class="otw-text">
+            <div class="otw-title">OPEN TO WORK</div>
+            <div class="otw-roles">SOC Analyst &nbsp;·&nbsp; Pentest &nbsp;·&nbsp; Cybersecurity Analyst</div>
+          </div>
+          <div class="otw-scroll-wrap">
+            <div class="otw-scroll">
+              <span>India &nbsp;·&nbsp;</span><span>Remote &nbsp;·&nbsp;</span><span>Kerala &nbsp;·&nbsp;</span><span>Bangalore &nbsp;·&nbsp;</span><span>Hyderabad &nbsp;·&nbsp;</span><span>Mumbai &nbsp;·&nbsp;</span><span>India &nbsp;·&nbsp;</span><span>Remote &nbsp;·&nbsp;</span>
+            </div>
+          </div>
+        </div>
+        <!-- INFO CARDS -->
+        <div class="igrid">
+          <div class="ii">
+            <div class="ik">👤 Name</div>
+            <div class="iv">Jishnu EC</div>
+          </div>
+          <div class="ii">
+            <div class="ik">📍 Location</div>
+            <div class="iv">Kozhikode, Kerala</div>
+          </div>
+          <div class="ii">
+            <div class="ik">🎓 Degree</div>
+            <div class="iv">BCA — 2025</div>
+          </div>
+          <div class="ii">
+            <div class="ik">🛡️ Cert</div>
+            <div class="iv" style="color:var(--amber)">CEH In Progress</div>
+          </div>
+          <div class="ii">
+            <div class="ik">✉ Email</div>
+            <div class="iv"><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a></div>
+          </div>
+          <div class="ii">
+            <div class="ik">⌥ GitHub</div>
+            <div class="iv"><a href="https://github.com/Jishnuec" target="_blank">github.com/Jishnuec</a></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -717,49 +779,54 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 <section id="timeline">
   <div class="sw">
     <div class="sh rv"><span class="sn">07</span><span class="st">Field Notes</span><div class="sl"></div></div>
-    <div class="tl-intro rv">
-      <span>Live learning log</span> — challenges completed, tools explored, writeups and observations. Click any skill tag to filter posts.
-      <span id="tl-filter-active" style="display:none"> — Filtering: <span id="tl-filter-name" style="color:var(--g)"></span> <button onclick="clearFilter()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-family:var(--mono);font-size:.65rem;letter-spacing:2px;margin-left:.5rem">✕ clear</button></span>
+    <div class="fn-filter-bar rv">
+      <div class="fn-chips" id="fnChips">
+        <button class="fn-chip active" onclick="filterByTag(null,this)">All</button>
+        <button class="fn-chip" onclick="filterByTag('Digital Forensics',this)">Digital Forensics</button>
+        <button class="fn-chip" onclick="filterByTag('Incident Response',this)">Incident Response</button>
+        <button class="fn-chip" onclick="filterByTag('OSINT',this)">OSINT</button>
+        <button class="fn-chip" onclick="filterByTag('Splunk',this)">Splunk</button>
+        <button class="fn-chip" onclick="filterByTag('CTF',this)">CTF</button>
+        <button class="fn-chip" onclick="filterByTag('Penetration Testing',this)">Pentest</button>
+        <button class="fn-chip" onclick="filterByTag('Network Security',this)">Network</button>
+      </div>
+      <select class="fn-sort" onchange="sortPosts(this.value)">
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+      </select>
     </div>
     <div class="tl-wrap rv" data-d="1">
       <div class="tl-line"></div>
       <div class="tl-posts" id="tlPosts">
-
-        <div class="tl-post" data-tags="Digital Forensics,OSINT,Splunk,Incident Response">
+        <div class="tl-post" data-tags="Digital Forensics,OSINT,Incident Response" data-date="2025-02-24">
           <div class="tl-dot"></div>
           <div class="tl-card">
             <div class="tl-card-header">
               <div class="tl-avatar">JEC</div>
               <div class="tl-meta">
-                <div class="tl-handle">@jishxec</div>
+                <div class="tl-handle">@jishxec <span class="tl-type-badge">🔬 Challenge</span></div>
                 <div class="tl-time">Feb 24, 2025</div>
               </div>
-              <div class="tl-type-badge">🔬 Challenge</div>
             </div>
             <div class="tl-content">
               <p class="tl-title">Just crushed the MemLoot challenge on Let's Defend 🔥</p>
-              <p class="tl-body">Spent the last few hours digging into a Windows memory dump using Volatility 3 and honestly? This was eye-opening.</p>
+              <p class="tl-body">Windows memory dump with Volatility 3 — a fake Spotify installer was actually Dark Havoc ransomware.</p>
               <div class="tl-findings">
-                <div class="tl-finding-title">// What I found:</div>
-                <div class="tl-finding">Malicious file: <span>Spotify_setup.exe</span> hiding in Downloads</div>
-                <div class="tl-finding">Real name: <span>Dark Havoc ransomware</span></div>
-                <div class="tl-finding">Execution time: <span>2025-02-24 10:51:16</span></div>
-                <div class="tl-finding">Files encrypted with: <span>.havoc extension</span></div>
-                <div class="tl-finding">C2 server: <span>104.152.52.238:6548</span></div>
-                <div class="tl-finding">Parent process: <span>explorer.exe</span> (user double-clicked it)</div>
+                <div class="tl-finding">File: <span>Spotify_setup.exe</span> → <span>Dark Havoc</span></div>
+                <div class="tl-finding">C2: <span>104.152.52.238:6548</span> &nbsp;·&nbsp; Ext: <span>.havoc</span></div>
+                <div class="tl-finding">Parent: <span>explorer.exe</span> — user just double-clicked it</div>
               </div>
-              <p class="tl-body" style="margin-top:.8rem">Memory forensics is no joke. You can't always find malware on disk — but it lives in RAM. That's where Volatility comes in.</p>
               <a href="https://app.letsdefend.io/challenge/memloot" target="_blank" class="tl-link">→ Challenge link</a>
             </div>
             <div class="tl-tags-row">
-              <span class="tl-tag" onclick="filterByTag('Digital Forensics')">Digital Forensics</span>
-              <span class="tl-tag" onclick="filterByTag('Incident Response')">Incident Response</span>
-              <span class="tl-tag" onclick="filterByTag('OSINT')">OSINT</span>
+              <span class="tl-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
+              <span class="tl-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
+              <span class="tl-tag" onclick="filterByTag('OSINT',null)">OSINT</span>
             </div>
           </div>
         </div>
-
       </div>
+      <div id="tlEmpty" class="tl-empty" style="display:none">// No posts found</div>
     </div>
   </div>
 </section>
@@ -954,35 +1021,39 @@ function closeLab(e){
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('labModal').classList.remove('open');document.body.style.overflow=''}});
 
 /* TIMELINE FILTER */
-let activeFilter=null;
-function filterByTag(tag){
-  activeFilter=tag;
-  document.getElementById('tl-filter-active').style.display='inline';
-  document.getElementById('tl-filter-name').textContent=tag;
+function filterByTag(tag, btn){
+  // update chips
+  if(btn){
+    document.querySelectorAll('.fn-chip').forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+  } else if(tag){
+    // called from tl-tag click — find matching chip
+    document.querySelectorAll('.fn-chip').forEach(c=>{
+      c.classList.toggle('active', c.textContent.trim()===tag || (tag==='Digital Forensics'&&c.textContent==='Digital Forensics'));
+    });
+  }
   document.querySelectorAll('.tl-post').forEach(p=>{
+    if(!tag){p.classList.remove('hidden');return;}
     const tags=p.dataset.tags||'';
     p.classList.toggle('hidden',!tags.split(',').map(t=>t.trim()).includes(tag));
   });
-  document.querySelectorAll('.tl-tag').forEach(t=>{
-    t.classList.toggle('active-tag',t.textContent.trim()===tag);
+  const visible=document.querySelectorAll('.tl-post:not(.hidden)').length;
+  document.getElementById('tlEmpty').style.display=visible===0?'block':'none';
+  if(!btn) document.getElementById('timeline').scrollIntoView({behavior:'smooth'});
+}
+function clearFilter(){filterByTag(null,document.querySelector('.fn-chip'));}
+function sortPosts(order){
+  const container=document.getElementById('tlPosts');
+  const posts=[...container.querySelectorAll('.tl-post')];
+  posts.sort((a,b)=>{
+    const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';
+    return order==='newest'?db.localeCompare(da):da.localeCompare(db);
   });
-  // scroll to timeline
-  document.getElementById('timeline').scrollIntoView({behavior:'smooth'});
+  posts.forEach(p=>container.appendChild(p));
 }
-function clearFilter(){
-  activeFilter=null;
-  document.getElementById('tl-filter-active').style.display='none';
-  document.querySelectorAll('.tl-post').forEach(p=>p.classList.remove('hidden'));
-  document.querySelectorAll('.tl-tag').forEach(t=>t.classList.remove('active-tag'));
-}
-
-/* SKILL TAG → FILTER TIMELINE */
+/* SKILL DOUBLE-CLICK → FILTER */
 document.querySelectorAll('.sk').forEach(el=>{
-  el.addEventListener('dblclick',e=>{
-    const name=el.textContent.trim();
-    filterByTag(name);
-    e.stopPropagation();
-  });
+  el.addEventListener('dblclick',e=>{filterByTag(el.textContent.trim(),null);e.stopPropagation();});
 });
 </script>
 </body>
