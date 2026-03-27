@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Udyama (उद्यम) — CTF Writeup by Jishnu</title>
+<title>Udyama (उद्यम) — CTF Writeup </title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -129,7 +129,7 @@ nav {
 }
 .nav-links { display:flex; gap:28px; }
 .nav-links a {
-  font-family:var(--code); font-size:11px; color:var(--dim);
+  font-family:var(--code); font-size:12px; color:var(--sub);
   text-decoration:none; letter-spacing:.15em; text-transform:uppercase;
   transition:color .2s;
 }
@@ -192,7 +192,7 @@ nav {
 
 .hero-sub-title {
   font-family:var(--mono); font-size:clamp(16px,2vw,24px);
-  color:var(--sub); margin-bottom:40px;
+  color:var(--fg); margin-bottom:40px;
   opacity:0; animation:fadeUp .6s .3s forwards;
 }
 
@@ -205,11 +205,11 @@ nav {
   background:rgba(0,255,65,0.04); border:1px solid rgba(0,255,65,0.15);
   border-radius:8px; padding:16px 24px;
 }
-.meta-key { font-family:var(--code); font-size:9px; color:var(--dim); letter-spacing:.2em; text-transform:uppercase; margin-bottom:6px; }
+.meta-key { font-family:var(--code); font-size:10px; color:var(--sub); letter-spacing:.2em; text-transform:uppercase; margin-bottom:6px; }
 .meta-val { font-family:var(--code); font-size:14px; color:var(--green); font-weight:500; }
 
 .hero-quote {
-  font-family:var(--mono); font-size:14px; color:var(--dim);
+  font-family:var(--mono); font-size:15px; color:var(--sub);
   font-style:italic; max-width:480px; line-height:1.8;
   border-left:2px solid var(--green); padding-left:16px;
   opacity:0; animation:fadeUp .6s .5s forwards;
@@ -268,7 +268,7 @@ section {
   letter-spacing:.15em; text-transform:uppercase; margin-bottom:12px;
 }
 .info-cell p {
-  font-family:var(--mono); font-size:13px; color:var(--fg); line-height:1.85;
+  font-family:var(--mono); font-size:14px; color:var(--white); line-height:2;
 }
 .info-cell p strong { color:var(--green); }
 
@@ -296,11 +296,11 @@ section {
 }
 .step-title-wrap { flex:1; }
 .step-title {
-  font-family:var(--title); font-size:16px; font-weight:700;
+  font-family:var(--title); font-size:17px; font-weight:700;
   color:var(--white); letter-spacing:.02em; margin-bottom:4px;
 }
 .step-subtitle {
-  font-family:var(--code); font-size:10px; color:var(--dim);
+  font-family:var(--code); font-size:11px; color:var(--sub);
   letter-spacing:.12em; text-transform:uppercase;
 }
 .step-badge {
@@ -320,8 +320,8 @@ section {
 .step-body.open { display:block; }
 
 .step-desc {
-  font-family:var(--mono); font-size:13px; color:var(--fg);
-  line-height:1.85; margin-bottom:20px;
+  font-family:var(--mono); font-size:14px; color:var(--white);
+  line-height:2; margin-bottom:20px;
 }
 .step-desc strong { color:var(--green); }
 
@@ -341,14 +341,14 @@ section {
 .code-dot.g { background:#28c940; }
 .code-label { font-family:var(--code); font-size:10px; color:var(--dim); margin-left:4px; }
 pre {
-  padding:20px; font-family:var(--code); font-size:12px;
-  color:var(--fg); line-height:1.8; overflow-x:auto;
+  padding:22px; font-family:var(--code); font-size:13px;
+  color:var(--white); line-height:1.9; overflow-x:auto;
   white-space:pre;
 }
 .cmd { color:var(--cyan); }
-.out { color:var(--sub); }
+.out { color:var(--fg); }
 .flag-text { color:var(--yellow); font-weight:700; }
-.comment { color:var(--dim); }
+.comment { color:var(--sub); }
 .hl { color:var(--green); }
 .warn { color:var(--orange); }
 
@@ -373,7 +373,7 @@ pre {
 }
 .flag-icon { font-size:36px; filter:drop-shadow(0 0 12px var(--yellow)); }
 .flag-label { font-family:var(--code); font-size:10px; color:var(--green); letter-spacing:.15em; text-transform:uppercase; margin-bottom:6px; }
-.flag-value { font-family:var(--code); font-size:16px; color:var(--yellow); font-weight:700; letter-spacing:.05em; }
+.flag-value { font-family:var(--code); font-size:18px; color:var(--yellow); font-weight:700; letter-spacing:.05em; }
 
 /* ─── SUMMARY TABLE ─── */
 .summary-table {
@@ -388,8 +388,8 @@ pre {
   border-bottom:1px solid var(--border);
 }
 .summary-table td {
-  padding:14px 20px; font-family:var(--code); font-size:12px;
-  color:var(--fg); border-bottom:1px solid rgba(255,255,255,0.04);
+  padding:16px 20px; font-family:var(--code); font-size:13px;
+  color:var(--white); border-bottom:1px solid rgba(255,255,255,0.04);
   vertical-align:top; line-height:1.6;
 }
 .summary-table tr:last-child td { border-bottom:none; }
@@ -415,7 +415,7 @@ pre {
   color:var(--white); margin-bottom:8px; letter-spacing:.02em;
 }
 .lesson-body p {
-  font-family:var(--mono); font-size:12px; color:var(--sub); line-height:1.8;
+  font-family:var(--mono); font-size:13px; color:var(--fg); line-height:1.9;
 }
 
 /* ─── SKILLS ─── */
@@ -423,7 +423,7 @@ pre {
 .skill-tag {
   background:var(--surf); border:1px solid var(--border);
   border-radius:8px; padding:16px 20px;
-  font-family:var(--code); font-size:12px; color:var(--fg);
+  font-family:var(--code); font-size:13px; color:var(--white);
   display:flex; align-items:center; gap:10px;
   transition:all .3s;
 }
@@ -447,10 +447,10 @@ footer {
   letter-spacing:.15em; margin-bottom:8px;
 }
 .footer-translation {
-  font-family:var(--mono); font-size:12px; color:var(--dim);
+  font-family:var(--mono); font-size:13px; color:var(--sub);
   font-style:italic; margin-bottom:20px;
 }
-.footer-meta { font-family:var(--code); font-size:11px; color:var(--dim); }
+.footer-meta { font-family:var(--code); font-size:12px; color:var(--sub); }
 
 /* ─── REVEAL ─── */
 .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
@@ -522,7 +522,7 @@ footer {
   <div class="hero-glow"></div>
   <div class="hero-sanskrit">उद्यम</div>
 
-  <div class="hero-tag">CTF Writeup · February 2026 · by Jishnu</div>
+  <div class="hero-tag">CTF Writeup · February 2026 · </div>
   <h1 class="hero-title">
     <span class="g glitch">UDYAMA</span><br>
     <span class="d">उद्यम</span>
@@ -1015,7 +1015,7 @@ index 0000000..e69de29
   <div class="footer-sanskrit">उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः</div>
   <div class="footer-translation">"Tasks are accomplished through effort, not mere wishes."</div>
   <div class="footer-meta">
-    Udyama CTF · February 2026 · Jishnu ·
+    Udyama CTF · February 2026 ·
     <a href="https://archive.org/details/Udyama" style="color:var(--green);text-decoration:none">Download VM</a>
   </div>
 </footer>
