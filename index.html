@@ -273,7 +273,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 .fl{font-size:.66rem;color:var(--text2);letter-spacing:2px;line-height:2}.fl span{color:var(--g)}
 
 /* ABOUT */
-.agrid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.agrid{display:grid;grid-template-columns:1fr 420px;gap:3rem;align-items:start}
 .ap{font-size:.84rem;line-height:2.2;color:var(--text);padding-left:1rem;border-left:2px solid var(--border);margin-bottom:1rem}
 .ap .hl{color:var(--g)}
 .sk-pro-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2.5rem}
@@ -328,7 +328,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 .tl-empty{font-family:var(--vt);font-size:1.5rem;color:var(--text2);letter-spacing:3px;text-align:center;padding:3rem;opacity:.5}
 
 /* GRID WRAPPERS */
-.res-grid-wrap,.labs-grid-wrap{max-height:520px;overflow-y:auto;padding-right:4px}
+.res-grid-wrap,.labs-grid-wrap,.tl-posts-wrap{max-height:480px;overflow-y:auto;padding-right:4px}
+.res-grid-wrap::-webkit-scrollbar,.labs-grid-wrap::-webkit-scrollbar,.tl-posts-wrap::-webkit-scrollbar{width:3px}
+.res-grid-wrap::-webkit-scrollbar-thumb,.labs-grid-wrap::-webkit-scrollbar-thumb,.tl-posts-wrap::-webkit-scrollbar-thumb{background:var(--g2)}
 .res-grid-wrap::-webkit-scrollbar,.labs-grid-wrap::-webkit-scrollbar{width:3px}
 .res-grid-wrap::-webkit-scrollbar-track{background:var(--bg)}
 .res-grid-wrap::-webkit-scrollbar-thumb,.labs-grid-wrap::-webkit-scrollbar-thumb{background:var(--g2)}
@@ -685,6 +687,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           </div>
           <div class="plinks">
             <a href="https://archive.org/details/Udyama" target="_blank" class="plink" style="color:var(--amber)">Download OVA <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="udyama.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </div>
         </div>
       </div>
@@ -708,11 +711,11 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to read</div>
       </div>
 
-      <div class="rcard rv" data-d="2">
-        <div class="rbadge rb-p">📄 Research Paper</div>
-        <div class="rtitle">OSINT Methodology Paper</div>
-        <div class="rdesc">Deep-dive into open source intelligence gathering techniques, ethical boundaries, and automation using Python tooling.</div>
-        <div class="rsoon">// COMING SOON</div>
+      <div class="rcard rv" data-d="2" onclick="window.location.href='udyama.html'" style="cursor:pointer">
+        <div class="rbadge rb-w">🚩 CTF Writeup</div>
+        <div class="rtitle">Udyama (उद्यम) — CTF Machine Writeup</div>
+        <div class="rdesc">Full writeup for the Udyama CTF VM — Linux privilege escalation path, persistence techniques, and solution walkthrough.</div>
+        <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to read</div>
       </div>
       <div class="rcard rv" data-d="3">
         <div class="rbadge rb-v">▶ Video Walkthrough</div>
@@ -828,7 +831,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     </div>
     <div class="tl-wrap rv" data-d="1">
       <div class="tl-line"></div>
-      <div class="tl-posts" id="tlPosts">
+      <div class="tl-posts-wrap"><div class="tl-posts" id="tlPosts">
         <div class="tl-post" data-tags="Digital Forensics,OSINT,Incident Response" data-date="2025-02-24">
           <div class="tl-dot"></div>
           <div class="tl-card">
@@ -884,6 +887,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           </div>
         </div>
       </div>
+      </div></div>
       <div id="tlEmpty" class="tl-empty" style="display:none">// No posts found</div>
     </div>
   </div>
