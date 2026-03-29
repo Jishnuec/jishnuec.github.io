@@ -117,8 +117,8 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .igrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem}
 .ii{padding:.8rem 1rem;border:1px solid var(--border2);background:var(--bg2);transition:all .2s}
 .ii:hover{border-color:var(--border);transform:translateY(-1px)}
-.ik{font-size:.56rem;letter-spacing:2px;color:var(--text2);text-transform:uppercase;margin-bottom:.3rem}
-.iv{font-size:.74rem;color:var(--text)}.iv a{color:var(--g);text-decoration:none}
+.ik{font-size:.62rem;letter-spacing:2px;color:var(--text2);text-transform:uppercase;margin-bottom:.3rem}
+.iv{font-size:.82rem;color:var(--text);font-weight:500}.iv a{color:var(--g);text-decoration:none}
 
 /* FIELD NOTES FILTER BAR */
 .fn-filter-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
@@ -328,9 +328,10 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 .tl-empty{font-family:var(--vt);font-size:1.5rem;color:var(--text2);letter-spacing:3px;text-align:center;padding:3rem;opacity:.5}
 
 /* GRID WRAPPERS */
-.res-grid-wrap,.labs-grid-wrap,.tl-posts-wrap{max-height:480px;overflow-y:auto;padding-right:4px}
-.res-grid-wrap::-webkit-scrollbar,.labs-grid-wrap::-webkit-scrollbar,.tl-posts-wrap::-webkit-scrollbar{width:3px}
-.res-grid-wrap::-webkit-scrollbar-thumb,.labs-grid-wrap::-webkit-scrollbar-thumb,.tl-posts-wrap::-webkit-scrollbar-thumb{background:var(--g2)}
+.res-grid-wrap,.labs-grid-wrap,.tl-posts-wrap,.proj-scroll{max-height:480px;overflow-y:auto;padding-right:4px}
+.res-grid-wrap::-webkit-scrollbar,.labs-grid-wrap::-webkit-scrollbar,.tl-posts-wrap::-webkit-scrollbar,.proj-scroll::-webkit-scrollbar{width:3px}
+.res-grid-wrap::-webkit-scrollbar-track,.labs-grid-wrap::-webkit-scrollbar-track,.tl-posts-wrap::-webkit-scrollbar-track,.proj-scroll::-webkit-scrollbar-track{background:var(--bg)}
+.res-grid-wrap::-webkit-scrollbar-thumb,.labs-grid-wrap::-webkit-scrollbar-thumb,.tl-posts-wrap::-webkit-scrollbar-thumb,.proj-scroll::-webkit-scrollbar-thumb{background:var(--g2)}
 .res-grid-wrap::-webkit-scrollbar,.labs-grid-wrap::-webkit-scrollbar{width:3px}
 .res-grid-wrap::-webkit-scrollbar-track{background:var(--bg)}
 .res-grid-wrap::-webkit-scrollbar-thumb,.labs-grid-wrap::-webkit-scrollbar-thumb{background:var(--g2)}
@@ -515,7 +516,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           </div>
           <div class="ii">
             <div class="ik">✉ Email</div>
-            <div class="iv"><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a></div>
+            <div class="iv"><a href="/cdn-cgi/l/email-protection#b0dad9c3d8dec5c7d8dfdfc0dfd6d6d9d3d9d1dcf0d7ddd1d9dc9ed3dfdd"><span class="__cf_email__" data-cfemail="2d47445e4543585a4542425d424b4b444e444c416d4a404c4441034e4240">[email&#160;protected]</span></a></div>
           </div>
           <div class="ii">
             <div class="ik">⌥ GitHub</div>
@@ -633,8 +634,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <button class="fn-chip" onclick="filterProjects('ctf',this)">🚩 CTF</button>
       </div>
     </div>
-    <div class="pgrid-wrap">
-      <div class="pgrid" id="pgrid">
+    <div class="pgrid-wrap"><div class="proj-scroll"><div class="pgrid" id="pgrid">
         <div class="pcard rv" data-ptype="tool">
           <div class="ptag">OSINT Tool</div>
           <div class="pname">InstaGrep</div>
@@ -646,6 +646,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           </div>
           <div class="plinks">
             <a href="https://github.com/Jishnuec/InstaGrep" target="_blank" class="plink">GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="instagrep.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </div>
         </div>
         <div class="pcard rv" data-ptype="tool">
@@ -659,6 +660,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           </div>
           <div class="plinks">
             <a href="https://github.com/Jishnuec/reconframe" target="_blank" class="plink">GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="reconframe.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </div>
         </div>
         <div class="pcard rv" data-ptype="tool">
@@ -690,44 +692,49 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
             <a href="udyama.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </div>
         </div>
-      </div>
-    </div><!-- end pgrid-wrap -->
+      </div></div></div><!-- end pgrid-wrap -->
   </div>
 </section>
 <section id="research">
   <div class="sw">
     <div class="sh rv"><span class="sn">05</span><span class="st">Research, Papers & Write-Ups</span><div class="sl"></div></div>
-    <div class="res-grid-wrap"><div class="res-grid">
-      <div class="rcard rv" data-d="1" onclick="window.open('VAR-University%20of%20calicut.pdf','_blank')" style="cursor:pointer">
+    <div class="fn-filter-bar rv" style="margin-bottom:1.5rem">
+      <div class="fn-chips">
+        <button class="fn-chip active" onclick="sortResearch('newest',this)">Newest</button>
+        <button class="fn-chip" onclick="sortResearch('oldest',this)">Oldest</button>
+      </div>
+    </div>
+    <div class="res-grid-wrap"><div class="res-grid" id="resGrid">
+      <div class="rcard rv" data-d="1" onclick="window.open('VAR-University%20of%20calicut.pdf','_blank')" style="cursor:pointer" data-date="2025-01-01">
         <div class="rbadge rb-d">📑 Security Report</div>
         <div class="rtitle">Calicut University Vulnerability Assessment Report</div>
         <div class="rdesc">A professional vulnerability assessment of the Calicut University web platform — identifying security weaknesses, risk ratings, and remediation recommendations.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to open PDF</div>
       </div>
-      <div class="rcard rv" data-d="2" onclick="window.location.href='terminalchat.html'" style="cursor:pointer">
+      <div class="rcard rv" data-d="2" onclick="window.location.href='terminalchat.html'" style="cursor:pointer" data-date="2025-03-01">
         <div class="rbadge rb-p">📄 Project Writeup</div>
         <div class="rtitle">TerminalChat — Technical Writeup</div>
         <div class="rdesc">Deep-dive into building an anonymous real-time terminal chat application — architecture, tech stack, challenges, and how SSE-based messaging works across platforms.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to read</div>
       </div>
 
-      <div class="rcard rv" data-d="2" onclick="window.location.href='udyama.html'" style="cursor:pointer">
+      <div class="rcard rv" data-d="2" onclick="window.location.href='udyama.html'" style="cursor:pointer" data-date="2026-02-01">
         <div class="rbadge rb-w">🚩 CTF Writeup</div>
         <div class="rtitle">Udyama (उद्यम) — CTF Machine Writeup</div>
         <div class="rdesc">Full writeup for the Udyama CTF VM — Linux privilege escalation path, persistence techniques, and solution walkthrough.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to read</div>
       </div>
-      <div class="rcard rv" data-d="3">
-        <div class="rbadge rb-v">▶ Video Walkthrough</div>
-        <div class="rtitle">Lab & CTF Walkthroughs</div>
-        <div class="rdesc">Recorded hands-on lab walkthroughs and CTF solutions with detailed explanations for the cybersecurity community.</div>
-        <div class="rsoon">// COMING SOON</div>
+      <div class="rcard rv" data-d="3" onclick="window.location.href='instagrep.html'" style="cursor:pointer" data-date="2024-12-01">
+        <div class="rbadge rb-p">📄 Project Writeup</div>
+        <div class="rtitle">InstaGrep — Technical Writeup</div>
+        <div class="rdesc">Deep-dive into building a professional Instagram OSINT tool — architecture, GUI design, data analysis, and ethical constraints.</div>
+        <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to read</div>
       </div>
-      <div class="rcard rv" data-d="1">
-        <div class="rbadge rb-d">📑 PDF Write-Up</div>
-        <div class="rtitle">Penetration Test Reports</div>
-        <div class="rdesc">Detailed OWASP-style pentest reports from home lab environments — findings, impact analysis, and remediation steps.</div>
-        <div class="rsoon">// COMING SOON</div>
+      <div class="rcard rv" data-d="1" onclick="window.location.href='reconframe.html'" style="cursor:pointer" data-date="2024-11-01">
+        <div class="rbadge rb-p">📄 Project Writeup</div>
+        <div class="rtitle">ReconFrame — Technical Writeup</div>
+        <div class="rdesc">How I built a professional terminal reconnaissance framework — 12 integrated tools, cinematic UI, smart target detection.</div>
+        <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">→ Click to read</div>
       </div>
       <div class="rcard rv" data-d="2">
         <div class="rbadge rb-v">▶ Video Series</div>
@@ -832,6 +839,43 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     <div class="tl-wrap rv" data-d="1">
       <div class="tl-line"></div>
       <div class="tl-posts-wrap"><div class="tl-posts" id="tlPosts">
+
+        <!-- ============================================================
+          HOW TO ADD A NEW FIELD NOTE — JUST COPY THE BLOCK BELOW
+          Replace: TITLE, BODY TEXT, FINDINGS, LINK, DATE, TAGS
+          DATE format: YYYY-MM-DD (for sort to work)
+          TAGS: comma-separated, must match filter chip names exactly
+          Available tags: Digital Forensics, Incident Response, OSINT,
+                          Splunk, CTF, Penetration Testing, Network Security
+        =================================================================
+
+        <div class="tl-post" data-tags="TAG1,TAG2" data-date="YYYY-MM-DD">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-card-header">
+              <div class="tl-avatar">JEC</div>
+              <div class="tl-meta">
+                <div class="tl-handle">@jishxec <span class="tl-type-badge">🔬 Challenge</span></div>
+                <div class="tl-time">Mon DD, YYYY</div>
+              </div>
+            </div>
+            <div class="tl-content">
+              <p class="tl-title">YOUR TITLE HERE</p>
+              <p class="tl-body">YOUR BODY TEXT HERE</p>
+              <div class="tl-findings">
+                <div class="tl-finding">Key: <span>Value</span></div>
+                <div class="tl-finding">Key: <span>Value</span></div>
+              </div>
+              <a href="YOUR_LINK" target="_blank" class="tl-link">→ Link text</a>
+            </div>
+            <div class="tl-tags-row">
+              <span class="tl-tag" onclick="filterByTag('TAG1',null)">TAG1</span>
+              <span class="tl-tag" onclick="filterByTag('TAG2',null)">TAG2</span>
+            </div>
+          </div>
+        </div>
+
+        ============================================================ -->
         <div class="tl-post" data-tags="Digital Forensics,OSINT,Incident Response" data-date="2025-02-24">
           <div class="tl-dot"></div>
           <div class="tl-card">
@@ -902,9 +946,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
       <div class="csub">Open to SOC Analyst · Cybersecurity Analyst · Penetration Tester roles</div>
     </div>
     <div class="cgrid rv" data-d="1">
-      <a href="mailto:jishnuwhoopofficial@gmail.com" class="ccrd">
+      <a href="/cdn-cgi/l/email-protection#f69c9f859e9883819e9999869990909f959f979ab6919b979f9ad895999b" class="ccrd">
         <div class="cico">@</div>
-        <div><div class="clbl">Email</div><div class="cval">jishnuwhoopofficial@gmail.com</div></div>
+        <div><div class="clbl">Email</div><div class="cval"><span class="__cf_email__" data-cfemail="a6cccfd5cec8d3d1cec9c9d6c9c0c0cfc5cfc7cae6c1cbc7cfca88c5c9cb">[email&#160;protected]</span></div></div>
       </a>
       <a href="tel:+917510572360" class="ccrd">
         <div class="cico">☏</div>
@@ -941,7 +985,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   <div class="sk-tip-desc" id="skTipDesc"></div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* SKILL DESCRIPTIONS */
 const skillInfo={
   'Nmap':'Network scanner for host discovery, port scanning, and service/OS detection.',
@@ -1082,6 +1126,20 @@ function closeLab(e){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('labModal').classList.remove('open');document.body.style.overflow=''}});
 
+/* RESEARCH SORT */
+function sortResearch(order, btn){
+  document.querySelectorAll('.fn-filter-bar .fn-chip').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const grid=document.getElementById('resGrid');
+  if(!grid) return;
+  const cards=[...grid.querySelectorAll('.rcard')];
+  cards.sort((a,b)=>{
+    const da=a.dataset.date||'2000-01-01', db=b.dataset.date||'2000-01-01';
+    return order==='newest'?db.localeCompare(da):da.localeCompare(db);
+  });
+  cards.forEach(c=>grid.appendChild(c));
+}
+
 /* PROJECT FILTER */
 function filterProjects(type, btn){
   document.querySelectorAll('.fn-chip').forEach(c=>c.classList.remove('active'));
@@ -1117,16 +1175,4 @@ function clearFilter(){filterByTag(null,document.querySelector('.fn-chip'));}
 function sortPosts(order){
   const container=document.getElementById('tlPosts');
   const posts=[...container.querySelectorAll('.tl-post')];
-  posts.sort((a,b)=>{
-    const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';
-    return order==='newest'?db.localeCompare(da):da.localeCompare(db);
-  });
-  posts.forEach(p=>container.appendChild(p));
-}
-/* SKILL DOUBLE-CLICK → FILTER */
-document.querySelectorAll('.sk').forEach(el=>{
-  el.addEventListener('dblclick',e=>{filterByTag(el.textContent.trim(),null);e.stopPropagation();});
-});
-</script>
-</body>
-</html>
+  posts.sort((a,b)

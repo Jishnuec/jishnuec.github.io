@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReconFrame — Unified Reconnaissance Framework</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #040408;
+  --surf:   #08080f;
+  --surf2:  #0d0d18;
+  --border: #181828;
+  --green:  #00ff41;
+  --cyan:   #00d4ff;
+  --yellow: #ffd700;
+  --red:    #ff3366;
+  --orange: #ff8c00;
+  --magenta:#ff00ff;
+  --blue:   #4488ff;
+  --dim:    #3a3a5a;
+  --sub:    #7777aa;
+  --fg:     #c8c8e8;
+  --white:  #eeeeff;
+  --mono:   'IBM Plex Mono', monospace;
+  --title:  'Orbitron', monospace;
+  --code:   'Share Tech Mono', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--fg); font-family:var(--mono); overflow-x:hidden; }
+
+/* Scanlines */
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,.008) 2px,rgba(0,255,65,.008) 4px);
+}
+
+/* Matrix canvas */
+#matrix { position:fixed; top:0; left:0; z-index:0; opacity:.06; pointer-events:none; }
+
+/* ── ASSEMBLY ANIMATION STAGE ── */
+/* ── ASSEMBLY OVERLAY ── */
+#assembly-stage {
+  position:fixed; inset:0; z-index:200;
+  opacity:0; pointer-events:none;
+  background:#040408;
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:flex-start;
+  overflow-y:auto; overflow-x:hidden;
+  padding:0;
+  transition:opacity .5s ease;
+}
+#assembly-stage.open { opacity:1; pointer-events:all; }
+
+/* Top bar */
+.asm-topbar {
+  width:100%; display:flex; align-items:center; justify-content:space-between;
+  padding:18px 32px;
+  background:rgba(4,4,8,.95);
+  border-bottom:1px solid rgba(0,255,65,.15);
+  position:sticky; top:0; z-index:10;
+  flex-shrink:0;
+}
+.asm-brand {
+  font-family:var(--title); font-size:14px; color:var(--green);
+  letter-spacing:.2em;
+}
+.asm-back-btn {
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--code); font-size:12px; color:var(--fg);
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-radius:8px; padding:10px 20px; cursor:pointer;
+  transition:all .2s; letter-spacing:.1em;
+}
+.asm-back-btn:hover { background:rgba(0,255,65,.1); border-color:rgba(0,255,65,.4); color:var(--green); }
+.asm-back-btn span { font-size:16px; }
+
+/* Hero area */
+.asm-hero {
+  width:100%; text-align:center;
+  padding:60px 24px 40px;
+  position:relative; overflow:hidden;
+  flex-shrink:0;
+}
+.asm-hero-glow {
+  position:absolute; top:-100px; left:50%; transform:translateX(-50%);
+  width:600px; height:400px; border-radius:50%;
+  background:radial-gradient(ellipse, rgba(0,255,65,.12) 0%, transparent 70%);
+  pointer-events:none;
+}
+.asm-title {
+  font-family:var(--title); font-size:clamp(32px,6vw,72px); font-weight:900;
+  color:var(--green); letter-spacing:.04em;
+  text-shadow:0 0 80px rgba(0,255,65,.6), 0 0 30px rgba(0,255,65,.4);
+  opacity:0; transform:translateY(24px);
+  transition:all .6s .1s;
+  line-height:1.1; margin-bottom:12px;
+}
+#assembly-stage.open .asm-title { opacity:1; transform:translateY(0); }
+.asm-subtitle {
+  font-family:var(--mono); font-size:clamp(13px,1.5vw,17px); color:var(--fg);
+  opacity:0; transition:all .5s .3s; max-width:560px; margin:0 auto 8px;
+  line-height:1.7;
+}
+#assembly-stage.open .asm-subtitle { opacity:1; }
+.asm-sub2 {
+  font-family:var(--code); font-size:12px; color:var(--sub);
+  opacity:0; transition:all .5s .45s; letter-spacing:.1em;
+  text-transform:uppercase;
+}
+#assembly-stage.open .asm-sub2 { opacity:1; }
+
+/* Stats row */
+.asm-stats {
+  display:flex; gap:0; flex-wrap:wrap; justify-content:center;
+  border:1px solid rgba(0,255,65,.15); border-radius:12px; overflow:hidden;
+  max-width:700px; margin:32px auto;
+  opacity:0; transform:translateY(12px); transition:all .5s .5s;
+}
+#assembly-stage.open .asm-stats { opacity:1; transform:translateY(0); }
+.asm-stat {
+  flex:1; min-width:120px; padding:20px 16px; text-align:center;
+  border-right:1px solid rgba(0,255,65,.1);
+  background:rgba(0,255,65,.04);
+}
+.asm-stat:last-child { border-right:none; }
+.asm-stat-val {
+  font-family:var(--title); font-size:28px; font-weight:900;
+  color:var(--green); line-height:1; margin-bottom:6px;
+}
+.asm-stat-lbl {
+  font-family:var(--code); font-size:10px; color:var(--sub);
+  letter-spacing:.12em; text-transform:uppercase;
+}
+
+/* Tool pieces grid */
+.asm-section-label {
+  font-family:var(--code); font-size:10px; color:var(--dim);
+  letter-spacing:.2em; text-transform:uppercase; text-align:center;
+  margin-bottom:16px;
+  opacity:0; transition:opacity .4s .6s;
+}
+#assembly-stage.open .asm-section-label { opacity:1; }
+
+.asm-grid {
+  display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+  max-width:900px; margin:0 auto; padding:0 20px;
+}
+.asm-piece {
+  background:rgba(0,255,65,.08); border:1px solid rgba(0,255,65,.25);
+  border-radius:8px; padding:10px 18px;
+  font-family:var(--code); font-size:13px; color:var(--green); font-weight:500;
+  opacity:0; transform:translate(var(--tx,0px), var(--ty,0px)) scale(0.5) rotate(var(--tr,0deg));
+  transition:opacity .45s ease, transform .55s cubic-bezier(.34,1.4,.64,1);
+  white-space:nowrap;
+  box-shadow:0 0 0 0 rgba(0,255,65,0);
+  transition: opacity .45s ease,
+              transform .55s cubic-bezier(.34,1.4,.64,1),
+              box-shadow .3s;
+}
+.asm-piece.landed {
+  opacity:1;
+  transform:translate(0,0) scale(1) rotate(0deg);
+  box-shadow:0 0 12px rgba(0,255,65,.12);
+}
+.asm-piece:hover {
+  background:rgba(0,255,65,.16); border-color:rgba(0,255,65,.5);
+  box-shadow:0 0 20px rgba(0,255,65,.2);
+  transform:scale(1.05) !important;
+}
+
+/* Category dividers */
+.asm-cat-label {
+  width:100%; text-align:center;
+  font-family:var(--code); font-size:10px; color:var(--dim);
+  letter-spacing:.2em; text-transform:uppercase;
+  padding:16px 0 8px; opacity:0;
+  transition:opacity .3s;
+}
+.asm-cat-label.vis { opacity:1; }
+.asm-cat-line {
+  display:flex; align-items:center; gap:12px; width:100%; margin:4px 0;
+  opacity:0; transition:opacity .3s;
+}
+.asm-cat-line.vis { opacity:1; }
+.asm-cat-line span { font-family:var(--code); font-size:9px; color:rgba(0,255,65,.4); letter-spacing:.15em; white-space:nowrap; }
+.asm-cat-line::before, .asm-cat-line::after { content:''; flex:1; height:1px; background:rgba(0,255,65,.1); }
+
+/* Download section */
+.asm-download {
+  width:100%; max-width:800px; margin:40px auto 0;
+  padding:0 20px 60px;
+  opacity:0; transform:translateY(20px);
+  transition:all .5s 1.2s;
+}
+#assembly-stage.open .asm-download { opacity:1; transform:translateY(0); }
+
+.asm-download-box {
+  background:rgba(0,255,65,.05); border:1px solid rgba(0,255,65,.2);
+  border-radius:16px; padding:36px; text-align:center;
+}
+.asm-download-title {
+  font-family:var(--title); font-size:20px; font-weight:700;
+  color:var(--white); margin-bottom:8px; letter-spacing:.02em;
+}
+.asm-download-sub {
+  font-family:var(--mono); font-size:13px; color:var(--fg);
+  margin-bottom:28px; line-height:1.7;
+}
+.asm-btns {
+  display:flex; gap:12px; flex-wrap:wrap; justify-content:center;
+  margin-bottom:20px;
+}
+.asm-btn {
+  font-family:var(--code); font-size:13px; padding:14px 28px;
+  border-radius:8px; text-decoration:none; transition:all .25s;
+  display:inline-flex; align-items:center; gap:10px; white-space:nowrap;
+}
+.asm-btn-primary {
+  background:var(--green); color:#020408; font-weight:700;
+  box-shadow:0 4px 20px rgba(0,255,65,.25);
+}
+.asm-btn-primary:hover { background:#33ff66; transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,255,65,.4); }
+.asm-btn-secondary {
+  background:transparent; color:var(--green); border:1px solid rgba(0,255,65,.35);
+}
+.asm-btn-secondary:hover { border-color:var(--green); background:rgba(0,255,65,.08); transform:translateY(-3px); }
+.asm-btn-ghost {
+  background:transparent; color:var(--sub); border:1px solid rgba(255,255,255,.1);
+}
+.asm-btn-ghost:hover { border-color:rgba(255,255,255,.25); color:var(--white); }
+
+.asm-meta {
+  font-family:var(--code); font-size:11px; color:var(--dim);
+  letter-spacing:.08em;
+}
+
+/* Deassemble button */
+.asm-deasm-btn {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  margin:24px auto 0; padding:12px 28px;
+  font-family:var(--code); font-size:12px; color:var(--sub);
+  background:transparent; border:1px solid rgba(255,255,255,.08);
+  border-radius:8px; cursor:pointer; transition:all .2s;
+  letter-spacing:.12em; text-transform:uppercase;
+  width:fit-content;
+}
+.asm-deasm-btn:hover { border-color:rgba(255,51,51,.4); color:var(--red); }
+
+/* Mobile tweaks */
+@media(max-width:600px) {
+  .asm-topbar { padding:14px 16px; }
+  .asm-hero { padding:40px 16px 28px; }
+  .asm-stats { margin:20px 16px; }
+  .asm-stat { min-width:90px; padding:16px 10px; }
+  .asm-stat-val { font-size:22px; }
+  .asm-grid { gap:8px; padding:0 12px; }
+  .asm-piece { font-size:11px; padding:8px 12px; }
+  .asm-download { padding:0 12px 40px; }
+  .asm-download-box { padding:24px 16px; }
+  .asm-btn { font-size:12px; padding:12px 18px; }
+  .asm-back-btn { font-size:11px; padding:8px 14px; }
+}
+@media(max-width:400px) {
+  .asm-btns { flex-direction:column; align-items:center; }
+  .asm-btn { width:100%; justify-content:center; }
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:14px 60px;
+  background:rgba(4,4,8,.93); backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,255,65,.1);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-brand { font-family:var(--title); font-size:14px; color:var(--green); letter-spacing:.15em; }
+.nav-links { display:flex; gap:28px; }
+.nav-links a { font-family:var(--code); font-size:11px; color:var(--fg); text-decoration:none; letter-spacing:.12em; text-transform:uppercase; transition:color .2s; }
+.nav-links a:hover { color:var(--green); }
+.nav-cta {
+  font-family:var(--code); font-size:11px; padding:8px 20px;
+  background:rgba(0,255,65,.1); border:1px solid rgba(0,255,65,.3);
+  border-radius:6px; color:var(--green); text-decoration:none;
+  transition:all .2s;
+}
+.nav-cta:hover { background:rgba(0,255,65,.18); }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh; padding:130px 80px 100px;
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.hero-bg-text {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-family:var(--title); font-size:clamp(80px,15vw,220px); font-weight:900;
+  color:transparent; -webkit-text-stroke:1px rgba(0,255,65,.05);
+  white-space:nowrap; pointer-events:none; user-select:none;
+  letter-spacing:.05em;
+}
+.hero-glow { position:absolute; top:0; right:-100px; width:600px; height:600px; border-radius:50%; background:radial-gradient(circle, rgba(0,255,65,.05) 0%, transparent 65%); pointer-events:none; }
+.hero-glow2 { position:absolute; bottom:-100px; left:-100px; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle, rgba(0,212,255,.04) 0%, transparent 65%); pointer-events:none; }
+
+.hero-tag { font-family:var(--code); font-size:11px; color:var(--green); letter-spacing:.2em; text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:12px; opacity:0; animation:fadeUp .5s .1s forwards; }
+.hero-tag::before { content:''; width:36px; height:1px; background:var(--green); }
+
+.hero-h1 { font-family:var(--title); font-size:clamp(52px,8vw,112px); font-weight:900; line-height:.9; letter-spacing:-.02em; margin-bottom:20px; opacity:0; animation:fadeUp .6s .2s forwards; }
+.hero-h1 .g { color:var(--green); }
+.hero-h1 .dim { color:rgba(255,255,255,.15); }
+
+.hero-tagline { font-family:var(--mono); font-size:clamp(14px,1.5vw,20px); color:var(--white); line-height:1.7; max-width:600px; margin-bottom:40px; opacity:0; animation:fadeUp .6s .3s forwards; }
+.hero-tagline strong { color:var(--green); }
+
+.hero-stats { display:flex; gap:32px; flex-wrap:wrap; margin-bottom:48px; opacity:0; animation:fadeUp .6s .4s forwards; }
+.stat { display:flex; flex-direction:column; gap:4px; }
+.stat-val { font-family:var(--title); font-size:28px; font-weight:900; color:var(--green); line-height:1; }
+.stat-lbl { font-family:var(--code); font-size:11px; color:var(--fg); letter-spacing:.15em; text-transform:uppercase; }
+
+.hero-btns { display:flex; gap:14px; flex-wrap:wrap; opacity:0; animation:fadeUp .6s .5s forwards; }
+.btn-hero-primary { font-family:var(--code); font-size:13px; padding:14px 28px; background:var(--green); color:#020408; border-radius:8px; text-decoration:none; font-weight:700; transition:all .2s; }
+.btn-hero-primary:hover { background:#33ff66; transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,255,65,.3); }
+.btn-hero-secondary { font-family:var(--code); font-size:13px; padding:14px 28px; background:transparent; color:var(--fg); border:1px solid var(--border); border-radius:8px; text-decoration:none; transition:all .2s; }
+.btn-hero-secondary:hover { border-color:rgba(0,255,65,.4); color:var(--green); }
+
+/* Terminal mockup */
+.hero-terminal {
+  position:absolute; right:80px; top:50%; transform:translateY(-50%);
+  width:420px; background:var(--surf); border:1px solid var(--border);
+  border-radius:12px; overflow:hidden;
+  box-shadow:0 48px 100px rgba(0,0,0,.7), 0 0 0 1px rgba(0,255,65,.04);
+  opacity:0; animation:slideLeft .8s .6s forwards;
+}
+.term-bar { background:#0a0a14; padding:12px 16px; display:flex; align-items:center; gap:7px; border-bottom:1px solid var(--border); }
+.dot { width:10px; height:10px; border-radius:50%; }
+.dot.r { background:#ff5f57; } .dot.y { background:#ffbd2e; } .dot.g { background:#28c840; }
+.term-label { font-family:var(--code); font-size:10px; color:var(--dim); margin-left:8px; }
+.term-body { padding:20px; font-family:var(--code); font-size:11.5px; line-height:2; }
+.tc { color:var(--fg); } .tg { color:var(--green); } .ty { color:var(--yellow); }
+.tc2 { color:var(--cyan); } .tm { color:var(--magenta); } .ts { color:var(--sub); }
+.tblink { animation:blink 1s step-end infinite; }
+
+/* ── DIVIDER ── */
+.divider { height:1px; background:linear-gradient(90deg,transparent,rgba(0,255,65,.15),transparent); margin:0 80px; }
+
+/* ── SECTION BASE ── */
+.section { padding:110px 80px; position:relative; z-index:1; }
+.sec-num { font-family:var(--code); font-size:10px; color:var(--green); letter-spacing:.2em; text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:10px; }
+.sec-num::before { content:''; width:24px; height:1px; background:var(--green); }
+.sec-h2 { font-family:var(--title); font-size:clamp(28px,3.5vw,52px); font-weight:900; letter-spacing:-.02em; line-height:1.05; margin-bottom:16px; color:var(--white); }
+.sec-h2 em { font-style:normal; color:var(--green); }
+.sec-lead { font-family:var(--mono); font-size:15px; color:var(--white); line-height:1.9; max-width:680px; margin-bottom:60px; }
+
+/* ── TOOLS GRID ── */
+.tools-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.tool-card {
+  background:var(--surf); border:1px solid var(--border); border-radius:10px;
+  padding:22px 20px; transition:all .3s; position:relative; overflow:hidden;
+}
+.tool-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--tc,var(--green)),transparent);
+  opacity:0; transition:opacity .3s;
+}
+.tool-card:hover { border-color:rgba(0,255,65,.2); transform:translateY(-3px); }
+.tool-card:hover::before { opacity:1; }
+.tool-name { font-family:var(--title); font-size:14px; font-weight:700; color:var(--yellow); margin-bottom:6px; }
+.tool-cat { font-family:var(--code); font-size:9px; letter-spacing:.15em; text-transform:uppercase; margin-bottom:10px; padding:2px 8px; border-radius:99px; display:inline-block; }
+.cat-network { background:rgba(0,212,255,.1); color:var(--cyan); border:1px solid rgba(0,212,255,.2); }
+.cat-web     { background:rgba(255,140,0,.1);  color:var(--orange); border:1px solid rgba(255,140,0,.2); }
+.cat-dns     { background:rgba(0,255,65,.1);  color:var(--green); border:1px solid rgba(0,255,65,.2); }
+.cat-osint   { background:rgba(203,166,247,.1); color:#cba6f7; border:1px solid rgba(203,166,247,.2); }
+.tool-desc { font-family:var(--mono); font-size:12px; color:var(--fg); line-height:1.7; }
+
+/* ── FEATURES ── */
+.feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.feat-card { background:var(--surf); border:1px solid var(--border); border-radius:12px; padding:32px; transition:all .3s; }
+.feat-card:hover { border-color:rgba(0,255,65,.2); transform:translateY(-3px); background:var(--surf2); }
+.feat-ic { font-size:28px; margin-bottom:16px; display:block; }
+.feat-name { font-family:var(--title); font-size:15px; font-weight:700; color:var(--green); margin-bottom:10px; }
+.feat-desc { font-family:var(--mono); font-size:13px; color:var(--white); line-height:1.8; }
+
+/* ── ARCHITECTURE ── */
+.arch-list { display:flex; flex-direction:column; gap:2px; background:var(--border); border-radius:14px; overflow:hidden; border:1px solid var(--border); }
+.arch-item { background:var(--surf); padding:28px 36px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:start; transition:background .3s; }
+.arch-item:hover { background:var(--surf2); }
+.arch-n { font-family:var(--code); font-size:11px; color:var(--cyan); letter-spacing:.15em; text-transform:uppercase; padding-top:3px; }
+.arch-title { font-family:var(--title); font-size:15px; font-weight:700; color:var(--yellow); margin-bottom:8px; }
+.arch-desc { font-family:var(--mono); font-size:13px; color:var(--white); line-height:1.8; }
+
+/* ── COMMAND TABLE ── */
+.cmd-table { width:100%; border-collapse:collapse; background:var(--surf); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+.cmd-table th { background:rgba(0,255,65,.07); padding:14px 24px; font-family:var(--code); font-size:10px; color:var(--green); letter-spacing:.15em; text-transform:uppercase; text-align:left; border-bottom:1px solid var(--border); }
+.cmd-table td { padding:16px 24px; font-family:var(--code); font-size:13px; color:var(--white); border-bottom:1px solid rgba(255,255,255,.04); }
+.cmd-table tr:last-child td { border-bottom:none; }
+.cmd-table tr:hover td { background:rgba(0,255,65,.03); }
+.cmd-cmd { color:var(--green); font-weight:500; }
+.cmd-desc { color:var(--white); }
+
+/* ── TIMELINE ── */
+.tl { position:relative; padding-left:44px; }
+.tl::before { content:''; position:absolute; left:10px; top:10px; bottom:10px; width:1px; background:linear-gradient(to bottom, var(--green), var(--cyan), var(--magenta), var(--border)); }
+.tl-item { position:relative; margin-bottom:48px; }
+.tl-dot { position:absolute; left:-38px; top:6px; width:14px; height:14px; border-radius:50%; background:var(--bg); border:2px solid var(--green); transition:all .3s; }
+.tl-item:hover .tl-dot { background:var(--green); box-shadow:0 0 14px rgba(0,255,65,.5); }
+.tl-phase { font-family:var(--code); font-size:11px; color:var(--cyan); letter-spacing:.15em; text-transform:uppercase; margin-bottom:6px; }
+.tl-title { font-family:var(--title); font-size:19px; font-weight:700; color:var(--white); margin-bottom:10px; }
+.tl-body { font-family:var(--mono); font-size:13px; color:var(--white); line-height:1.85; max-width:660px; }
+
+/* ── PROBLEMS ── */
+.prob-list { display:flex; flex-direction:column; gap:2px; background:var(--border); border-radius:14px; overflow:hidden; border:1px solid var(--border); }
+.prob-item { background:var(--surf); padding:32px 40px; display:grid; grid-template-columns:1fr 1fr; gap:40px; transition:background .3s; }
+.prob-item:hover { background:var(--surf2); }
+.prob-n { font-family:var(--code); font-size:28px; font-weight:700; color:rgba(0,255,65,.2); margin-bottom:8px; line-height:1; }
+.prob-q h4 { font-family:var(--title); font-size:15px; font-weight:700; color:var(--red); margin-bottom:8px; }
+.prob-q p { font-family:var(--mono); font-size:13px; color:var(--white); line-height:1.8; }
+.prob-a h4 { font-family:var(--code); font-size:11px; color:var(--green); letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px; }
+.prob-a p { font-family:var(--mono); font-size:13px; color:var(--white); line-height:1.8; }
+.prob-a code { color:var(--cyan); background:rgba(0,212,255,.08); padding:1px 6px; border-radius:3px; font-size:12px; }
+
+/* ── CODE BLOCK ── */
+.code-wrap { background:#020206; border:1px solid rgba(0,255,65,.12); border-radius:10px; overflow:hidden; margin:16px 0; }
+.code-bar { background:rgba(0,255,65,.05); padding:8px 16px; display:flex; align-items:center; gap:8px; border-bottom:1px solid rgba(0,255,65,.08); }
+.cbdot { width:8px; height:8px; border-radius:50%; }
+.cbdot.r { background:#ff5f57; } .cbdot.y { background:#ffbd2e; } .cbdot.g { background:#28c840; }
+.cblabel { font-family:var(--code); font-size:10px; color:var(--dim); margin-left:4px; }
+pre { padding:22px; font-family:var(--code); font-size:13px; color:var(--white); line-height:1.9; overflow-x:auto; white-space:pre; }
+.cc { color:var(--cyan); } .cg { color:var(--green); } .cy { color:var(--yellow); }
+.co { color:var(--fg); } .cm { color:var(--magenta); } .cr { color:var(--red); }
+
+/* ── SPECS TABLE ── */
+.specs-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--border); border-radius:12px; overflow:hidden; border:1px solid var(--border); }
+.spec-cell { background:var(--surf); padding:20px 28px; display:flex; gap:20px; align-items:start; }
+.spec-key { font-family:var(--code); font-size:12px; color:var(--cyan); letter-spacing:.1em; text-transform:uppercase; white-space:nowrap; width:140px; flex-shrink:0; padding-top:2px; }
+.spec-val { font-family:var(--code); font-size:13px; color:var(--green); }
+
+/* ── SCROLL PROGRESS ── */
+#scroll-progress {
+  position:fixed; top:0; left:0; height:2px; z-index:200;
+  background:linear-gradient(90deg, var(--green), var(--cyan));
+  width:0%; transition:width .1s;
+}
+
+/* ── TOOL ANIMATION (scroll-triggered nmap-style) ── */
+.tool-anim-wrap {
+  background:var(--surf); border:1px solid var(--border); border-radius:12px; overflow:hidden;
+  margin-bottom:40px;
+}
+.tool-anim-bar { background:#0a0a14; padding:10px 16px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
+.tool-anim-body { padding:24px; font-family:var(--code); font-size:12px; line-height:1.9; min-height:200px; }
+.scan-line { opacity:0; transform:translateX(-8px); transition:opacity .3s, transform .3s; color:var(--white); }
+.scan-line.show { opacity:1; transform:translateX(0); }
+
+/* ── REVEAL ── */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity .65s, transform .65s; }
+.reveal.vis { opacity:1; transform:translateY(0); }
+
+/* ── SCROLL CTA ── */
+.scroll-cta {
+  position:fixed; bottom:40px; right:40px; z-index:150;
+  background:rgba(0,255,65,.12); border:1px solid rgba(0,255,65,.3);
+  border-radius:10px; padding:14px 20px;
+  font-family:var(--code); font-size:11px; color:var(--green);
+  cursor:pointer; transition:all .3s; letter-spacing:.1em;
+  opacity:0; pointer-events:none;
+}
+.scroll-cta.show { opacity:1; pointer-events:all; }
+.scroll-cta:hover { background:rgba(0,255,65,.2); transform:translateY(-2px); }
+.scroll-cta .pulse { display:inline-block; animation:pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+
+/* ── FOOTER ── */
+footer { padding:60px 80px; border-top:1px solid var(--border); text-align:center; position:relative; z-index:1; }
+.footer-brand { font-family:var(--title); font-size:20px; color:var(--green); margin-bottom:8px; letter-spacing:.1em; }
+.footer-sub { font-family:var(--code); font-size:11px; color:var(--sub); margin-bottom:24px; }
+.footer-links { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
+.footer-links a { font-family:var(--code); font-size:12px; color:var(--fg); text-decoration:none; transition:color .2s; }
+.footer-links a:hover { color:var(--green); }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+@keyframes slideLeft { from{opacity:0;transform:translate(32px,-50%)}to{opacity:1;transform:translate(0,-50%)} }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1200px) {
+  .hero-terminal { display:none; }
+  nav, .section, .hero, footer { padding-left:40px; padding-right:40px; }
+  .divider { margin:0 40px; }
+  .tools-grid { grid-template-columns:repeat(3,1fr); }
+}
+@media(max-width:900px) {
+  nav { padding:14px 24px; } .nav-links { display:none; }
+  .hero, .section, footer { padding:80px 24px; }
+  .hero { padding-top:110px; }
+  .divider { margin:0 24px; }
+  .tools-grid { grid-template-columns:repeat(2,1fr); }
+  .feat-grid { grid-template-columns:1fr; }
+  .prob-item { grid-template-columns:1fr; gap:16px; }
+  .specs-grid { grid-template-columns:1fr; }
+  .arch-item { grid-template-columns:1fr; gap:8px; }
+  .scroll-cta { right:16px; bottom:16px; }
+  .asm-btn { font-size:12px; padding:12px 20px; }
+}
+@media(max-width:600px) {
+  .tools-grid { grid-template-columns:1fr; }
+  .hero-stats { gap:20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+<canvas id="matrix"></canvas>
+
+<!-- ── ASSEMBLY STAGE (appears when fully scrolled) ── -->
+<div id="assembly-stage">
+
+  <!-- Top bar with back button -->
+  <div class="asm-topbar">
+    <div class="asm-brand">◈ RECONFRAME</div>
+    <button class="asm-back-btn" onclick="closeAssembly()">
+      <span>←</span> Back to page
+    </button>
+  </div>
+
+  <!-- Hero -->
+  <div class="asm-hero">
+    <div class="asm-hero-glow"></div>
+    <div class="asm-title">FULLY ASSEMBLED</div>
+    <div class="asm-subtitle">All 12 tools unified under one interface. Zero dependencies. Single Python file.</div>
+    <div class="asm-sub2">ReconFrame v3.0.0 · MIT License · Open Source</div>
+
+    <div class="asm-stats">
+      <div class="asm-stat"><div class="asm-stat-val">12</div><div class="asm-stat-lbl">Tools</div></div>
+      <div class="asm-stat"><div class="asm-stat-val">0</div><div class="asm-stat-lbl">Dependencies</div></div>
+      <div class="asm-stat"><div class="asm-stat-val">100</div><div class="asm-stat-lbl">Max Threads</div></div>
+      <div class="asm-stat"><div class="asm-stat-val">12K</div><div class="asm-stat-lbl">Lines of Code</div></div>
+    </div>
+  </div>
+
+  <!-- Animated pieces grid -->
+  <div class="asm-section-label">Components assembling...</div>
+  <div class="asm-grid" id="asm-grid"></div>
+
+  <!-- Download section -->
+  <div class="asm-download">
+    <div class="asm-download-box">
+      <div class="asm-download-title">Ready to Deploy</div>
+      <div class="asm-download-sub">Clone, chmod +x, run. No pip install. No virtual environment.<br>Works on Kali, Ubuntu, Debian, and any Linux system.</div>
+      <div class="asm-btns">
+        <a href="https://github.com/Jishnuec/reconframe" class="asm-btn asm-btn-primary" target="_blank">⬡ GitHub Repository</a>
+        <a href="https://github.com/Jishnuec/reconframe/blob/main/reconframe.py" class="asm-btn asm-btn-secondary" target="_blank">⌗ View Source</a>
+        <a href="https://github.com/Jishnuec/reconframe/archive/refs/heads/main.zip" class="asm-btn asm-btn-ghost" target="_blank">↓ Download ZIP</a>
+      </div>
+      <div class="asm-meta">MIT License · Python 3.6+ · Kali · Ubuntu · Debian</div>
+    </div>
+
+    <button class="asm-deasm-btn" onclick="closeAssembly()">
+      ⟲ Deassemble — Return to page
+    </button>
+  </div>
+
+</div>
+
+<!-- ── SCROLL CTA ── -->
+<div class="scroll-cta" id="scrollCta" onclick="openAssembly()">
+  <span class="pulse">◈</span> ASSEMBLE
+</div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-brand">RECONFRAME</div>
+  <div class="nav-links">
+    <a href="#tools">Tools</a>
+    <a href="#features">Features</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#usage">Usage</a>
+    <a href="#journey">Journey</a>
+  </div>
+  <a href="https://github.com/Jishnuec/reconframe" class="nav-cta" target="_blank">⬡ GitHub</a>
+</nav>
+
+<!-- ── HERO ── */
+<section class="hero" id="top">
+  <div class="hero-bg-text">RECON</div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div style="position:relative;z-index:2">
+    <div class="hero-tag">Reconnaissance Framework · v3.0.0 · Open Source</div>
+    <h1 class="hero-h1">RECON<br><span class="g">FRAME</span></h1>
+    <p class="hero-tagline">
+      A professional-grade reconnaissance framework that unifies <strong>12 security tools</strong> under one intelligent interface. No more switching terminals. No more memorizing flags. Point it at a target — it handles everything.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-val">12</div><div class="stat-lbl">Integrated Tools</div></div>
+      <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">External Dependencies</div></div>
+      <div class="stat"><div class="stat-val">100</div><div class="stat-lbl">Max Threads</div></div>
+      <div class="stat"><div class="stat-val">3.0</div><div class="stat-lbl">Version</div></div>
+    </div>
+    <div class="hero-btns">
+      <a href="https://github.com/Jishnuec/reconframe" class="btn-hero-primary" target="_blank">⬡ View on GitHub</a>
+      <a href="https://github.com/Jishnuec/reconframe/blob/main/reconframe.py" class="btn-hero-secondary" target="_blank">⌗ Read the Code</a>
+    </div>
+  </div>
+
+
+</section>
+
+<div class="divider"></div>
+
+<!-- ── TOOLS ── -->
+<section class="section" id="tools">
+  <div class="sec-num">01 — Tools</div>
+  <h2 class="sec-h2 reveal"><em>12 Tools</em>, One Interface</h2>
+  <p class="sec-lead reveal">Every tool runs with its full power. ReconFrame is an orchestration layer — it coordinates them intelligently, not a watered-down wrapper.</p>
+
+  <!-- Animated scan output -->
+  <div class="tool-anim-wrap reveal" id="scanAnim">
+    <div class="tool-anim-bar"><div class="cbdot r"></div><div class="cbdot y"></div><div class="cbdot g"></div><span class="cblabel">live scan output — example.com</span></div>
+    <div class="tool-anim-body" id="scanBody"></div>
+  </div>
+
+  <div class="tools-grid reveal">
+    <div class="tool-card" style="--tc:var(--cyan)"><div class="tool-name">nmap</div><span class="tool-cat cat-network">Network</span><div class="tool-desc">Port scanning, service detection, OS fingerprinting. The backbone of every recon operation.</div></div>
+    <div class="tool-card" style="--tc:var(--orange)"><div class="tool-name">gobuster</div><span class="tool-cat cat-web">Web</span><div class="tool-desc">Directory and DNS brute-force enumeration. Finds hidden paths and subdomains fast.</div></div>
+    <div class="tool-card" style="--tc:var(--orange)"><div class="tool-name">nikto</div><span class="tool-cat cat-web">Web</span><div class="tool-desc">Web server misconfiguration and vulnerability scanner. Catches what manual testing misses.</div></div>
+    <div class="tool-card" style="--tc:var(--orange)"><div class="tool-name">sqlmap</div><span class="tool-cat cat-web">Web</span><div class="tool-desc">Automated SQL injection detection and exploitation. Runs only when web ports are open.</div></div>
+    <div class="tool-card" style="--tc:#cba6f7"><div class="tool-name">whois</div><span class="tool-cat cat-osint">OSINT</span><div class="tool-desc">Domain registration and ownership lookup. Uncovers registrar, dates, and contact data.</div></div>
+    <div class="tool-card" style="--tc:var(--green)"><div class="tool-name">subfinder</div><span class="tool-cat cat-dns">DNS</span><div class="tool-desc">Passive subdomain enumeration from public sources. Fast and accurate surface mapping.</div></div>
+    <div class="tool-card" style="--tc:var(--green)"><div class="tool-name">dnsenum</div><span class="tool-cat cat-dns">DNS</span><div class="tool-desc">DNS zone transfer and brute-force enumeration. Exposes misconfigurations in DNS configs.</div></div>
+    <div class="tool-card" style="--tc:var(--green)"><div class="tool-name">dnsrecon</div><span class="tool-cat cat-dns">DNS</span><div class="tool-desc">DNS record enumeration and zone discovery. Maps the full DNS attack surface.</div></div>
+    <div class="tool-card" style="--tc:var(--green)"><div class="tool-name">amass</div><span class="tool-cat cat-dns">DNS</span><div class="tool-desc">In-depth attack surface mapping. The most thorough subdomain discovery engine available.</div></div>
+    <div class="tool-card" style="--tc:#cba6f7"><div class="tool-name">theHarvester</div><span class="tool-cat cat-osint">OSINT</span><div class="tool-desc">Email, domain, IP, and hostname harvesting from public sources. OSINT at scale.</div></div>
+    <div class="tool-card" style="--tc:var(--orange)"><div class="tool-name">wafw00f</div><span class="tool-cat cat-web">Web</span><div class="tool-desc">Web Application Firewall fingerprinting. Know what's protecting the target before you attack.</div></div>
+    <div class="tool-card" style="--tc:var(--cyan)"><div class="tool-name">sslyze</div><span class="tool-cat cat-network">Network</span><div class="tool-desc">SSL/TLS configuration and cipher analysis. Runs only when port 443 is open.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── FEATURES ── -->
+<section class="section" id="features">
+  <div class="sec-num">02 — Features</div>
+  <h2 class="sec-h2 reveal"><em>Built For</em> Real Work</h2>
+  <p class="sec-lead reveal">Every feature exists because running 12 tools manually wastes time. ReconFrame handles the coordination so you can focus on analysis.</p>
+  <div class="feat-grid reveal">
+    <div class="feat-card"><span class="feat-ic">🔍</span><div class="feat-name">Smart Target Validation</div><div class="feat-desc">Detects IP vs domain automatically. Probes ports 80, 443, 8080 before running web tools. Skips sslyze if port 443 is closed. Every skip comes with a clear explanation.</div></div>
+    <div class="feat-card"><span class="feat-ic">⚡</span><div class="feat-name">Parallel Execution</div><div class="feat-desc">ThreadPoolExecutor runs all tools simultaneously. Default 4 threads, configurable up to 100. A full scan that would take 40 minutes serially finishes in under 10.</div></div>
+    <div class="feat-card"><span class="feat-ic">📊</span><div class="feat-name">Live Progress Bar</div><div class="feat-desc">Updates in-place — no terminal flooding. Shows percentage complete, current tool, and elapsed time. Stays clean and readable the entire scan.</div></div>
+    <div class="feat-card"><span class="feat-ic">🎨</span><div class="feat-name">Color-Coded Results</div><div class="feat-desc">Green = open/success. Red = errors. Yellow = warnings. Cyan = headers. Results grouped by category: Open Ports, Directories, Subdomains, Vulnerabilities, SSL Issues, OSINT, WAF.</div></div>
+    <div class="feat-card"><span class="feat-ic">📄</span><div class="feat-name">Report Export</div><div class="feat-desc">Save all results to a plain text file with -o. ANSI color codes stripped automatically for clean reading and sharing with clients or teammates.</div></div>
+    <div class="feat-card"><span class="feat-ic">🔊</span><div class="feat-name">Verbose Mode</div><div class="feat-desc">-v shows the full raw output from every tool. Essential for deep analysis and debugging — see exactly what each tool found, nothing summarised away.</div></div>
+    <div class="feat-card"><span class="feat-ic">✅</span><div class="feat-name">Tool Availability Check</div><div class="feat-desc">On startup, checks if each of the 12 tools is installed. For anything missing, shows the exact install command. No silent failures mid-scan.</div></div>
+    <div class="feat-card"><span class="feat-ic">🎬</span><div class="feat-name">Cinematic Startup</div><div class="feat-desc">MSF-style matrix rain, glitch logo reveal, and module loading sequence. Skip it with --no-banner for pure speed. Because first impressions matter.</div></div>
+    <div class="feat-card"><span class="feat-ic">🧠</span><div class="feat-name">Zero Dependencies</div><div class="feat-desc">Single Python file. Only standard library. No pip install, no virtual environment, no requirements.txt. Clone it, chmod +x, run it.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── ARCHITECTURE ── -->
+<section class="section" id="architecture">
+  <div class="sec-num">03 — Architecture</div>
+  <h2 class="sec-h2 reveal">How It's <em>Built</em></h2>
+  <p class="sec-lead reveal">A single Python file with 10 distinct components. Each one has a clear responsibility. Nothing bleeds into anything else.</p>
+  <div class="arch-list reveal">
+    <div class="arch-item"><div class="arch-n">Color Management</div><div><div class="arch-title">ANSI Color Engine</div><div class="arch-desc">All terminal colors defined as constants. Green, red, yellow, cyan, blue, magenta, white, gray. Every output goes through this layer — consistent coloring across the entire tool.</div></div></div>
+    <div class="arch-item"><div class="arch-n">Box-Drawing Engine</div><div><div class="arch-title">Unicode Box Renderer</div><div class="arch-desc">Custom functions: top(), bot(), mid(), row(), ruled(), center(). Uses Unicode box-drawing characters (╔ ╗ ╚ ╝ ║ ═ ╠ ╣) to build the professional terminal UI panels.</div></div></div>
+    <div class="arch-item"><div class="arch-n">Config Manager</div><div><div class="arch-title">Persistent JSON Config</div><div class="arch-desc">Stores user data in /etc/reconframe/config.json or ~/.reconframe.json. Tracks total scans performed. JSON format — human-readable, easy to inspect and modify.</div></div></div>
+    <div class="arch-item"><div class="arch-n">Tool Registry</div><div><div class="arch-title">12-Tool Manifest</div><div class="arch-desc">Each tool defined as an object: id, name, description, category, binary name, risk level, install hint. The registry is the single source of truth for tool metadata throughout the codebase.</div></div></div>
+    <div class="arch-item"><div class="arch-n">ScanContext</div><div><div class="arch-title">Smart Validation Layer</div><div class="arch-desc">Detects IP vs domain. Probes open ports before running web tools. Skips inappropriate tools with clear reasons. Handles the "enter domain for DNS tools" prompt when an IP is given.</div></div></div>
+    <div class="arch-item"><div class="arch-n">Tool Runners</div><div><div class="arch-title">12 Dedicated Run Functions</div><div class="arch-desc">run_nmap(), run_gobuster(), etc. Each one: checks if the binary is installed, builds the command, runs it with a timeout, returns status and output. Isolated — changing one never breaks another.</div></div></div>
+    <div class="arch-item"><div class="arch-n">ScanEngine</div><div><div class="arch-title">Parallel Execution Core</div><div class="arch-desc">ThreadPoolExecutor manages concurrent tool execution. Live progress bar updates in-place using cursor control sequences. Graceful Ctrl+C handling — kills all threads cleanly without leaving zombie processes.</div></div></div>
+    <div class="arch-item"><div class="arch-n">Results Renderer</div><div><div class="arch-title">Output Grouping & Formatting</div><div class="arch-desc">Groups findings by category: Open Ports, Directories, Subdomains, Vulnerabilities, SSL Issues, OSINT, WAF. Color-coded by severity. Verbose mode shows full raw output. File export strips ANSI codes.</div></div></div>
+    <div class="arch-item"><div class="arch-n">User Interface</div><div><div class="arch-title">Checkbox-Style TUI</div><div class="arch-desc">Main menu with options. Checkbox tool selection — pick exactly what runs. Target input with examples. Legal disclaimer before scan. All navigation via keyboard numbers and letters.</div></div></div>
+    <div class="arch-item"><div class="arch-n">Startup Animation</div><div><div class="arch-title">Cinematic Intro Engine</div><div class="arch-desc">Matrix-style green character rain. Glitch effect on the ReconFrame logo reveal. Module loading sequence with fake percentage bars. Skip entirely with --no-banner for zero overhead.</div></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── USAGE ── -->
+<section class="section" id="usage">
+  <div class="sec-num">04 — Usage</div>
+  <h2 class="sec-h2 reveal"><em>Command</em> Reference</h2>
+
+  <div class="code-wrap reveal" style="margin-bottom:32px">
+    <div class="code-bar"><div class="cbdot r"></div><div class="cbdot y"></div><div class="cbdot g"></div><span class="cblabel">install</span></div>
+    <pre><span class="cg">$</span> git clone https://github.com/Jishnuec/reconframe.git
+<span class="cg">$</span> cd reconframe
+<span class="cg">$</span> chmod +x reconframe.py
+<span class="cg">$</span> ./reconframe.py</pre>
+  </div>
+
+  <div class="reveal" style="overflow-x:auto;margin-bottom:40px">
+    <table class="cmd-table">
+      <thead><tr><th>Command</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="cmd-cmd">./reconframe.py</td><td class="cmd-desc">Interactive mode — full TUI menu</td></tr>
+        <tr><td class="cmd-cmd">./reconframe.py -t example.com</td><td class="cmd-desc">Quick scan of a domain</td></tr>
+        <tr><td class="cmd-cmd">./reconframe.py -t 192.168.1.1</td><td class="cmd-desc">Scan an IP address</td></tr>
+        <tr><td class="cmd-cmd">./reconframe.py -t example.com -v</td><td class="cmd-desc">Verbose mode — shows full tool output</td></tr>
+        <tr><td class="cmd-cmd">./reconframe.py -t example.com -o report.txt</td><td class="cmd-desc">Save results to file</td></tr>
+        <tr><td class="cmd-cmd">./reconframe.py -t 10.0.0.1 --tools nmap,whois</td><td class="cmd-desc">Run specific tools only</td></tr>
+        <tr><td class="cmd-cmd">./reconframe.py --list-tools</td><td class="cmd-desc">List all available tools</td></tr>
+        <tr><td class="cmd-cmd">./reconframe.py --no-banner</td><td class="cmd-desc">Skip startup animation</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="code-wrap reveal">
+    <div class="code-bar"><div class="cbdot r"></div><div class="cbdot y"></div><div class="cbdot g"></div><span class="cblabel">smart validation in action</span></div>
+    <pre><span class="co"># IP given, DNS tools selected — prompts for domain</span>
+<span class="cg">$</span> ./reconframe.py -t 192.168.1.100
+<span class="cy">  [?] IP detected. Enter domain for DNS tools (or Enter to skip): </span>example.com
+
+<span class="co"># No web ports — web tools automatically skipped</span>
+<span class="cy">  [!] No web ports detected (80/443/8080 closed)</span>
+<span class="co">  [-] Skipping: gobuster, nikto, sqlmap, wafw00f</span>
+
+<span class="co"># Port 443 closed — sslyze automatically skipped</span>
+<span class="cy">  [!] SSL scan only works on HTTPS ports</span>
+<span class="co">  [-] Skipping: sslyze</span></pre>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── JOURNEY ── -->
+<section class="section" id="journey">
+  <div class="sec-num">05 — Development Journey</div>
+  <h2 class="sec-h2 reveal">How It Was <em>Built</em></h2>
+  <p class="sec-lead reveal">8 phases from initial concept to GitHub publication. Every phase solved a specific problem.</p>
+  <div class="tl reveal">
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Phase 1</div><div class="tl-title">Initial Concept & Tool Selection</div><div class="tl-body">Identified the need for a unified reconnaissance tool. Researched common tools used in penetration testing. Selected 12 core tools covering network, web, DNS, and OSINT — enough to cover the full initial recon phase without overlap.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Phase 2</div><div class="tl-title">Core Architecture Design</div><div class="tl-body">Designed the box-drawing engine for professional terminal UI. Created the tool registry structure — each tool as a data object with id, binary, description, risk level. Implemented the base smart validation logic for IP vs domain detection.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Phase 3</div><div class="tl-title">Parallel Execution Engine</div><div class="tl-body">Built ThreadPoolExecutor-based parallel execution. The live progress bar required cursor control sequences (ANSI escape codes) to update in-place without terminal scrolling. Added rate limiting to avoid overwhelming targets with simultaneous connections.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Phase 4</div><div class="tl-title">Results Rendering System</div><div class="tl-body">Created grouping logic for different finding types — ports go to Open Ports, discovered paths to Directories, etc. Implemented color coding based on severity. Added verbose mode that shows full raw output per tool for deep analysis.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Phase 5</div><div class="tl-title">User Interface</div><div class="tl-body">Built the checkbox-style tool selection menu using Unicode box-drawing characters. Created main menu with options. Added legal disclaimer and target input with format examples. All keyboard-driven — no mouse required.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Phase 6</div><div class="tl-title">Cinematic Startup Animation</div><div class="tl-body">Designed the MSF-style startup: matrix rain using random printable characters, glitch effect on the ReconFrame logo (random character substitution with delay), module loading sequence with fake progress bars. Full animation skippable with --no-banner.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Phase 7</div><div class="tl-title">Testing & Bug Fixes</div><div class="tl-body">Tested on Kali Linux, Ubuntu, and Debian. Validated against live targets including example.com and scanme.nmap.org. Fixed 5 significant bugs: progress bar repeating, text truncation, DNS tools on IPs, web tools without open ports, and tool timeouts.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Phase 8</div><div class="tl-title">GitHub Publication</div><div class="tl-body">Created repository at github.com/Jishnuec/reconframe. Added MIT License. Wrote comprehensive README with installation instructions and usage examples. Pushed code with clean commit history.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── PROBLEMS ── -->
+<section class="section">
+  <div class="sec-num">06 — Problems Solved</div>
+  <h2 class="sec-h2 reveal"><em>5 Real Bugs</em> Fixed</h2>
+  <p class="sec-lead reveal">These weren't obvious issues — each one required understanding the underlying system before the fix made sense.</p>
+  <div class="prob-list reveal">
+    <div class="prob-item">
+      <div><div class="prob-n">01</div><div class="prob-q"><h4>Progress Bar Repeating 12 Times</h4><p>The header above the progress bar was redrawn inside the tool loop, causing it to print fresh 12 times instead of updating in-place.</p></div></div>
+      <div class="prob-a"><h4>Fix</h4><p>Moved the header outside the loop. Used ANSI cursor movement sequences (<code>\033[A</code>) to move the cursor up and overwrite only the progress content — not the header.</p></div>
+    </div>
+    <div class="prob-item">
+      <div><div class="prob-n">02</div><div class="prob-q"><h4>Text Truncation in Columns</h4><p>"version" appeared as "versio..." in the results table. Column widths were hardcoded too narrow, cutting off content in the UI boxes.</p></div></div>
+      <div class="prob-a"><h4>Fix</h4><p>Calculated column widths dynamically based on terminal size using <code>shutil.get_terminal_size()</code>. Content now wraps cleanly at any width.</p></div>
+    </div>
+    <div class="prob-item">
+      <div><div class="prob-n">03</div><div class="prob-q"><h4>DNS Tools Failing on IP Targets</h4><p>When an IP address was given as the target, DNS tools like subfinder and amass would fail — they require a domain name, not an IP.</p></div></div>
+      <div class="prob-a"><h4>Fix</h4><p>Added IP detection with <code>socket.inet_aton()</code>. If IP detected and DNS tools selected, prompt for a domain. If no domain entered, skip all DNS tools with a clear message.</p></div>
+    </div>
+    <div class="prob-item">
+      <div><div class="prob-n">04</div><div class="prob-q"><h4>Web Tools Running Without Open Ports</h4><p>gobuster, nikto, and sqlmap were running against targets with no web server — consuming time and producing useless output.</p></div></div>
+      <div class="prob-a"><h4>Fix</h4><p>Added port probing with <code>socket.connect_ex()</code> before any web tool execution. If ports 80, 443, and 8080 are all closed, all web tools are skipped with a clear explanation.</p></div>
+    </div>
+    <div class="prob-item">
+      <div><div class="prob-n">05</div><div class="prob-q"><h4>Tool Timeouts Hanging the Scan</h4><p>Slow or unresponsive targets caused individual tool processes to hang indefinitely, blocking progress on the entire scan.</p></div></div>
+      <div class="prob-a"><h4>Fix</h4><p>Added <code>timeout=</code> parameter to <code>subprocess.run()</code> for every tool runner. Timeout exceeded produces a friendly "tool timed out" message and the scan continues with the next tool.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SPECS ── -->
+<section class="section">
+  <div class="sec-num">07 — Specifications</div>
+  <h2 class="sec-h2 reveal"><em>Technical</em> Details</h2>
+  <div class="specs-grid reveal">
+    <div class="spec-cell"><div class="spec-key">Language</div><div class="spec-val">Python 3.6+</div></div>
+    <div class="spec-cell"><div class="spec-key">Dependencies</div><div class="spec-val">None (standard library only)</div></div>
+    <div class="spec-cell"><div class="spec-key">Platforms</div><div class="spec-val">Kali · Ubuntu · Debian · Mint</div></div>
+    <div class="spec-cell"><div class="spec-key">Lines of Code</div><div class="spec-val">~12,000</div></div>
+    <div class="spec-cell"><div class="spec-key">License</div><div class="spec-val">MIT — use freely</div></div>
+    <div class="spec-cell"><div class="spec-key">Version</div><div class="spec-val">3.0.0</div></div>
+    <div class="spec-cell"><div class="spec-key">Repository</div><div class="spec-val">github.com/Jishnuec/reconframe</div></div>
+    <div class="spec-cell"><div class="spec-key">Architecture</div><div class="spec-val">Single file, 10 components</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">RECONFRAME</div>
+  <div class="footer-sub">Unified Reconnaissance Framework · v3.0.0 · MIT License</div>
+  <div class="footer-links">
+    <a href="https://github.com/Jishnuec/reconframe" target="_blank">⬡ GitHub Repository</a>
+    <a href="https://github.com/Jishnuec/reconframe/blob/main/reconframe.py" target="_blank">⌗ Source Code</a>
+    <a href="https://github.com/Jishnuec/reconframe/archive/refs/heads/main.zip" target="_blank">↓ Download ZIP</a>
+  </div>
+</footer>
+
+<script>
+// ── Matrix rain ──────────────────────────────────────────────────────────────
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+const chars = 'アイウエオカキクケコ0123456789ABCDEF!@#$%^&*<>/\\|~';
+let cols, drops;
+function initMatrix() {
+  cols = Math.floor(canvas.width / 16);
+  drops = Array(cols).fill(1);
+}
+initMatrix();
+setInterval(() => {
+  ctx.fillStyle = 'rgba(4,4,8,0.06)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = '#00ff41'; ctx.font = '13px Share Tech Mono';
+  drops.forEach((y,i) => {
+    ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*16, y*16);
+    if(y*16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  });
+}, 55);
+
+// ── Scroll progress ──────────────────────────────────────────────────────────
+const progressBar = document.getElementById('scroll-progress');
+const scrollCta   = document.getElementById('scrollCta');
+let assemblyOpen  = false;
+
+window.addEventListener('scroll', () => {
+  const scrolled  = window.scrollY;
+  const maxScroll = document.body.scrollHeight - window.innerHeight;
+  const pct       = Math.min(scrolled / maxScroll * 100, 100);
+  progressBar.style.width = pct + '%';
+
+  // Show CTA after 60% scroll
+  if (pct > 40) scrollCta.classList.add('show');
+  else scrollCta.classList.remove('show');
+
+}, { passive:true });
+
+// ── Assembly animation ────────────────────────────────────────────────────────
+// Tool categories with labels
+const toolCategories = [
+  { label: 'NETWORK', items: ['nmap','sslyze'] },
+  { label: 'WEB', items: ['gobuster','nikto','sqlmap','wafw00f'] },
+  { label: 'DNS', items: ['subfinder','dnsenum','dnsrecon','amass'] },
+  { label: 'OSINT', items: ['whois','theHarvester'] },
+  { label: 'ENGINE', items: ['ThreadPoolExecutor','Smart Validation','Live Progress','Parallel Scan'] },
+  { label: 'FEATURES', items: ['Color Output','Report Export','Verbose Mode','Tool Check','Zero Dependencies','ANSI Engine'] },
+  { label: 'SPECS', items: ['Python 3.6+','MIT License','~12K Lines','No Dependencies','Single File'] },
+];
+
+function buildGrid() {
+  const grid = document.getElementById('asm-grid');
+  grid.innerHTML = '';
+  const label = document.querySelector('.asm-section-label');
+  if(label) label.textContent = 'Components assembling...';
+
+  let delay = 0;
+  toolCategories.forEach((cat) => {
+    // Category divider
+    const catDiv = document.createElement('div');
+    catDiv.className = 'asm-cat-line';
+    catDiv.innerHTML = `<span>${cat.label}</span>`;
+    catDiv.style.transitionDelay = delay + 'ms';
+    grid.appendChild(catDiv);
+    setTimeout(() => catDiv.classList.add('vis'), delay + 100);
+    delay += 80;
+
+    cat.items.forEach((t) => {
+      const el = document.createElement('div');
+      el.className = 'asm-piece';
+      el.textContent = t;
+      // Random starting position — fly in from edges
+      const side = Math.floor(Math.random() * 4);
+      let tx, ty;
+      const dist = 600 + Math.random() * 400;
+      if      (side===0) { tx=0; ty=-dist; }
+      else if (side===1) { tx=dist; ty=0; }
+      else if (side===2) { tx=0; ty=dist; }
+      else               { tx=-dist; ty=0; }
+      tx += (Math.random()-0.5)*200;
+      ty += (Math.random()-0.5)*200;
+      const rot = (Math.random()-0.5)*30;
+      el.style.setProperty('--tx', tx+'px');
+      el.style.setProperty('--ty', ty+'px');
+      el.style.setProperty('--tr', rot+'deg');
+      el.style.transitionDelay = delay + 'ms';
+      grid.appendChild(el);
+      setTimeout(() => el.classList.add('landed'), delay + 50);
+      delay += 50;
+    });
+  });
+
+  // Update label when done
+  setTimeout(() => {
+    const lbl = document.querySelector('.asm-section-label');
+    if(lbl) lbl.textContent = 'All components online ✓';
+  }, delay + 200);
+}
+
+function openAssembly() {
+  if (assemblyOpen) return;
+  assemblyOpen = true;
+  const stage = document.getElementById('assembly-stage');
+  stage.classList.add('open');
+  stage.scrollTop = 0;
+  // Build grid after a short delay so opacity transition is visible first
+  setTimeout(buildGrid, 300);
+}
+
+function closeAssembly() {
+  assemblyOpen = false;
+  hasTriggered = false;
+  const stage = document.getElementById('assembly-stage');
+  // Scatter pieces on close
+  document.querySelectorAll('.asm-piece').forEach((el, i) => {
+    el.style.transitionDelay = (i * 15) + 'ms';
+    el.classList.remove('landed');
+  });
+  setTimeout(() => {
+    stage.classList.remove('open');
+  }, 200);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && assemblyOpen) closeAssembly();
+});
+
+// ── Scroll reveal ─────────────────────────────────────────────────────────────
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── Animated scan output ─────────────────────────────────────────────────────
+const scanLines = [
+  ['tg','  [*] ReconFrame v3.0.0 initializing...'],
+  ['ts','  [*] Target: example.com'],
+  ['ts','  [*] Probing ports 80, 443, 8080...'],
+  ['tg','  [+] Port 80  OPEN   (HTTP)'],
+  ['tg','  [+] Port 443 OPEN   (HTTPS)'],
+  ['tc2','  [*] Launching 12 tools in parallel (4 threads)'],
+  ['tg','  [+] nmap       ██████████ 100%  22/tcp 80/tcp 443/tcp'],
+  ['tg','  [+] whois      ██████████ 100%  Registrar: GoDaddy'],
+  ['tg','  [+] subfinder  ████████░░  80%  mail. dev. api. cdn.'],
+  ['ty','  [!] nikto      ██████░░░░  60%  X-Frame-Options missing'],
+  ['tg','  [+] gobuster   █████░░░░░  50%  /admin /login /api'],
+  ['ts','  [-] dnsenum    ████░░░░░░  40%  running...'],
+  ['ts','  [-] amass      ███░░░░░░░  30%  running...'],
+  ['cr','  [!] sqlmap     ██░░░░░░░░  20%  potential SQLi found'],
+  ['tg','  [+] wafw00f    █░░░░░░░░░  10%  Cloudflare detected'],
+  ['ts','  [-] sslyze     ░░░░░░░░░░   0%  starting...'],
+];
+
+function animateScan() {
+  const body = document.getElementById('scanBody');
+  if (!body) return;
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i >= scanLines.length) { clearInterval(interval); return; }
+    const [cls, text] = scanLines[i];
+    const div = document.createElement('div');
+    div.className = 'scan-line ' + cls;
+    div.textContent = text;
+    body.appendChild(div);
+    requestAnimationFrame(() => div.classList.add('show'));
+    body.scrollTop = body.scrollHeight;
+    i++;
+  }, 280);
+}
+
+const scanIO = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { animateScan(); scanIO.disconnect(); } });
+}, { threshold: 0.3 });
+const scanEl = document.getElementById('scanAnim');
+if (scanEl) scanIO.observe(scanEl);
+</script>
+</body>
+</html>
