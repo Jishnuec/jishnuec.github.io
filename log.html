@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jishnu Ec</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0a0a0f;
+            color: #f8f9fa;
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Subtle gradient background like Mindy */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.025em;
+        }
+
+        .theme-toggle {
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .theme-toggle:hover {
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle i {
+            font-size: 1rem;
+            color: #f8f9fa;
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 5% 80px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 120px;
+            padding: 2rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 200;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: rgba(248, 249, 250, 0.7);
+            font-weight: 300;
+            letter-spacing: -0.01em;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 140px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            margin-bottom: 3rem;
+            letter-spacing: -0.03em;
+            color: #f8f9fa;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: rgba(248, 249, 250, 0.9);
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 0.95rem;
+            letter-spacing: 0.025em;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn.active {
+            background: rgba(96, 165, 250, 0.15);
+            border-color: #60a5fa;
+            color: #60a5fa;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+        }
+
+        .entries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .entry-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .entry-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.05), rgba(168, 85, 247, 0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 24px;
+        }
+
+        .entry-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+
+        .entry-card:hover::before {
+            opacity: 1;
+        }
+
+        .entry-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.2rem;
+        }
+
+        .entry-title {
+            font-size: 1.45rem;
+            font-weight: 500;
+            color: #f8f9fa;
+            line-height: 1.3;
+            letter-spacing: -0.015em;
+        }
+
+        .entry-date {
+            font-size: 0.9rem;
+            color: rgba(248, 249, 250, 0.6);
+            font-weight: 400;
+        }
+
+        .entry-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .entry-content {
+            color: rgba(248, 249, 250, 0.9);
+            font-size: 1rem;
+            line-height: 1.75;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .entries-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            main {
+                padding: 100px 4% 60px;
+            }
+            
+            .filters {
+                justify-content: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">Jishnu Ec</div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Jishnu Ec</h1>
+            <p class="hero-subtitle">Cybersecurity researcher from Kerala. Logging books, films, and late-night thoughts.</p>
+        </section>
+
+        <section class="section" id="entriesSection">
+            <h2 class="section-title">What's New</h2>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="book">Books</button>
+                <button class="filter-btn" data-filter="movie">Movies</button>
+                <button class="filter-btn" data-filter="series">Series</button>
+                <button class="filter-btn" data-filter="doc">Docs</button>
+                <button class="filter-btn" data-filter="log">Notes</button>
+            </div>
+            <div class="entries-grid" id="entriesGrid"></div>
+        </section>
+    </main>
+
+    <script>
+        // Dark theme only - toggle switches to light but defaults dark
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.style.background = '#0a0a0f'; // Pure dark with subtle white glows
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+
+        // Your content from previous + cybersecurity focus [file:19]
+        const entries = [
+            { id: 1, title: "The Art of Intrusion", type: "book", content: "Real case studies that rewire how you think about human-system interfaces. Mitnick shows social engineering isn't theory.", image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=420&h=640&fit=crop", date: "Mar 2026" },
+            { id: 2, title: "Oppenheimer", type: "movie", content: "The bomb as moral question over three hours. Physics meets ethics in devastating clarity.", image: "https://images.unsplash.com/photo-1701174351064-29b4bd2d210b?w=420&h=640&fit=crop", date: "Mar 2026" },
+            { id: 3, title: "IDOR Notes", type: "log", content: "Insecure Direct Object Reference: Server trusts client IDs without ownership checks. Always verify user owns object.", image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=420&h=300&fit=crop", date: "Mar 2026" },
+            { id: 4, title: "Breaking Bad", type: "series", content: "Understand every character's logic, even villains. Walt's transformation is textbook narcissism.", image: "https://images.unsplash.com/photo-1489599091528-f4b1ea512bd9?w=420&h=640&fit=crop", date: "Mar 2026" },
+            { id: 5, title: "FBM Math", type: "log", content: "Fractional Brownian Motion: Hurst H>0.5 smooth, H<0.5 rough. Sums noise across octaves for natural complexity.", image: "https://images.unsplash.com/photo-1558618047-3c8c76ca3350?w=420&h=300&fit=crop", date: "Mar 2026" },
+            { id: 6, title: "Chernobyl", type: "doc", content: "Five episodes of pure horror. Real monster is bureaucracy. Perfect systemic failure depiction.", image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=420&h=640&fit=crop", date: "Feb 2026" },
+            { id: 7, title: "Da Vinci Code", type: "book", content: "Engineered pacing—every chapter ends mid-breath. Dan Brown masters cliffhanger manipulation.", image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=420&h=640&fit=crop", date: "Feb 2026" },
+            { id: 8, title: "ZK Proofs", type: "log", content: "Zero-knowledge: Prove knowledge without revealing it. zk-SNARKs use elliptic curves + polynomial commitments.", image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=420&h=300&fit=crop", date: "Feb 2026" }
+        ];
+
+        const entriesGrid = document.getElementById('entriesGrid');
+        function render(filter = 'all') {
+            entriesGrid.innerHTML = '';
+            const filtered = filter === 'all' ? entries : entries.filter(e => e.type === filter);
+            filtered.forEach((entry, i) => {
+                const card = document.createElement('div');
+                card.className = 'entry-card';
+                card.style.transitionDelay = `${i * 0.08}s`;
+                card.innerHTML = `
+                    <img src="${entry.image}" alt="${entry.title}" class="entry-image" loading="lazy">
+                    <div class="entry-header">
+                        <div class="entry-title">${entry.title}</div>
+                        <div class="entry-date">${entry.date}</div>
+                    </div>
+                    <div class="entry-type"><i class="fas fa-${entry.type === 'book' ? 'book' : entry.type === 'movie' ? 'film' : entry.type === 'series' ? 'tv' : entry.type === 'doc' ? 'video' : 'pen-fancy'}"></i> ${entry.type.toUpperCase()}</div>
+                    <div class="entry-content">${entry.content}</div>
+                `;
+                entriesGrid.appendChild(card);
+            });
+        }
+
+        // Filters
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                btn.classList.add('active');
+                render(btn.dataset.filter);
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section').forEach(section => observer.observe(section));
+
+        render();
+    </script>
+</body>
+</html>
