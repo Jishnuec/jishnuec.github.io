@@ -34,13 +34,29 @@ body{
   transition:background .4s,color .4s;
   overflow-x:hidden;
 }
-
-/* film grain overlay */
 body::after{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
   opacity:.45;
 }
+
+/* ── BACK BUTTON ── */
+.back-btn{
+  display:flex;align-items:center;gap:.38rem;
+  padding:.38rem .75rem;border-radius:8px;
+  border:1px solid var(--border);background:none;
+  color:var(--ink3);font-family:'DM Sans',sans-serif;
+  font-size:.72rem;font-weight:500;text-decoration:none;
+  transition:all .22s;margin-bottom:.9rem;width:fit-content;
+}
+.back-btn:hover{border-color:var(--border2);color:var(--ink2);transform:translateX(-2px)}
+.mob-back{
+  display:flex;align-items:center;gap:.2rem;
+  padding:.28rem .62rem;border-radius:7px;border:1px solid var(--border);
+  background:none;color:var(--ink3);font-size:.72rem;font-weight:500;
+  text-decoration:none;transition:all .2s;flex-shrink:0;
+}
+.mob-back:hover{color:var(--ink2);border-color:var(--border2)}
 
 /* ── SIDEBAR ── */
 .sidebar{
@@ -89,10 +105,11 @@ body::after{
 .mob-top{
   display:none;position:fixed;top:0;left:0;right:0;height:54px;
   background:var(--bg2);border-bottom:1px solid var(--border);
-  align-items:center;justify-content:space-between;padding:0 1.1rem;z-index:300;
+  align-items:center;justify-content:space-between;padding:0 1rem;z-index:300;
+  gap:.6rem;
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
 }
-.mob-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.7rem;color:var(--ink);letter-spacing:-.03em;cursor:pointer}
+.mob-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.7rem;color:var(--ink);letter-spacing:-.03em;cursor:pointer;flex:1;text-align:center}
 .mob-logo span{color:var(--accent)}
 
 /* ── BOTTOM NAV ── */
@@ -133,7 +150,7 @@ body::after{
 .ph-line{width:48px;height:1.5px;background:linear-gradient(90deg,var(--accent),transparent);margin-top:.85rem;border-radius:1px}
 
 /* ── STATS ── */
-.stats{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.6rem}
+.stats{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
 .stat{
   display:flex;flex-direction:column;align-items:center;
   padding:.75rem 1.1rem;border-radius:10px;
@@ -144,16 +161,52 @@ body::after{
 .stat-n{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--accent2);line-height:1}
 .stat-l{font-size:.56rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);margin-top:.2rem}
 
+/* ── CHART CARD ── */
+.chart-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:1.1rem 1.3rem 1rem;
+  margin-bottom:1.6rem;border-top:2px solid var(--accent);
+  animation:secUp .5s var(--ease);
+}
+.chart-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.chart-title{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  text-transform:uppercase;letter-spacing:.2em;color:var(--accent);
+}
+.chart-sub{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;
+  color:var(--ink3);letter-spacing:.06em;
+}
+.chart-wrap{width:100%;overflow-x:auto;overflow-y:visible;padding-bottom:.2rem}
+.chart-wrap::-webkit-scrollbar{height:2px}
+.chart-wrap::-webkit-scrollbar-thumb{background:var(--surface3)}
+.chart-empty{
+  font-size:.78rem;color:var(--ink3);text-align:center;padding:1.8rem 0;
+  font-family:'JetBrains Mono',monospace;letter-spacing:.08em;
+}
+
 /* ── FILTERS ── */
 .filters{display:flex;gap:.38rem;flex-wrap:wrap;margin-bottom:1.8rem}
 .fp{
   padding:.3rem .85rem;border-radius:20px;border:1px solid var(--border);
   background:none;color:var(--ink3);
   font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:500;
-  cursor:pointer;transition:all .2s;
+  cursor:pointer;transition:all .2s;white-space:nowrap;
 }
 .fp:hover{color:var(--ink2);border-color:var(--border2)}
 .fp.on{background:var(--adim);border-color:rgba(212,146,74,.35);color:var(--accent2)}
+
+/* ── MONTH FILTER ── */
+.month-filter-row{
+  display:flex;gap:.32rem;flex-wrap:wrap;margin-bottom:1.2rem;
+  padding:.6rem .8rem;background:var(--surface2);border-radius:9px;
+  border:1px solid var(--border);align-items:center;
+}
+.mf-label{
+  font-family:'JetBrains Mono',monospace;font-size:.56rem;
+  text-transform:uppercase;letter-spacing:.16em;color:var(--ink3);
+  margin-right:.3rem;flex-shrink:0;
+}
 
 /* ── SEARCH ── */
 .search-wrap{position:relative;margin-bottom:.9rem}
@@ -202,26 +255,24 @@ body::after{
 .t-memory{background:rgba(224,120,120,.12);color:var(--rose);border:1px solid rgba(224,120,120,.22)}
 .t-review{background:rgba(212,146,74,.12);color:var(--accent2);border:1px solid rgba(212,146,74,.22)}
 
-/* 4-line clamp for post preview */
-.ptext{
+/* Text display – short vs long */
+.ptext-full{
   font-size:.9rem;line-height:1.88;color:var(--ink);font-weight:300;
   white-space:pre-wrap;word-break:break-word;
 }
-.ptext-preview{
+.ptext-clamp-wrap{position:relative}
+.ptext-clamp{
   display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;
-  overflow:hidden;position:relative;
+  overflow:hidden;
   font-size:.9rem;line-height:1.88;color:var(--ink);font-weight:300;
   white-space:pre-wrap;word-break:break-word;
+}
+.ptext-fade{
+  height:38px;margin-top:-38px;position:relative;pointer-events:none;
+  background:linear-gradient(to bottom,transparent,var(--surface));
 }
 
 .pactions{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin-top:.75rem}
-.rmb{
-  background:none;border:none;color:var(--accent);
-  font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:500;
-  cursor:pointer;padding:0;transition:color .18s;
-  display:flex;align-items:center;gap:.28rem;
-}
-.rmb:hover{color:var(--accent2)}
 .orb{
   display:inline-flex;align-items:center;gap:.32rem;
   padding:.28rem .8rem;border-radius:7px;
@@ -275,23 +326,26 @@ body::after{
   background:linear-gradient(155deg,var(--surface2),var(--surface3));
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;
 }
-.wcard-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s}
-.wcard-img img.ok{opacity:1}
+/* Watch card images – absolute inside relative container */
+.wcard-img img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:0;transition:opacity .55s;z-index:1;
+}
 .w-overlay{
   position:absolute;inset:0;
   background:linear-gradient(to top,rgba(0,0,0,.97) 0%,rgba(0,0,0,.7) 40%,rgba(0,0,0,.05) 100%);
   opacity:0;transition:opacity .32s;
   display:flex;flex-direction:column;justify-content:flex-end;
-  padding:.8rem .75rem;z-index:2;
+  padding:.8rem .75rem;z-index:3;
 }
 .wcard:hover .w-overlay{opacity:1}
 .w-ov-title{font-size:.82rem;font-weight:600;color:#fff;margin-bottom:.18rem;line-height:1.28}
 .w-ov-date{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:rgba(255,255,255,.5);margin-bottom:.22rem}
 .w-ov-note{font-size:.72rem;color:rgba(255,255,255,.82);line-height:1.52;font-weight:300}
 .w-ov-stars{font-size:.72rem;letter-spacing:-1px;margin-bottom:.28rem}
-.wfb-icon{font-size:2rem;opacity:.3;position:relative;z-index:1;transition:transform .3s}
+.wfb-icon{font-size:2rem;opacity:.3;position:relative;z-index:2;transition:transform .3s}
 .wcard:hover .wfb-icon{transform:scale(1.12)}
-.wfb-title{font-size:.62rem;color:var(--ink3);text-align:center;padding:0 .5rem;position:relative;z-index:1;line-height:1.35}
+.wfb-title{font-size:.62rem;color:var(--ink3);text-align:center;padding:0 .5rem;position:relative;z-index:2;line-height:1.35}
 .wcard-strip{padding:.48rem .62rem;display:flex;align-items:center;justify-content:space-between;gap:.3rem}
 .wtype-b{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:.12rem .42rem;border-radius:4px}
 .wt-movie{background:rgba(112,184,240,.14);color:var(--blue)}
@@ -318,7 +372,7 @@ body::after{
   background:linear-gradient(155deg,var(--surface2),var(--surface3));
   display:flex;align-items:center;justify-content:center;
 }
-.bk-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s}
+.bk-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s;z-index:1}
 .bk-img img.ok{opacity:1}
 .bk-overlay{
   position:absolute;inset:0;
@@ -333,12 +387,12 @@ body::after{
 .bk-ov-note{font-size:.68rem;color:rgba(255,255,255,.84);line-height:1.5;font-weight:300}
 .bk-ov-stars{font-size:.68rem;letter-spacing:-1px;margin-bottom:.25rem}
 .bk-spine-line{position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--sc,var(--accent));z-index:3}
-.bkfb{font-size:2.1rem;opacity:.28;transition:transform .3s}
+.bkfb{font-size:2.1rem;opacity:.28;transition:transform .3s;position:relative;z-index:1}
 .bkcard:hover .bkfb{transform:scale(1.1)}
 .bk-genre{
   position:absolute;bottom:.4rem;right:.5rem;
   font-size:.52rem;color:var(--ink3);font-family:'JetBrains Mono',monospace;
-  letter-spacing:.04em;z-index:1;
+  letter-spacing:.04em;z-index:2;
 }
 .bkcard-foot{padding:.48rem .62rem;display:flex;align-items:center;justify-content:space-between;gap:.3rem}
 .bk-status-b{font-size:.54rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:.12rem .42rem;border-radius:4px}
@@ -392,12 +446,6 @@ body::after{
   max-width:1040px;margin:0 auto;
   padding:3.8rem 2rem 9rem;gap:3.5rem;align-items:start;
 }
-.r-article{}
-.r-meta-block{margin-bottom:2.8rem;padding-bottom:1.6rem;border-bottom:1px solid var(--border)}
-.r-meta-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.2em;color:var(--accent);margin-bottom:.55rem}
-.r-meta-title{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:400;color:var(--ink);line-height:1.18;margin-bottom:.55rem;letter-spacing:-.02em}
-.r-meta-date{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--ink3)}
-
 .r-section{margin-bottom:2.6rem;animation:sectionIn .48s var(--ease) both}
 @keyframes sectionIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
 .r-heading{
@@ -407,12 +455,13 @@ body::after{
   display:flex;align-items:center;gap:.65rem;
 }
 .r-heading::before{content:'§';color:var(--accent);opacity:.55;font-size:1.15rem}
+.r-meta-block{margin-bottom:2.8rem;padding-bottom:1.6rem;border-bottom:1px solid var(--border)}
+.r-meta-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.2em;color:var(--accent);margin-bottom:.55rem}
+.r-meta-date{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--ink3)}
 .r-text{
   font-size:1.02rem;line-height:2.08;color:var(--ink);font-weight:300;
   white-space:pre-wrap;word-break:break-word;font-family:'DM Sans',sans-serif;
 }
-
-/* Reader sidebar */
 .r-sidebar{position:sticky;top:76px;display:flex;flex-direction:column;gap:1.5rem}
 .r-toc-box{
   background:var(--surface);border:1px solid var(--border);
@@ -491,9 +540,12 @@ body::after{
   .r-topbar{padding:0 1.1rem}
   .r-layout{padding:2.2rem 1.1rem 6.5rem}
   .r-text{font-size:.94rem}
+  .chart-card{padding:.9rem .9rem .8rem}
+  .month-filter-row{padding:.5rem .6rem}
 }
 @media(max-width:500px){
   .watch-grid,.books-grid{grid-template-columns:repeat(2,1fr)}
+  .log-grid{grid-template-columns:1fr}
 }
 @media(max-width:440px){.log-grid{grid-template-columns:1fr}}
 </style>
@@ -507,6 +559,9 @@ body::after{
     <button class="sn-item" data-sec="watch"><span class="sni">◎</span> Screen Time</button>
     <button class="sn-item" data-sec="books"><span class="sni">▦</span> Library</button>
   </nav>
+  <div style="padding-top:1rem">
+    <a href="https://jishnuec.github.io" class="back-btn">← portfolio</a>
+  </div>
   <div class="sb-foot">
     <span class="sb-tag">personal log</span>
     <button class="theme-btn" onclick="toggleTheme()">◐</button>
@@ -514,12 +569,14 @@ body::after{
 </aside>
 
 <header class="mob-top">
+  <a href="https://jishnuec.github.io" class="mob-back">← </a>
   <span class="mob-logo" onclick="goHome()">log<span>.</span></span>
   <button class="theme-btn" onclick="toggleTheme()">◐</button>
 </header>
 
 <div class="wrap">
 
+  <!-- LOG -->
   <section id="log" class="sec active">
     <div class="ph">
       <div class="ph-eye">personal log</div>
@@ -534,6 +591,7 @@ body::after{
     <div class="log-grid" id="feedEl"></div>
   </section>
 
+  <!-- SCREEN TIME -->
   <section id="watch" class="sec">
     <div class="ph">
       <div class="ph-eye">screen time</div>
@@ -541,10 +599,19 @@ body::after{
       <div class="ph-line"></div>
     </div>
     <div class="stats" id="wStats"></div>
+    <div class="chart-card">
+      <div class="chart-head">
+        <span class="chart-title">◈ 2026 Activity</span>
+        <span class="chart-sub" id="wChartSub">—</span>
+      </div>
+      <div class="chart-wrap" id="wChart"></div>
+    </div>
     <div class="filters" id="wFilters"></div>
+    <div class="month-filter-row" id="wMonthRow"></div>
     <div class="watch-grid" id="wGrid"></div>
   </section>
 
+  <!-- BOOKS -->
   <section id="books" class="sec">
     <div class="ph">
       <div class="ph-eye">my library</div>
@@ -552,7 +619,15 @@ body::after{
       <div class="ph-line"></div>
     </div>
     <div class="stats" id="bStats"></div>
+    <div class="chart-card">
+      <div class="chart-head">
+        <span class="chart-title">◈ 2026 Reading</span>
+        <span class="chart-sub" id="bChartSub">—</span>
+      </div>
+      <div class="chart-wrap" id="bChart"></div>
+    </div>
     <div class="filters" id="bFilters"></div>
+    <div class="month-filter-row" id="bMonthRow"></div>
     <div class="books-grid" id="bGrid"></div>
   </section>
 
@@ -602,7 +677,6 @@ body::after{
 /* ════════════════════════════════════════
    DATA
 ════════════════════════════════════════ */
-
 const LOG_ENTRIES = [
   {
     date:"7 Apr 2026",
@@ -612,7 +686,6 @@ const LOG_ENTRIES = [
   }
 ];
 
-// Only the 3 requested entries
 const WATCHED = [
   {
     title:"Ghost Elephants",
@@ -622,34 +695,50 @@ const WATCHED = [
     watchedDate:"05/04/2026",
     rating:3,
     note:"The foreign song is too good but at last they didn't disclose the place of ghost elephants because someone will misuse it.",
-    img:"https://image.tmdb.org/t/p/w500/j9bNkRUoF3xU4JKIxQnFJjrHB9X.jpg",
-    imgFallback:"https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Ghost_Elephants_documentary.jpg/220px-Ghost_Elephants_documentary.jpg"
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Elephants_at_Amboseli_national_park_against_Mount_Kilimanjaro.jpg/480px-Elephants_at_Amboseli_national_park_against_Mount_Kilimanjaro.jpg"
   },
   {
     title:"Salaar: Part 1 – Ceasefire",
     type:"movie",
     status:"watched",
     year:2023,
-    watchedDate:"March 2026",
+    watchedDate:"15/03/2026",
     rating:3,
     note:"Another KGF, same setting, everything — but Prabhas is too good.",
-    img:"https://image.tmdb.org/t/p/w500/A5Ots0gPe7RqkXfBDK7BkDJwCcH.jpg",
-    imgFallback:"https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/Salaar_poster.jpg/220px-Salaar_poster.jpg"
+    img:"https://upload.wikimedia.org/wikipedia/en/4/4e/Salaar_poster.jpg"
   },
   {
     title:"Secrets of the Buddha Relics",
     type:"documentary",
     status:"watched",
     year:2024,
-    watchedDate:"March 2026",
+    watchedDate:"20/03/2026",
     rating:3,
     note:"Origins, cultural and spiritual significance, and the mystical stories behind how the relics came.",
-    img:"https://image.tmdb.org/t/p/w500/xDMIl84Qy5Ng2TU9P1qoVRNXHqG.jpg",
-    imgFallback:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Buddha_in_Sarnath_Museum_%28Dhammajak_Mutra%29.jpg/220px-Buddha_in_Sarnath_Museum_%28Dhammajak_Mutra%29.jpg"
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Buddha_in_Sarnath_Museum_%28Dhammajak_Mutra%29.jpg/320px-Buddha_in_Sarnath_Museum_%28Dhammajak_Mutra%29.jpg"
+  },
+  {
+    title:"Explorer: Lost in the Arctic",
+    type:"documentary",
+    status:"watched",
+    year:2022,
+    watchedDate:"07/04/2026",
+    rating:4,
+    note:"Feels like Shackleton expedition but a great docu to watch.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/ArcticSDImage.jpg/480px-ArcticSDImage.jpg"
+  },
+  {
+    title:"Dolphins Up Close with Bertie Gregory",
+    type:"documentary",
+    status:"watched",
+    year:2025,
+    watchedDate:"05/04/2026",
+    rating:4,
+    note:"That was good — can learn about sperm whales and the bait. Sad to see how they were hunted in the past.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Sperm_whale_male_ian-k.jpg/480px-Sperm_whale_male_ian-k.jpg"
   }
 ];
 
-// Only 2 books: Da Vinci Code + Steve Jobs
 const BOOKS = [
   {
     title:"The Da Vinci Code",
@@ -658,10 +747,10 @@ const BOOKS = [
     year:2003,
     genre:"Thriller",
     rating:0,
+    dateAdded:"01/04/2026",
     note:"Symbols, secret societies, and a murder in the Louvre. Gripping from page one.",
     spineColor:"#8b1c1c",
-    img:"https://covers.openlibrary.org/b/isbn/0385504209-L.jpg",
-    imgFallback:"https://upload.wikimedia.org/wikipedia/en/6/6b/DaVinciCode.jpg"
+    img:"https://covers.openlibrary.org/b/isbn/0385504209-L.jpg"
   },
   {
     title:"Steve Jobs",
@@ -670,10 +759,70 @@ const BOOKS = [
     year:2011,
     genre:"Biography",
     rating:0,
+    dateAdded:"01/04/2026",
     note:"The authorized biography. Innovation, obsession, and the making of Apple.",
     spineColor:"#a0a0a0",
-    img:"https://covers.openlibrary.org/b/isbn/1451648537-L.jpg",
-    imgFallback:"https://upload.wikimedia.org/wikipedia/en/e/e4/Steve_Jobs_by_Walter_Isaacson.jpg"
+    img:"https://covers.openlibrary.org/b/isbn/1451648537-L.jpg"
+  },
+  {
+    title:"The Hound of the Baskervilles",
+    author:"Arthur Conan Doyle",
+    status:"want",
+    year:1902,
+    genre:"Mystery",
+    rating:0,
+    dateAdded:"07/04/2026",
+    note:"The most famous Sherlock Holmes adventure — a ghostly hound, a cursed family, and a moorland mystery.",
+    spineColor:"#2d5a27",
+    img:"https://covers.openlibrary.org/b/isbn/0140621776-L.jpg"
+  },
+  {
+    title:"Kidnapped",
+    author:"Robert Louis Stevenson",
+    status:"want",
+    year:1886,
+    genre:"Adventure",
+    rating:0,
+    dateAdded:"07/04/2026",
+    note:"A young Scottish lad, treachery, and a wild adventure across the Highlands.",
+    spineColor:"#1a3a5c",
+    img:"https://covers.openlibrary.org/b/isbn/0140437460-L.jpg"
+  },
+  {
+    title:"Reg Gutteridge: King of Commentary",
+    author:"Reg Gutteridge",
+    status:"want",
+    year:1996,
+    genre:"Biography",
+    rating:0,
+    dateAdded:"07/04/2026",
+    note:"The life and voice of the legendary boxing commentator.",
+    spineColor:"#4a3a1a",
+    img:""
+  },
+  {
+    title:"The Republic",
+    author:"Plato",
+    status:"want",
+    year:-380,
+    genre:"Philosophy",
+    rating:0,
+    dateAdded:"07/04/2026",
+    note:"Justice, ideal societies, philosopher-kings. One of the most influential texts ever written.",
+    spineColor:"#3a1a4a",
+    img:"https://covers.openlibrary.org/b/isbn/0140455116-L.jpg"
+  },
+  {
+    title:"Don's Wife",
+    author:"Vinod Pande",
+    status:"want",
+    year:2010,
+    genre:"Fiction",
+    rating:0,
+    dateAdded:"07/04/2026",
+    note:"",
+    spineColor:"#4a1a1a",
+    img:""
   }
 ];
 
@@ -712,47 +861,97 @@ const stars = n => n
   ? `<span style="color:var(--accent2)">${'★'.repeat(n)}</span><span style="color:var(--ink3)">${'☆'.repeat(5-n)}</span>`
   : '';
 
-// Detect non-Latin scripts that need translation
+function parseEntryDate(str){
+  if(!str) return null;
+  // DD/MM/YYYY
+  const m1 = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m1) return new Date(+m1[3], +m1[2]-1, +m1[1]);
+  // "Month YYYY" or "Month DD YYYY"
+  const mmap = {january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11,
+    jan:0,feb:1,mar:2,apr:3,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+  const lower = str.toLowerCase();
+  const yr = str.match(/\d{4}/);
+  for(const [k,v] of Object.entries(mmap)){
+    if(lower.startsWith(k)||lower.includes(' '+k)||lower.includes(k+' ')){
+      return new Date(yr?+yr[0]:2026, v, 1);
+    }
+  }
+  return null;
+}
+
+function fmtMonthYear(d){
+  if(!d) return null;
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+/* ── Month bar chart ── */
+function buildMonthChart(entries, dateField, baseColor){
+  const counts = new Array(12).fill(0);
+  const yr = new Date().getFullYear();
+  entries.forEach(e=>{
+    const d = parseEntryDate(e[dateField]);
+    if(d && d.getFullYear()===yr) counts[d.getMonth()]++;
+  });
+
+  const total = counts.reduce((a,b)=>a+b,0);
+  const max = Math.max(...counts,1);
+  const mnames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const BW=30, GAP=7, CH=72, TW=(BW+GAP)*12-GAP;
+
+  const bars = mnames.map((m,i)=>{
+    const c=counts[i];
+    const bh = c>0 ? Math.max((c/max)*CH, 8) : 3;
+    const x = i*(BW+GAP);
+    const y = CH-bh;
+    const op = c>0 ? 0.88 : 0.12;
+    return `<g>
+      <rect x="${x}" y="${y}" width="${BW}" height="${bh}" rx="4" fill="${baseColor}" opacity="${op}"/>
+      ${c?`<text x="${x+BW/2}" y="${y-5}" text-anchor="middle" font-size="9" fill="${baseColor}" font-family="JetBrains Mono,monospace" font-weight="500">${c}</text>`:''}
+      <text x="${x+BW/2}" y="${CH+15}" text-anchor="middle" font-size="9" fill="var(--ink3)" font-family="DM Sans,sans-serif">${m}</text>
+    </g>`;
+  }).join('');
+
+  return {
+    svg:`<svg viewBox="-2 -16 ${TW+4} ${CH+28}" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:340px;overflow:visible">${bars}</svg>`,
+    total
+  };
+}
+
 function needsTranslation(text){
   if(!text) return false;
-  // Malayalam
-  if((text.match(/[\u0D00-\u0D7F]/g)||[]).length > 3) return {lang:'ml', label:'ml'};
-  // Hindi/Sanskrit (Devanagari)
-  if((text.match(/[\u0900-\u097F]/g)||[]).length > 3) return {lang:'hi', label:'hi'};
-  // Arabic
-  if((text.match(/[\u0600-\u06FF]/g)||[]).length > 3) return {lang:'ar', label:'ar'};
-  // Tamil
-  if((text.match(/[\u0B80-\u0BFF]/g)||[]).length > 3) return {lang:'ta', label:'ta'};
-  // Telugu
-  if((text.match(/[\u0C00-\u0C7F]/g)||[]).length > 3) return {lang:'te', label:'te'};
-  // Japanese/Chinese/Korean
-  if((text.match(/[\u3000-\u9FFF]/g)||[]).length > 3) return {lang:'auto', label:'auto'};
-  // Pure English → no translation needed
+  if((text.match(/[\u0D00-\u0D7F]/g)||[]).length > 3) return {lang:'ml',label:'ml'};
+  if((text.match(/[\u0900-\u097F]/g)||[]).length > 3) return {lang:'hi',label:'hi'};
+  if((text.match(/[\u0600-\u06FF]/g)||[]).length > 3) return {lang:'ar',label:'ar'};
+  if((text.match(/[\u0B80-\u0BFF]/g)||[]).length > 3) return {lang:'ta',label:'ta'};
+  if((text.match(/[\u0C00-\u0C7F]/g)||[]).length > 3) return {lang:'te',label:'te'};
+  if((text.match(/[\u3000-\u9FFF]/g)||[]).length > 3) return {lang:'auto',label:'auto'};
   return false;
 }
 
 async function doTranslate(btn, resEl, srcLang, text){
-  btn.textContent = '…'; btn.disabled = true;
+  btn.textContent='…'; btn.disabled=true;
   try{
-    const d = await(await fetch(
+    const d=await(await fetch(
       `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcLang}|en`
     )).json();
-    const t = d?.responseData?.translatedText;
+    const t=d?.responseData?.translatedText;
     if(t){
-      resEl.querySelector('.tr-txt').textContent = t;
+      resEl.querySelector('.tr-txt').textContent=t;
       resEl.classList.add('show');
-      btn.textContent = '✕ hide'; btn.disabled = false;
-      btn.onclick = ()=>{
-        resEl.classList.remove('show');
-        btn.textContent = '⟳ translate';
-        btn.onclick = ()=>doTranslate(btn,resEl,srcLang,text);
-      };
-    } else {
-      btn.textContent = 'unavailable'; btn.disabled = false;
-    }
-  } catch(e){
-    btn.textContent = 'retry?'; btn.disabled = false;
-  }
+      btn.textContent='✕ hide'; btn.disabled=false;
+      btn.onclick=()=>{ resEl.classList.remove('show'); btn.textContent='⟳ translate'; btn.onclick=()=>doTranslate(btn,resEl,srcLang,text); };
+    } else { btn.textContent='unavailable'; btn.disabled=false; }
+  } catch(e){ btn.textContent='retry?'; btn.disabled=false; }
+}
+
+/* Determine if text is "long" — more than ~4 visible lines */
+function isLongText(text){
+  if(!text) return false;
+  const lines = text.split('\n').filter(l=>l.trim().length>0);
+  const CHARS_PER_LINE = 52; // approximate chars per line in a card
+  const estimatedLines = lines.reduce((acc,l)=>acc+Math.ceil(Math.max(l.length,1)/CHARS_PER_LINE),0);
+  return estimatedLines > 4;
 }
 
 function imgGrid(imgs){
@@ -769,8 +968,8 @@ function imgGrid(imgs){
 /* ════════════════════════════════════════
    LOG RENDER
 ════════════════════════════════════════ */
-let logFilter = 'all';
-const LOG_FILTERS = [
+let logFilter='all';
+const LOG_FILTERS=[
   {k:'all',l:'All'},{k:'thought',l:'Thoughts'},{k:'note',l:'Notes'},
   {k:'article',l:'Articles'},{k:'essay',l:'Essays'},{k:'memory',l:'Memories'},{k:'review',l:'Reviews'}
 ];
@@ -780,32 +979,43 @@ function renderLog(){
     `<button class="fp ${logFilter===f.k?'on':''}" onclick="setLogF('${f.k}')">${f.l}</button>`
   ).join('');
 
-  const q = (document.getElementById('srch')?.value||'').trim().toLowerCase();
-  let entries = LOG_ENTRIES;
-  if(logFilter!=='all') entries = entries.filter(e=>(e.type||'note')===logFilter);
-  if(q) entries = entries.filter(e=>(e.date||'').toLowerCase().includes(q)||(e.text||'').toLowerCase().includes(q));
+  const q=(document.getElementById('srch')?.value||'').trim().toLowerCase();
+  let entries=LOG_ENTRIES;
+  if(logFilter!=='all') entries=entries.filter(e=>(e.type||'note')===logFilter);
+  if(q) entries=entries.filter(e=>(e.date||'').toLowerCase().includes(q)||(e.text||'').toLowerCase().includes(q));
 
-  const el = document.getElementById('feedEl');
+  const el=document.getElementById('feedEl');
   if(!entries.length){ el.innerHTML=`<div class="no-results">No entries found.</div>`; return; }
 
-  const TL = {note:'note',thought:'thought',article:'article',essay:'essay',memory:'memory',review:'review'};
+  el.innerHTML=entries.map((e,i)=>{
+    const type=e.type||'note';
+    const tr=needsTranslation(e.text||'');
+    const tid=`tr${i}`, oi=LOG_ENTRIES.indexOf(e);
+    const long=isLongText(e.text||'');
 
-  el.innerHTML = entries.map((e, i)=>{
-    const type = e.type||'note';
-    const tr = needsTranslation(e.text||'');
-    const tid = `tr${i}`, oi = LOG_ENTRIES.indexOf(e);
+    const textHtml = long
+      ? `<div class="ptext-clamp-wrap">
+           <div class="ptext-clamp">${esc(e.text||'')}</div>
+           <div class="ptext-fade"></div>
+         </div>`
+      : `<div class="ptext-full">${esc(e.text||'')}</div>`;
+
+    const actionsHtml = (long||tr)
+      ? `<div class="pactions">
+           ${long?`<button class="orb" onclick="openReader(${oi})">↗ Read more</button>`:''}
+           ${tr?`<button class="trb" id="trb${i}" onclick="handleTr(this,'${tid}','${tr.lang}',${oi})">⟳ Translate</button>`:''}
+         </div>`
+      : '';
+
     return `
     <article class="post" style="animation-delay:${i*.07}s">
       <div class="post-meta">
         <div class="pdot"></div>
         <span class="pdate">${esc(e.date||'')}</span>
-        <span class="ptype t-${type}">${TL[type]||type}</span>
+        <span class="ptype t-${type}">${type}</span>
       </div>
-      <div class="ptext-preview" id="ptv${i}">${esc(e.text||'')}</div>
-      <div class="pactions">
-        <button class="orb" onclick="openReader(${oi})">↗ Open reader</button>
-        ${tr?`<button class="trb" id="trb${i}" onclick="handleTr(this,'${tid}','${tr.lang}',${oi})">⟳ Translate</button>`:''}
-      </div>
+      ${textHtml}
+      ${actionsHtml}
       ${imgGrid(e.imgs)}
       ${tr?`<div class="tresult" id="${tid}"><div class="tr-lbl">English translation</div><div class="tr-txt"></div></div>`:''}
     </article>`;
@@ -819,22 +1029,22 @@ function handleTr(btn,tid,l,idx){ doTranslate(btn,document.getElementById(tid),l
    READER
 ════════════════════════════════════════ */
 function openReader(idx){
-  const e = LOG_ENTRIES[idx]; if(!e) return;
-  document.getElementById('rBadge').textContent = e.type||'note';
+  const e=LOG_ENTRIES[idx]; if(!e) return;
+  document.getElementById('rBadge').textContent=e.type||'note';
 
-  const lines = (e.text||'').split('\n');
+  const lines=(e.text||'').split('\n');
   const secs=[]; let cur={head:null,lines:[]};
   lines.forEach(l=>{
     if(l.startsWith('# ')){ if(cur.head!==null||cur.lines.length) secs.push({...cur}); cur={head:l.slice(2).trim(),lines:[]}; }
     else cur.lines.push(l);
   });
   secs.push({...cur});
-  const heads = secs.filter(s=>s.head).map(s=>s.head);
+  const heads=secs.filter(s=>s.head).map(s=>s.head);
 
   let hi=0;
-  const content = secs.map((s,si)=>{
-    const h = s.head?`<div class="r-heading" id="rh${hi++}">${esc(s.head)}</div>`:'';
-    const t = s.lines.join('\n').trim();
+  const content=secs.map((s,si)=>{
+    const h=s.head?`<div class="r-heading" id="rh${hi++}">${esc(s.head)}</div>`:'';
+    const t=s.lines.join('\n').trim();
     return `<div class="r-section" style="animation-delay:${si*.1}s">${h}${t?`<div class="r-text">${esc(t)}</div>`:''}</div>`;
   }).join('');
 
@@ -842,47 +1052,56 @@ function openReader(idx){
     <div class="r-meta-block">
       <div class="r-meta-type">${esc(e.type||'note')}</div>
       <div class="r-meta-date">${esc(e.date||'')}</div>
-    </div>
-    ${content}`;
+    </div>${content}`;
 
   const tocBox=document.getElementById('rTocBox'), tocList=document.getElementById('rTocList');
   if(heads.length>=2){
-    tocList.innerHTML = heads.map((h,i)=>`<li><a href="#rh${i}" onclick="smoothScrollRdr('#rh${i}');return false">${esc(h)}</a></li>`).join('');
+    tocList.innerHTML=heads.map((h,i)=>`<li><a href="#rh${i}" onclick="smoothScrollRdr('#rh${i}');return false">${esc(h)}</a></li>`).join('');
     tocBox.style.display='block';
-  } else {
-    tocBox.style.display='none';
-  }
+  } else { tocBox.style.display='none'; }
 
-  const rd = document.getElementById('reader');
+  const rd=document.getElementById('reader');
   rd.classList.add('open'); rd.scrollTop=0;
   document.body.style.overflow='hidden';
   updateProg();
 }
 
 function smoothScrollRdr(sel){
-  const el = document.getElementById('reader').querySelector(sel);
+  const el=document.getElementById('reader').querySelector(sel);
   if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function closeReader(){
   document.getElementById('reader').classList.remove('open');
   document.body.style.overflow='';
 }
-document.getElementById('reader').addEventListener('scroll', updateProg);
+document.getElementById('reader').addEventListener('scroll',updateProg);
 function updateProg(){
   const rd=document.getElementById('reader'), pr=document.getElementById('rProg');
   const fill=document.getElementById('rSiFill'), pct=document.getElementById('rSiPct');
   if(!rd||!pr) return;
-  const sc = rd.scrollHeight-rd.clientHeight;
-  const p = sc>0?(rd.scrollTop/sc)*100:0;
-  pr.style.width = p+'%';
+  const sc=rd.scrollHeight-rd.clientHeight;
+  const p=sc>0?(rd.scrollTop/sc)*100:0;
+  pr.style.width=p+'%';
   if(fill) fill.style.width=p+'%';
   if(pct) pct.textContent=Math.round(p)+'%';
 }
 
 /* ════════════════════════════════════════
+   IMAGE HELPER (reliable loading)
+════════════════════════════════════════ */
+function mkPosterImg(src){
+  if(!src) return '';
+  // Inline style approach: reliable in all browsers
+  return `<img src="${esc(src)}" alt="" loading="lazy"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s;z-index:1"
+    onload="this.style.opacity='1'"
+    onerror="this.style.display='none'">`;
+}
+
+/* ════════════════════════════════════════
    WATCH
 ════════════════════════════════════════ */
-let wF='all';
+let wF='all', wMF='all';
 const WFL=[
   {k:'all',l:'All'},{k:'movie',l:'Movies'},{k:'series',l:'Series'},
   {k:'documentary',l:'Docs'},{k:'anime',l:'Anime'},
@@ -893,20 +1112,14 @@ const WTCLS={movie:'wt-movie',series:'wt-series',documentary:'wt-documentary',an
 const WTLBL={movie:'Movie',series:'Series',documentary:'Doc',anime:'Anime',other:'Other'};
 const WSCLS={watched:'sd-watched',watching:'sd-watching',want:'sd-want'};
 
-function imgWithFallback(primary, fallback, cls){
-  if(!primary && !fallback) return '';
-  const src = primary||fallback;
-  const fb = fallback||primary;
-  return `<img src="${esc(src)}" alt="" loading="lazy" class="${cls}"
-    onload="this.classList.add('ok')"
-    onerror="if(this.src!=='${esc(fb)}'){this.src='${esc(fb)}'}else{this.style.display='none'}">`;
-}
-
 function renderWatch(){
-  document.getElementById('wFilters').innerHTML = WFL.map(f=>
-    `<button class="fp ${wF===f.k?'on':''}" onclick="setWF('${f.k}')">${f.l}</button>`
-  ).join('');
+  // Chart
+  const chartColor='#b090e8';
+  const {svg:chartSvg, total:chartTotal}=buildMonthChart(WATCHED,'watchedDate',chartColor);
+  document.getElementById('wChart').innerHTML=chartSvg;
+  document.getElementById('wChartSub').textContent=`${chartTotal} title${chartTotal!==1?'s':''} in ${new Date().getFullYear()}`;
 
+  // Stats
   const tot=WATCHED.length, wt=WATCHED.filter(m=>m.status==='watched').length;
   const mv=WATCHED.filter(m=>m.type==='movie').length, dc=WATCHED.filter(m=>m.type==='documentary').length;
   const rd=WATCHED.filter(m=>m.rating>0);
@@ -914,16 +1127,40 @@ function renderWatch(){
   document.getElementById('wStats').innerHTML=[[tot,'Total'],[wt,'Watched'],[mv,'Movies'],[dc,'Docs'],[av,'Avg ★']]
     .map(([n,l])=>`<div class="stat"><div class="stat-n">${n}</div><div class="stat-l">${l}</div></div>`).join('');
 
+  // Type/status filters
+  document.getElementById('wFilters').innerHTML=WFL.map(f=>
+    `<button class="fp ${wF===f.k?'on':''}" onclick="setWF('${f.k}')">${f.l}</button>`
+  ).join('');
+
+  // Month filter — build from available dates
+  const monthSet=new Set();
+  WATCHED.forEach(m=>{ const d=parseEntryDate(m.watchedDate); if(d) monthSet.add(fmtMonthYear(d)); });
+  const monthOptions=[...monthSet].sort((a,b)=>new Date('01 '+b)-new Date('01 '+a));
+  document.getElementById('wMonthRow').innerHTML=
+    `<span class="mf-label">Month</span>`+
+    `<button class="fp ${wMF==='all'?'on':''}" onclick="setWMF('all')">All</button>`+
+    monthOptions.map(m=>`<button class="fp ${wMF===m?'on':''}" onclick="setWMF('${m}')">${m}</button>`).join('');
+
+  // Filter entries
   const tk=['movie','series','documentary','anime','other'], sk=['watched','watching'];
-  const list=WATCHED.filter(m=>tk.includes(wF)?m.type===wF:sk.includes(wF)?m.status===wF:true);
+  let list=WATCHED.filter(m=>{
+    const typeOk=tk.includes(wF)?m.type===wF:sk.includes(wF)?m.status===wF:true;
+    let monthOk=true;
+    if(wMF!=='all'){
+      const d=parseEntryDate(m.watchedDate);
+      monthOk=d&&fmtMonthYear(d)===wMF;
+    }
+    return typeOk&&monthOk;
+  });
+
   const g=document.getElementById('wGrid');
   if(!list.length){ g.innerHTML=`<div class="no-results" style="grid-column:1/-1">Nothing here yet.</div>`; return; }
 
   g.innerHTML=list.map((m,i)=>`
     <div class="wcard" style="animation-delay:${i*.06}s">
       <div class="wcard-img">
-        ${imgWithFallback(m.img, m.imgFallback, '')}
-        <span class="wfb-icon">${WICO[m.type]||'🎬'}</span>
+        ${mkPosterImg(m.img)}
+        <span class="wfb-icon" style="z-index:2">${WICO[m.type]||'🎬'}</span>
         <span class="wfb-title">${esc(m.title)}</span>
         <div class="w-overlay">
           <div class="w-ov-title">${esc(m.title)}</div>
@@ -938,21 +1175,26 @@ function renderWatch(){
       </div>
     </div>`).join('');
 }
+
 function setWF(k){ wF=k; renderWatch(); }
+function setWMF(k){ wMF=k; renderWatch(); }
 
 /* ════════════════════════════════════════
    BOOKS
 ════════════════════════════════════════ */
-let bF='all';
+let bF='all', bMF='all';
 const BFL=[{k:'all',l:'All'},{k:'read',l:'✓ Read'},{k:'reading',l:'⟳ Reading'},{k:'want',l:'♡ Want to Read'}];
 const BSCLS={read:'bks-read',reading:'bks-reading',want:'bks-want'};
 const BSLBL={read:'✓ Read',reading:'⟳ Reading',want:'♡ Want to Read'};
 
 function renderBooks(){
-  document.getElementById('bFilters').innerHTML = BFL.map(f=>
-    `<button class="fp ${bF===f.k?'on':''}" onclick="setBF('${f.k}')">${f.l}</button>`
-  ).join('');
+  // Chart
+  const chartColor='#5ecfa0';
+  const {svg:chartSvg, total:chartTotal}=buildMonthChart(BOOKS,'dateAdded',chartColor);
+  document.getElementById('bChart').innerHTML=chartSvg;
+  document.getElementById('bChartSub').textContent=`${chartTotal} added in ${new Date().getFullYear()}`;
 
+  // Stats
   const tot=BOOKS.length, rd=BOOKS.filter(b=>b.status==='read').length;
   const rg=BOOKS.filter(b=>b.status==='reading').length, wt=BOOKS.filter(b=>b.status==='want').length;
   const rt=BOOKS.filter(b=>b.rating>0);
@@ -960,7 +1202,31 @@ function renderBooks(){
   document.getElementById('bStats').innerHTML=[[tot,'Total'],[rd,'Read'],[rg,'Reading'],[wt,'Want'],[av,'Avg ★']]
     .map(([n,l])=>`<div class="stat"><div class="stat-n">${n}</div><div class="stat-l">${l}</div></div>`).join('');
 
-  const list=bF==='all'?BOOKS:BOOKS.filter(b=>b.status===bF);
+  // Status filters
+  document.getElementById('bFilters').innerHTML=BFL.map(f=>
+    `<button class="fp ${bF===f.k?'on':''}" onclick="setBF('${f.k}')">${f.l}</button>`
+  ).join('');
+
+  // Month filter
+  const monthSet=new Set();
+  BOOKS.forEach(b=>{ const d=parseEntryDate(b.dateAdded); if(d) monthSet.add(fmtMonthYear(d)); });
+  const monthOptions=[...monthSet].sort((a,b)=>new Date('01 '+b)-new Date('01 '+a));
+  document.getElementById('bMonthRow').innerHTML=
+    `<span class="mf-label">Month</span>`+
+    `<button class="fp ${bMF==='all'?'on':''}" onclick="setBMF('all')">All</button>`+
+    monthOptions.map(m=>`<button class="fp ${bMF===m?'on':''}" onclick="setBMF('${m}')">${m}</button>`).join('');
+
+  // Filter
+  let list=BOOKS.filter(b=>{
+    const statusOk=bF==='all'||b.status===bF;
+    let monthOk=true;
+    if(bMF!=='all'){
+      const d=parseEntryDate(b.dateAdded);
+      monthOk=d&&fmtMonthYear(d)===bMF;
+    }
+    return statusOk&&monthOk;
+  });
+
   const g=document.getElementById('bGrid');
   if(!list.length){ g.innerHTML=`<div class="no-results" style="grid-column:1/-1">Nothing here yet.</div>`; return; }
 
@@ -968,7 +1234,10 @@ function renderBooks(){
     <div class="bkcard" style="animation-delay:${i*.06}s">
       <div class="bk-img">
         <div class="bk-spine-line" style="--sc:${b.spineColor||'var(--accent)'}"></div>
-        ${imgWithFallback(b.img, b.imgFallback, '')}
+        ${b.img?`<img src="${esc(b.img)}" alt="" loading="lazy" class="bk-img-el"
+          onload="this.classList.add('ok')"
+          onerror="this.style.display='none'"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s;z-index:1">`:'' }
         <span class="bkfb">📖</span>
         <span class="bk-genre">${esc(b.genre||'')}</span>
         <div class="bk-overlay">
@@ -983,15 +1252,24 @@ function renderBooks(){
         ${b.rating?`<span class="bk-foot-stars">${stars(b.rating)}</span>`:''}
       </div>
     </div>`).join('');
+
+  // Apply ok class after render for book covers
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.bk-img-el').forEach(img=>{
+      if(img.complete && img.naturalWidth>0) img.classList.add('ok');
+    });
+  });
 }
+
 function setBF(k){ bF=k; renderBooks(); }
+function setBMF(k){ bMF=k; renderBooks(); }
 
 /* ════════════════════════════════════════
    LIGHTBOX
 ════════════════════════════════════════ */
 function openLb(src){ document.getElementById('lbImg').src=src; document.getElementById('lb').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeLb(){ document.getElementById('lb').classList.remove('open'); document.body.style.overflow=''; }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeLb(); closeReader(); } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeLb(); closeReader(); } });
 
 /* ════════════════════════════════════════
    INIT
