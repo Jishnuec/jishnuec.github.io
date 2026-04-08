@@ -22,7 +22,7 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--mono);overflow-x:hidden}
 
-/* SCROLLBAR — medium size */
+/* SCROLLBAR */
 ::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--g2);border-radius:2px}
@@ -32,8 +32,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);overflow-x:h
 .crt-l{position:fixed;inset:0;pointer-events:none;z-index:9990;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.055) 3px,rgba(0,0,0,.055) 4px)}
 .crt-v{position:fixed;inset:0;pointer-events:none;z-index:9989;background:radial-gradient(ellipse 88% 88% at 50% 50%,transparent 48%,rgba(0,0,0,.78) 100%)}
 
-/* NAV */
-nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;background:rgba(1,8,1,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+/* ══════════════════════════════════════
+   NAV — desktop unchanged, mobile tweaked
+   ══════════════════════════════════════ */
+nav{
+  position:fixed;inset:0 0 auto 0;z-index:1000;
+  height:58px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;background:rgba(1,8,1,.93);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border)
+}
 .nlogo{font-family:var(--vt);font-size:1.1rem;color:var(--g);text-shadow:0 0 14px var(--g);letter-spacing:3px;cursor:pointer;text-decoration:none;transition:opacity .2s}
 .nlogo:hover{opacity:.8}
 .nlogo em{color:var(--text2);font-style:normal}
@@ -42,14 +49,53 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .nlinks a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--g);transform:scaleX(0);transition:transform .22s}
 .nlinks a:hover{color:var(--g)}.nlinks a:hover::after{transform:scaleX(1)}
 .nright{display:flex;align-items:center;gap:1.2rem}
+
+/* Desktop status badge */
 .nstatus{display:flex;align-items:center;gap:.6rem;font-size:.58rem;letter-spacing:2px;color:var(--text2)}
 .npulse{width:7px;height:7px;border-radius:50%;background:var(--g);position:relative}
 .npulse::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--g);animation:sonar 2s ease-out infinite}
 @keyframes sonar{0%{transform:scale(.4);opacity:1}100%{transform:scale(2.6);opacity:0}}
 
-/* LOG BUTTON in nav */
-.nlog-btn{font-family:var(--mono);font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);background:transparent;border:1px solid var(--border2);padding:.3rem .8rem;cursor:pointer;text-decoration:none;transition:all .2s}
+/* LOG button — desktop */
+.nlog-btn{
+  font-family:var(--mono);font-size:.58rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text2);background:transparent;border:1px solid var(--border2);
+  padding:.3rem .8rem;cursor:pointer;text-decoration:none;transition:all .2s;
+  white-space:nowrap
+}
 .nlog-btn:hover{border-color:var(--amber);color:var(--amber);background:rgba(255,215,0,.05)}
+
+/* ── MOBILE NAV ── */
+/* On mobile: hide desktop status, show compact hire pill + vertical LOG */
+.nmobile-hire{display:none}
+
+@media(max-width:480px){
+  nav{padding:0 1rem;height:58px}
+  .nlinks{display:none}
+  .nstatus{display:none}
+
+  /* Compact "● HIRE" pill */
+  .nmobile-hire{
+    display:flex;align-items:center;gap:.35rem;
+    font-family:var(--orb);font-size:.48rem;letter-spacing:1.5px;
+    color:var(--g);border:1px solid rgba(0,255,65,.4);
+    background:rgba(0,255,65,.06);padding:.28rem .6rem;white-space:nowrap
+  }
+  .nmobile-hire .nm-dot{
+    width:6px;height:6px;border-radius:50%;background:var(--g);
+    box-shadow:0 0 8px var(--g);flex-shrink:0;animation:blink 1.4s step-end infinite
+  }
+
+  /* LOG button vertical — rotated text */
+  .nlog-btn{
+    font-size:.48rem;letter-spacing:2px;padding:.2rem .45rem;
+    writing-mode:vertical-rl;text-orientation:mixed;
+    transform:rotate(180deg);
+    height:auto;line-height:1.2
+  }
+
+  .nright{gap:.5rem}
+}
 
 /* HERO */
 #hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 3rem 3rem;position:relative;overflow:hidden}
@@ -191,7 +237,7 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .plink:hover{color:var(--g)}
 .plink svg{transition:transform .2s}.plink:hover svg{transform:translateX(3px)}
 
-/* COLLAPSIBLE SECTION WRAPPER */
+/* COLLAPSIBLE */
 .collapse-wrap{position:relative}
 .collapse-fade{position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none;transition:opacity .3s;z-index:10}
 .collapse-fade.hidden{opacity:0;pointer-events:none}
@@ -246,21 +292,19 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .lm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
 .lm-coming{font-family:var(--vt);font-size:1.5rem;color:#6dcc75;letter-spacing:3px;text-align:center;padding:2rem}
 
-/* ==============================
+/* ═══════════════════════════
    TWITTER-STYLE FIELD NOTES
-   ============================== */
+   ═══════════════════════════ */
 .fn-feed{display:flex;flex-direction:column;gap:0}
 .fn-post{border:1px solid var(--border2);border-bottom:none;background:var(--bg2);transition:background .2s;display:flex;gap:0}
 .fn-post:last-child{border-bottom:1px solid var(--border2)}
 .fn-post:hover{background:rgba(0,255,65,.02)}
 .fn-post.hidden{display:none}
 
-/* left avatar column */
 .fn-left{padding:.75rem .7rem .75rem .9rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;flex-shrink:0}
 .fn-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-family:var(--orb);font-size:.44rem;color:var(--bg);font-weight:700;flex-shrink:0;border:1px solid var(--border)}
 .fn-thread-line{width:1px;flex:1;background:var(--border2);min-height:10px}
 
-/* right content column — tighter */
 .fn-right{padding:.75rem .9rem .75rem 0;flex:1;min-width:0}
 .fn-header{display:flex;align-items:center;gap:.4rem;margin-bottom:.4rem;flex-wrap:wrap}
 .fn-name{font-family:var(--orb);font-size:.64rem;color:var(--text);letter-spacing:1px}
@@ -276,6 +320,18 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .fn-tags-row{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.65rem;padding-top:.6rem;border-top:1px solid rgba(0,255,65,.1)}
 .fn-tag{font-size:.58rem;padding:.15rem .58rem;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s;letter-spacing:1px;background:var(--bg3)}
 .fn-tag:hover,.fn-tag.active-tag{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
+
+/* Field note image */
+.fn-img-wrap{
+  margin:.6rem 0 .3rem;border:1px solid var(--border2);overflow:hidden;
+  max-height:220px;position:relative
+}
+.fn-img-wrap img{
+  width:100%;height:220px;object-fit:cover;object-position:top;
+  display:block;filter:brightness(.95) saturate(.9);
+  transition:filter .3s
+}
+.fn-img-wrap:hover img{filter:brightness(1) saturate(1)}
 
 .fn-empty{font-family:var(--vt);font-size:1.5rem;color:var(--text2);letter-spacing:3px;text-align:center;padding:3rem;opacity:.5}
 
@@ -304,7 +360,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 .rv.hidden-init[data-d="2"]{transition-delay:.16s}
 .rv.hidden-init[data-d="3"]{transition-delay:.24s}
 
-/* RESPONSIVE */
+/* ═══════════════
+   RESPONSIVE
+   ═══════════════ */
 @media(max-width:1200px){
   .pgrid{grid-template-columns:1fr 1fr}
   .hinner{gap:2rem}
@@ -346,9 +404,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .pcard{padding:1.4rem}
   .sh{gap:.8rem;margin-bottom:2.5rem}
   .sn{font-size:3.5rem}
-  .nright{gap:.6rem}
-  .nlog-btn{font-size:.5rem;padding:.25rem .6rem}
-  .nstatus{display:none}
+  .fn-img-wrap{max-height:160px}
+  .fn-img-wrap img{height:160px}
 }
 </style>
 </head>
@@ -370,7 +427,11 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nright">
+    <!-- Desktop: full status text -->
     <div class="nstatus"><div class="npulse"></div>AVAILABLE FOR HIRE</div>
+    <!-- Mobile: compact hire pill (shown only on ≤480px via CSS) -->
+    <div class="nmobile-hire"><span class="nm-dot"></span>HIRE</div>
+    <!-- LOG button — horizontal on desktop, vertical on mobile -->
     <a href="log.html" class="nlog-btn">// LOG</a>
   </div>
 </nav>
@@ -753,7 +814,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   </div>
 </div>
 
-<!-- FIELD NOTES — Twitter Style -->
+<!-- FIELD NOTES -->
 <section id="timeline">
   <div class="sw">
     <div class="sh rv"><span class="sn">07</span><span class="st">Field Notes</span><div class="sl"></div></div>
@@ -774,11 +835,48 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
       </select>
     </div>
 
-    <!-- Feed container with collapse -->
     <div class="rv" data-d="1">
       <div class="collapse-wrap">
         <div class="collapse-inner collapsed" id="fieldNotesInner">
           <div class="fn-feed" id="fnFeed">
+
+            <!-- ══ NEW POST: Memory Analysis ══ -->
+            <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2026-04-08">
+              <div class="fn-left">
+                <div class="fn-avatar">JEC</div>
+                <div class="fn-thread-line"></div>
+              </div>
+              <div class="fn-right">
+                <div class="fn-header">
+                  <span class="fn-name">Jishnu EC</span>
+                  <span class="fn-dot">·</span>
+                  <span class="fn-date">Apr 8, 2026</span>
+                </div>
+                <div class="fn-title">🚀 Completed Memory Analysis Introduction on TryHackMe!</div>
+                <div class="fn-body">Dived into the fundamentals of memory forensics — understanding how RAM works, how attackers exploit it, and how defenders can catch them in-memory before any trace hits disk.</div>
+                <!-- field note image -->
+                <div class="fn-img-wrap">
+                  <img
+                    src="https://jishnuec.github.io/fieldnote1.png"
+                    alt="Memory Analysis Introduction — TryHackMe"
+                    loading="lazy"
+                    onerror="this.closest('.fn-img-wrap').style.display='none'"
+                  />
+                </div>
+                <div class="fn-findings">
+                  <div class="fn-finding">🧠 <span>RAM &amp; Memory Structures</span> — Stack, Heap, User vs Kernel Space</div>
+                  <div class="fn-finding">🔍 <span>Process &amp; Full Memory Dumps</span> — capturing volatile data before it's gone</div>
+                  <div class="fn-finding">💉 <span>Code Injection &amp; Threat Detection</span> — spotting injected shellcode in process memory</div>
+                  <div class="fn-finding">🛠️ <span>Memory Forensics Intro</span> — first steps with Volatility and dump analysis</div>
+                </div>
+                <div class="fn-body" style="margin-top:.4rem">Crucial step toward mastering DFIR and understanding fileless attacks — malware that lives entirely in RAM and never touches disk. Next goal: hands-on labs with Volatility 🔥</div>
+                <a href="https://tryhackme.com/room/memoryanalysisintroduction" target="_blank" class="fn-link">→ TryHackMe Room</a>
+                <div class="fn-tags-row">
+                  <span class="fn-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
+                  <span class="fn-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
+                </div>
+              </div>
+            </div>
 
             <!-- POST 1 -->
             <div class="fn-post" data-tags="Digital Forensics,OSINT,Incident Response" data-date="2025-02-24">
@@ -862,8 +960,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
                 </div>
               </div>
             </div>
-
-            <!-- ADD MORE POSTS BELOW — copy the block above -->
 
           </div>
           <div id="fnEmpty" class="fn-empty" style="display:none">// No posts found</div>
@@ -958,7 +1054,7 @@ if(hn){setInterval(()=>{
   setTimeout(()=>{hn.style.textShadow='0 0 28px var(--g),0 0 75px rgba(0,255,65,.28)';hn.style.transform=''},90);
 },5500);}
 
-/* ── SCROLL REVEAL — animates on scroll down AND scroll up ── */
+/* ── SCROLL REVEAL ── */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
