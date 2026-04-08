@@ -22,19 +22,15 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--mono);overflow-x:hidden}
 
-/* SCROLLBAR */
 ::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--g2);border-radius:2px}
 ::-webkit-scrollbar-thumb:hover{background:var(--g)}
 
-/* CRT */
 .crt-l{position:fixed;inset:0;pointer-events:none;z-index:9990;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.055) 3px,rgba(0,0,0,.055) 4px)}
 .crt-v{position:fixed;inset:0;pointer-events:none;z-index:9989;background:radial-gradient(ellipse 88% 88% at 50% 50%,transparent 48%,rgba(0,0,0,.78) 100%)}
 
-/* ══════════════════════════════════════
-   NAV — desktop unchanged, mobile tweaked
-   ══════════════════════════════════════ */
+/* ══ NAV ══ */
 nav{
   position:fixed;inset:0 0 auto 0;z-index:1000;
   height:58px;display:flex;align-items:center;justify-content:space-between;
@@ -56,7 +52,6 @@ nav{
 .npulse::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--g);animation:sonar 2s ease-out infinite}
 @keyframes sonar{0%{transform:scale(.4);opacity:1}100%{transform:scale(2.6);opacity:0}}
 
-/* LOG button — desktop */
 .nlog-btn{
   font-family:var(--mono);font-size:.58rem;letter-spacing:2px;text-transform:uppercase;
   color:var(--text2);background:transparent;border:1px solid var(--border2);
@@ -66,33 +61,43 @@ nav{
 .nlog-btn:hover{border-color:var(--amber);color:var(--amber);background:rgba(255,215,0,.05)}
 
 /* ── MOBILE NAV ── */
-/* On mobile: hide desktop status, show compact hire pill + vertical LOG */
-.nmobile-hire{display:none}
+/* Hidden on desktop, shown on mobile */
+.nmobile-right{display:none}
 
 @media(max-width:480px){
   nav{padding:0 1rem;height:58px}
   .nlinks{display:none}
   .nstatus{display:none}
+  .nlog-btn{display:none} /* hide desktop log btn */
 
-  /* Compact "● HIRE" pill */
+  /* Right side stack: [AVAILABLE TO HIRE] / [// LOG] */
+  .nmobile-right{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:.28rem;
+  }
+
+  /* AVAILABLE TO HIRE pill */
   .nmobile-hire{
-    display:flex;align-items:center;gap:.35rem;
-    font-family:var(--orb);font-size:.48rem;letter-spacing:1.5px;
+    display:flex;align-items:center;gap:.32rem;
+    font-family:var(--orb);font-size:.42rem;letter-spacing:1.2px;
     color:var(--g);border:1px solid rgba(0,255,65,.4);
-    background:rgba(0,255,65,.06);padding:.28rem .6rem;white-space:nowrap
+    background:rgba(0,255,65,.06);padding:.22rem .55rem;white-space:nowrap
   }
   .nmobile-hire .nm-dot{
-    width:6px;height:6px;border-radius:50%;background:var(--g);
-    box-shadow:0 0 8px var(--g);flex-shrink:0;animation:blink 1.4s step-end infinite
+    width:5px;height:5px;border-radius:50%;background:var(--g);
+    box-shadow:0 0 6px var(--g);flex-shrink:0;animation:blink 1.4s step-end infinite
   }
 
-  /* LOG button vertical — rotated text */
-  .nlog-btn{
-    font-size:.48rem;letter-spacing:2px;padding:.2rem .45rem;
-    writing-mode:vertical-rl;text-orientation:mixed;
-    transform:rotate(180deg);
-    height:auto;line-height:1.2
+  /* // LOG link — slim, horizontal, under the pill */
+  .nmobile-log{
+    font-family:var(--mono);font-size:.44rem;letter-spacing:2px;text-transform:uppercase;
+    color:var(--text2);border:1px solid var(--border2);
+    padding:.18rem .5rem;text-decoration:none;transition:all .2s;
+    white-space:nowrap;
   }
+  .nmobile-log:hover{border-color:var(--amber);color:var(--amber)}
 
   .nright{gap:.5rem}
 }
@@ -292,9 +297,11 @@ nav{
 .lm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
 .lm-coming{font-family:var(--vt);font-size:1.5rem;color:#6dcc75;letter-spacing:3px;text-align:center;padding:2rem}
 
-/* ═══════════════════════════
-   TWITTER-STYLE FIELD NOTES
-   ═══════════════════════════ */
+/* ═══════════════════════════════════════════
+   FIELD NOTES — Twitter/X style feed
+   Key fix: image is a compact thumbnail (120px)
+   shown inline, content stays fully readable
+   ═══════════════════════════════════════════ */
 .fn-feed{display:flex;flex-direction:column;gap:0}
 .fn-post{border:1px solid var(--border2);border-bottom:none;background:var(--bg2);transition:background .2s;display:flex;gap:0}
 .fn-post:last-child{border-bottom:1px solid var(--border2)}
@@ -321,17 +328,37 @@ nav{
 .fn-tag{font-size:.58rem;padding:.15rem .58rem;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s;letter-spacing:1px;background:var(--bg3)}
 .fn-tag:hover,.fn-tag.active-tag{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
 
-/* Field note image */
+/* ── FIELD NOTE IMAGE — compact thumbnail ── */
+/* Sits below the body text, small fixed height, full width of the content column */
 .fn-img-wrap{
-  margin:.6rem 0 .3rem;border:1px solid var(--border2);overflow:hidden;
-  max-height:220px;position:relative
+  margin:.5rem 0 .4rem;
+  border:1px solid var(--border2);
+  overflow:hidden;
+  height:120px;          /* compact — content readable above/below */
+  position:relative;
+  background:var(--bg3); /* placeholder bg while loading */
 }
 .fn-img-wrap img{
-  width:100%;height:220px;object-fit:cover;object-position:top;
-  display:block;filter:brightness(.95) saturate(.9);
-  transition:filter .3s
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+  filter:brightness(.9) saturate(.85);
+  transition:filter .3s,transform .4s
 }
-.fn-img-wrap:hover img{filter:brightness(1) saturate(1)}
+.fn-img-wrap:hover img{
+  filter:brightness(1) saturate(1);
+  transform:scale(1.02)  /* subtle zoom on hover */
+}
+/* small "screenshot" label over the image */
+.fn-img-wrap::after{
+  content:'screenshot';
+  position:absolute;bottom:5px;right:7px;
+  font-family:var(--mono);font-size:.5rem;letter-spacing:2px;
+  color:rgba(0,255,65,.45);text-transform:uppercase;
+  pointer-events:none
+}
 
 .fn-empty{font-family:var(--vt);font-size:1.5rem;color:var(--text2);letter-spacing:3px;text-align:center;padding:3rem;opacity:.5}
 
@@ -404,8 +431,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .pcard{padding:1.4rem}
   .sh{gap:.8rem;margin-bottom:2.5rem}
   .sn{font-size:3.5rem}
-  .fn-img-wrap{max-height:160px}
-  .fn-img-wrap img{height:160px}
+  /* field note image — slightly smaller on phone */
+  .fn-img-wrap{height:100px}
 }
 </style>
 </head>
@@ -427,12 +454,15 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nright">
-    <!-- Desktop: full status text -->
+    <!-- Desktop: status + LOG -->
     <div class="nstatus"><div class="npulse"></div>AVAILABLE FOR HIRE</div>
-    <!-- Mobile: compact hire pill (shown only on ≤480px via CSS) -->
-    <div class="nmobile-hire"><span class="nm-dot"></span>HIRE</div>
-    <!-- LOG button — horizontal on desktop, vertical on mobile -->
     <a href="log.html" class="nlog-btn">// LOG</a>
+
+    <!-- Mobile only: stacked AVAILABLE TO HIRE + // LOG -->
+    <div class="nmobile-right">
+      <div class="nmobile-hire"><span class="nm-dot"></span>AVAILABLE TO HIRE</div>
+      <a href="log.html" class="nmobile-log">// LOG</a>
+    </div>
   </div>
 </nav>
 
@@ -814,10 +844,14 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   </div>
 </div>
 
-<!-- FIELD NOTES -->
+<!-- ══════════════════════════════════
+     FIELD NOTES — Section 07
+     ══════════════════════════════════ -->
 <section id="timeline">
   <div class="sw">
     <div class="sh rv"><span class="sn">07</span><span class="st">Field Notes</span><div class="sl"></div></div>
+
+    <!-- Filter bar -->
     <div class="fn-filter-bar rv">
       <div class="fn-chips" id="fnChips">
         <button class="fn-chip active" onclick="filterByTag(null,this)">All</button>
@@ -840,7 +874,13 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="collapse-inner collapsed" id="fieldNotesInner">
           <div class="fn-feed" id="fnFeed">
 
-            <!-- ══ NEW POST: Memory Analysis ══ -->
+            <!-- ══ POST: Memory Analysis ══
+                 HOW TO ADD A NEW POST:
+                 Copy this block, update data-tags, data-date,
+                 fn-date, fn-title, fn-body, fn-findings, fn-link,
+                 fn-tags-row, and the fn-img-wrap src (or remove it).
+                 Images show as a compact 120px thumbnail automatically.
+            -->
             <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2026-04-08">
               <div class="fn-left">
                 <div class="fn-avatar">JEC</div>
@@ -854,7 +894,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
                 </div>
                 <div class="fn-title">🚀 Completed Memory Analysis Introduction on TryHackMe!</div>
                 <div class="fn-body">Dived into the fundamentals of memory forensics — understanding how RAM works, how attackers exploit it, and how defenders can catch them in-memory before any trace hits disk.</div>
-                <!-- field note image -->
+
+                <!-- Compact thumbnail — 120px tall, full content still readable above/below -->
                 <div class="fn-img-wrap">
                   <img
                     src="https://jishnuec.github.io/fieldnote1.png"
@@ -863,6 +904,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
                     onerror="this.closest('.fn-img-wrap').style.display='none'"
                   />
                 </div>
+
                 <div class="fn-findings">
                   <div class="fn-finding">🧠 <span>RAM &amp; Memory Structures</span> — Stack, Heap, User vs Kernel Space</div>
                   <div class="fn-finding">🔍 <span>Process &amp; Full Memory Dumps</span> — capturing volatile data before it's gone</div>
@@ -878,7 +920,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
-            <!-- POST 1 -->
+            <!-- POST: MemLoot -->
             <div class="fn-post" data-tags="Digital Forensics,OSINT,Incident Response" data-date="2025-02-24">
               <div class="fn-left">
                 <div class="fn-avatar">JEC</div>
@@ -906,7 +948,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
-            <!-- POST 2 -->
+            <!-- POST: DFIR Intro -->
             <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2025-03-10">
               <div class="fn-left">
                 <div class="fn-avatar">JEC</div>
@@ -934,7 +976,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
-            <!-- POST 3 -->
+            <!-- POST: Udyama CTF release -->
             <div class="fn-post" data-tags="CTF,Penetration Testing" data-date="2026-02-15">
               <div class="fn-left">
                 <div class="fn-avatar">JEC</div>
@@ -961,14 +1003,15 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
-          </div>
+          </div><!-- /fn-feed -->
           <div id="fnEmpty" class="fn-empty" style="display:none">// No posts found</div>
-        </div>
+        </div><!-- /collapse-inner -->
+
         <div class="collapse-fade" id="fieldNotesFade"></div>
         <button class="show-more-btn" id="fieldNotesToggle" onclick="toggleSection('fieldNotes')">
           <span class="smb-icon">▼</span> <span class="smb-text">Show More Field Notes</span>
         </button>
-      </div>
+      </div><!-- /collapse-wrap -->
     </div>
   </div>
 </section>
@@ -1055,54 +1098,44 @@ if(hn){setInterval(()=>{
 },5500);}
 
 /* ── SCROLL REVEAL ── */
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.remove('hidden-init');
-    } else {
-      entry.target.classList.add('hidden-init');
-    }
+const revealObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.remove('hidden-init')}
+    else{entry.target.classList.add('hidden-init')}
   });
-}, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
-document.querySelectorAll('.rv').forEach(el => {
-  el.classList.add('hidden-init');
-  revealObserver.observe(el);
-});
+},{threshold:0.07,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(el=>{el.classList.add('hidden-init');revealObserver.observe(el);});
 
 /* ── COLLAPSE / SHOW MORE ── */
-function checkCollapseNeeded(id) {
-  const inner = document.getElementById(id + 'Inner');
-  const fade = document.getElementById(id + 'Fade');
-  const btn = document.getElementById(id + 'Toggle');
-  if (!inner) return;
+function checkCollapseNeeded(id){
+  const inner=document.getElementById(id+'Inner');
+  const fade=document.getElementById(id+'Fade');
+  const btn=document.getElementById(id+'Toggle');
+  if(!inner)return;
   inner.classList.add('expanded');
-  const fullH = inner.scrollHeight;
+  const fullH=inner.scrollHeight;
   inner.classList.remove('expanded');
   inner.classList.add('collapsed');
-  if (fullH <= 520) {
-    inner.classList.replace('collapsed','expanded');
-    if (fade) fade.style.display = 'none';
-    if (btn) btn.style.display = 'none';
-  }
+  if(fullH<=520){inner.classList.replace('collapsed','expanded');if(fade)fade.style.display='none';if(btn)btn.style.display='none';}
 }
 ['projects','research','labs','fieldNotes'].forEach(checkCollapseNeeded);
 
-function toggleSection(id) {
-  const inner = document.getElementById(id + 'Inner');
-  const fade = document.getElementById(id + 'Fade');
-  const btn = document.getElementById(id + 'Toggle');
-  const txt = btn.querySelector('.smb-text');
-  const isCollapsed = inner.classList.contains('collapsed');
-  if (isCollapsed) {
+function toggleSection(id){
+  const inner=document.getElementById(id+'Inner');
+  const fade=document.getElementById(id+'Fade');
+  const btn=document.getElementById(id+'Toggle');
+  const txt=btn.querySelector('.smb-text');
+  const isCollapsed=inner.classList.contains('collapsed');
+  if(isCollapsed){
     inner.classList.replace('collapsed','expanded');
-    if (fade) fade.classList.add('hidden');
+    if(fade)fade.classList.add('hidden');
     btn.classList.add('expanded');
-    txt.textContent = txt.textContent.replace('Show More','Show Less');
-  } else {
+    txt.textContent=txt.textContent.replace('Show More','Show Less');
+  }else{
     inner.classList.replace('expanded','collapsed');
-    if (fade) fade.classList.remove('hidden');
+    if(fade)fade.classList.remove('hidden');
     btn.classList.remove('expanded');
-    txt.textContent = txt.textContent.replace('Show Less','Show More');
+    txt.textContent=txt.textContent.replace('Show Less','Show More');
     inner.closest('section').scrollIntoView({behavior:'smooth'});
   }
 }
@@ -1216,8 +1249,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElement
 function sortResearch(order,btn){
   document.querySelectorAll('#research .fn-chip').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  const grid=document.getElementById('resGrid');
-  if(!grid)return;
+  const grid=document.getElementById('resGrid');if(!grid)return;
   const cards=[...grid.querySelectorAll('.rcard')];
   cards.sort((a,b)=>{const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';return order==='newest'?db.localeCompare(da):da.localeCompare(db);});
   cards.forEach(c=>grid.appendChild(c));
