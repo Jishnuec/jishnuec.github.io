@@ -107,8 +107,9 @@ nav{
 .hinner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 450px;gap:4rem;align-items:center;max-width:1200px;width:100%}
 
 .hphoto-name{display:flex;align-items:center;gap:2rem;margin-bottom:1.2rem}
-.hphoto-box{flex-shrink:0;width:160px;height:200px;border:2px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.hphoto-box img{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(15%) contrast(1.05);display:block}
+.hphoto-box{flex-shrink:0;width:160px;height:200px;border:2px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:zoom-in}
+.hphoto-box img{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(15%) contrast(1.05);display:block;transition:filter .3s}
+.hphoto-box:hover img{filter:grayscale(0%) contrast(1.1)}
 .hphoto-init{font-family:var(--vt);font-size:3.2rem;color:var(--g);text-shadow:0 0 20px var(--g);letter-spacing:4px}
 .hname-block{display:flex;flex-direction:column;gap:.4rem;min-width:0}
 .hname{font-family:var(--vt);font-size:clamp(3.5rem,7vw,7rem);line-height:.9;color:var(--g);text-shadow:0 0 28px var(--g),0 0 75px rgba(0,255,65,.28);letter-spacing:.08em;display:block;white-space:nowrap}
@@ -330,19 +331,21 @@ nav{
   position:relative;
   max-width:100%;
   background:var(--bg3);
+  cursor:zoom-in;
 }
 .fn-img-wrap img{
   width:100%;
   height:auto;
   display:block;
   filter:brightness(.9) saturate(.85);
-  transition:filter .3s;
+  transition:filter .3s, transform .3s;
 }
 .fn-img-wrap:hover img{
   filter:brightness(1) saturate(1);
+  transform:scale(1.01);
 }
 .fn-img-wrap::after{
-  content:'screenshot';
+  content:'click to zoom';
   position:absolute;bottom:5px;right:7px;
   font-family:var(--mono);font-size:.5rem;letter-spacing:2px;
   color:rgba(0,255,65,.45);text-transform:uppercase;
@@ -375,6 +378,48 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 .rv.hidden-init[data-d="1"]{transition-delay:.08s}
 .rv.hidden-init[data-d="2"]{transition-delay:.16s}
 .rv.hidden-init[data-d="3"]{transition-delay:.24s}
+
+/* ══════════════════════════════
+   LIGHTBOX
+   ══════════════════════════════ */
+#lightbox{
+  position:fixed;inset:0;z-index:9995;
+  background:rgba(0,0,0,.93);
+  display:none;align-items:center;justify-content:center;
+  backdrop-filter:blur(10px);
+  padding:1.5rem;
+  cursor:zoom-out;
+}
+#lightbox.open{display:flex}
+#lightbox-img{
+  max-width:90vw;
+  max-height:88vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border:1px solid var(--border);
+  box-shadow:0 0 60px rgba(0,255,65,.15),0 0 120px rgba(0,0,0,.8);
+  display:block;
+  animation:lbIn .22s cubic-bezier(.16,1,.3,1);
+}
+@keyframes lbIn{
+  from{opacity:0;transform:scale(.92)}
+  to{opacity:1;transform:scale(1)}
+}
+#lightbox-close{
+  position:fixed;top:1.2rem;right:1.5rem;
+  font-family:var(--mono);font-size:.65rem;letter-spacing:3px;
+  color:var(--text2);background:var(--bg3);
+  border:1px solid var(--border2);padding:.35rem .8rem;
+  cursor:pointer;transition:all .2s;z-index:9996;
+}
+#lightbox-close:hover{border-color:var(--g);color:var(--g)}
+#lightbox-caption{
+  position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:.58rem;letter-spacing:2px;
+  color:rgba(0,255,65,.5);text-transform:uppercase;
+  pointer-events:none;white-space:nowrap;
+}
 
 /* ═══════════════
    RESPONSIVE
@@ -427,6 +472,13 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 <div class="crt-l"></div>
 <div class="crt-v"></div>
 
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕ CLOSE</button>
+  <img id="lightbox-img" src="" alt=""/>
+  <div id="lightbox-caption">ESC or click anywhere to close</div>
+</div>
+
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nlogo">[ <em>JISHNU EC</em> ]</a>
@@ -458,7 +510,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   <div class="hinner">
     <div>
       <div class="hphoto-name">
-        <div class="hphoto-box">
+        <div class="hphoto-box" onclick="openLightbox('photo.jpg','Jishnu EC')">
           <img src="photo.jpg" alt="Jishnu EC" id="hphoto" onerror="this.style.display='none';document.getElementById('hinit').style.display='flex'"/>
           <div class="hphoto-init" id="hinit" style="display:none">JEC</div>
         </div>
@@ -869,7 +921,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
                 <div class="fn-title">🚀 Completed Memory Analysis Introduction on TryHackMe!</div>
                 <div class="fn-body">Dived into the fundamentals of memory forensics — understanding how RAM works, how attackers exploit it, and how defenders can catch them in-memory before any trace hits disk.</div>
 
-                <div class="fn-img-wrap">
+                <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
                   <img
                     src="https://jishnuec.github.io/fieldnote1.png"
                     alt="Memory Analysis Introduction — TryHackMe"
@@ -1110,6 +1162,24 @@ function toggleSection(id){
   }
 }
 
+/* ── LIGHTBOX ── */
+function openLightbox(src, alt){
+  if(!src) return;
+  const lb=document.getElementById('lightbox');
+  const img=document.getElementById('lightbox-img');
+  img.src=src;
+  img.alt=alt||'';
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+/* Stop the image itself from closing the lightbox when clicked */
+document.getElementById('lightbox-img').addEventListener('click',function(e){e.stopPropagation();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+
 /* ── SKILL TOOLTIP ── */
 const skillInfo={
   'Nmap':'Network scanner for host discovery, port scanning, and service/OS detection.',
@@ -1213,7 +1283,7 @@ function closeLab(e){
   document.getElementById('labModal').classList.remove('open');
   document.body.style.overflow='';
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('labModal').classList.remove('open');document.body.style.overflow=''}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('labModal').classList.remove('open');document.body.style.overflow='';closeLightbox();}});
 
 /* ── RESEARCH SORT ── */
 function sortResearch(order,btn){
