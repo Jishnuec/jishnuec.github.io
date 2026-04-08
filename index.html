@@ -61,16 +61,14 @@ nav{
 .nlog-btn:hover{border-color:var(--amber);color:var(--amber);background:rgba(255,215,0,.05)}
 
 /* ── MOBILE NAV ── */
-/* Hidden on desktop, shown on mobile */
 .nmobile-right{display:none}
 
 @media(max-width:480px){
   nav{padding:0 1rem;height:58px}
   .nlinks{display:none}
   .nstatus{display:none}
-  .nlog-btn{display:none} /* hide desktop log btn */
+  .nlog-btn{display:none}
 
-  /* Right side stack: [AVAILABLE TO HIRE] / [// LOG] */
   .nmobile-right{
     display:flex;
     flex-direction:column;
@@ -78,7 +76,6 @@ nav{
     gap:.28rem;
   }
 
-  /* AVAILABLE TO HIRE pill */
   .nmobile-hire{
     display:flex;align-items:center;gap:.32rem;
     font-family:var(--orb);font-size:.42rem;letter-spacing:1.2px;
@@ -90,7 +87,6 @@ nav{
     box-shadow:0 0 6px var(--g);flex-shrink:0;animation:blink 1.4s step-end infinite
   }
 
-  /* // LOG link — slim, horizontal, under the pill */
   .nmobile-log{
     font-family:var(--mono);font-size:.44rem;letter-spacing:2px;text-transform:uppercase;
     color:var(--text2);border:1px solid var(--border2);
@@ -298,9 +294,7 @@ nav{
 .lm-coming{font-family:var(--vt);font-size:1.5rem;color:#6dcc75;letter-spacing:3px;text-align:center;padding:2rem}
 
 /* ═══════════════════════════════════════════
-   FIELD NOTES — Twitter/X style feed
-   Key fix: image is a compact thumbnail (120px)
-   shown inline, content stays fully readable
+   FIELD NOTES
    ═══════════════════════════════════════════ */
 .fn-feed{display:flex;flex-direction:column;gap:0}
 .fn-post{border:1px solid var(--border2);border-bottom:none;background:var(--bg2);transition:background .2s;display:flex;gap:0}
@@ -328,30 +322,25 @@ nav{
 .fn-tag{font-size:.58rem;padding:.15rem .58rem;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s;letter-spacing:1px;background:var(--bg3)}
 .fn-tag:hover,.fn-tag.active-tag{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
 
-/* ── FIELD NOTE IMAGE — compact thumbnail ── */
-/* Sits below the body text, small fixed height, full width of the content column */
+/* ── FIELD NOTE IMAGE — full natural height, no cropping ── */
 .fn-img-wrap{
   margin:.5rem 0 .4rem;
   border:1px solid var(--border2);
   overflow:hidden;
-  height:120px;          /* compact — content readable above/below */
   position:relative;
-  background:var(--bg3); /* placeholder bg while loading */
+  max-width:100%;
+  background:var(--bg3);
 }
 .fn-img-wrap img{
   width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:top center;
+  height:auto;
   display:block;
   filter:brightness(.9) saturate(.85);
-  transition:filter .3s,transform .4s
+  transition:filter .3s;
 }
 .fn-img-wrap:hover img{
   filter:brightness(1) saturate(1);
-  transform:scale(1.02)  /* subtle zoom on hover */
 }
-/* small "screenshot" label over the image */
 .fn-img-wrap::after{
   content:'screenshot';
   position:absolute;bottom:5px;right:7px;
@@ -431,8 +420,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .pcard{padding:1.4rem}
   .sh{gap:.8rem;margin-bottom:2.5rem}
   .sn{font-size:3.5rem}
-  /* field note image — slightly smaller on phone */
-  .fn-img-wrap{height:100px}
 }
 </style>
 </head>
@@ -454,11 +441,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nright">
-    <!-- Desktop: status + LOG -->
     <div class="nstatus"><div class="npulse"></div>AVAILABLE FOR HIRE</div>
     <a href="log.html" class="nlog-btn">// LOG</a>
-
-    <!-- Mobile only: stacked AVAILABLE TO HIRE + // LOG -->
     <div class="nmobile-right">
       <div class="nmobile-hire"><span class="nm-dot"></span>AVAILABLE TO HIRE</div>
       <a href="log.html" class="nmobile-log">// LOG</a>
@@ -844,14 +828,11 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   </div>
 </div>
 
-<!-- ══════════════════════════════════
-     FIELD NOTES — Section 07
-     ══════════════════════════════════ -->
+<!-- FIELD NOTES -->
 <section id="timeline">
   <div class="sw">
     <div class="sh rv"><span class="sn">07</span><span class="st">Field Notes</span><div class="sl"></div></div>
 
-    <!-- Filter bar -->
     <div class="fn-filter-bar rv">
       <div class="fn-chips" id="fnChips">
         <button class="fn-chip active" onclick="filterByTag(null,this)">All</button>
@@ -874,13 +855,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="collapse-inner collapsed" id="fieldNotesInner">
           <div class="fn-feed" id="fnFeed">
 
-            <!-- ══ POST: Memory Analysis ══
-                 HOW TO ADD A NEW POST:
-                 Copy this block, update data-tags, data-date,
-                 fn-date, fn-title, fn-body, fn-findings, fn-link,
-                 fn-tags-row, and the fn-img-wrap src (or remove it).
-                 Images show as a compact 120px thumbnail automatically.
-            -->
             <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2026-04-08">
               <div class="fn-left">
                 <div class="fn-avatar">JEC</div>
@@ -895,7 +869,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
                 <div class="fn-title">🚀 Completed Memory Analysis Introduction on TryHackMe!</div>
                 <div class="fn-body">Dived into the fundamentals of memory forensics — understanding how RAM works, how attackers exploit it, and how defenders can catch them in-memory before any trace hits disk.</div>
 
-                <!-- Compact thumbnail — 120px tall, full content still readable above/below -->
                 <div class="fn-img-wrap">
                   <img
                     src="https://jishnuec.github.io/fieldnote1.png"
@@ -920,7 +893,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
-            <!-- POST: MemLoot -->
             <div class="fn-post" data-tags="Digital Forensics,OSINT,Incident Response" data-date="2025-02-24">
               <div class="fn-left">
                 <div class="fn-avatar">JEC</div>
@@ -948,7 +920,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
-            <!-- POST: DFIR Intro -->
             <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2025-03-10">
               <div class="fn-left">
                 <div class="fn-avatar">JEC</div>
@@ -976,7 +947,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
-            <!-- POST: Udyama CTF release -->
             <div class="fn-post" data-tags="CTF,Penetration Testing" data-date="2026-02-15">
               <div class="fn-left">
                 <div class="fn-avatar">JEC</div>
