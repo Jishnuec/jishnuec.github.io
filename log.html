@@ -484,6 +484,11 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;b
 ══════════════════════════════════ */
 const LOG_ENTRIES = [
   {
+    date:"8 Apr 2026",type:"note",
+    text:"I'm thinking of writing a series, I don't know if it's gonna be complete — installing the free software Trelby.\n\nAfter watching Breaking Bad I always dreamed of making something with the best character development, not only the main character but mainly around them — how the story drives the characters. Hoping I can finish a masterpiece. 🎬",
+    imgs:["https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif"]
+  },
+  {
     date:"7 Apr 2026",type:"thought",
     text:"ഇന്ന് കേരള നിയമസഭാ തിരഞ്ഞെടുപ്പ് കലാശകോട്ട ആണ്. ഇത് കയികത്തിനെക്കാളും കോമഡി ആയിട്ടുണ്ട് 😂",
     imgs:[]
@@ -640,7 +645,6 @@ function buildMonthChart(entries, dateField, color, chartId, activeMF) {
   const activeMonths = counts.filter(c=>c>0).length;
   const avg = activeMonths > 0 ? (total/activeMonths).toFixed(1) : '—';
 
-  // Find active bar index
   const activeIdx = activeMF && activeMF !== 'all'
     ? MNAMES.findIndex(m => activeMF.startsWith(m))
     : -1;
@@ -749,7 +753,6 @@ function mkImg(src) {
 }
 
 function fixLoadedImgs() {
-  // Handle already-cached images that fire onload before JS
   requestAnimationFrame(() => {
     document.querySelectorAll('.wcard-img img, .bk-img img').forEach(img => {
       if(img.complete && img.naturalWidth > 0) img.classList.add('loaded');
@@ -881,12 +884,10 @@ const WTLBL={movie:'Movie',series:'Series',documentary:'Doc',anime:'Anime',other
 const WSCLS={watched:'sd-watched',watching:'sd-watching',want:'sd-want'};
 
 function renderWatch(){
-  // Chart
   const {html:chartHtml, total:chartTotal} = buildMonthChart(WATCHED,'watchedDate','#b090e8','wChart',wMF);
   document.getElementById('wChart').innerHTML = chartHtml;
   document.getElementById('wChartSub').textContent = `${chartTotal} title${chartTotal!==1?'s':''} in ${new Date().getFullYear()}`;
 
-  // Stats
   const tot=WATCHED.length, wt=WATCHED.filter(m=>m.status==='watched').length;
   const mv=WATCHED.filter(m=>m.type==='movie').length, dc=WATCHED.filter(m=>m.type==='documentary').length;
   const rd=WATCHED.filter(m=>m.rating>0);
@@ -894,7 +895,6 @@ function renderWatch(){
   document.getElementById('wStats').innerHTML=[[tot,'Total'],[wt,'Watched'],[mv,'Movies'],[dc,'Docs'],[av,'Avg ★']]
     .map(([n,l])=>`<div class="stat"><div class="stat-n">${n}</div><div class="stat-l">${l}</div></div>`).join('');
 
-  // Filters
   const types=['all','movie','documentary','series','anime','other'];
   const typeLbls={all:'All',movie:'🎬 Movies',documentary:'🎥 Docs',series:'📺 Series',anime:'⛩️ Anime',other:'Other'};
   const statuses=['all','watched','watching','want'];
@@ -919,7 +919,6 @@ function renderWatch(){
       ${months.map(m=>`<button class="fp ${wMF===m?'on':''}" onclick="setWMF('${m}')">${m}</button>`).join('')}
     </div>`;
 
-  // Filter entries
   let list=WATCHED.filter(m=>{
     const typeOk = wType==='all' || m.type===wType;
     const statusOk = wStatus==='all' || m.status===wStatus;
@@ -967,16 +966,13 @@ let bStatus='all', bGenre='all', bMF='all';
 
 const BSCLS={read:'bks-read',reading:'bks-reading',want:'bks-want'};
 const BSLBL={read:'✓ Read',reading:'⟳ Reading',want:'♡ Want to Read'};
-// Genre accent colors for filter buttons
 const GENRE_CLS={Thriller:'on-rose',Biography:'on-blue',Mystery:'on-teal',Adventure:'on-teal',Philosophy:'on-purple',Fiction:'on',Other:'on'};
 
 function renderBooks(){
-  // Chart
   const {html:chartHtml, total:chartTotal} = buildMonthChart(BOOKS,'dateAdded','#5ecfa0','bChart',bMF);
   document.getElementById('bChart').innerHTML = chartHtml;
   document.getElementById('bChartSub').textContent = `${chartTotal} added in ${new Date().getFullYear()}`;
 
-  // Stats
   const tot=BOOKS.length, rd=BOOKS.filter(b=>b.status==='read').length;
   const rg=BOOKS.filter(b=>b.status==='reading').length, wt=BOOKS.filter(b=>b.status==='want').length;
   const rt=BOOKS.filter(b=>b.rating>0);
@@ -984,7 +980,6 @@ function renderBooks(){
   document.getElementById('bStats').innerHTML=[[tot,'Total'],[rd,'Read'],[rg,'Reading'],[wt,'Want'],[av,'Avg ★']]
     .map(([n,l])=>`<div class="stat"><div class="stat-n">${n}</div><div class="stat-l">${l}</div></div>`).join('');
 
-  // Extract genres dynamically
   const genreSet = [...new Set(BOOKS.map(b=>b.genre).filter(Boolean))].sort();
   const statuses=['all','read','reading','want'];
   const statusLbls={all:'All',read:'✓ Read',reading:'⟳ Reading',want:'♡ Want to Read'};
@@ -1009,7 +1004,6 @@ function renderBooks(){
       ${months.map(m=>`<button class="fp ${bMF===m?'on':''}" onclick="setBMF('${m}')">${m}</button>`).join('')}
     </div>`;
 
-  // Filter
   let list=BOOKS.filter(b=>{
     const statusOk=bStatus==='all'||b.status===bStatus;
     const genreOk=bGenre==='all'||b.genre===bGenre;
