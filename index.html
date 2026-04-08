@@ -264,7 +264,6 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .fn-right{padding:.75rem .9rem .75rem 0;flex:1;min-width:0}
 .fn-header{display:flex;align-items:center;gap:.4rem;margin-bottom:.4rem;flex-wrap:wrap}
 .fn-name{font-family:var(--orb);font-size:.64rem;color:var(--text);letter-spacing:1px}
-.fn-handle{font-size:.62rem;color:var(--text2)}
 .fn-dot{font-size:.5rem;color:var(--text2);opacity:.5}
 .fn-date{font-size:.6rem;color:var(--text2)}
 .fn-title{font-family:var(--orb);font-size:.76rem;color:var(--g);letter-spacing:1px;margin-bottom:.4rem;line-height:1.45}
@@ -349,6 +348,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .sn{font-size:3.5rem}
   .nright{gap:.6rem}
   .nlog-btn{font-size:.5rem;padding:.25rem .6rem}
+  .nstatus{display:none}
 }
 </style>
 </head>
@@ -789,7 +789,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               <div class="fn-right">
                 <div class="fn-header">
                   <span class="fn-name">Jishnu EC</span>
-                  <span class="fn-handle">@jishxec</span>
                   <span class="fn-dot">·</span>
                   <span class="fn-date">Feb 24, 2025</span>
                 </div>
@@ -818,7 +817,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               <div class="fn-right">
                 <div class="fn-header">
                   <span class="fn-name">Jishnu EC</span>
-                  <span class="fn-handle">@jishxec</span>
                   <span class="fn-dot">·</span>
                   <span class="fn-date">Mar 10, 2025</span>
                 </div>
@@ -838,7 +836,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
-            <!-- POST 3 — placeholder so 3 are visible by default -->
+            <!-- POST 3 -->
             <div class="fn-post" data-tags="CTF,Penetration Testing" data-date="2026-02-15">
               <div class="fn-left">
                 <div class="fn-avatar">JEC</div>
@@ -847,7 +845,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               <div class="fn-right">
                 <div class="fn-header">
                   <span class="fn-name">Jishnu EC</span>
-                  <span class="fn-handle">@jishxec</span>
                   <span class="fn-dot">·</span>
                   <span class="fn-date">Feb 15, 2026</span>
                 </div>
@@ -891,7 +888,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     <div class="cgrid rv" data-d="1">
       <a href="mailto:jishnuwhoopofficial@gmail.com" class="ccrd">
         <div class="cico">@</div>
-        <div><div class="clbl">Email</div><div class="cval">jishnuwhoopofficial@gmail.com</div></div>
+        <div><div class="clbl">Email</div><div class="cval" style="font-size:.58rem;word-break:break-all;">jishnuwhoopofficial@gmail.com</div></div>
       </a>
       <a href="tel:+917510572360" class="ccrd">
         <div class="cico">☏</div>
@@ -920,7 +917,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 <!-- FOOTER -->
 <footer>
   <div class="fl">Built by <span>Jishnu EC</span> &nbsp;·&nbsp; <span>jishnuec.github.io</span><br>All systems operational. No vulnerabilities found.</div>
-  <a href="log.html" style="font-family:var(--mono);font-size:.6rem;letter-spacing:2px;color:var(--text2);text-decoration:none;opacity:.4;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.4">// log</a>
 </footer>
 
 <!-- SKILL TOOLTIP -->
@@ -962,12 +958,13 @@ if(hn){setInterval(()=>{
   setTimeout(()=>{hn.style.textShadow='0 0 28px var(--g),0 0 75px rgba(0,255,65,.28)';hn.style.transform=''},90);
 },5500);}
 
-/* ── SCROLL REVEAL ── */
+/* ── SCROLL REVEAL — animates on scroll down AND scroll up ── */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.remove('hidden-init');
-      revealObserver.unobserve(entry.target);
+    } else {
+      entry.target.classList.add('hidden-init');
     }
   });
 }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
@@ -977,7 +974,6 @@ document.querySelectorAll('.rv').forEach(el => {
 });
 
 /* ── COLLAPSE / SHOW MORE ── */
-// Auto-check which sections actually need a toggle (content shorter than max-height)
 function checkCollapseNeeded(id) {
   const inner = document.getElementById(id + 'Inner');
   const fade = document.getElementById(id + 'Fade');
@@ -988,7 +984,6 @@ function checkCollapseNeeded(id) {
   inner.classList.remove('expanded');
   inner.classList.add('collapsed');
   if (fullH <= 520) {
-    // Content fits — no need for toggle
     inner.classList.replace('collapsed','expanded');
     if (fade) fade.style.display = 'none';
     if (btn) btn.style.display = 'none';
@@ -1012,7 +1007,6 @@ function toggleSection(id) {
     if (fade) fade.classList.remove('hidden');
     btn.classList.remove('expanded');
     txt.textContent = txt.textContent.replace('Show Less','Show More');
-    // scroll back to section header
     inner.closest('section').scrollIntoView({behavior:'smooth'});
   }
 }
