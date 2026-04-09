@@ -241,15 +241,11 @@ nav{
 
 /* COLLAPSIBLE */
 .collapse-wrap{position:relative}
-.collapse-fade{position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none;transition:opacity .3s;z-index:10}
-.collapse-fade.hidden{opacity:0;pointer-events:none}
-.collapse-inner{overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1)}
-.collapse-inner.collapsed{max-height:520px}
-.collapse-inner.expanded{max-height:9999px}
-.show-more-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:.5rem;margin-bottom:0;width:100%;background:transparent;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.65rem;letter-spacing:3px;text-transform:uppercase;padding:.75rem;cursor:pointer;transition:all .3s;position:relative;z-index:11}
+.collapse-fade{position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none;transition:opacity .3s;z-index:10;display:none}
+.collapse-inner{overflow:visible}
+.show-more-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:1.2rem;margin-bottom:0;width:100%;background:transparent;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.65rem;letter-spacing:3px;text-transform:uppercase;padding:.75rem;cursor:pointer;transition:all .3s;position:relative;z-index:11}
 .show-more-btn:hover{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.04)}
-.show-more-btn .smb-icon{transition:transform .3s;font-size:.8rem}
-.show-more-btn.expanded .smb-icon{transform:rotate(180deg)}
+.show-more-btn .smb-icon{font-size:.8rem}
 
 /* RESEARCH */
 .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
@@ -301,7 +297,7 @@ nav{
 .fn-post{border:1px solid var(--border2);border-bottom:none;background:var(--bg2);transition:background .2s;display:flex;gap:0}
 .fn-post:last-child{border-bottom:1px solid var(--border2)}
 .fn-post:hover{background:rgba(0,255,65,.02)}
-.fn-post.hidden{display:none}
+.fn-post.hidden{display:none !important}
 
 .fn-left{padding:.75rem .7rem .75rem .9rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;flex-shrink:0}
 .fn-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-family:var(--orb);font-size:.44rem;color:var(--bg);font-weight:700;flex-shrink:0;border:1px solid var(--border)}
@@ -323,13 +319,13 @@ nav{
 .fn-tag{font-size:.58rem;padding:.15rem .58rem;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s;letter-spacing:1px;background:var(--bg3)}
 .fn-tag:hover,.fn-tag.active-tag{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
 
-/* ── FIELD NOTE IMAGE — full natural height, no cropping ── */
+/* ── FIELD NOTE IMAGE — half width, full height on zoom ── */
 .fn-img-wrap{
   margin:.5rem 0 .4rem;
   border:1px solid var(--border2);
   overflow:hidden;
   position:relative;
-  max-width:100%;
+  max-width:48%;
   background:var(--bg3);
   cursor:zoom-in;
 }
@@ -342,12 +338,12 @@ nav{
 }
 .fn-img-wrap:hover img{
   filter:brightness(1) saturate(1);
-  transform:scale(1.01);
+  transform:scale(1.015);
 }
 .fn-img-wrap::after{
   content:'click to zoom';
   position:absolute;bottom:5px;right:7px;
-  font-family:var(--mono);font-size:.5rem;letter-spacing:2px;
+  font-family:var(--mono);font-size:.48rem;letter-spacing:2px;
   color:rgba(0,255,65,.45);text-transform:uppercase;
   pointer-events:none
 }
@@ -465,6 +461,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .pcard{padding:1.4rem}
   .sh{gap:.8rem;margin-bottom:2.5rem}
   .sn{font-size:3.5rem}
+  .fn-img-wrap{max-width:80%}
 }
 </style>
 </head>
@@ -624,6 +621,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           <span class="sk b">Threat Intelligence</span><span class="sk b">Vulnerability Assessment</span>
           <span class="sk b">OWASP Top 10</span><span class="sk b">TCP/IP &amp; Networking</span>
           <span class="sk b">Active Directory</span><span class="sk b">Digital Forensics</span>
+          <span class="sk b">Volatility</span>
           <span class="sk b">OSINT</span><span class="sk b">CTF Competitions</span>
           <span class="sk b">Penetration Testing</span>
         </div>
@@ -686,7 +684,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
       </div>
     </div>
     <div class="collapse-wrap">
-      <div class="collapse-inner collapsed" id="projectsInner">
+      <div class="collapse-inner" id="projectsInner">
         <div class="pgrid" id="pgrid">
           <div class="pcard rv" data-ptype="tool">
             <div class="ptag">OSINT Tool</div>
@@ -735,9 +733,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           </div>
         </div>
       </div>
-      <div class="collapse-fade" id="projectsFade"></div>
-      <button class="show-more-btn" id="projectsToggle" onclick="toggleSection('projects')">
-        <span class="smb-icon">▼</span> <span class="smb-text">Show More Projects</span>
+      <button class="show-more-btn" id="projectsToggle" onclick="showMoreBatch('projects')">
+        <span class="smb-icon">▼</span> <span class="smb-text">Show More</span>
       </button>
     </div>
   </div>
@@ -754,7 +751,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
       </div>
     </div>
     <div class="collapse-wrap">
-      <div class="collapse-inner collapsed" id="researchInner">
+      <div class="collapse-inner" id="researchInner">
         <div class="res-grid" id="resGrid">
           <div class="rcard rv" data-d="1" onclick="window.open('VAR-University%20of%20calicut.pdf','_blank')" style="cursor:pointer" data-date="2025-01-01">
             <div class="rbadge rb-d">📑 Security Report</div>
@@ -800,9 +797,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           </div>
         </div>
       </div>
-      <div class="collapse-fade" id="researchFade"></div>
-      <button class="show-more-btn" id="researchToggle" onclick="toggleSection('research')">
-        <span class="smb-icon">▼</span> <span class="smb-text">Show More Research</span>
+      <button class="show-more-btn" id="researchToggle" onclick="showMoreBatch('research')">
+        <span class="smb-icon">▼</span> <span class="smb-text">Show More</span>
       </button>
     </div>
   </div>
@@ -813,8 +809,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   <div class="sw">
     <div class="sh rv"><span class="sn">06</span><span class="st">Home Labs</span><div class="sl"></div></div>
     <div class="collapse-wrap">
-      <div class="collapse-inner collapsed" id="labsInner">
-        <div class="labs-grid">
+      <div class="collapse-inner" id="labsInner">
+        <div class="labs-grid" id="labsGrid">
           <div class="lcard act rv" data-d="1" onclick="openLab('dvwa')">
             <div class="lbdg ab">● Active Lab</div>
             <div class="ltitle">Kali vs DVWA Attack Lab</div>
@@ -864,9 +860,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           </div>
         </div>
       </div>
-      <div class="collapse-fade" id="labsFade"></div>
-      <button class="show-more-btn" id="labsToggle" onclick="toggleSection('labs')">
-        <span class="smb-icon">▼</span> <span class="smb-text">Show More Labs</span>
+      <button class="show-more-btn" id="labsToggle" onclick="showMoreBatch('labs')">
+        <span class="smb-icon">▼</span> <span class="smb-text">Show More</span>
       </button>
     </div>
   </div>
@@ -904,8 +899,34 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 
     <div class="rv" data-d="1">
       <div class="collapse-wrap">
-        <div class="collapse-inner collapsed" id="fieldNotesInner">
+        <div class="collapse-inner" id="fieldNotesInner">
           <div class="fn-feed" id="fnFeed">
+
+            <div class="fn-post" data-tags="Digital Forensics" data-date="2026-04-09">
+              <div class="fn-left">
+                <div class="fn-avatar">JEC</div>
+                <div class="fn-thread-line"></div>
+              </div>
+              <div class="fn-right">
+                <div class="fn-header">
+                  <span class="fn-name">Jishnu EC</span>
+                  <span class="fn-dot">·</span>
+                  <span class="fn-date">Apr 9, 2026</span>
+                </div>
+                <div class="fn-title">🧠 Learning Volatility — A Path Toward Forensic Archiving</div>
+                <div class="fn-body">Realizing that mastering Volatility isn't just about live incident response — it's a foundational step toward forensic archiving. Memory artifacts captured today can be preserved, documented, and referenced in case files long after the incident closes.</div>
+                <div class="fn-findings">
+                  <div class="fn-finding">📦 <span>Forensic Archiving</span> — Volatility outputs (pslist, netscan, malfind) can be exported as structured evidence for long-term case records</div>
+                  <div class="fn-finding">🔍 <span>Memory Artifact Preservation</span> — volatile evidence captured before power-off becomes permanent forensic record</div>
+                  <div class="fn-finding">🧩 <span>Plugin Deep Dive</span> — cmdline, dlllist, handles, and filescan reveal attacker footprint even without disk artifacts</div>
+                  <div class="fn-finding">📁 <span>Report Integration</span> — Volatility JSON/text outputs map directly into DFIR reports and incident timelines</div>
+                </div>
+                <div class="fn-body" style="margin-top:.4rem">Learning Volatility is also learning how to archive what attackers tried to erase. Fileless malware leaves no trace on disk — but memory never lies.</div>
+                <div class="fn-tags-row">
+                  <span class="fn-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
+                </div>
+              </div>
+            </div>
 
             <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2026-04-08">
               <div class="fn-left">
@@ -1029,9 +1050,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           <div id="fnEmpty" class="fn-empty" style="display:none">// No posts found</div>
         </div><!-- /collapse-inner -->
 
-        <div class="collapse-fade" id="fieldNotesFade"></div>
-        <button class="show-more-btn" id="fieldNotesToggle" onclick="toggleSection('fieldNotes')">
-          <span class="smb-icon">▼</span> <span class="smb-text">Show More Field Notes</span>
+        <button class="show-more-btn" id="fieldNotesToggle" onclick="showMoreBatch('fieldNotes')">
+          <span class="smb-icon">▼</span> <span class="smb-text">Show More</span>
         </button>
       </div><!-- /collapse-wrap -->
     </div>
@@ -1128,39 +1148,68 @@ const revealObserver=new IntersectionObserver((entries)=>{
 },{threshold:0.07,rootMargin:'0px 0px -20px 0px'});
 document.querySelectorAll('.rv').forEach(el=>{el.classList.add('hidden-init');revealObserver.observe(el);});
 
-/* ── COLLAPSE / SHOW MORE ── */
-function checkCollapseNeeded(id){
-  const inner=document.getElementById(id+'Inner');
-  const fade=document.getElementById(id+'Fade');
-  const btn=document.getElementById(id+'Toggle');
-  if(!inner)return;
-  inner.classList.add('expanded');
-  const fullH=inner.scrollHeight;
-  inner.classList.remove('expanded');
-  inner.classList.add('collapsed');
-  if(fullH<=520){inner.classList.replace('collapsed','expanded');if(fade)fade.style.display='none';if(btn)btn.style.display='none';}
-}
-['projects','research','labs','fieldNotes'].forEach(checkCollapseNeeded);
+/* ══════════════════════════════════════════════════
+   BATCH SHOW MORE — paginated, shows N items at a time
+   ══════════════════════════════════════════════════ */
+const BATCH = {
+  projects:   { getContainer: () => document.getElementById('pgrid'),                       sel: '.pcard',   size: 3 },
+  research:   { getContainer: () => document.getElementById('resGrid'),                     sel: '.rcard',   size: 3 },
+  labs:       { getContainer: () => document.getElementById('labsGrid'),                    sel: '.lcard',   size: 3 },
+  fieldNotes: { getContainer: () => document.getElementById('fnFeed'),                      sel: '.fn-post', size: 2 },
+};
+const batchShown = { projects: 0, research: 0, labs: 0, fieldNotes: 0 };
 
-function toggleSection(id){
-  const inner=document.getElementById(id+'Inner');
-  const fade=document.getElementById(id+'Fade');
-  const btn=document.getElementById(id+'Toggle');
-  const txt=btn.querySelector('.smb-text');
-  const isCollapsed=inner.classList.contains('collapsed');
-  if(isCollapsed){
-    inner.classList.replace('collapsed','expanded');
-    if(fade)fade.classList.add('hidden');
-    btn.classList.add('expanded');
-    txt.textContent=txt.textContent.replace('Show More','Show Less');
-  }else{
-    inner.classList.replace('expanded','collapsed');
-    if(fade)fade.classList.remove('hidden');
-    btn.classList.remove('expanded');
-    txt.textContent=txt.textContent.replace('Show Less','Show More');
-    inner.closest('section').scrollIntoView({behavior:'smooth'});
+function batchGetAll(key) {
+  const b = BATCH[key];
+  const c = b.getContainer();
+  if (!c) return [];
+  return [...c.querySelectorAll(b.sel)];
+}
+
+/* Apply visibility: items beyond batchShown[key] are hidden unless filter also hides them */
+function batchApply(key) {
+  const shown = batchShown[key];
+  const items = batchGetAll(key);
+  items.forEach((item, i) => {
+    const filterHidden = item.classList.contains('hidden');
+    if (filterHidden) { item.style.display = 'none'; return; }
+    item.style.display = i < shown ? '' : 'none';
+  });
+  updateBatchBtn(key);
+  // Check empty state for field notes
+  if (key === 'fieldNotes') {
+    const visibleCount = items.filter(item => item.style.display !== 'none').length;
+    const emptyEl = document.getElementById('fnEmpty');
+    if (emptyEl) emptyEl.style.display = visibleCount === 0 ? 'block' : 'none';
   }
 }
+
+function updateBatchBtn(key) {
+  const btn = document.getElementById(key + 'Toggle');
+  if (!btn) return;
+  const items = batchGetAll(key);
+  const shown = batchShown[key];
+  // Count items that aren't filter-hidden but ARE batch-hidden
+  const pending = items.filter((item, i) => i >= shown && !item.classList.contains('hidden')).length;
+  if (pending <= 0) {
+    btn.style.display = 'none';
+  } else {
+    btn.style.display = '';
+    const nextCount = Math.min(BATCH[key].size, pending);
+    btn.querySelector('.smb-text').textContent = 'Show More (' + nextCount + ' more)';
+  }
+}
+
+function showMoreBatch(key) {
+  batchShown[key] += BATCH[key].size;
+  batchApply(key);
+}
+
+/* Init all sections on load */
+Object.keys(BATCH).forEach(key => {
+  batchShown[key] = BATCH[key].size; // show first batch initially
+  batchApply(key);
+});
 
 /* ── LIGHTBOX ── */
 function openLightbox(src, alt){
@@ -1176,7 +1225,6 @@ function closeLightbox(){
   document.getElementById('lightbox').classList.remove('open');
   document.body.style.overflow='';
 }
-/* Stop the image itself from closing the lightbox when clicked */
 document.getElementById('lightbox-img').addEventListener('click',function(e){e.stopPropagation();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
 
@@ -1196,6 +1244,7 @@ const skillInfo={
   'Splunk':'SIEM platform for searching, monitoring, and analyzing machine-generated data.',
   'Wireshark':'Network protocol analyzer for capturing and inspecting packets in real time.',
   'OPNsense':'Open-source firewall and routing platform based on FreeBSD.',
+  'Volatility':'Open-source memory forensics framework for analyzing RAM dumps — identify malware, injected code, and running processes.',
   'Python':'High-level scripting language — primary tool for automation and tool development.',
   'Bash':'Unix shell scripting for automation, task scheduling, and system administration.',
   'HTML / CSS':'Web markup and styling languages for building front-end interfaces.',
@@ -1286,33 +1335,42 @@ function closeLab(e){
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('labModal').classList.remove('open');document.body.style.overflow='';closeLightbox();}});
 
 /* ── RESEARCH SORT ── */
-function sortResearch(order,btn){
+function sortResearch(order, btn){
   document.querySelectorAll('#research .fn-chip').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   const grid=document.getElementById('resGrid');if(!grid)return;
   const cards=[...grid.querySelectorAll('.rcard')];
   cards.sort((a,b)=>{const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';return order==='newest'?db.localeCompare(da):da.localeCompare(db);});
   cards.forEach(c=>grid.appendChild(c));
+  // Re-apply batch after sorting (reset to first batch)
+  batchShown['research'] = BATCH['research'].size;
+  batchApply('research');
 }
 
 /* ── PROJECT FILTER ── */
-function filterProjects(type,btn){
+function filterProjects(type, btn){
   document.querySelectorAll('#projects .fn-chip').forEach(c=>c.classList.remove('active'));
   if(btn)btn.classList.add('active');
   document.querySelectorAll('.pcard').forEach(p=>{
-    if(!type){p.style.display='flex';return;}
-    p.style.display=p.dataset.ptype===type?'flex':'none';
+    if(!type || p.dataset.ptype===type){
+      p.classList.remove('hidden');
+    } else {
+      p.classList.add('hidden');
+    }
   });
+  // Reset to first batch and re-apply
+  batchShown['projects'] = BATCH['projects'].size;
+  batchApply('projects');
 }
 
 /* ── FIELD NOTES FILTER & SORT ── */
-function filterByTag(tag,btn){
+function filterByTag(tag, btn){
   if(btn){
     document.querySelectorAll('#fnChips .fn-chip').forEach(c=>c.classList.remove('active'));
     btn.classList.add('active');
   } else if(tag){
     document.querySelectorAll('#fnChips .fn-chip').forEach(c=>{
-      c.classList.toggle('active',c.textContent.trim()===tag||c.getAttribute('onclick')===`filterByTag('${tag}',this)`);
+      c.classList.toggle('active',c.getAttribute('onclick')===`filterByTag('${tag}',this)`);
     });
   }
   document.querySelectorAll('.fn-post').forEach(p=>{
@@ -1320,8 +1378,9 @@ function filterByTag(tag,btn){
     const tags=(p.dataset.tags||'').split(',').map(t=>t.trim());
     p.classList.toggle('hidden',!tags.includes(tag));
   });
-  const visible=document.querySelectorAll('.fn-post:not(.hidden)').length;
-  document.getElementById('fnEmpty').style.display=visible===0?'block':'none';
+  // Reset batch and re-apply
+  batchShown['fieldNotes'] = BATCH['fieldNotes'].size;
+  batchApply('fieldNotes');
 }
 
 function sortPosts(order){
@@ -1332,6 +1391,9 @@ function sortPosts(order){
     return order==='newest'?db.localeCompare(da):da.localeCompare(db);
   });
   posts.forEach(p=>feed.appendChild(p));
+  // Reset batch and re-apply after sort
+  batchShown['fieldNotes'] = BATCH['fieldNotes'].size;
+  batchApply('fieldNotes');
 }
 </script>
 </body>
