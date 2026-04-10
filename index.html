@@ -249,57 +249,70 @@ nav{
 .lm-coming{font-family:var(--vt);font-size:1.5rem;color:#6dcc75;letter-spacing:3px;text-align:center;padding:2rem}
 
 /* ═══════════════════════════════════════════
-   FIELD NOTES — SIEM LOG REDESIGN
+   FIELD NOTES — CLEAN CARD DESIGN
    ═══════════════════════════════════════════ */
-.fn-status-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;background:var(--bg3);border:1px solid var(--border2);padding:.55rem 1.2rem;margin-bottom:1.5rem;flex-wrap:wrap}
-.fn-status-left{display:flex;align-items:center;gap:1.2rem}
-.fn-status-indicator{display:flex;align-items:center;gap:.5rem;font-size:.58rem;letter-spacing:2px;color:var(--g)}
-.fn-status-indicator::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);display:block;animation:blink 1.4s step-end infinite}
-.fn-status-count{font-size:.58rem;letter-spacing:2px;color:var(--text2)}
-.fn-status-count span{color:var(--cyan)}
-.fn-status-right{font-family:var(--mono);font-size:.55rem;letter-spacing:2px;color:rgba(0,255,65,.3)}
-.fn-feed{display:flex;flex-direction:column;gap:1rem}
-.fn-post{background:var(--bg2);border:1px solid var(--border2);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s}
-.fn-post:hover{border-color:var(--border);box-shadow:0 4px 28px rgba(0,0,0,.35),inset 0 0 30px rgba(0,255,65,.015)}
+.fn-feed{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.fn-post{background:var(--bg2);border:1px solid var(--border2);border-radius:0;position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;display:flex;flex-direction:column}
+.fn-post:hover{border-color:var(--border);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
 .fn-post.hidden{display:none !important}
-.fn-post::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--g);opacity:.65}
+.fn-post::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--g)}
 .fn-post[data-accent="cyan"]::before{background:var(--cyan)}
 .fn-post[data-accent="amber"]::before{background:var(--amber)}
 .fn-post[data-accent="red"]::before{background:var(--red)}
 .fn-post[data-accent="purple"]::before{background:var(--purple)}
-.fn-card-bar{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;background:var(--bg3);border-bottom:1px solid var(--border2);padding:.5rem 1.2rem .5rem 1.4rem}
-.fn-card-dots{display:flex;gap:.3rem;flex-shrink:0}
-.fn-card-dot{width:8px;height:8px;border-radius:50%}
-.fn-card-dot:nth-child(1){background:#ff5f56}.fn-card-dot:nth-child(2){background:#ffbd2e}.fn-card-dot:nth-child(3){background:#27c93f}
-.fn-card-id{font-family:var(--mono);font-size:.55rem;letter-spacing:2px;color:rgba(0,255,65,.35);flex-shrink:0}
-.fn-card-badge{font-family:var(--orb);font-size:.5rem;letter-spacing:2.5px;padding:.14rem .55rem;border:1px solid;flex-shrink:0}
-.fn-badge-dfir{color:var(--cyan);border-color:rgba(0,229,255,.35);background:rgba(0,229,255,.05)}
-.fn-badge-ir{color:var(--purple);border-color:rgba(204,119,255,.3);background:rgba(204,119,255,.04)}
-.fn-badge-osint{color:var(--amber);border-color:rgba(255,183,50,.35);background:rgba(255,183,50,.05)}
-.fn-badge-ctf{color:var(--amber);border-color:rgba(255,183,50,.35);background:rgba(255,183,50,.05)}
-.fn-badge-pentest{color:var(--red);border-color:rgba(255,68,68,.35);background:rgba(255,68,68,.04)}
-.fn-card-date{font-family:var(--mono);font-size:.56rem;letter-spacing:2px;color:var(--text2);margin-left:auto;flex-shrink:0}
-.fn-card-body{padding:1.3rem 1.4rem 1rem 1.5rem}
-.fn-title{font-family:var(--orb);font-size:.88rem;color:var(--g);letter-spacing:1px;line-height:1.5;margin-bottom:.75rem;text-shadow:0 0 16px rgba(0,255,65,.12)}
-.fn-body{font-size:.75rem;line-height:1.95;color:var(--text2);margin-bottom:.6rem}
-.fn-findings{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,65,.15);border-left:2px solid rgba(0,255,65,.4);padding:.75rem 1rem;margin:.6rem 0;position:relative}
-.fn-findings-cmd{font-family:var(--mono);font-size:.58rem;color:rgba(0,255,65,.45);letter-spacing:2px;margin-bottom:.55rem;padding-bottom:.45rem;border-bottom:1px solid rgba(0,255,65,.1);display:flex;align-items:center;gap:.4rem}
-.fn-findings-cmd::before{content:'\2765';color:var(--g);opacity:.7}
-.fn-finding{font-size:.71rem;color:var(--text2);padding:.22rem 0 .22rem .5rem;line-height:1.65;display:flex;align-items:baseline;gap:.45rem}
-.fn-finding::before{content:'[+]';color:var(--g);font-size:.6rem;flex-shrink:0;opacity:.65;font-family:var(--mono)}
-.fn-finding span{color:var(--g)}
-.fn-img-wrap{margin:.65rem 0 .45rem;border:1px solid var(--border2);overflow:hidden;position:relative;max-width:50%;background:var(--bg3);cursor:zoom-in}
+/* badge row */
+.fn-meta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding:.85rem 1.2rem .5rem 1.4rem}
+.fn-badge{font-family:var(--orb);font-size:.5rem;letter-spacing:2px;padding:.18rem .6rem;border:1px solid}
+.fn-badge-dfir{color:var(--cyan);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
+.fn-badge-ir{color:var(--purple);border-color:rgba(204,119,255,.35);background:rgba(204,119,255,.04)}
+.fn-badge-osint{color:var(--amber);border-color:rgba(255,183,50,.4);background:rgba(255,183,50,.05)}
+.fn-badge-ctf{color:var(--amber);border-color:rgba(255,183,50,.4);background:rgba(255,183,50,.05)}
+.fn-badge-pentest{color:var(--red);border-color:rgba(255,85,85,.4);background:rgba(255,85,85,.04)}
+.fn-date{font-size:.58rem;letter-spacing:2px;color:var(--text2);margin-left:auto;font-family:var(--mono)}
+/* body */
+.fn-card-body{padding:.6rem 1.2rem 1.1rem 1.4rem;display:flex;flex-direction:column;flex:1}
+.fn-title{font-family:var(--orb);font-size:.82rem;color:var(--g);letter-spacing:.5px;line-height:1.55;margin-bottom:.65rem}
+.fn-body{font-size:.76rem;line-height:1.9;color:var(--text2);margin-bottom:.5rem}
+/* key findings list */
+.fn-findings{display:flex;flex-direction:column;gap:.3rem;margin:.5rem 0;padding:.7rem 1rem;background:rgba(0,0,0,.3);border-left:2px solid rgba(0,255,65,.35)}
+.fn-finding{font-size:.72rem;color:var(--text2);line-height:1.6;padding-left:.3rem}
+.fn-finding span{color:var(--g);font-weight:600}
+/* image */
+.fn-img-wrap{margin:.5rem 0;border:1px solid var(--border2);overflow:hidden;position:relative;max-width:55%;cursor:zoom-in}
 .fn-img-wrap img{width:100%;height:auto;display:block;filter:brightness(.88) saturate(.8);transition:filter .3s,transform .3s}
 .fn-img-wrap:hover img{filter:brightness(1) saturate(1);transform:scale(1.015)}
-.fn-img-wrap::after{content:'ZOOM';position:absolute;bottom:6px;right:8px;font-family:var(--mono);font-size:.44rem;letter-spacing:3px;color:rgba(0,255,65,.4);pointer-events:none}
-.fn-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.65rem;letter-spacing:1.5px;color:var(--cyan);text-decoration:none;transition:color .2s;margin-top:.3rem;font-family:var(--mono)}
-.fn-link:before{content:'\2192  '}
+/* link */
+.fn-link{display:inline-flex;align-items:center;gap:.35rem;font-size:.65rem;letter-spacing:1px;color:var(--cyan);text-decoration:none;transition:color .2s;margin-top:.4rem}
 .fn-link:hover{color:var(--g)}
-.fn-tags-row{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.85rem;padding-top:.6rem;border-top:1px dashed rgba(0,255,65,.1)}
-.fn-tag{font-size:.55rem;padding:.14rem .55rem;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s;letter-spacing:1.5px;background:var(--bg3);font-family:var(--mono)}
+.fn-link::before{content:'→ '}
+/* tags */
+.fn-tags-row{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:auto;padding-top:.75rem}
+.fn-tag{font-size:.54rem;padding:.14rem .55rem;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s;letter-spacing:1px;background:var(--bg3)}
 .fn-tag:hover,.fn-tag.active-tag{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
 .fn-empty{font-family:var(--vt);font-size:1.5rem;color:var(--text2);letter-spacing:3px;text-align:center;padding:3rem;opacity:.5}
-@media(max-width:480px){.fn-img-wrap{max-width:85%}.fn-card-body{padding:1rem 1rem 1rem 1.2rem}.fn-card-id{display:none}.fn-status-right{display:none}}
+@media(max-width:768px){.fn-feed{grid-template-columns:1fr}}
+@media(max-width:480px){.fn-img-wrap{max-width:82%}.fn-card-body{padding:.5rem .9rem 1rem 1.1rem}}
+
+/* ═══════════════════════════════════════════
+   CYBERSPACE PLATFORMS
+   ═══════════════════════════════════════════ */
+.cs-section{margin-top:4rem}
+.cs-label{font-family:var(--orb);font-size:.6rem;letter-spacing:4px;color:var(--text2);text-transform:uppercase;margin-bottom:1.4rem;display:flex;align-items:center;gap:1rem}
+.cs-label::after{content:'';flex:1;height:1px;background:var(--border2)}
+.cs-grid{display:flex;flex-wrap:wrap;gap:1rem;align-items:stretch}
+.cs-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.65rem;padding:1.4rem 1.8rem;background:var(--bg2);border:1px solid var(--border2);text-decoration:none;transition:all .3s;min-width:130px;position:relative;overflow:hidden}
+.cs-card::before{content:'';position:absolute;inset:0;background:var(--g);opacity:0;transition:opacity .3s}
+.cs-card:hover{border-color:var(--border);transform:translateY(-4px);box-shadow:0 12px 35px rgba(0,0,0,.45)}
+.cs-card:hover::before{opacity:.04}
+.cs-logo{width:48px;height:48px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:transform .3s,filter .3s}
+.cs-card:hover .cs-logo{transform:scale(1.1)}
+.cs-logo img{width:100%;height:100%;object-fit:contain;filter:grayscale(30%) brightness(.85);transition:filter .3s}
+.cs-card:hover .cs-logo img{filter:grayscale(0%) brightness(1)}
+.cs-name{font-family:var(--orb);font-size:.52rem;letter-spacing:2px;color:var(--text2);text-transform:uppercase;position:relative;z-index:1;transition:color .3s;text-align:center}
+.cs-card:hover .cs-name{color:var(--g)}
+.cs-visit{font-size:.5rem;letter-spacing:1px;color:rgba(0,255,65,.35);font-family:var(--mono);position:relative;z-index:1;transition:color .3s}
+.cs-card:hover .cs-visit{color:rgba(0,255,65,.7)}
+@media(max-width:480px){.cs-grid{gap:.6rem}.cs-card{min-width:calc(50% - .3rem);padding:1.1rem 1rem}}
 /* CONTACT */
 .ctop{text-align:center;margin-bottom:4rem}
 .cbig{font-family:var(--vt);font-size:clamp(2.5rem,6vw,4.5rem);color:var(--text);line-height:1.2;margin-bottom:1rem}
@@ -477,7 +490,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           <div class="ii"><div class="ik">&#x1F4CD; Location</div><div class="iv">Kozhikode, Kerala</div></div>
           <div class="ii"><div class="ik">&#x1F393; Degree</div><div class="iv">BCA &#x2014; 2025</div></div>
           <div class="ii"><div class="ik">&#x1F6E1;&#xFE0F; Cert</div><div class="iv" style="color:var(--amber)">CEH In Progress</div></div>
-          <div class="ii"><div class="ik">&#x2709; Email</div><div class="iv"><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a></div></div>
+          <div class="ii"><div class="ik">&#x2709; Email</div><div class="iv"><a href="/cdn-cgi/l/email-protection#7a10130912140f0d1215150a151c1c1319131b163a1d171b131654191517"><span class="__cf_email__" data-cfemail="f19b9882999f8486999e9e819e9797989298909db1969c90989ddf929e9c">[email&#160;protected]</span></a></div></div>
           <div class="ii"><div class="ik">&#x2325; GitHub</div><div class="iv"><a href="https://github.com/Jishnuec" target="_blank">github.com/Jishnuec</a></div></div>
         </div>
       </div>
@@ -785,64 +798,49 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     <div class="rv" data-d="1">
       <div class="collapse-wrap">
         <div class="collapse-inner" id="fieldNotesInner">
-
-          <div class="fn-status-bar">
-            <div class="fn-status-left">
-              <div class="fn-status-indicator">LIVE FEED</div>
-              <div class="fn-status-count"><span id="fnCountVis">5</span>&nbsp;/&nbsp;<span>5</span>&nbsp;ENTRIES</div>
-            </div>
-            <div class="fn-status-right">jishnu@kali:~/field-notes$ tail -f log.db</div>
-          </div>
-
           <div class="fn-feed" id="fnFeed">
 
+            <!-- CARD 1 -->
             <div class="fn-post" data-tags="Digital Forensics" data-date="2026-04-09" data-accent="cyan">
-              <div class="fn-card-bar">
-                <div class="fn-card-dots"><div class="fn-card-dot"></div><div class="fn-card-dot"></div><div class="fn-card-dot"></div></div>
-                <div class="fn-card-id">event::FN-2026-005</div>
-                <div class="fn-card-badge fn-badge-dfir">DFIR</div>
-                <div class="fn-card-date">APR 09, 2026</div>
+              <div class="fn-meta">
+                <div class="fn-badge fn-badge-dfir">DFIR</div>
+                <div class="fn-date">Apr 09, 2026</div>
               </div>
               <div class="fn-card-body">
-                <div class="fn-title">&#x1F9E0; Learning Volatility &#x2014; A Path Toward Forensic Archiving</div>
-                <div class="fn-body">Realizing that mastering Volatility isn&#x27;t just about live incident response &#x2014; it&#x27;s a foundational step toward forensic archiving. Memory artifacts captured today can be preserved, documented, and referenced in case files long after the incident closes.</div>
+                <div class="fn-title">&#x1F9E0; Learning Volatility &mdash; A Path Toward Forensic Archiving</div>
+                <div class="fn-body">Mastering Volatility isn&apos;t just about live incident response &mdash; it&apos;s a foundational step toward forensic archiving. Memory artifacts captured today can be preserved and referenced in case files long after the incident closes.</div>
                 <div class="fn-findings">
-                  <div class="fn-findings-cmd">cat findings.log</div>
-                  <div class="fn-finding">&#x1F4E6; <span>Forensic Archiving</span> &#x2014; Volatility outputs (pslist, netscan, malfind) can be exported as structured evidence for long-term case records</div>
-                  <div class="fn-finding">&#x1F50D; <span>Memory Artifact Preservation</span> &#x2014; volatile evidence captured before power-off becomes permanent forensic record</div>
-                  <div class="fn-finding">&#x1F9E9; <span>Plugin Deep Dive</span> &#x2014; cmdline, dlllist, handles, and filescan reveal attacker footprint even without disk artifacts</div>
-                  <div class="fn-finding">&#x1F4C1; <span>Report Integration</span> &#x2014; Volatility JSON/text outputs map directly into DFIR reports and incident timelines</div>
+                  <div class="fn-finding"><span>Forensic Archiving</span> &mdash; Volatility outputs (pslist, netscan, malfind) exported as structured evidence for case records</div>
+                  <div class="fn-finding"><span>Memory Artifact Preservation</span> &mdash; volatile evidence captured before power-off becomes a permanent forensic record</div>
+                  <div class="fn-finding"><span>Plugin Deep Dive</span> &mdash; cmdline, dlllist, handles, and filescan reveal attacker footprint even without disk artifacts</div>
+                  <div class="fn-finding"><span>Key Insight</span> &mdash; Fileless malware leaves no trace on disk, but memory never lies</div>
                 </div>
-                <div class="fn-body" style="margin-top:.4rem">Learning Volatility is also learning how to archive what attackers tried to erase. Fileless malware leaves no trace on disk &#x2014; but memory never lies.</div>
                 <div class="fn-tags-row">
                   <span class="fn-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
                 </div>
               </div>
             </div>
 
+            <!-- CARD 2 -->
             <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2026-04-08" data-accent="cyan">
-              <div class="fn-card-bar">
-                <div class="fn-card-dots"><div class="fn-card-dot"></div><div class="fn-card-dot"></div><div class="fn-card-dot"></div></div>
-                <div class="fn-card-id">event::FN-2026-004</div>
-                <div class="fn-card-badge fn-badge-dfir">DFIR</div>
-                <div class="fn-card-badge fn-badge-ir" style="margin-left:.2rem">IR</div>
-                <div class="fn-card-date">APR 08, 2026</div>
+              <div class="fn-meta">
+                <div class="fn-badge fn-badge-dfir">DFIR</div>
+                <div class="fn-badge fn-badge-ir" style="margin-left:.2rem">IR</div>
+                <div class="fn-date">Apr 08, 2026</div>
               </div>
               <div class="fn-card-body">
-                <div class="fn-title">&#x1F680; Completed Memory Analysis Introduction on TryHackMe!</div>
-                <div class="fn-body">Dived into the fundamentals of memory forensics &#x2014; understanding how RAM works, how attackers exploit it, and how defenders can catch them in-memory before any trace hits disk.</div>
+                <div class="fn-title">&#x1F680; Completed Memory Analysis Introduction &mdash; TryHackMe</div>
+                <div class="fn-body">Dived into the fundamentals of memory forensics &mdash; how RAM works, how attackers exploit it, and how defenders catch threats in-memory before any trace hits disk.</div>
                 <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
-                  <img src="https://jishnuec.github.io/fieldnote1.png" alt="Memory Analysis Introduction &#x2014; TryHackMe" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
+                  <img src="https://jishnuec.github.io/fieldnote1.png" alt="Memory Analysis Introduction &mdash; TryHackMe" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
                 </div>
                 <div class="fn-findings">
-                  <div class="fn-findings-cmd">cat findings.log</div>
-                  <div class="fn-finding">&#x1F9E0; <span>RAM &amp; Memory Structures</span> &#x2014; Stack, Heap, User vs Kernel Space</div>
-                  <div class="fn-finding">&#x1F50D; <span>Process &amp; Full Memory Dumps</span> &#x2014; capturing volatile data before it&#x27;s gone</div>
-                  <div class="fn-finding">&#x1F489; <span>Code Injection &amp; Threat Detection</span> &#x2014; spotting injected shellcode in process memory</div>
-                  <div class="fn-finding">&#x1F6E0;&#xFE0F; <span>Memory Forensics Intro</span> &#x2014; first steps with Volatility and dump analysis</div>
+                  <div class="fn-finding"><span>RAM &amp; Memory Structures</span> &mdash; Stack, Heap, User vs Kernel Space</div>
+                  <div class="fn-finding"><span>Process &amp; Full Memory Dumps</span> &mdash; capturing volatile data before it&apos;s gone</div>
+                  <div class="fn-finding"><span>Code Injection Detection</span> &mdash; identifying injected shellcode inside process memory</div>
+                  <div class="fn-finding"><span>First Steps with Volatility</span> &mdash; hands-on dump analysis and plugin usage</div>
                 </div>
-                <div class="fn-body" style="margin-top:.4rem">Crucial step toward mastering DFIR and understanding fileless attacks &#x2014; malware that lives entirely in RAM and never touches disk. Next goal: hands-on labs with Volatility &#x1F525;</div>
-                <a href="https://tryhackme.com/room/memoryanalysisintroduction" target="_blank" class="fn-link">TryHackMe Room</a>
+                <a href="https://tryhackme.com/room/memoryanalysisintroduction" target="_blank" class="fn-link">View TryHackMe Room</a>
                 <div class="fn-tags-row">
                   <span class="fn-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
                   <span class="fn-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
@@ -850,22 +848,21 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
+            <!-- CARD 3 -->
             <div class="fn-post" data-tags="CTF,Penetration Testing" data-date="2026-02-15" data-accent="amber">
-              <div class="fn-card-bar">
-                <div class="fn-card-dots"><div class="fn-card-dot"></div><div class="fn-card-dot"></div><div class="fn-card-dot"></div></div>
-                <div class="fn-card-id">event::FN-2026-003</div>
-                <div class="fn-card-badge fn-badge-ctf">CTF</div>
-                <div class="fn-card-badge fn-badge-pentest" style="margin-left:.2rem">PENTEST</div>
-                <div class="fn-card-date">FEB 15, 2026</div>
+              <div class="fn-meta">
+                <div class="fn-badge fn-badge-ctf">CTF</div>
+                <div class="fn-badge fn-badge-pentest" style="margin-left:.2rem">Pentest</div>
+                <div class="fn-date">Feb 15, 2026</div>
               </div>
               <div class="fn-card-body">
-                <div class="fn-title">Released Udyama &#x2014; my first custom CTF machine &#x1F6A9;</div>
-                <div class="fn-body">Designed and packaged a fully custom Linux CTF VM with 2 flags &#x2014; User and Root. Focused on real-world privilege escalation paths, not contrived puzzle challenges.</div>
+                <div class="fn-title">&#x1F6A9; Released Udyama &mdash; My First Custom CTF Machine</div>
+                <div class="fn-body">Designed and packaged a fully custom Linux CTF VM with 2 flags &mdash; User and Root. Focused on real-world privilege escalation paths, not contrived puzzle challenges. Packaged as Ubuntu OVA for VirtualBox.</div>
                 <div class="fn-findings">
-                  <div class="fn-findings-cmd">cat findings.log</div>
-                  <div class="fn-finding">Platform: <span>Ubuntu 22.04 OVA</span> &#x2014; runs in VirtualBox</div>
-                  <div class="fn-finding">Difficulty: <span>Intermediate &#x2192; Advanced</span></div>
-                  <div class="fn-finding">Hosted on: <span>archive.org</span> &#x2014; free to download</div>
+                  <div class="fn-finding"><span>Platform</span> &mdash; Ubuntu 22.04 OVA, runs in VirtualBox</div>
+                  <div class="fn-finding"><span>Difficulty</span> &mdash; Intermediate to Advanced</div>
+                  <div class="fn-finding"><span>Focus</span> &mdash; Realistic Linux privilege escalation &amp; persistence techniques</div>
+                  <div class="fn-finding"><span>Hosted on archive.org</span> &mdash; free to download for the community</div>
                 </div>
                 <a href="https://archive.org/details/Udyama" target="_blank" class="fn-link">Download OVA</a>
                 <div class="fn-tags-row">
@@ -875,24 +872,22 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
+            <!-- CARD 4 -->
             <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2025-03-10" data-accent="purple">
-              <div class="fn-card-bar">
-                <div class="fn-card-dots"><div class="fn-card-dot"></div><div class="fn-card-dot"></div><div class="fn-card-dot"></div></div>
-                <div class="fn-card-id">event::FN-2025-002</div>
-                <div class="fn-card-badge fn-badge-ir">IR</div>
-                <div class="fn-card-date">MAR 10, 2025</div>
+              <div class="fn-meta">
+                <div class="fn-badge fn-badge-ir">IR</div>
+                <div class="fn-date">Mar 10, 2025</div>
               </div>
               <div class="fn-card-body">
-                <div class="fn-title">Completed the DFIR Intro room on TryHackMe &#x1F6E1;&#xFE0F;</div>
-                <div class="fn-body">Solid introduction to Digital Forensics &amp; Incident Response fundamentals &#x2014; the kind of knowledge that separates a reactive responder from a methodical one.</div>
+                <div class="fn-title">&#x1F6E1;&#xFE0F; Completed DFIR Introduction &mdash; TryHackMe</div>
+                <div class="fn-body">Solid grounding in Digital Forensics &amp; Incident Response fundamentals &mdash; the methodology that separates a reactive responder from a structured, methodical analyst.</div>
                 <div class="fn-findings">
-                  <div class="fn-findings-cmd">cat findings.log</div>
-                  <div class="fn-finding">Framework: <span>PICERL</span> &#x2014; Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned</div>
-                  <div class="fn-finding">Key concepts: <span>Chain of Custody</span> &#xB7; <span>Evidence Preservation</span> &#xB7; <span>Order of Volatility</span></div>
-                  <div class="fn-finding">Tools introduced: <span>EZ Tools</span> &#xB7; <span>KAPE</span> &#xB7; <span>Autopsy</span> &#xB7; <span>Volatility</span></div>
+                  <div class="fn-finding"><span>PICERL Framework</span> &mdash; Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned</div>
+                  <div class="fn-finding"><span>Evidence Handling</span> &mdash; Chain of Custody, Evidence Preservation, Order of Volatility</div>
+                  <div class="fn-finding"><span>Tools Covered</span> &mdash; EZ Tools, KAPE, Autopsy, Volatility</div>
+                  <div class="fn-finding"><span>Key Takeaway</span> &mdash; Always collect most volatile evidence first; RAM disappears at shutdown</div>
                 </div>
-                <div class="fn-body" style="margin-top:.5rem">The order of volatility matters &#x2014; RAM disappears when the machine powers off, disk stays. Always collect most volatile first.</div>
-                <a href="https://tryhackme.com/room/introductoryroomdfirmodule" target="_blank" class="fn-link">THM Room</a>
+                <a href="https://tryhackme.com/room/introductoryroomdfirmodule" target="_blank" class="fn-link">View THM Room</a>
                 <div class="fn-tags-row">
                   <span class="fn-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
                   <span class="fn-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
@@ -900,24 +895,23 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
               </div>
             </div>
 
+            <!-- CARD 5 -->
             <div class="fn-post" data-tags="Digital Forensics,OSINT,Incident Response" data-date="2025-02-24" data-accent="cyan">
-              <div class="fn-card-bar">
-                <div class="fn-card-dots"><div class="fn-card-dot"></div><div class="fn-card-dot"></div><div class="fn-card-dot"></div></div>
-                <div class="fn-card-id">event::FN-2025-001</div>
-                <div class="fn-card-badge fn-badge-dfir">DFIR</div>
-                <div class="fn-card-badge fn-badge-osint" style="margin-left:.2rem">OSINT</div>
-                <div class="fn-card-date">FEB 24, 2025</div>
+              <div class="fn-meta">
+                <div class="fn-badge fn-badge-dfir">DFIR</div>
+                <div class="fn-badge fn-badge-osint" style="margin-left:.2rem">OSINT</div>
+                <div class="fn-date">Feb 24, 2025</div>
               </div>
               <div class="fn-card-body">
-                <div class="fn-title">Just crushed the MemLoot challenge on Let&#x27;s Defend &#x1F525;</div>
-                <div class="fn-body">Windows memory dump with Volatility 3 &#x2014; a fake Spotify installer was actually Dark Havoc ransomware.</div>
+                <div class="fn-title">&#x1F525; MemLoot Challenge &mdash; Ransomware Hidden as Spotify Installer</div>
+                <div class="fn-body">Analyzed a Windows memory dump using Volatility 3. A fake Spotify installer turned out to be Dark Havoc ransomware &mdash; a classic trojan delivery technique caught through memory forensics.</div>
                 <div class="fn-findings">
-                  <div class="fn-findings-cmd">cat findings.log</div>
-                  <div class="fn-finding">File: <span>Spotify_setup.exe</span> &#x2192; <span>Dark Havoc</span></div>
-                  <div class="fn-finding">C2: <span>104.152.52.238:6548</span> &#xB7; Ext: <span>.havoc</span></div>
-                  <div class="fn-finding">Parent: <span>explorer.exe</span> &#x2014; user just double-clicked it</div>
+                  <div class="fn-finding"><span>Malicious File</span> &mdash; Spotify_setup.exe identified as Dark Havoc ransomware</div>
+                  <div class="fn-finding"><span>C2 Server</span> &mdash; 104.152.52.238:6548 &nbsp;&middot;&nbsp; Encryption extension: .havoc</div>
+                  <div class="fn-finding"><span>Execution Vector</span> &mdash; Parent process explorer.exe, user double-clicked the fake installer</div>
+                  <div class="fn-finding"><span>Detection Method</span> &mdash; Process tree analysis + network artifacts from memory dump</div>
                 </div>
-                <a href="https://app.letsdefend.io/challenge/memloot" target="_blank" class="fn-link">Challenge link</a>
+                <a href="https://app.letsdefend.io/challenge/memloot" target="_blank" class="fn-link">View Challenge</a>
                 <div class="fn-tags-row">
                   <span class="fn-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
                   <span class="fn-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
@@ -935,6 +929,78 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         </button>
       </div><!-- /collapse-wrap -->
     </div>
+
+    <!-- CYBERSPACE PLATFORMS -->
+    <div class="cs-section rv" data-d="2">
+      <div class="cs-label">Cyberspace Profiles</div>
+      <div class="cs-grid">
+
+        <!-- TryHackMe -->
+        <a href="https://tryhackme.com/p/whoopx" target="_blank" class="cs-card">
+          <div class="cs-logo">
+            <img src="https://assets.tryhackme.com/img/favicon.png" alt="TryHackMe" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 48 48&quot; fill=&quot;none&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><rect width=&quot;48&quot; height=&quot;48&quot; rx=&quot;8&quot; fill=&quot;%23212C42&quot;/><text x=&quot;24&quot; y=&quot;32&quot; text-anchor=&quot;middle&quot; font-size=&quot;22&quot; fill=&quot;%2388cc14&quot;>T</text></svg>'"/>
+          </div>
+          <div class="cs-name">TryHackMe</div>
+          <div class="cs-visit">View Profile &#x2192;</div>
+        </a>
+
+        <!-- HackTheBox -->
+        <a href="https://app.hackthebox.com/public/users/2902723" target="_blank" class="cs-card">
+          <div class="cs-logo">
+            <img src="https://www.hackthebox.com/images/landingv3/htb_logo.svg" alt="HackTheBox" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 48 48&quot; fill=&quot;none&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><rect width=&quot;48&quot; height=&quot;48&quot; rx=&quot;8&quot; fill=&quot;%230d1117&quot;/><text x=&quot;24&quot; y=&quot;32&quot; text-anchor=&quot;middle&quot; font-size=&quot;18&quot; fill=&quot;%239fef00&quot;>HTB</text></svg>'"/>
+          </div>
+          <div class="cs-name">HackTheBox</div>
+          <div class="cs-visit">View Profile &#x2192;</div>
+        </a>
+
+        <!-- LetsDefend -->
+        <a href="https://app.letsdefend.io/user/jishxec" target="_blank" class="cs-card">
+          <div class="cs-logo">
+            <img src="https://letsdefend.io/images/favicon/favicon-32x32.png" alt="LetsDefend" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 48 48&quot; fill=&quot;none&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><rect width=&quot;48&quot; height=&quot;48&quot; rx=&quot;8&quot; fill=&quot;%230f172a&quot;/><text x=&quot;24&quot; y=&quot;32&quot; text-anchor=&quot;middle&quot; font-size=&quot;16&quot; fill=&quot;%2338bdf8&quot;>LD</text></svg>'"/>
+          </div>
+          <div class="cs-name">LetsDefend</div>
+          <div class="cs-visit">View Profile &#x2192;</div>
+        </a>
+
+        <!-- Blue Team Labs Online -->
+        <a href="https://blueteamlabs.online/public/user/6538c5ab2cf278e3842d79" target="_blank" class="cs-card">
+          <div class="cs-logo">
+            <img src="https://blueteamlabs.online/favicon.ico" alt="Blue Team Labs" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 48 48&quot; fill=&quot;none&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><rect width=&quot;48&quot; height=&quot;48&quot; rx=&quot;8&quot; fill=&quot;%230a1628&quot;/><text x=&quot;24&quot; y=&quot;32&quot; text-anchor=&quot;middle&quot; font-size=&quot;13&quot; fill=&quot;%231d6fff&quot;>BTLO</text></svg>'"/>
+          </div>
+          <div class="cs-name">Blue Team Labs</div>
+          <div class="cs-visit">View Profile &#x2192;</div>
+        </a>
+
+        <!-- PicoCTF -->
+        <a href="https://play.picoctf.org/users/jishnuec" target="_blank" class="cs-card">
+          <div class="cs-logo">
+            <img src="https://picoctf.org/favicon-32x32.png" alt="PicoCTF" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 48 48&quot; fill=&quot;none&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><rect width=&quot;48&quot; height=&quot;48&quot; rx=&quot;8&quot; fill=&quot;%230c1b2e&quot;/><text x=&quot;24&quot; y=&quot;32&quot; text-anchor=&quot;middle&quot; font-size=&quot;14&quot; fill=&quot;%23f7c948&quot;>pico</text></svg>'"/>
+          </div>
+          <div class="cs-name">PicoCTF</div>
+          <div class="cs-visit">View Profile &#x2192;</div>
+        </a>
+
+        <!-- PentesterLab -->
+        <a href="https://pentesterlab.com/profile/whoop" target="_blank" class="cs-card">
+          <div class="cs-logo">
+            <img src="https://pentesterlab.com/favicon.ico" alt="PentesterLab" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 48 48&quot; fill=&quot;none&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><rect width=&quot;48&quot; height=&quot;48&quot; rx=&quot;8&quot; fill=&quot;%23161b22&quot;/><text x=&quot;24&quot; y=&quot;32&quot; text-anchor=&quot;middle&quot; font-size=&quot;13&quot; fill=&quot;%23f97316&quot;>PTL</text></svg>'"/>
+          </div>
+          <div class="cs-name">PentesterLab</div>
+          <div class="cs-visit">View Profile &#x2192;</div>
+        </a>
+
+        <!-- RingZer0 -->
+        <a href="https://ringzer0ctf.com/user/whoop" target="_blank" class="cs-card">
+          <div class="cs-logo">
+            <img src="https://ringzer0ctf.com/favicon.ico" alt="RingZer0" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 48 48&quot; fill=&quot;none&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><rect width=&quot;48&quot; height=&quot;48&quot; rx=&quot;8&quot; fill=&quot;%231a1a2e&quot;/><text x=&quot;24&quot; y=&quot;32&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;%23e94560&quot;>R0</text></svg>'"/>
+          </div>
+          <div class="cs-name">RingZer0 CTF</div>
+          <div class="cs-visit">View Profile &#x2192;</div>
+        </a>
+
+      </div>
+    </div>
+
   </div>
 </section>
 <!-- CONTACT -->
@@ -946,9 +1012,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
       <div class="csub">Open to SOC Analyst &middot; Cybersecurity Analyst &middot; Penetration Tester roles</div>
     </div>
     <div class="cgrid rv" data-d="1">
-      <a href="mailto:jishnuwhoopofficial@gmail.com" class="ccrd">
+      <a href="/cdn-cgi/l/email-protection#412b2832292f3436292e2e312e2727282228202d01262c20282d6f222e2c" class="ccrd">
         <div class="cico">@</div>
-        <div><div class="clbl">Email</div><div class="cval" style="font-size:.58rem;word-break:break-all;">jishnuwhoopofficial@gmail.com</div></div>
+        <div><div class="clbl">Email</div><div class="cval" style="font-size:.58rem;word-break:break-all;"><span class="__cf_email__" data-cfemail="5c36352f3432292b3433332c333a3a353f353d301c3b313d3530723f3331">[email&#160;protected]</span></div></div>
       </a>
       <a href="tel:+917510572360" class="ccrd">
         <div class="cico">&#x260F;</div>
@@ -985,7 +1051,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   <div class="sk-tip-desc" id="skTipDesc"></div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── MATRIX RAIN ── */
 const cv=document.getElementById('mc'),ctx=cv.getContext('2d');
 let cols,drops;
@@ -1205,13 +1271,4 @@ function filterByTag(tag,btn){
   });
   batchShown['fieldNotes']=BATCH['fieldNotes'].size;batchApply('fieldNotes');
 }
-function sortPosts(order){
-  const feed=document.getElementById('fnFeed');
-  const posts=[...feed.querySelectorAll('.fn-post')];
-  posts.sort((a,b)=>{const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';return order==='newest'?db.localeCompare(da):da.localeCompare(db);});
-  posts.forEach(p=>feed.appendChild(p));
-  batchShown['fieldNotes']=BATCH['fieldNotes'].size;batchApply('fieldNotes');
-}
-</script>
-</body>
-</html>
+function sortPosts
