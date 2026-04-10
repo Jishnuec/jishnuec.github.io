@@ -19,8 +19,8 @@
   --orb:'Orbitron',monospace;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--mono);overflow-x:hidden}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);overflow-x:hidden;max-width:100vw}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--g2);border-radius:2px}
@@ -81,7 +81,7 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:58px;display:flex;align-
 .hphoto-box img{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(15%) contrast(1.05);display:block;transition:filter .3s,transform .3s}
 .hphoto-box:hover img{filter:grayscale(0%) contrast(1.1);transform:scale(1.03)}
 .hphoto-init{font-family:var(--vt);font-size:3.2rem;color:var(--g);text-shadow:0 0 20px var(--g);letter-spacing:4px}
-.hname-block{display:flex;flex-direction:column;gap:.4rem;min-width:0}
+.hname-block{display:flex;flex-direction:column;gap:.4rem;min-width:0;overflow:hidden}
 .hname{font-family:var(--vt);font-size:clamp(3.5rem,7vw,7rem);line-height:.9;color:var(--g);text-shadow:0 0 28px var(--g),0 0 75px rgba(0,255,65,.28);letter-spacing:.08em;display:block;white-space:nowrap}
 .hrole{font-family:var(--orb);font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--amber);text-shadow:0 0 15px rgba(255,204,0,.5)}
 .hsubrole{font-family:var(--mono);font-size:.68rem;color:var(--text2);letter-spacing:2px}
@@ -262,13 +262,10 @@ option{background:var(--bg3)}
 .lm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
 .lm-coming{font-family:var(--vt);font-size:1.5rem;color:#6dcc75;letter-spacing:3px;text-align:center;padding:2rem}
 
-/* ═══════════════════════════
-   FIELD NOTES — CLEAN CARDS
-   ═══════════════════════════ */
+/* FIELD NOTES */
 .fn-feed{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem}
 .fn-post{background:var(--bg2);border:1px solid var(--border2);position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;display:flex;flex-direction:column;border-radius:2px}
 .fn-post:hover{border-color:var(--border);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.5)}
-/* top accent bar (no left line) */
 .fn-post::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g);transition:box-shadow .3s;opacity:.7}
 .fn-post:hover::after{box-shadow:0 0 10px var(--g);opacity:1}
 .fn-post[data-accent="cyan"]::after{background:var(--cyan)}
@@ -277,7 +274,6 @@ option{background:var(--bg3)}
 .fn-post[data-accent="amber"]:hover::after{box-shadow:0 0 10px var(--amber)}
 .fn-post[data-accent="red"]::after{background:var(--red)}
 .fn-post[data-accent="purple"]::after{background:var(--purple)}
-/* top bar */
 .fn-meta{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:.85rem 1.3rem .5rem 1.3rem;background:rgba(0,0,0,.25);border-bottom:1px solid rgba(0,255,65,.07)}
 .fn-badge{font-family:var(--orb);font-size:.48rem;letter-spacing:2px;padding:.2rem .65rem;border:1px solid}
 .fn-badge-dfir{color:var(--cyan);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
@@ -286,32 +282,24 @@ option{background:var(--bg3)}
 .fn-badge-ctf{color:var(--amber);border-color:rgba(255,183,50,.4);background:rgba(255,183,50,.05)}
 .fn-badge-pentest{color:var(--red);border-color:rgba(255,85,85,.4);background:rgba(255,85,85,.04)}
 .fn-date{font-size:.56rem;letter-spacing:2px;color:var(--text2);margin-left:auto;font-family:var(--mono);opacity:.7}
-/* body */
 .fn-card-body{padding:.9rem 1.3rem 1.2rem 1.3rem;display:flex;flex-direction:column;flex:1;gap:.5rem}
 .fn-title{font-family:var(--orb);font-size:.82rem;color:var(--g);letter-spacing:.5px;line-height:1.55;margin-bottom:.2rem}
 .fn-body{font-size:.76rem;line-height:1.9;color:var(--text2)}
-/* findings */
 .fn-findings{display:flex;flex-direction:column;gap:.28rem;padding:.7rem 1rem;background:rgba(0,0,0,.35);border:1px solid rgba(0,255,65,.1)}
 .fn-finding{font-size:.71rem;color:var(--text2);line-height:1.6;padding-left:.2rem}
 .fn-finding span{color:var(--g);font-weight:600}
-/* image */
 .fn-img-wrap{margin:.2rem 0;border:1px solid var(--border2);overflow:hidden;position:relative;max-width:60%;cursor:zoom-in}
 .fn-img-wrap img{width:100%;height:auto;display:block;filter:brightness(.85) saturate(.8);transition:filter .3s,transform .3s}
 .fn-img-wrap:hover img{filter:brightness(1) saturate(1);transform:scale(1.02)}
-/* link */
 .fn-link{display:inline-flex;align-items:center;gap:.35rem;font-size:.64rem;letter-spacing:1px;color:var(--cyan);text-decoration:none;transition:color .2s;width:fit-content}
 .fn-link:hover{color:var(--g)}
 .fn-link::before{content:'→ '}
-/* tags row */
 .fn-tags-row{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:auto;padding-top:.6rem;border-top:1px solid rgba(0,255,65,.06)}
 .fn-tag{font-size:.52rem;padding:.14rem .55rem;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:all .2s;letter-spacing:1px;background:var(--bg3)}
 .fn-tag:hover,.fn-tag.active-tag{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
-/* empty */
 .fn-empty{font-family:var(--vt);font-size:1.5rem;color:var(--text2);letter-spacing:3px;text-align:center;padding:3rem;opacity:.5;display:none}
 
-/* ══════════════════════════════
-   CYBERSPACE PROFILES
-   ══════════════════════════════ */
+/* CYBERSPACE PROFILES */
 .cs-section-wrap{padding:0 3rem 7rem;max-width:1200px;margin:0 auto}
 .cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
 .cs-card{display:flex;align-items:center;gap:1.2rem;padding:1.4rem 1.6rem;background:var(--bg2);border:1px solid var(--border2);text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
@@ -328,7 +316,6 @@ option{background:var(--bg3)}
 .cs-handle{font-size:.62rem;letter-spacing:1px;color:var(--text2);opacity:.6;font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cs-arrow{font-size:.7rem;color:rgba(0,255,65,.3);transition:all .3s;flex-shrink:0}
 .cs-card:hover .cs-arrow{color:var(--g);transform:translateX(3px)}
-/* colored accent per platform */
 .cs-card[data-platform="thm"]:hover::before{background:#88cc14;box-shadow:0 0 10px #88cc14}
 .cs-card[data-platform="thm"]:hover .cs-icon-box{border-color:#88cc14}
 .cs-card[data-platform="htb"]:hover::before{background:#9fef00;box-shadow:0 0 10px #9fef00}
@@ -341,8 +328,6 @@ option{background:var(--bg3)}
 .cs-card[data-platform="pico"]:hover .cs-icon-box{border-color:#f7c948}
 .cs-card[data-platform="ptl"]:hover::before{background:#f97316;box-shadow:0 0 10px #f97316}
 .cs-card[data-platform="ptl"]:hover .cs-icon-box{border-color:#f97316}
-
-/* platform emoji fallbacks as text */
 .cs-icon-thm{color:#88cc14;font-size:.9rem}
 .cs-icon-htb{color:#9fef00;font-size:.9rem}
 .cs-icon-ld{color:#38bdf8;font-size:.9rem}
@@ -384,7 +369,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 #lightbox-close:hover{border-color:var(--g);color:var(--g)}
 #lightbox-caption{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.58rem;letter-spacing:2px;color:rgba(0,255,65,.5);text-transform:uppercase;pointer-events:none;white-space:nowrap}
 
-/* ─────── RESPONSIVE ─────── */
+/* ─────── DESKTOP RESPONSIVE ─────── */
 @media(max-width:1200px){
   .pgrid{grid-template-columns:1fr 1fr}
   .hinner{gap:2rem}
@@ -413,68 +398,105 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .fn-feed{grid-template-columns:1fr}
 }
 
-/* ── MOBILE FIXES (≤480px) ── */
+/* ═══════════════════════════════════════════════════
+   MOBILE FIXES — NO HORIZONTAL SCROLL, LIGHTBOX FIX
+   ═══════════════════════════════════════════════════ */
+
+/* Lock overflow at every level */
+html{overflow-x:hidden}
+body{max-width:100vw;overflow-x:hidden}
+
+/* Fix hname at 481–999px (the critical missing range in old code) */
+@media(max-width:999px){
+  .hname{white-space:normal!important;word-break:break-word;line-height:1}
+  .hrole,.hsubrole{white-space:normal!important;word-break:break-word}
+  .hname-block{overflow:hidden;min-width:0}
+  .hinner{width:100%;overflow:hidden}
+  .hphoto-name{overflow:hidden;width:100%}
+  section,.sw,.cs-section-wrap{overflow-x:hidden;max-width:100vw}
+}
+
+/* Lightbox — fully centered & contained on mobile */
+@media(max-width:900px){
+  #lightbox{
+    padding:3.5rem .5rem 1.5rem;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden
+  }
+  #lightbox-img{
+    max-width:96vw!important;
+    max-height:76vh!important;
+    width:auto!important;
+    height:auto!important;
+    position:relative;
+    left:auto;right:auto;top:auto;bottom:auto;
+    transform:none;
+    display:block;
+    margin:0 auto
+  }
+  #lightbox-close{
+    position:fixed;
+    top:.6rem;right:.6rem;left:auto;
+    z-index:9998;
+    font-size:.58rem;
+    padding:.3rem .65rem
+  }
+  #lightbox-caption{
+    position:fixed;
+    bottom:.5rem;
+    left:50%;
+    transform:translateX(-50%);
+    width:90vw;
+    text-align:center;
+    white-space:normal;
+    font-size:.48rem
+  }
+}
+
+/* 480px — full safety net */
 @media(max-width:480px){
-  /* layout */
   body{overflow-x:hidden}
-  #hero{padding:70px .9rem 2rem;overflow:hidden}
-  .hinner{overflow:hidden;width:100%}
-  .sw{padding:3.5rem .9rem}
-  nav{padding:0 .9rem}
+  #hero{padding:70px .9rem 2rem;overflow:hidden;max-width:100vw}
+  .hinner{overflow:hidden;width:100%;max-width:100%}
+  .sw{padding:3.5rem .9rem;overflow-x:hidden}
+  nav{padding:0 .9rem;max-width:100vw;overflow:hidden}
   .nlogo{font-size:.95rem;letter-spacing:1.5px}
   footer{padding:1.5rem .9rem;flex-direction:column;gap:.5rem}
-
-  /* hero photo + name row */
   .hphoto-name{gap:.65rem;align-items:flex-start;overflow:hidden;width:100%}
   .hphoto-box{width:72px;height:92px;flex-shrink:0}
   .hname-block{min-width:0;overflow:hidden;flex:1}
-
-  /* hero text — kill nowrap, scale down */
-  .hname{font-size:clamp(1.5rem,7.5vw,2.6rem);white-space:normal;word-break:break-word;letter-spacing:.03em;line-height:1}
-  .hrole{font-size:.42rem;letter-spacing:.8px;white-space:normal;word-break:break-word;line-height:1.5}
-  .hsubrole{font-size:.42rem;letter-spacing:.5px;white-space:normal;word-break:break-word;line-height:1.6}
+  .hname{font-size:clamp(1.5rem,7.5vw,2.6rem);white-space:normal!important;word-break:break-word;letter-spacing:.03em;line-height:1;max-width:100%;overflow:hidden}
+  .hrole{font-size:.42rem;letter-spacing:.8px;white-space:normal!important;word-break:break-word;line-height:1.5;max-width:100%}
+  .hsubrole{font-size:.42rem;letter-spacing:.5px;white-space:normal!important;word-break:break-word;line-height:1.6;max-width:100%}
   .htagline{font-size:clamp(.95rem,4vw,1.3rem);margin-top:1.2rem}
   .hbtns{gap:.45rem;margin-top:1.4rem}
   .btn{padding:.5rem .85rem;font-size:.56rem;letter-spacing:.8px}
-
-  /* section headers */
   .sh{gap:.6rem;margin-bottom:2.2rem}
   .sn{font-size:2.8rem}
   .st{font-size:.75rem;letter-spacing:2.5px}
-
-  /* filter chips */
   .fn-filter-bar{flex-direction:column;align-items:flex-start}
   .fn-chips{gap:.3rem}
   .fn-chip{font-size:.55rem;padding:.25rem .65rem;letter-spacing:1px}
   .fn-sort{width:100%}
-
-  /* cards */
   .sk-pro-card{padding:1.2rem}
   .pcard{padding:1.3rem}
   .ecard{padding:1.3rem}
   .egrid{grid-template-columns:1fr}
-
-  /* grids */
   .igrid{grid-template-columns:1fr}
   .cgrid{grid-template-columns:1fr}
   .cs-grid{grid-template-columns:1fr}
-  .cs-section-wrap{padding:0 .9rem 4rem}
+  .cs-section-wrap{padding:0 .9rem 4rem;overflow-x:hidden}
   .cs-card{padding:1rem 1.1rem}
-
-  /* contact */
   .ccrd{padding:1.1rem}
   .cbig{font-size:clamp(1.8rem,9vw,3rem)}
   .csub{font-size:.7rem;letter-spacing:1px}
-
-  /* pagination */
   .pagination-bar{flex-direction:column;align-items:flex-start}
-
-  /* images */
   .fn-img-wrap{max-width:90%}
-
-  /* skills */
   .sk{font-size:.64rem;padding:.28rem .7rem}
   .ap{font-size:.8rem}
+  .fn-feed,.pgrid,.egrid,.res-grid,.labs-grid,.cs-grid,.cgrid{max-width:100%;overflow-x:hidden}
 }
 </style>
 </head>
@@ -1071,65 +1093,41 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   </div>
   <div class="cs-section-wrap">
     <div class="cs-grid rv" data-d="1">
-
       <a href="https://tryhackme.com/p/whoopx" target="_blank" rel="noopener" class="cs-card" data-platform="thm">
         <div class="cs-icon-box">
-          <img src="https://assets.tryhackme.com/img/favicon.png" alt="THM"
-            onerror="this.style.display='none';this.parentElement.innerHTML='<span class=cs-icon-thm>T</span>'"/>
+          <img src="https://assets.tryhackme.com/img/favicon.png" alt="THM" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=cs-icon-thm>T</span>'"/>
         </div>
-        <div class="cs-info">
-          <div class="cs-name">TryHackMe</div>
-          <div class="cs-handle">@whoopx</div>
-        </div>
+        <div class="cs-info"><div class="cs-name">TryHackMe</div><div class="cs-handle">@whoopx</div></div>
         <div class="cs-arrow">&#x2192;</div>
       </a>
-
       <a href="https://app.hackthebox.com/public/users/2902723" target="_blank" rel="noopener" class="cs-card" data-platform="htb">
         <div class="cs-icon-box" style="background:#0d1117;border-color:rgba(159,239,0,.2)">
           <span style="font-family:var(--orb);font-size:.6rem;font-weight:700;color:#9fef00;letter-spacing:1px">HTB</span>
         </div>
-        <div class="cs-info">
-          <div class="cs-name">HackTheBox</div>
-          <div class="cs-handle">Profile #2902723</div>
-        </div>
+        <div class="cs-info"><div class="cs-name">HackTheBox</div><div class="cs-handle">Profile #2902723</div></div>
         <div class="cs-arrow">&#x2192;</div>
       </a>
-
       <a href="https://blueteamlabs.online/public/user/6538c5ab2cf278e3842d79" target="_blank" rel="noopener" class="cs-card" data-platform="btlo">
         <div class="cs-icon-box" style="background:#0a1628;border-color:rgba(29,111,255,.2)">
           <span style="font-family:var(--orb);font-size:.5rem;font-weight:700;color:#1d6fff;letter-spacing:1px">BTLO</span>
         </div>
-        <div class="cs-info">
-          <div class="cs-name">Blue Team Labs</div>
-          <div class="cs-handle">Public Profile</div>
-        </div>
+        <div class="cs-info"><div class="cs-name">Blue Team Labs</div><div class="cs-handle">Public Profile</div></div>
         <div class="cs-arrow">&#x2192;</div>
       </a>
-
       <a href="https://play.picoctf.org/users/jishnuec" target="_blank" rel="noopener" class="cs-card" data-platform="pico">
         <div class="cs-icon-box">
-          <img src="https://picoctf.org/favicon-32x32.png" alt="picoCTF"
-            onerror="this.style.display='none';this.parentElement.innerHTML='<span class=cs-icon-pico>pico</span>'"/>
+          <img src="https://picoctf.org/favicon-32x32.png" alt="picoCTF" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=cs-icon-pico>pico</span>'"/>
         </div>
-        <div class="cs-info">
-          <div class="cs-name">PicoCTF</div>
-          <div class="cs-handle">@jishnuec</div>
-        </div>
+        <div class="cs-info"><div class="cs-name">PicoCTF</div><div class="cs-handle">@jishnuec</div></div>
         <div class="cs-arrow">&#x2192;</div>
       </a>
-
       <a href="https://pentesterlab.com/profile/whoop" target="_blank" rel="noopener" class="cs-card" data-platform="ptl">
         <div class="cs-icon-box">
-          <img src="https://pentesterlab.com/favicon.ico" alt="PentesterLab"
-            onerror="this.style.display='none';this.parentElement.innerHTML='<span class=cs-icon-ptl>PTL</span>'"/>
+          <img src="https://pentesterlab.com/favicon.ico" alt="PentesterLab" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=cs-icon-ptl>PTL</span>'"/>
         </div>
-        <div class="cs-info">
-          <div class="cs-name">PentesterLab</div>
-          <div class="cs-handle">@whoop</div>
-        </div>
+        <div class="cs-info"><div class="cs-name">PentesterLab</div><div class="cs-handle">@whoop</div></div>
         <div class="cs-arrow">&#x2192;</div>
       </a>
-
     </div>
   </div>
 </section>
@@ -1183,9 +1181,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 </div>
 
 <script>
-/* ════════════════════
-   MATRIX RAIN
-   ════════════════════ */
+/* MATRIX RAIN */
 (function(){
   const cv=document.getElementById('mc'),ctx=cv.getContext('2d');
   let cols,drops;
@@ -1204,9 +1200,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   },50);
 })();
 
-/* ════════════════════
-   TYPEWRITER
-   ════════════════════ */
+/* TYPEWRITER */
 (function(){
   const phrases=['Hunting threats. Building defenses.','I break things to make them secure.','Turning vulnerabilities into victories.','Ready to secure your infrastructure.','OSINT. Pentest. Forensics.'];
   let pi=0,ci=0,del=false;
@@ -1220,9 +1214,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   tick();
 })();
 
-/* ════════════════════
-   GLITCH
-   ════════════════════ */
+/* GLITCH */
 (function(){
   const el=document.getElementById('hname');
   if(!el)return;
@@ -1233,9 +1225,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   },5500);
 })();
 
-/* ════════════════════
-   SCROLL REVEAL
-   ════════════════════ */
+/* SCROLL REVEAL */
 (function(){
   const obs=new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
@@ -1246,9 +1236,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   document.querySelectorAll('.rv').forEach(el=>{el.classList.add('hidden-rv');obs.observe(el);});
 })();
 
-/* ════════════════════
-   LIGHTBOX
-   ════════════════════ */
+/* LIGHTBOX */
 function openLightbox(src,alt){
   if(!src||src===window.location.href)return;
   document.getElementById('lightbox-img').src=src;
@@ -1264,9 +1252,7 @@ document.getElementById('lightbox').addEventListener('click',closeLightbox);
 document.getElementById('lightbox-img').addEventListener('click',e=>e.stopPropagation());
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();closeLabModal();}});
 
-/* ════════════════════
-   MOBILE MENU
-   ════════════════════ */
+/* MOBILE MENU */
 const hamburger=document.getElementById('hamburger');
 const mobileMenu=document.getElementById('mobileMenu');
 hamburger.addEventListener('click',function(){
@@ -1280,214 +1266,125 @@ function closeMobileMenu(){
   document.body.style.overflow='';
 }
 
-/* ════════════════════════════════════
-   PAGINATION ENGINE
-   ════════════════════════════════════ */
-const pageState = { projects:1, research:1, labs:1, fieldNotes:1 };
-const pageSize = { projects:3, research:3, labs:3, fieldNotes:2 };
-
-const pageConfig = {
-  projects: {
-    gridId:'pgrid', selector:'.pcard',
-    totalId:'projectsTotal', showingId:'projectsShowing',
-    prevId:'projectsPrev', nextId:'projectsNext',
-    paginationId:'projectsPagination',
-    btnPrefix:'projectsP', maxPages:2
-  },
-  research: {
-    gridId:'resGrid', selector:'.rcard',
-    totalId:'researchTotal', showingId:'researchShowing',
-    prevId:'researchPrev', nextId:'researchNext',
-    paginationId:'researchPagination',
-    btnPrefix:'researchP', maxPages:3
-  },
-  labs: {
-    gridId:'labsGrid', selector:'.lcard',
-    totalId:'labsTotal', showingId:'labsShowing',
-    prevId:'labsPrev', nextId:'labsNext',
-    paginationId:'labsPagination',
-    btnPrefix:'labsP', maxPages:3
-  },
-  fieldNotes: {
-    gridId:'fnFeed', selector:'.fn-post',
-    totalId:'fnTotal', showingId:'fnShowing',
-    prevId:'fnPrev', nextId:'fnNext',
-    paginationId:'fieldNotesPagination',
-    btnPrefix:'fnP', maxPages:3
-  }
+/* PAGINATION ENGINE */
+const pageState={projects:1,research:1,labs:1,fieldNotes:1};
+const pageSize={projects:3,research:3,labs:3,fieldNotes:2};
+const pageConfig={
+  projects:{gridId:'pgrid',selector:'.pcard',totalId:'projectsTotal',showingId:'projectsShowing',prevId:'projectsPrev',nextId:'projectsNext',paginationId:'projectsPagination',btnPrefix:'projectsP',maxPages:2},
+  research:{gridId:'resGrid',selector:'.rcard',totalId:'researchTotal',showingId:'researchShowing',prevId:'researchPrev',nextId:'researchNext',paginationId:'researchPagination',btnPrefix:'researchP',maxPages:3},
+  labs:{gridId:'labsGrid',selector:'.lcard',totalId:'labsTotal',showingId:'labsShowing',prevId:'labsPrev',nextId:'labsNext',paginationId:'labsPagination',btnPrefix:'labsP',maxPages:3},
+  fieldNotes:{gridId:'fnFeed',selector:'.fn-post',totalId:'fnTotal',showingId:'fnShowing',prevId:'fnPrev',nextId:'fnNext',paginationId:'fieldNotesPagination',btnPrefix:'fnP',maxPages:3}
 };
 
-function renderPage(key, page) {
-  const cfg = pageConfig[key];
-  const grid = document.getElementById(cfg.gridId);
-  if (!grid) return;
-  const items = [...grid.querySelectorAll(cfg.selector)];
-  const ps = pageSize[key];
-  const total = items.length;
-  const totalPages = Math.ceil(total / ps);
-  const start = (page - 1) * ps;
-  const end = start + ps;
-
-  items.forEach((item, i) => {
-    item.style.display = (i >= start && i < end) ? '' : 'none';
-  });
-
-  pageState[key] = page;
-
-  const showingEl = document.getElementById(cfg.showingId);
-  const totalEl = document.getElementById(cfg.totalId);
-  if (showingEl) showingEl.textContent = Math.min(end, total);
-  if (totalEl) totalEl.textContent = total;
-
-  for (let p = 1; p <= cfg.maxPages; p++) {
-    const btn = document.getElementById(cfg.btnPrefix + p);
-    if (btn) btn.classList.toggle('active', p === page);
-  }
-
-  const prev = document.getElementById(cfg.prevId);
-  const next = document.getElementById(cfg.nextId);
-  if (prev) prev.disabled = page <= 1;
-  if (next) next.disabled = page >= totalPages;
-
-  const pagEl = document.getElementById(cfg.paginationId);
-  if (pagEl) pagEl.style.display = totalPages <= 1 ? 'none' : 'flex';
+function renderPage(key,page){
+  const cfg=pageConfig[key];
+  const grid=document.getElementById(cfg.gridId);
+  if(!grid)return;
+  const items=[...grid.querySelectorAll(cfg.selector)];
+  const ps=pageSize[key];
+  const total=items.length;
+  const totalPages=Math.ceil(total/ps);
+  const start=(page-1)*ps;
+  const end=start+ps;
+  items.forEach((item,i)=>{item.style.display=(i>=start&&i<end)?'':'none';});
+  pageState[key]=page;
+  const showingEl=document.getElementById(cfg.showingId);
+  const totalEl=document.getElementById(cfg.totalId);
+  if(showingEl)showingEl.textContent=Math.min(end,total);
+  if(totalEl)totalEl.textContent=total;
+  for(let p=1;p<=cfg.maxPages;p++){const btn=document.getElementById(cfg.btnPrefix+p);if(btn)btn.classList.toggle('active',p===page);}
+  const prev=document.getElementById(cfg.prevId);
+  const next=document.getElementById(cfg.nextId);
+  if(prev)prev.disabled=page<=1;
+  if(next)next.disabled=page>=totalPages;
+  const pagEl=document.getElementById(cfg.paginationId);
+  if(pagEl)pagEl.style.display=totalPages<=1?'none':'flex';
 }
 
-function changePage(key, delta) {
-  const cfg = pageConfig[key];
-  const grid = document.getElementById(cfg.gridId);
-  if (!grid) return;
-  const items = [...grid.querySelectorAll(cfg.selector)];
-  const totalPages = Math.ceil(items.length / pageSize[key]);
-  const newPage = Math.max(1, Math.min(totalPages, pageState[key] + delta));
-  renderPage(key, newPage);
+function changePage(key,delta){
+  const cfg=pageConfig[key];
+  const grid=document.getElementById(cfg.gridId);
+  if(!grid)return;
+  const items=[...grid.querySelectorAll(cfg.selector)];
+  const totalPages=Math.ceil(items.length/pageSize[key]);
+  const newPage=Math.max(1,Math.min(totalPages,pageState[key]+delta));
+  renderPage(key,newPage);
 }
+function goPage(key,page){renderPage(key,page);}
+['projects','research','labs','fieldNotes'].forEach(k=>renderPage(k,1));
 
-function goPage(key, page) {
-  renderPage(key, page);
-}
-
-['projects','research','labs','fieldNotes'].forEach(k => renderPage(k, 1));
-
-/* ════════════════════
-   PROJECT FILTER — fixed: always show count bar, hide page buttons when single page
-   ════════════════════ */
-function filterProjects(type, btn) {
+/* PROJECT FILTER */
+function filterProjects(type,btn){
   document.querySelectorAll('#projects .fn-chip').forEach(c=>c.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-
-  const grid = document.getElementById('pgrid');
-  const items = [...grid.querySelectorAll('.pcard')];
-  const filtered = type ? items.filter(p => p.dataset.ptype === type) : items;
-
-  // hide all, show first page of filtered
-  items.forEach(p => p.style.display = 'none');
-  filtered.forEach((p, i) => {
-    p.style.display = i < pageSize.projects ? '' : 'none';
-  });
-
-  const totalPages = Math.ceil(filtered.length / pageSize.projects);
-  const pagEl = document.getElementById('projectsPagination');
-  const btnDiv = document.getElementById('projectsBtns');
-
-  // Always show the bar so the count is visible; only hide page buttons when not needed
-  if (pagEl) pagEl.style.display = filtered.length > 0 ? 'flex' : 'none';
-  if (btnDiv) btnDiv.style.display = totalPages <= 1 ? 'none' : 'flex';
-
-  const s = document.getElementById('projectsShowing');
-  const t = document.getElementById('projectsTotal');
-  if (s) s.textContent = Math.min(pageSize.projects, filtered.length);
-  if (t) t.textContent = filtered.length;
+  if(btn)btn.classList.add('active');
+  const grid=document.getElementById('pgrid');
+  const items=[...grid.querySelectorAll('.pcard')];
+  const filtered=type?items.filter(p=>p.dataset.ptype===type):items;
+  items.forEach(p=>p.style.display='none');
+  filtered.forEach((p,i)=>{p.style.display=i<pageSize.projects?'':'none';});
+  const totalPages=Math.ceil(filtered.length/pageSize.projects);
+  const pagEl=document.getElementById('projectsPagination');
+  const btnDiv=document.getElementById('projectsBtns');
+  if(pagEl)pagEl.style.display=filtered.length>0?'flex':'none';
+  if(btnDiv)btnDiv.style.display=totalPages<=1?'none':'flex';
+  const s=document.getElementById('projectsShowing');
+  const t=document.getElementById('projectsTotal');
+  if(s)s.textContent=Math.min(pageSize.projects,filtered.length);
+  if(t)t.textContent=filtered.length;
 }
 
-/* ════════════════════
-   RESEARCH SORT
-   ════════════════════ */
-function sortResearch(order, btn) {
+/* RESEARCH SORT */
+function sortResearch(order,btn){
   document.querySelectorAll('#research .fn-chip').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  const grid = document.getElementById('resGrid');
-  if(!grid) return;
-  const cards = [...grid.querySelectorAll('.rcard')];
-  cards.sort((a,b) => {
-    const da=a.dataset.date||'2000-01-01', db=b.dataset.date||'2000-01-01';
-    return order==='newest' ? db.localeCompare(da) : da.localeCompare(db);
-  });
+  if(btn)btn.classList.add('active');
+  const grid=document.getElementById('resGrid');
+  if(!grid)return;
+  const cards=[...grid.querySelectorAll('.rcard')];
+  cards.sort((a,b)=>{const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';return order==='newest'?db.localeCompare(da):da.localeCompare(db);});
   cards.forEach(c=>grid.appendChild(c));
-  renderPage('research', 1);
+  renderPage('research',1);
 }
 
-/* ════════════════════
-   FIELD NOTES FILTER & SORT
-   ════════════════════ */
-let currentTag = null;
-
-function filterByTag(tag, btn) {
-  currentTag = tag;
-  if (btn) {
-    document.querySelectorAll('#fnChips .fn-chip').forEach(c=>c.classList.remove('active'));
-    btn.classList.add('active');
-  } else if (tag) {
-    document.querySelectorAll('#fnChips .fn-chip').forEach(c => {
-      const oc = c.getAttribute('onclick') || '';
-      c.classList.toggle('active', oc.includes(`'${tag}'`));
-    });
-  }
-  const feed = document.getElementById('fnFeed');
-  if (!feed) return;
-  const posts = [...feed.querySelectorAll('.fn-post')];
-
-  if (!tag) {
-    posts.forEach(p => delete p.dataset.filterHidden);
-    renderPage('fieldNotes', 1);
-    checkFnEmpty();
-    return;
-  }
-
-  const matching = posts.filter(p => {
-    const tags = (p.dataset.tags || '').split(',').map(t => t.trim());
-    return tags.includes(tag);
-  });
-
-  posts.forEach(p => p.style.display = 'none');
-  matching.forEach((p, i) => {
-    p.style.display = i < pageSize.fieldNotes ? '' : 'none';
-  });
-
-  const totalPages = Math.ceil(matching.length / pageSize.fieldNotes);
-  const pagEl = document.getElementById('fieldNotesPagination');
-  if (pagEl) pagEl.style.display = totalPages <= 1 ? 'none' : 'flex';
-  const s = document.getElementById('fnShowing');
-  const t = document.getElementById('fnTotal');
-  if (s) s.textContent = Math.min(pageSize.fieldNotes, matching.length);
-  if (t) t.textContent = matching.length;
+/* FIELD NOTES FILTER & SORT */
+let currentTag=null;
+function filterByTag(tag,btn){
+  currentTag=tag;
+  if(btn){document.querySelectorAll('#fnChips .fn-chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');}
+  else if(tag){document.querySelectorAll('#fnChips .fn-chip').forEach(c=>{const oc=c.getAttribute('onclick')||'';c.classList.toggle('active',oc.includes(`'${tag}'`));});}
+  const feed=document.getElementById('fnFeed');
+  if(!feed)return;
+  const posts=[...feed.querySelectorAll('.fn-post')];
+  if(!tag){posts.forEach(p=>delete p.dataset.filterHidden);renderPage('fieldNotes',1);checkFnEmpty();return;}
+  const matching=posts.filter(p=>{const tags=(p.dataset.tags||'').split(',').map(t=>t.trim());return tags.includes(tag);});
+  posts.forEach(p=>p.style.display='none');
+  matching.forEach((p,i)=>{p.style.display=i<pageSize.fieldNotes?'':'none';});
+  const totalPages=Math.ceil(matching.length/pageSize.fieldNotes);
+  const pagEl=document.getElementById('fieldNotesPagination');
+  if(pagEl)pagEl.style.display=totalPages<=1?'none':'flex';
+  const s=document.getElementById('fnShowing');
+  const t=document.getElementById('fnTotal');
+  if(s)s.textContent=Math.min(pageSize.fieldNotes,matching.length);
+  if(t)t.textContent=matching.length;
   checkFnEmpty();
 }
-
-function checkFnEmpty() {
-  const feed = document.getElementById('fnFeed');
-  const empty = document.getElementById('fnEmpty');
-  if (!feed || !empty) return;
-  const visible = [...feed.querySelectorAll('.fn-post')].filter(p => p.style.display !== 'none');
-  empty.style.display = visible.length === 0 ? 'block' : 'none';
+function checkFnEmpty(){
+  const feed=document.getElementById('fnFeed');
+  const empty=document.getElementById('fnEmpty');
+  if(!feed||!empty)return;
+  const visible=[...feed.querySelectorAll('.fn-post')].filter(p=>p.style.display!=='none');
+  empty.style.display=visible.length===0?'block':'none';
+}
+function sortPosts(order){
+  const feed=document.getElementById('fnFeed');
+  if(!feed)return;
+  const posts=[...feed.querySelectorAll('.fn-post')];
+  posts.sort((a,b)=>{const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';return order==='newest'?db.localeCompare(da):da.localeCompare(db);});
+  posts.forEach(p=>feed.appendChild(p));
+  renderPage('fieldNotes',1);
 }
 
-function sortPosts(order) {
-  const feed = document.getElementById('fnFeed');
-  if (!feed) return;
-  const posts = [...feed.querySelectorAll('.fn-post')];
-  posts.sort((a, b) => {
-    const da = a.dataset.date||'2000-01-01', db = b.dataset.date||'2000-01-01';
-    return order === 'newest' ? db.localeCompare(da) : da.localeCompare(db);
-  });
-  posts.forEach(p => feed.appendChild(p));
-  renderPage('fieldNotes', 1);
-}
-
-/* ════════════════════
-   LAB MODAL
-   ════════════════════ */
-const labData = {
+/* LAB MODAL */
+const labData={
   dvwa:{active:true,title:'Kali vs DVWA Attack Lab',sub:'Kali Linux Attacker · Linux Mint Target · Splunk SIEM · VirtualBox',overview:'A full red team attack simulation. Kali Linux (attacker) targets a Linux Mint machine running DVWA, with all traffic monitored by Splunk SIEM on Windows.',tools:['Kali Linux','Linux Mint','DVWA','Splunk','Metasploit','Burp Suite','SQLMap','Nmap','Hydra','Netcat'],findings:'19 findings across the kill chain including SQL Injection, Blind SQLi, XSS (Reflected & Stored), Command Injection, File Inclusion (LFI/RFI), CSRF, Brute Force, File Upload bypass, and more.'},
   ad:{active:false,title:'Active Directory Lab',sub:'Windows Server 2019 · VirtualBox',overview:'Planned lab with Windows Server 2019 domain controller for practicing AD enumeration, privilege escalation, pass-the-hash, and lateral movement.',tools:['Windows Server 2019','Kali Linux','BloodHound','Impacket','CrackMapExec']},
   network:{active:false,title:'Network Security Lab',sub:'OPNsense · Wireshark · Zeek',overview:'Planned segmented network lab with OPNsense firewall, VLAN config, IDS/IPS rules, and traffic analysis.',tools:['OPNsense','Wireshark','Zeek','Suricata','VirtualBox']},
@@ -1495,42 +1392,22 @@ const labData = {
   ctf:{active:false,title:'CTF Practice Environment',sub:'VulnHub · HackTheBox · Offline Practice',overview:'Planned environment for spinning up VulnHub and HackTheBox machines locally for offline practice.',tools:['Kali Linux','VulnHub','HackTheBox','VirtualBox','Nmap','Gobuster','SQLMap']},
   docker:{active:false,title:'Docker Security Lab',sub:'Docker · Vulnerable Apps',overview:'Planned containerized lab for web app security testing and Docker-specific attack vector practice.',tools:['Docker','DVWA','WebGoat','Trivy','Kali Linux']}
 };
-
-function openLab(id) {
-  const d = labData[id]; if(!d) return;
-  const tagClass = d.active ? 'g' : 'p';
-  let html = `<div class="lmodal-inner">
-    <div class="lm-badge ${d.active?'lbdg ab':'lbdg'}">${d.active?'● ACTIVE LAB':'⏳ PLANNED'}</div>
-    <div class="lm-title">${d.title}</div>
-    <div class="lm-sub">${d.sub}</div>
-    <div class="lm-sec-title">Overview</div>
-    <div class="lm-text">${d.overview}</div>
-    <div class="lm-sec-title">Tools &amp; Technologies</div>
-    <div class="lm-tags">${d.tools.map(t=>`<span class="sk ${tagClass}" style="font-size:.68rem">${t}</span>`).join('')}</div>`;
-  if (d.findings) {
-    html += `<div class="lm-sec-title">Findings Summary</div><div class="lm-text">${d.findings}</div>
-    <div class="lm-sec-title">Writeup Status</div><div class="lm-text">Full OWASP-style penetration test report in progress.</div>`;
-  } else {
-    html += `<div class="lm-coming">// WRITEUP COMING SOON</div>`;
-  }
-  html += `</div>`;
-  document.getElementById('labModalContent').innerHTML = html;
+function openLab(id){
+  const d=labData[id];if(!d)return;
+  const tagClass=d.active?'g':'p';
+  let html=`<div class="lmodal-inner"><div class="lm-badge ${d.active?'lbdg ab':'lbdg'}">${d.active?'● ACTIVE LAB':'⏳ PLANNED'}</div><div class="lm-title">${d.title}</div><div class="lm-sub">${d.sub}</div><div class="lm-sec-title">Overview</div><div class="lm-text">${d.overview}</div><div class="lm-sec-title">Tools &amp; Technologies</div><div class="lm-tags">${d.tools.map(t=>`<span class="sk ${tagClass}" style="font-size:.68rem">${t}</span>`).join('')}</div>`;
+  if(d.findings){html+=`<div class="lm-sec-title">Findings Summary</div><div class="lm-text">${d.findings}</div><div class="lm-sec-title">Writeup Status</div><div class="lm-text">Full OWASP-style penetration test report in progress.</div>`;}
+  else{html+=`<div class="lm-coming">// WRITEUP COMING SOON</div>`;}
+  html+=`</div>`;
+  document.getElementById('labModalContent').innerHTML=html;
   document.getElementById('labModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
+function closeLabModal(){document.getElementById('labModal').classList.remove('open');document.body.style.overflow='';}
+function closeLab(e){if(e&&e.target===document.getElementById('labModal'))closeLabModal();}
 
-function closeLabModal() {
-  document.getElementById('labModal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function closeLab(e) {
-  if (e && e.target === document.getElementById('labModal')) closeLabModal();
-}
-
-/* ════════════════════
-   SKILL TOOLTIP
-   ════════════════════ */
-const skillInfo = {
+/* SKILL TOOLTIP */
+const skillInfo={
   'Nmap':'Network scanner for host discovery, port scanning, and service/OS detection.',
   'Metasploit':'Exploitation framework for developing and executing exploit code against targets.',
   'Burp Suite':'Web application security testing platform for intercepting and modifying HTTP traffic.',
@@ -1578,37 +1455,35 @@ const skillInfo = {
   'Linux Terminal':'Command-line interface — primary working environment for security tasks.',
   'Markdown':'Lightweight markup language for writing documentation and README files.'
 };
-
-const tip = document.getElementById('skTip');
-const tn = document.getElementById('skTipName');
-const td = document.getElementById('skTipDesc');
-let activeSkill = null, tipTimeout = null;
-function hideTip() { tip.classList.remove('show'); activeSkill = null; }
-
-document.querySelectorAll('.sk').forEach(el => {
-  el.addEventListener('click', function(e) {
+const tip=document.getElementById('skTip');
+const tn=document.getElementById('skTipName');
+const td=document.getElementById('skTipDesc');
+let activeSkill=null,tipTimeout=null;
+function hideTip(){tip.classList.remove('show');activeSkill=null;}
+document.querySelectorAll('.sk').forEach(el=>{
+  el.addEventListener('click',function(e){
     e.stopPropagation();
-    const name = el.textContent.trim();
-    const desc = skillInfo[name];
-    if (!desc) return;
-    if (activeSkill === el) { hideTip(); return; }
-    activeSkill = el;
-    tn.textContent = name;
-    td.textContent = desc;
-    const r = el.getBoundingClientRect();
-    let x = r.left, y = r.bottom + 8;
-    if (x + 250 > window.innerWidth) x = window.innerWidth - 258;
-    if (y + 110 > window.innerHeight) y = r.top - 116;
-    if (x < 4) x = 4;
-    tip.style.left = x + 'px';
-    tip.style.top = y + 'px';
+    const name=el.textContent.trim();
+    const desc=skillInfo[name];
+    if(!desc)return;
+    if(activeSkill===el){hideTip();return;}
+    activeSkill=el;
+    tn.textContent=name;
+    td.textContent=desc;
+    const r=el.getBoundingClientRect();
+    let x=r.left,y=r.bottom+8;
+    if(x+250>window.innerWidth)x=window.innerWidth-258;
+    if(y+110>window.innerHeight)y=r.top-116;
+    if(x<4)x=4;
+    tip.style.left=x+'px';
+    tip.style.top=y+'px';
     tip.classList.add('show');
     clearTimeout(tipTimeout);
-    tipTimeout = setTimeout(hideTip, 2800);
+    tipTimeout=setTimeout(hideTip,2800);
   });
 });
-document.addEventListener('click', hideTip);
-document.addEventListener('scroll', hideTip, {passive:true});
+document.addEventListener('click',hideTip);
+document.addEventListener('scroll',hideTip,{passive:true});
 </script>
 </body>
 </html>
