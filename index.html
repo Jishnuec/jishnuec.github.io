@@ -195,7 +195,6 @@ option{background:var(--bg3)}
 /* PROJECTS */
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
 .pcard{background:var(--bg2);border:1px solid var(--border);padding:2.4rem;position:relative;overflow:hidden;transition:all .3s;display:flex;flex-direction:column}
-.pcard.hidden-item{display:none}
 .pcard::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--g),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
 .pcard:hover{border-color:rgba(0,255,65,.6);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.5)}.pcard:hover::before{transform:scaleX(1)}
 .ptag{font-size:.58rem;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
@@ -210,15 +209,19 @@ option{background:var(--bg3)}
 .plink:hover{color:var(--g)}
 .plink svg{transition:transform .2s}.plink:hover svg{transform:translateX(3px)}
 
-/* SHOW MORE BTN */
-.show-more-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:1.5rem;width:100%;background:transparent;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.65rem;letter-spacing:3px;text-transform:uppercase;padding:.85rem;cursor:pointer;transition:all .3s}
-.show-more-btn:hover{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.04)}
-.show-more-btn.hidden-btn{display:none}
+/* PAGINATION CONTROLS */
+.pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border2);flex-wrap:wrap;gap:1rem}
+.pagination-info{font-size:.62rem;letter-spacing:2px;color:var(--text2)}
+.pagination-info span{color:var(--g)}
+.pagination-btns{display:flex;gap:.5rem}
+.pg-btn{background:var(--bg2);border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.62rem;letter-spacing:2px;padding:.4rem 1rem;cursor:pointer;transition:all .2s}
+.pg-btn:hover:not(:disabled){border-color:var(--g);color:var(--g);background:rgba(0,255,65,.04)}
+.pg-btn:disabled{opacity:.3;cursor:not-allowed}
+.pg-btn.active{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
 
 /* RESEARCH */
 .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
 .rcard{background:var(--bg2);border:1px dashed rgba(0,255,65,.15);padding:1.7rem;transition:all .3s;display:flex;flex-direction:column;gap:.9rem;min-height:195px;cursor:pointer}
-.rcard.hidden-item{display:none}
 .rcard:hover{border-color:rgba(0,229,255,.35);transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
 .rbadge{display:inline-flex;align-items:center;gap:.4rem;font-size:.56rem;letter-spacing:3px;text-transform:uppercase;padding:.22rem .65rem;width:fit-content}
 .rb-w{background:rgba(180,79,255,.05);border:1px solid rgba(180,79,255,.25);color:var(--purple)}
@@ -232,7 +235,6 @@ option{background:var(--bg3)}
 /* LABS */
 .labs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
 .lcard{background:var(--bg2);border:1px dashed rgba(180,79,255,.22);padding:1.7rem;display:flex;flex-direction:column;gap:.9rem;min-height:185px;cursor:pointer;transition:all .3s}
-.lcard.hidden-item{display:none}
 .lcard.act{border-style:solid;border-color:rgba(0,255,65,.4)}
 .lcard.act:hover{border-color:rgba(0,255,65,.65);transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
 .lcard:not(.act):hover{border-color:rgba(180,79,255,.5);transform:translateY(-2px)}
@@ -260,24 +262,23 @@ option{background:var(--bg3)}
 .lm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
 .lm-coming{font-family:var(--vt);font-size:1.5rem;color:#6dcc75;letter-spacing:3px;text-align:center;padding:2rem}
 
-/* ════════════════════════════════════════
-   FIELD NOTES — REDESIGNED CARDS
-   ════════════════════════════════════════ */
+/* ═══════════════════════════
+   FIELD NOTES — CLEAN CARDS
+   ═══════════════════════════ */
 .fn-feed{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem}
-.fn-post{background:var(--bg2);border:1px solid var(--border2);position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;display:flex;flex-direction:column}
+.fn-post{background:var(--bg2);border:1px solid var(--border2);position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;display:flex;flex-direction:column;border-radius:2px}
 .fn-post:hover{border-color:var(--border);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.5)}
-.fn-post.hidden-item{display:none}
-/* accent strip */
-.fn-post::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--g);transition:box-shadow .3s}
-.fn-post:hover::before{box-shadow:0 0 12px var(--g)}
-.fn-post[data-accent="cyan"]::before{background:var(--cyan)}
-.fn-post[data-accent="cyan"]:hover::before{box-shadow:0 0 12px var(--cyan)}
-.fn-post[data-accent="amber"]::before{background:var(--amber)}
-.fn-post[data-accent="amber"]:hover::before{box-shadow:0 0 12px var(--amber)}
-.fn-post[data-accent="red"]::before{background:var(--red)}
-.fn-post[data-accent="purple"]::before{background:var(--purple)}
+/* top accent bar (no left line) */
+.fn-post::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g);transition:box-shadow .3s;opacity:.7}
+.fn-post:hover::after{box-shadow:0 0 10px var(--g);opacity:1}
+.fn-post[data-accent="cyan"]::after{background:var(--cyan)}
+.fn-post[data-accent="cyan"]:hover::after{box-shadow:0 0 10px var(--cyan)}
+.fn-post[data-accent="amber"]::after{background:var(--amber)}
+.fn-post[data-accent="amber"]:hover::after{box-shadow:0 0 10px var(--amber)}
+.fn-post[data-accent="red"]::after{background:var(--red)}
+.fn-post[data-accent="purple"]::after{background:var(--purple)}
 /* top bar */
-.fn-meta{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:.85rem 1.3rem .5rem 1.5rem;background:rgba(0,0,0,.25);border-bottom:1px solid rgba(0,255,65,.07)}
+.fn-meta{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:.85rem 1.3rem .5rem 1.3rem;background:rgba(0,0,0,.25);border-bottom:1px solid rgba(0,255,65,.07)}
 .fn-badge{font-family:var(--orb);font-size:.48rem;letter-spacing:2px;padding:.2rem .65rem;border:1px solid}
 .fn-badge-dfir{color:var(--cyan);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
 .fn-badge-ir{color:var(--purple);border-color:rgba(204,119,255,.35);background:rgba(204,119,255,.04)}
@@ -286,11 +287,11 @@ option{background:var(--bg3)}
 .fn-badge-pentest{color:var(--red);border-color:rgba(255,85,85,.4);background:rgba(255,85,85,.04)}
 .fn-date{font-size:.56rem;letter-spacing:2px;color:var(--text2);margin-left:auto;font-family:var(--mono);opacity:.7}
 /* body */
-.fn-card-body{padding:.9rem 1.3rem 1.2rem 1.5rem;display:flex;flex-direction:column;flex:1;gap:.5rem}
+.fn-card-body{padding:.9rem 1.3rem 1.2rem 1.3rem;display:flex;flex-direction:column;flex:1;gap:.5rem}
 .fn-title{font-family:var(--orb);font-size:.82rem;color:var(--g);letter-spacing:.5px;line-height:1.55;margin-bottom:.2rem}
 .fn-body{font-size:.76rem;line-height:1.9;color:var(--text2)}
 /* findings */
-.fn-findings{display:flex;flex-direction:column;gap:.28rem;padding:.7rem 1rem;background:rgba(0,0,0,.35);border-left:2px solid rgba(0,255,65,.3);border-radius:0}
+.fn-findings{display:flex;flex-direction:column;gap:.28rem;padding:.7rem 1rem;background:rgba(0,0,0,.35);border:1px solid rgba(0,255,65,.1)}
 .fn-finding{font-size:.71rem;color:var(--text2);line-height:1.6;padding-left:.2rem}
 .fn-finding span{color:var(--g);font-weight:600}
 /* image */
@@ -308,23 +309,46 @@ option{background:var(--bg3)}
 /* empty */
 .fn-empty{font-family:var(--vt);font-size:1.5rem;color:var(--text2);letter-spacing:3px;text-align:center;padding:3rem;opacity:.5;display:none}
 
-/* ════════════════════════════════════════
-   CYBERSPACE PROFILES — SECTION 8
-   ════════════════════════════════════════ */
-#cyberspace .sw{padding-top:0}
-.cs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
-.cs-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;padding:1.6rem 1.4rem;background:var(--bg2);border:1px solid var(--border2);text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
-.cs-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,65,.04),transparent);opacity:0;transition:opacity .3s}
-.cs-card:hover{border-color:var(--border);transform:translateY(-5px);box-shadow:0 14px 40px rgba(0,0,0,.5)}
-.cs-card:hover::after{opacity:1}
-.cs-logo{width:52px;height:52px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:transform .3s}
-.cs-card:hover .cs-logo{transform:scale(1.12)}
-.cs-logo img{width:100%;height:100%;object-fit:contain;filter:grayscale(35%) brightness(.82);transition:filter .3s}
-.cs-card:hover .cs-logo img{filter:grayscale(0%) brightness(1.05)}
-.cs-name{font-family:var(--orb);font-size:.52rem;letter-spacing:2px;color:var(--text2);text-transform:uppercase;position:relative;z-index:1;transition:color .3s;text-align:center}
+/* ══════════════════════════════
+   CYBERSPACE PROFILES
+   ══════════════════════════════ */
+.cs-section-wrap{padding:0 3rem 7rem;max-width:1200px;margin:0 auto}
+.cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.cs-card{display:flex;align-items:center;gap:1.2rem;padding:1.4rem 1.6rem;background:var(--bg2);border:1px solid var(--border2);text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
+.cs-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background .3s,box-shadow .3s}
+.cs-card:hover::before{background:var(--g);box-shadow:0 0 10px var(--g)}
+.cs-card:hover{border-color:var(--border);transform:translateX(3px);box-shadow:6px 0 30px rgba(0,255,65,.06)}
+.cs-icon-box{width:44px;height:44px;border:1px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .3s,box-shadow .3s;font-family:var(--orb);font-size:.8rem;font-weight:700;overflow:hidden}
+.cs-card:hover .cs-icon-box{border-color:var(--g);box-shadow:0 0 10px rgba(0,255,65,.15)}
+.cs-icon-box img{width:28px;height:28px;object-fit:contain;filter:grayscale(30%) brightness(.8);transition:filter .3s}
+.cs-card:hover .cs-icon-box img{filter:grayscale(0%) brightness(1.05)}
+.cs-info{flex:1;min-width:0}
+.cs-name{font-family:var(--orb);font-size:.65rem;letter-spacing:2px;color:var(--text);text-transform:uppercase;transition:color .3s;margin-bottom:.2rem}
 .cs-card:hover .cs-name{color:var(--g)}
-.cs-visit{font-size:.5rem;letter-spacing:1px;color:rgba(0,255,65,.3);font-family:var(--mono);position:relative;z-index:1;transition:color .3s}
-.cs-card:hover .cs-visit{color:rgba(0,255,65,.7)}
+.cs-handle{font-size:.62rem;letter-spacing:1px;color:var(--text2);opacity:.6;font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cs-arrow{font-size:.7rem;color:rgba(0,255,65,.3);transition:all .3s;flex-shrink:0}
+.cs-card:hover .cs-arrow{color:var(--g);transform:translateX(3px)}
+/* colored accent per platform */
+.cs-card[data-platform="thm"]:hover::before{background:#88cc14;box-shadow:0 0 10px #88cc14}
+.cs-card[data-platform="thm"]:hover .cs-icon-box{border-color:#88cc14}
+.cs-card[data-platform="htb"]:hover::before{background:#9fef00;box-shadow:0 0 10px #9fef00}
+.cs-card[data-platform="htb"]:hover .cs-icon-box{border-color:#9fef00}
+.cs-card[data-platform="ld"]:hover::before{background:#38bdf8;box-shadow:0 0 10px #38bdf8}
+.cs-card[data-platform="ld"]:hover .cs-icon-box{border-color:#38bdf8}
+.cs-card[data-platform="btlo"]:hover::before{background:#1d6fff;box-shadow:0 0 10px #1d6fff}
+.cs-card[data-platform="btlo"]:hover .cs-icon-box{border-color:#1d6fff}
+.cs-card[data-platform="pico"]:hover::before{background:#f7c948;box-shadow:0 0 10px #f7c948}
+.cs-card[data-platform="pico"]:hover .cs-icon-box{border-color:#f7c948}
+.cs-card[data-platform="ptl"]:hover::before{background:#f97316;box-shadow:0 0 10px #f97316}
+.cs-card[data-platform="ptl"]:hover .cs-icon-box{border-color:#f97316}
+
+/* platform emoji fallbacks as text */
+.cs-icon-thm{color:#88cc14;font-size:.9rem}
+.cs-icon-htb{color:#9fef00;font-size:.9rem}
+.cs-icon-ld{color:#38bdf8;font-size:.9rem}
+.cs-icon-btlo{color:#1d6fff;font-size:.9rem}
+.cs-icon-pico{color:#f7c948;font-size:.9rem}
+.cs-icon-ptl{color:#f97316;font-size:.9rem}
 
 /* CONTACT */
 .ctop{text-align:center;margin-bottom:4rem}
@@ -361,31 +385,56 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 #lightbox-caption{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.58rem;letter-spacing:2px;color:rgba(0,255,65,.5);text-transform:uppercase;pointer-events:none;white-space:nowrap}
 
 /* ─────── RESPONSIVE ─────── */
-@media(max-width:1200px){.pgrid{grid-template-columns:1fr 1fr}.hinner{gap:2rem}.cs-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:1200px){
+  .pgrid{grid-template-columns:1fr 1fr}
+  .hinner{gap:2rem}
+  .cs-grid{grid-template-columns:repeat(2,1fr)}
+}
 @media(max-width:1000px){
-  .hinner,.agrid,.egrid{grid-template-columns:1fr}.hright{display:none}
-  .pgrid{grid-template-columns:1fr 1fr}.cgrid{grid-template-columns:repeat(2,1fr)}
-  .res-grid{grid-template-columns:1fr 1fr}.labs-grid{grid-template-columns:1fr 1fr}
-  .sk-pro-grid{grid-template-columns:1fr}.sk-sec-row{grid-template-columns:1fr 1fr}
-  .sw{padding:5rem 1.5rem}.cs-grid{grid-template-columns:repeat(4,1fr)}
-  footer{padding:2rem 1.5rem}.igrid{grid-template-columns:1fr 1fr}
+  .hinner,.agrid,.egrid{grid-template-columns:1fr}
+  .hright{display:none}
+  .pgrid{grid-template-columns:1fr 1fr}
+  .cgrid{grid-template-columns:repeat(2,1fr)}
+  .res-grid{grid-template-columns:1fr 1fr}
+  .labs-grid{grid-template-columns:1fr 1fr}
+  .sk-pro-grid{grid-template-columns:1fr}
+  .sk-sec-row{grid-template-columns:1fr 1fr}
+  .sw{padding:5rem 1.5rem}
+  .cs-section-wrap{padding:0 1.5rem 5rem}
+  .cs-grid{grid-template-columns:1fr 1fr}
+  footer{padding:2rem 1.5rem}
+  .igrid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:768px){
-  .pgrid{grid-template-columns:1fr}.res-grid,.labs-grid,.sk-sec-row{grid-template-columns:1fr}
-  .cgrid{grid-template-columns:1fr 1fr}.cs-grid{grid-template-columns:repeat(2,1fr)}
+  .pgrid{grid-template-columns:1fr}
+  .res-grid,.labs-grid,.sk-sec-row{grid-template-columns:1fr}
+  .cgrid{grid-template-columns:1fr 1fr}
+  .cs-grid{grid-template-columns:1fr 1fr}
   .fn-feed{grid-template-columns:1fr}
 }
 @media(max-width:480px){
-  .igrid{grid-template-columns:1fr}.cgrid{grid-template-columns:1fr}.cs-grid{grid-template-columns:repeat(2,1fr)}
-  .hphoto-box{width:90px;height:115px}.hphoto-name{gap:.8rem}
-  .hname{font-size:clamp(2.2rem,10vw,3.5rem)}.hrole{font-size:.52rem;letter-spacing:1.5px}.hsubrole{font-size:.52rem;letter-spacing:1px}
-  .hbtns{gap:.5rem}.btn{padding:.55rem 1rem;font-size:.6rem;letter-spacing:1px}
-  .sw{padding:3.5rem 1rem}.fn-filter-bar{flex-direction:column;align-items:flex-start}.fn-sort{width:100%}
-  .sk-pro-card{padding:1.2rem}.pcard{padding:1.4rem}
-  .sh{gap:.8rem;margin-bottom:2.5rem}.sn{font-size:3.5rem}
+  .igrid{grid-template-columns:1fr}
+  .cgrid{grid-template-columns:1fr}
+  .cs-grid{grid-template-columns:1fr}
+  .cs-section-wrap{padding:0 1rem 4rem}
+  .hphoto-box{width:90px;height:115px}
+  .hphoto-name{gap:.8rem}
+  .hname{font-size:clamp(2.2rem,10vw,3.5rem)}
+  .hrole{font-size:.52rem;letter-spacing:1.5px}
+  .hsubrole{font-size:.52rem;letter-spacing:1px}
+  .hbtns{gap:.5rem}
+  .btn{padding:.55rem 1rem;font-size:.6rem;letter-spacing:1px}
+  .sw{padding:3.5rem 1rem}
+  .fn-filter-bar{flex-direction:column;align-items:flex-start}
+  .fn-sort{width:100%}
+  .sk-pro-card{padding:1.2rem}
+  .pcard{padding:1.4rem}
+  .sh{gap:.8rem;margin-bottom:2.5rem}
+  .sn{font-size:3.5rem}
   #hero{padding:80px 1rem 2rem}
   footer{padding:1.5rem 1rem;flex-direction:column;gap:.5rem}
   .fn-img-wrap{max-width:85%}
+  .pagination-bar{flex-direction:column;align-items:flex-start}
 }
 </style>
 </head>
@@ -650,7 +699,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
           <a href="https://medium.com/@jishnuwhoopofficial/how-i-built-a-real-time-anonymous-chat-app-for-free-architecture-deep-dive-f6d73b11434e" target="_blank" class="plink" style="color:var(--amber)">Medium <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
-      <div class="pcard rv hidden-item" data-ptype="ctf">
+      <div class="pcard rv" data-ptype="ctf" style="display:none" data-page="2">
         <div class="ptag" style="color:var(--amber)">&#x1F6A9; CTF Machine</div>
         <div class="pname">Udyama (उद्यम)</div>
         <div class="pver">Linux Privilege Escalation &middot; Intermediate &rarr; Advanced &middot; Feb 2026</div>
@@ -662,9 +711,15 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         </div>
       </div>
     </div>
-    <button class="show-more-btn" id="projectsToggle" onclick="showAll('projects')">
-      &#x25BC; &nbsp; Show All Projects
-    </button>
+    <div class="pagination-bar rv" id="projectsPagination" style="display:none">
+      <div class="pagination-info">Showing <span id="projectsShowing">3</span> of <span id="projectsTotal">4</span></div>
+      <div class="pagination-btns">
+        <button class="pg-btn" id="projectsPrev" onclick="changePage('projects',-1)" disabled>&#x2190; Prev</button>
+        <button class="pg-btn active" id="projectsP1" onclick="goPage('projects',1)">1</button>
+        <button class="pg-btn" id="projectsP2" onclick="goPage('projects',2)">2</button>
+        <button class="pg-btn" id="projectsNext" onclick="changePage('projects',1)">Next &#x2192;</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -685,46 +740,53 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="rdesc">A professional vulnerability assessment of the Calicut University web platform — identifying security weaknesses, risk ratings, and remediation recommendations.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to open PDF</div>
       </div>
-      <div class="rcard rv hidden-item" data-d="2" onclick="window.location.href='terminalchat.html'" data-date="2025-03-01">
+      <div class="rcard rv" data-d="2" onclick="window.location.href='terminalchat.html'" data-date="2025-03-01" style="display:none" data-page="2">
         <div class="rbadge rb-p">&#x1F4C4; Project Writeup</div>
         <div class="rtitle">TerminalChat &#x2014; Technical Writeup</div>
         <div class="rdesc">Deep-dive into building an anonymous real-time terminal chat application — architecture, tech stack, challenges, and how SSE-based messaging works across platforms.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
       </div>
-      <div class="rcard rv hidden-item" data-d="2" onclick="window.location.href='udyama.html'" data-date="2026-02-01">
+      <div class="rcard rv" data-d="2" onclick="window.location.href='udyama.html'" data-date="2026-02-01" style="display:none" data-page="2">
         <div class="rbadge rb-w">&#x1F6A9; CTF Writeup</div>
         <div class="rtitle">Udyama (उद्यम) &#x2014; CTF Machine Writeup</div>
         <div class="rdesc">Full writeup for the Udyama CTF VM — Linux privilege escalation path, persistence techniques, and solution walkthrough.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
       </div>
-      <div class="rcard rv hidden-item" data-d="3" onclick="window.location.href='instagrep.html'" data-date="2024-12-01">
+      <div class="rcard rv" data-d="3" onclick="window.location.href='instagrep.html'" data-date="2024-12-01" style="display:none" data-page="2">
         <div class="rbadge rb-p">&#x1F4C4; Project Writeup</div>
         <div class="rtitle">InstaGrep &#x2014; Technical Writeup</div>
         <div class="rdesc">Deep-dive into building a professional Instagram OSINT tool — architecture, GUI design, data analysis, and ethical constraints.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
       </div>
-      <div class="rcard rv hidden-item" data-d="1" onclick="window.location.href='reconframe.html'" data-date="2024-11-01">
+      <div class="rcard rv" data-d="1" onclick="window.location.href='reconframe.html'" data-date="2024-11-01" style="display:none" data-page="3">
         <div class="rbadge rb-p">&#x1F4C4; Project Writeup</div>
         <div class="rtitle">ReconFrame &#x2014; Technical Writeup</div>
         <div class="rdesc">How I built a professional terminal reconnaissance framework — 12 integrated tools, cinematic UI, smart target detection.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
       </div>
-      <div class="rcard rv hidden-item" data-d="2" data-date="2025-06-01">
+      <div class="rcard rv" data-d="2" data-date="2025-06-01" style="display:none" data-page="3">
         <div class="rbadge rb-v">&#x25B6; Video Series</div>
         <div class="rtitle">Home Lab Setup Guide</div>
         <div class="rdesc">Video series walking through building a cybersecurity home lab — attacker, targets, SIEM integration.</div>
         <div class="rsoon">// COMING SOON</div>
       </div>
-      <div class="rcard rv hidden-item" data-d="3" data-date="2025-07-01">
+      <div class="rcard rv" data-d="3" data-date="2025-07-01" style="display:none" data-page="3">
         <div class="rbadge rb-p">&#x1F4C4; Research Paper</div>
         <div class="rtitle">Network Threat Detection</div>
         <div class="rdesc">Research covering network-based attack detection techniques, traffic analysis, and automated alerting with SIEM platforms.</div>
         <div class="rsoon">// COMING SOON</div>
       </div>
     </div>
-    <button class="show-more-btn" id="researchToggle" onclick="showAll('research')">
-      &#x25BC; &nbsp; Show All Write-Ups
-    </button>
+    <div class="pagination-bar rv" id="researchPagination">
+      <div class="pagination-info">Showing <span id="researchShowing">3</span> of <span id="researchTotal">7</span></div>
+      <div class="pagination-btns">
+        <button class="pg-btn" id="researchPrev" onclick="changePage('research',-1)" disabled>&#x2190; Prev</button>
+        <button class="pg-btn active" id="researchP1" onclick="goPage('research',1)">1</button>
+        <button class="pg-btn" id="researchP2" onclick="goPage('research',2)">2</button>
+        <button class="pg-btn" id="researchP3" onclick="goPage('research',3)">3</button>
+        <button class="pg-btn" id="researchNext" onclick="changePage('research',1)">Next &#x2192;</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -745,35 +807,35 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         </div>
         <div class="lclick">Click to read writeup &#x2192;</div>
       </div>
-      <div class="lcard rv hidden-item" data-d="2" onclick="openLab('ad')">
+      <div class="lcard rv" data-d="2" onclick="openLab('ad')" style="display:none" data-page="2">
         <div class="lbdg">&#x23F3; Planned</div>
         <div class="ltitle">Active Directory Lab</div>
         <div class="ldesc">Windows Server 2019 domain controller — AD enumeration, privilege escalation, pass-the-hash attacks.</div>
         <div class="lsoon">// COMING SOON</div>
         <div class="lclick">Click for details &#x2192;</div>
       </div>
-      <div class="lcard rv hidden-item" data-d="3" onclick="openLab('network')">
+      <div class="lcard rv" data-d="3" onclick="openLab('network')" style="display:none" data-page="2">
         <div class="lbdg">&#x23F3; Planned</div>
         <div class="ltitle">Network Security Lab</div>
         <div class="ldesc">OPNsense firewall + segmented VLANs + IDS/IPS. Traffic analysis with Wireshark and Zeek.</div>
         <div class="lsoon">// COMING SOON</div>
         <div class="lclick">Click for details &#x2192;</div>
       </div>
-      <div class="lcard rv hidden-item" data-d="1" onclick="openLab('malware')">
+      <div class="lcard rv" data-d="1" onclick="openLab('malware')" style="display:none" data-page="2">
         <div class="lbdg">&#x23F3; Planned</div>
         <div class="ltitle">Malware Analysis Sandbox</div>
         <div class="ldesc">Isolated VM sandbox for safe malware execution and behavioral analysis.</div>
         <div class="lsoon">// COMING SOON</div>
         <div class="lclick">Click for details &#x2192;</div>
       </div>
-      <div class="lcard rv hidden-item" data-d="2" onclick="openLab('ctf')">
+      <div class="lcard rv" data-d="2" onclick="openLab('ctf')" style="display:none" data-page="3">
         <div class="lbdg">&#x23F3; Planned</div>
         <div class="ltitle">CTF Practice Environment</div>
         <div class="ldesc">VulnHub and HackTheBox machines spun up locally. Writeups published once challenges are completed.</div>
         <div class="lsoon">// COMING SOON</div>
         <div class="lclick">Click for details &#x2192;</div>
       </div>
-      <div class="lcard rv hidden-item" data-d="3" onclick="openLab('docker')">
+      <div class="lcard rv" data-d="3" onclick="openLab('docker')" style="display:none" data-page="3">
         <div class="lbdg">&#x23F3; Planned</div>
         <div class="ltitle">Docker Security Lab</div>
         <div class="ldesc">Containerized vulnerable applications for web app security and container escape practice.</div>
@@ -781,9 +843,16 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="lclick">Click for details &#x2192;</div>
       </div>
     </div>
-    <button class="show-more-btn" id="labsToggle" onclick="showAll('labs')">
-      &#x25BC; &nbsp; Show All Labs
-    </button>
+    <div class="pagination-bar rv" id="labsPagination">
+      <div class="pagination-info">Showing <span id="labsShowing">3</span> of <span id="labsTotal">6</span></div>
+      <div class="pagination-btns">
+        <button class="pg-btn" id="labsPrev" onclick="changePage('labs',-1)" disabled>&#x2190; Prev</button>
+        <button class="pg-btn active" id="labsP1" onclick="goPage('labs',1)">1</button>
+        <button class="pg-btn" id="labsP2" onclick="goPage('labs',2)">2</button>
+        <button class="pg-btn" id="labsP3" onclick="goPage('labs',3)">3</button>
+        <button class="pg-btn" id="labsNext" onclick="changePage('labs',1)">Next &#x2192;</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -868,7 +937,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         </div>
 
         <!-- NOTE 3 -->
-        <div class="fn-post hidden-item" data-tags="CTF,Penetration Testing" data-date="2026-02-15" data-accent="amber">
+        <div class="fn-post" data-tags="CTF,Penetration Testing" data-date="2026-02-15" data-accent="amber" style="display:none" data-page="2">
           <div class="fn-meta">
             <div class="fn-badge fn-badge-ctf">CTF</div>
             <div class="fn-badge fn-badge-pentest" style="margin-left:.2rem">Pentest</div>
@@ -892,7 +961,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         </div>
 
         <!-- NOTE 4 -->
-        <div class="fn-post hidden-item" data-tags="Digital Forensics,Incident Response" data-date="2025-03-10" data-accent="purple">
+        <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2025-03-10" data-accent="purple" style="display:none" data-page="2">
           <div class="fn-meta">
             <div class="fn-badge fn-badge-ir">IR</div>
             <div class="fn-date">Mar 10, 2025</div>
@@ -915,7 +984,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         </div>
 
         <!-- NOTE 5 -->
-        <div class="fn-post hidden-item" data-tags="Digital Forensics,OSINT,Incident Response" data-date="2025-02-24" data-accent="cyan">
+        <div class="fn-post" data-tags="Digital Forensics,OSINT,Incident Response" data-date="2025-02-24" data-accent="cyan" style="display:none" data-page="3">
           <div class="fn-meta">
             <div class="fn-badge fn-badge-dfir">DFIR</div>
             <div class="fn-badge fn-badge-osint" style="margin-left:.2rem">OSINT</div>
@@ -941,80 +1010,93 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 
       </div><!-- /fn-feed -->
       <div id="fnEmpty" class="fn-empty">// No posts found</div>
-      <button class="show-more-btn" id="fieldNotesToggle" onclick="showAll('fieldNotes')">
-        &#x25BC; &nbsp; Show All Field Notes
-      </button>
+      <div class="pagination-bar" id="fieldNotesPagination">
+        <div class="pagination-info">Showing <span id="fnShowing">2</span> of <span id="fnTotal">5</span></div>
+        <div class="pagination-btns">
+          <button class="pg-btn" id="fnPrev" onclick="changePage('fieldNotes',-1)" disabled>&#x2190; Prev</button>
+          <button class="pg-btn active" id="fnP1" onclick="goPage('fieldNotes',1)">1</button>
+          <button class="pg-btn" id="fnP2" onclick="goPage('fieldNotes',2)">2</button>
+          <button class="pg-btn" id="fnP3" onclick="goPage('fieldNotes',3)">3</button>
+          <button class="pg-btn" id="fnNext" onclick="changePage('fieldNotes',1)">Next &#x2192;</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CYBERSPACE PROFILES — SECTION 8 -->
+<!-- CYBERSPACE PROFILES -->
 <section id="cyberspace">
-  <div class="sw">
+  <div class="sw" style="padding-bottom:0">
     <div class="sh rv"><span class="sn">08</span><span class="st">Cyberspace Profiles</span><div class="sl"></div></div>
+  </div>
+  <div class="cs-section-wrap">
     <div class="cs-grid rv" data-d="1">
 
-      <a href="https://tryhackme.com/p/whoopx" target="_blank" class="cs-card">
-        <div class="cs-logo">
-          <img src="https://assets.tryhackme.com/img/favicon.png" alt="TryHackMe" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 52 52&quot; fill=&quot;none&quot;><rect width=&quot;52&quot; height=&quot;52&quot; rx=&quot;8&quot; fill=&quot;%23212C42&quot;/><text x=&quot;26&quot; y=&quot;35&quot; text-anchor=&quot;middle&quot; font-size=&quot;22&quot; fill=&quot;%2388cc14&quot;>T</text></svg>'"/>
+      <a href="https://tryhackme.com/p/whoopx" target="_blank" rel="noopener" class="cs-card" data-platform="thm">
+        <div class="cs-icon-box">
+          <img src="https://assets.tryhackme.com/img/favicon.png" alt="THM"
+            onerror="this.style.display='none';this.parentElement.innerHTML='<span class=cs-icon-thm>T</span>'"/>
         </div>
-        <div class="cs-name">TryHackMe</div>
-        <div class="cs-visit">View Profile &#x2192;</div>
+        <div class="cs-info">
+          <div class="cs-name">TryHackMe</div>
+          <div class="cs-handle">@whoopx</div>
+        </div>
+        <div class="cs-arrow">&#x2192;</div>
       </a>
 
-      <a href="https://app.hackthebox.com/public/users/2902723" target="_blank" class="cs-card">
-        <div class="cs-logo">
-          <img src="https://www.hackthebox.com/images/landingv3/htb_logo.svg" alt="HackTheBox" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 52 52&quot; fill=&quot;none&quot;><rect width=&quot;52&quot; height=&quot;52&quot; rx=&quot;8&quot; fill=&quot;%230d1117&quot;/><text x=&quot;26&quot; y=&quot;35&quot; text-anchor=&quot;middle&quot; font-size=&quot;18&quot; fill=&quot;%239fef00&quot;>HTB</text></svg>'"/>
+      <a href="https://app.hackthebox.com/public/users/2902723" target="_blank" rel="noopener" class="cs-card" data-platform="htb">
+        <div class="cs-icon-box" style="background:#0d1117;border-color:rgba(159,239,0,.2)">
+          <span style="font-family:var(--orb);font-size:.6rem;font-weight:700;color:#9fef00;letter-spacing:1px">HTB</span>
         </div>
-        <div class="cs-name">HackTheBox</div>
-        <div class="cs-visit">View Profile &#x2192;</div>
+        <div class="cs-info">
+          <div class="cs-name">HackTheBox</div>
+          <div class="cs-handle">Profile #2902723</div>
+        </div>
+        <div class="cs-arrow">&#x2192;</div>
       </a>
 
-      <a href="https://app.letsdefend.io/user/jishxec" target="_blank" class="cs-card">
-        <div class="cs-logo">
-          <img src="https://letsdefend.io/images/favicon/favicon-32x32.png" alt="LetsDefend" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 52 52&quot; fill=&quot;none&quot;><rect width=&quot;52&quot; height=&quot;52&quot; rx=&quot;8&quot; fill=&quot;%230f172a&quot;/><text x=&quot;26&quot; y=&quot;35&quot; text-anchor=&quot;middle&quot; font-size=&quot;16&quot; fill=&quot;%2338bdf8&quot;>LD</text></svg>'"/>
+      <a href="https://blueteamlabs.online/public/user/6538c5ab2cf278e3842d79" target="_blank" rel="noopener" class="cs-card" data-platform="btlo">
+        <div class="cs-icon-box" style="background:#0a1628;border-color:rgba(29,111,255,.2)">
+          <span style="font-family:var(--orb);font-size:.5rem;font-weight:700;color:#1d6fff;letter-spacing:1px">BTLO</span>
         </div>
-        <div class="cs-name">LetsDefend</div>
-        <div class="cs-visit">View Profile &#x2192;</div>
+        <div class="cs-info">
+          <div class="cs-name">Blue Team Labs</div>
+          <div class="cs-handle">Public Profile</div>
+        </div>
+        <div class="cs-arrow">&#x2192;</div>
       </a>
 
-      <a href="https://blueteamlabs.online/public/user/6538c5ab2cf278e3842d79" target="_blank" class="cs-card">
-        <div class="cs-logo">
-          <img src="https://blueteamlabs.online/favicon.ico" alt="Blue Team Labs" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 52 52&quot; fill=&quot;none&quot;><rect width=&quot;52&quot; height=&quot;52&quot; rx=&quot;8&quot; fill=&quot;%230a1628&quot;/><text x=&quot;26&quot; y=&quot;35&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;%231d6fff&quot;>BTLO</text></svg>'"/>
+      <a href="https://play.picoctf.org/users/jishnuec" target="_blank" rel="noopener" class="cs-card" data-platform="pico">
+        <div class="cs-icon-box">
+          <img src="https://picoctf.org/favicon-32x32.png" alt="picoCTF"
+            onerror="this.style.display='none';this.parentElement.innerHTML='<span class=cs-icon-pico>pico</span>'"/>
         </div>
-        <div class="cs-name">Blue Team Labs</div>
-        <div class="cs-visit">View Profile &#x2192;</div>
+        <div class="cs-info">
+          <div class="cs-name">PicoCTF</div>
+          <div class="cs-handle">@jishnuec</div>
+        </div>
+        <div class="cs-arrow">&#x2192;</div>
       </a>
 
-      <a href="https://play.picoctf.org/users/jishnuec" target="_blank" class="cs-card">
-        <div class="cs-logo">
-          <img src="https://picoctf.org/favicon-32x32.png" alt="PicoCTF" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 52 52&quot; fill=&quot;none&quot;><rect width=&quot;52&quot; height=&quot;52&quot; rx=&quot;8&quot; fill=&quot;%230c1b2e&quot;/><text x=&quot;26&quot; y=&quot;35&quot; text-anchor=&quot;middle&quot; font-size=&quot;14&quot; fill=&quot;%23f7c948&quot;>pico</text></svg>'"/>
+      <a href="https://pentesterlab.com/profile/whoop" target="_blank" rel="noopener" class="cs-card" data-platform="ptl">
+        <div class="cs-icon-box">
+          <img src="https://pentesterlab.com/favicon.ico" alt="PentesterLab"
+            onerror="this.style.display='none';this.parentElement.innerHTML='<span class=cs-icon-ptl>PTL</span>'"/>
         </div>
-        <div class="cs-name">PicoCTF</div>
-        <div class="cs-visit">View Profile &#x2192;</div>
+        <div class="cs-info">
+          <div class="cs-name">PentesterLab</div>
+          <div class="cs-handle">@whoop</div>
+        </div>
+        <div class="cs-arrow">&#x2192;</div>
       </a>
 
-      <a href="https://pentesterlab.com/profile/whoop" target="_blank" class="cs-card">
-        <div class="cs-logo">
-          <img src="https://pentesterlab.com/favicon.ico" alt="PentesterLab" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 52 52&quot; fill=&quot;none&quot;><rect width=&quot;52&quot; height=&quot;52&quot; rx=&quot;8&quot; fill=&quot;%23161b22&quot;/><text x=&quot;26&quot; y=&quot;35&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;%23f97316&quot;>PTL</text></svg>'"/>
-        </div>
-        <div class="cs-name">PentesterLab</div>
-        <div class="cs-visit">View Profile &#x2192;</div>
-      </a>
-
-      <a href="https://ringzer0ctf.com/user/whoop" target="_blank" class="cs-card">
-        <div class="cs-logo">
-          <img src="https://ringzer0ctf.com/favicon.ico" alt="RingZer0" onerror="this.parentElement.innerHTML='<svg viewBox=&quot;0 0 52 52&quot; fill=&quot;none&quot;><rect width=&quot;52&quot; height=&quot;52&quot; rx=&quot;8&quot; fill=&quot;%231a1a2e&quot;/><text x=&quot;26&quot; y=&quot;35&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;%23e94560&quot;>R0</text></svg>'"/>
-        </div>
-        <div class="cs-name">RingZer0 CTF</div>
-        <div class="cs-visit">View Profile &#x2192;</div>
-      </a>
+      <!-- LetsDefend removed — profile URL doesn't work cross-browser -->
 
     </div>
   </div>
 </section>
 
-<!-- CONTACT — SECTION 9 -->
+<!-- CONTACT -->
 <section id="contact">
   <div class="sw">
     <div class="sh rv"><span class="sn">09</span><span class="st">Contact</span><div class="sl"></div></div>
@@ -1063,9 +1145,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
 </div>
 
 <script>
-/* ════════════════════════════════
+/* ════════════════════
    MATRIX RAIN
-   ════════════════════════════════ */
+   ════════════════════ */
 (function(){
   const cv=document.getElementById('mc'),ctx=cv.getContext('2d');
   let cols,drops;
@@ -1084,9 +1166,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   },50);
 })();
 
-/* ════════════════════════════════
+/* ════════════════════
    TYPEWRITER
-   ════════════════════════════════ */
+   ════════════════════ */
 (function(){
   const phrases=['Hunting threats. Building defenses.','I break things to make them secure.','Turning vulnerabilities into victories.','Ready to secure your infrastructure.','OSINT. Pentest. Forensics.'];
   let pi=0,ci=0,del=false;
@@ -1100,9 +1182,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   tick();
 })();
 
-/* ════════════════════════════════
-   GLITCH EFFECT
-   ════════════════════════════════ */
+/* ════════════════════
+   GLITCH
+   ════════════════════ */
 (function(){
   const el=document.getElementById('hname');
   if(!el)return;
@@ -1113,31 +1195,27 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   },5500);
 })();
 
-/* ════════════════════════════════
+/* ════════════════════
    SCROLL REVEAL
-   ════════════════════════════════ */
+   ════════════════════ */
 (function(){
   const obs=new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
-      if(e.isIntersecting){e.target.classList.remove('hidden-rv');}
-      else{e.target.classList.add('hidden-rv');}
+      if(e.isIntersecting)e.target.classList.remove('hidden-rv');
+      else e.target.classList.add('hidden-rv');
     });
   },{threshold:0.06,rootMargin:'0px 0px -30px 0px'});
-  document.querySelectorAll('.rv').forEach(el=>{
-    el.classList.add('hidden-rv');
-    obs.observe(el);
-  });
+  document.querySelectorAll('.rv').forEach(el=>{el.classList.add('hidden-rv');obs.observe(el);});
 })();
 
-/* ════════════════════════════════
+/* ════════════════════
    LIGHTBOX
-   ════════════════════════════════ */
+   ════════════════════ */
 function openLightbox(src,alt){
   if(!src||src===window.location.href)return;
-  const lb=document.getElementById('lightbox');
-  const img=document.getElementById('lightbox-img');
-  img.src=src;img.alt=alt||'';
-  lb.classList.add('open');
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox-img').alt=alt||'';
+  document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow='hidden';
 }
 function closeLightbox(){
@@ -1145,12 +1223,12 @@ function closeLightbox(){
   document.body.style.overflow='';
 }
 document.getElementById('lightbox').addEventListener('click',closeLightbox);
-document.getElementById('lightbox-img').addEventListener('click',function(e){e.stopPropagation();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLightbox();closeLabModal();}});
+document.getElementById('lightbox-img').addEventListener('click',e=>e.stopPropagation());
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();closeLabModal();}});
 
-/* ════════════════════════════════
+/* ════════════════════
    MOBILE MENU
-   ════════════════════════════════ */
+   ════════════════════ */
 const hamburger=document.getElementById('hamburger');
 const mobileMenu=document.getElementById('mobileMenu');
 hamburger.addEventListener('click',function(){
@@ -1164,122 +1242,225 @@ function closeMobileMenu(){
   document.body.style.overflow='';
 }
 
-/* ════════════════════════════════
-   SHOW ALL — simple toggle
-   ════════════════════════════════ */
-const showAllConfig={
-  projects:{gridId:'pgrid',selector:'.pcard',btnId:'projectsToggle'},
-  research:{gridId:'resGrid',selector:'.rcard',btnId:'researchToggle'},
-  labs:{gridId:'labsGrid',selector:'.lcard',btnId:'labsToggle'},
-  fieldNotes:{gridId:'fnFeed',selector:'.fn-post',btnId:'fieldNotesToggle'},
+/* ════════════════════════════════════
+   PAGINATION ENGINE
+   — handles projects, research, labs, fieldNotes
+   ════════════════════════════════════ */
+const pageState = { projects:1, research:1, labs:1, fieldNotes:1 };
+const pageSize = { projects:3, research:3, labs:3, fieldNotes:2 };
+
+const pageConfig = {
+  projects: {
+    gridId:'pgrid', selector:'.pcard',
+    totalId:'projectsTotal', showingId:'projectsShowing',
+    prevId:'projectsPrev', nextId:'projectsNext',
+    paginationId:'projectsPagination',
+    btnPrefix:'projectsP', maxPages:2
+  },
+  research: {
+    gridId:'resGrid', selector:'.rcard',
+    totalId:'researchTotal', showingId:'researchShowing',
+    prevId:'researchPrev', nextId:'researchNext',
+    paginationId:'researchPagination',
+    btnPrefix:'researchP', maxPages:3
+  },
+  labs: {
+    gridId:'labsGrid', selector:'.lcard',
+    totalId:'labsTotal', showingId:'labsShowing',
+    prevId:'labsPrev', nextId:'labsNext',
+    paginationId:'labsPagination',
+    btnPrefix:'labsP', maxPages:3
+  },
+  fieldNotes: {
+    gridId:'fnFeed', selector:'.fn-post',
+    totalId:'fnTotal', showingId:'fnShowing',
+    prevId:'fnPrev', nextId:'fnNext',
+    paginationId:'fieldNotesPagination',
+    btnPrefix:'fnP', maxPages:3
+  }
 };
 
-function showAll(key){
-  const cfg=showAllConfig[key];
-  const grid=document.getElementById(cfg.gridId);
-  if(!grid)return;
-  grid.querySelectorAll(cfg.selector+'.hidden-item').forEach(el=>{
-    el.classList.remove('hidden-item');
+function renderPage(key, page) {
+  const cfg = pageConfig[key];
+  const grid = document.getElementById(cfg.gridId);
+  if (!grid) return;
+  const items = [...grid.querySelectorAll(cfg.selector)];
+  const ps = pageSize[key];
+  const total = items.length;
+  const totalPages = Math.ceil(total / ps);
+  const start = (page - 1) * ps;
+  const end = start + ps;
+
+  items.forEach((item, i) => {
+    item.style.display = (i >= start && i < end) ? '' : 'none';
   });
-  const btn=document.getElementById(cfg.btnId);
-  if(btn)btn.classList.add('hidden-btn');
-  if(key==='fieldNotes')checkFnEmpty();
+
+  pageState[key] = page;
+
+  // update showing
+  const shown = Math.min(end, total) - start;
+  const showingEl = document.getElementById(cfg.showingId);
+  const totalEl = document.getElementById(cfg.totalId);
+  if (showingEl) showingEl.textContent = Math.min(end, total);
+  if (totalEl) totalEl.textContent = total;
+
+  // update page buttons
+  for (let p = 1; p <= cfg.maxPages; p++) {
+    const btn = document.getElementById(cfg.btnPrefix + p);
+    if (btn) btn.classList.toggle('active', p === page);
+  }
+
+  // prev/next
+  const prev = document.getElementById(cfg.prevId);
+  const next = document.getElementById(cfg.nextId);
+  if (prev) prev.disabled = page <= 1;
+  if (next) next.disabled = page >= totalPages;
+
+  // hide pagination if only one page
+  const pagEl = document.getElementById(cfg.paginationId);
+  if (pagEl) pagEl.style.display = totalPages <= 1 ? 'none' : 'flex';
 }
 
-function checkFnEmpty(){
-  const feed=document.getElementById('fnFeed');
-  const empty=document.getElementById('fnEmpty');
-  if(!feed||!empty)return;
-  const visible=[...feed.querySelectorAll('.fn-post')].filter(p=>!p.classList.contains('filter-hidden'));
-  empty.style.display=visible.length===0?'block':'none';
+function changePage(key, delta) {
+  const cfg = pageConfig[key];
+  const grid = document.getElementById(cfg.gridId);
+  if (!grid) return;
+  const items = [...grid.querySelectorAll(cfg.selector)];
+  const totalPages = Math.ceil(items.length / pageSize[key]);
+  const newPage = Math.max(1, Math.min(totalPages, pageState[key] + delta));
+  renderPage(key, newPage);
 }
 
-/* ════════════════════════════════
+function goPage(key, page) {
+  renderPage(key, page);
+}
+
+// init all sections
+['projects','research','labs','fieldNotes'].forEach(k => renderPage(k, 1));
+
+/* ════════════════════
    PROJECT FILTER
-   ════════════════════════════════ */
-function filterProjects(type,btn){
+   ════════════════════ */
+function filterProjects(type, btn) {
   document.querySelectorAll('#projects .fn-chip').forEach(c=>c.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  const grid=document.getElementById('pgrid');
-  grid.querySelectorAll('.pcard').forEach(p=>{
-    if(!type||p.dataset.ptype===type){p.classList.remove('hidden-item');}
-    else{p.classList.add('hidden-item');}
+  if(btn) btn.classList.add('active');
+  const grid = document.getElementById('pgrid');
+  const items = [...grid.querySelectorAll('.pcard')];
+  // filter items
+  const filtered = type ? items.filter(p => p.dataset.ptype === type) : items;
+  const hidden = type ? items.filter(p => p.dataset.ptype !== type) : [];
+  // hide non-matching
+  items.forEach(p => p.style.display = 'none');
+  // show matching, paginate
+  filtered.forEach((p, i) => {
+    p.style.display = i < pageSize.projects ? '' : 'none';
   });
-  // reset show-more
-  const btn2=document.getElementById('projectsToggle');
-  const hasHidden=grid.querySelectorAll('.pcard.hidden-item').length>0;
-  if(btn2)btn2.classList.toggle('hidden-btn',!hasHidden);
+  // rebuild pagination for filtered subset
+  const totalPages = Math.ceil(filtered.length / pageSize.projects);
+  const pagEl = document.getElementById('projectsPagination');
+  if (pagEl) pagEl.style.display = totalPages <= 1 ? 'none' : 'flex';
+  // update count
+  const s = document.getElementById('projectsShowing');
+  const t = document.getElementById('projectsTotal');
+  if (s) s.textContent = Math.min(pageSize.projects, filtered.length);
+  if (t) t.textContent = filtered.length;
 }
 
-/* ════════════════════════════════
+/* ════════════════════
    RESEARCH SORT
-   ════════════════════════════════ */
-function sortResearch(order,btn){
+   ════════════════════ */
+function sortResearch(order, btn) {
   document.querySelectorAll('#research .fn-chip').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  const grid=document.getElementById('resGrid');
-  if(!grid)return;
-  const cards=[...grid.querySelectorAll('.rcard')];
-  cards.sort((a,b)=>{
-    const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';
-    return order==='newest'?db.localeCompare(da):da.localeCompare(db);
+  if(btn) btn.classList.add('active');
+  const grid = document.getElementById('resGrid');
+  if(!grid) return;
+  const cards = [...grid.querySelectorAll('.rcard')];
+  cards.sort((a,b) => {
+    const da=a.dataset.date||'2000-01-01', db=b.dataset.date||'2000-01-01';
+    return order==='newest' ? db.localeCompare(da) : da.localeCompare(db);
   });
   cards.forEach(c=>grid.appendChild(c));
+  renderPage('research', 1);
 }
 
-/* ════════════════════════════════
+/* ════════════════════
    FIELD NOTES FILTER & SORT
-   ════════════════════════════════ */
-let currentTag=null;
-function filterByTag(tag,btn){
-  currentTag=tag;
-  if(btn){
+   ════════════════════ */
+let currentTag = null;
+
+function filterByTag(tag, btn) {
+  currentTag = tag;
+  if (btn) {
     document.querySelectorAll('#fnChips .fn-chip').forEach(c=>c.classList.remove('active'));
     btn.classList.add('active');
-  } else if(tag){
-    document.querySelectorAll('#fnChips .fn-chip').forEach(c=>{
-      const onclick=c.getAttribute('onclick')||'';
-      c.classList.toggle('active',onclick.includes(`'${tag}'`));
+  } else if (tag) {
+    document.querySelectorAll('#fnChips .fn-chip').forEach(c => {
+      const oc = c.getAttribute('onclick') || '';
+      c.classList.toggle('active', oc.includes(`'${tag}'`));
     });
   }
-  const feed=document.getElementById('fnFeed');
-  if(!feed)return;
-  // show all first, then hide non-matching
-  feed.querySelectorAll('.fn-post').forEach(p=>{
-    p.classList.remove('filter-hidden');
-    if(tag){
-      const tags=(p.dataset.tags||'').split(',').map(t=>t.trim());
-      if(!tags.includes(tag))p.classList.add('filter-hidden');
-    }
+  const feed = document.getElementById('fnFeed');
+  if (!feed) return;
+  const posts = [...feed.querySelectorAll('.fn-post')];
+
+  if (!tag) {
+    // remove filter, re-paginate
+    posts.forEach(p => delete p.dataset.filterHidden);
+    renderPage('fieldNotes', 1);
+    checkFnEmpty();
+    return;
+  }
+
+  // mark matching/non-matching
+  const matching = posts.filter(p => {
+    const tags = (p.dataset.tags || '').split(',').map(t => t.trim());
+    return tags.includes(tag);
   });
-  applyFilterVisibility();
+  const nonMatching = posts.filter(p => {
+    const tags = (p.dataset.tags || '').split(',').map(t => t.trim());
+    return !tags.includes(tag);
+  });
+
+  // show first page of matching
+  posts.forEach(p => p.style.display = 'none');
+  matching.forEach((p, i) => {
+    p.style.display = i < pageSize.fieldNotes ? '' : 'none';
+  });
+
+  const totalPages = Math.ceil(matching.length / pageSize.fieldNotes);
+  const pagEl = document.getElementById('fieldNotesPagination');
+  if (pagEl) pagEl.style.display = totalPages <= 1 ? 'none' : 'flex';
+  const s = document.getElementById('fnShowing');
+  const t = document.getElementById('fnTotal');
+  if (s) s.textContent = Math.min(pageSize.fieldNotes, matching.length);
+  if (t) t.textContent = matching.length;
   checkFnEmpty();
 }
 
-function applyFilterVisibility(){
-  const feed=document.getElementById('fnFeed');
-  if(!feed)return;
-  feed.querySelectorAll('.fn-post').forEach(p=>{
-    p.style.display=p.classList.contains('filter-hidden')?'none':'';
-  });
+function checkFnEmpty() {
+  const feed = document.getElementById('fnFeed');
+  const empty = document.getElementById('fnEmpty');
+  if (!feed || !empty) return;
+  const visible = [...feed.querySelectorAll('.fn-post')].filter(p => p.style.display !== 'none');
+  empty.style.display = visible.length === 0 ? 'block' : 'none';
 }
 
-function sortPosts(order){
-  const feed=document.getElementById('fnFeed');
-  if(!feed)return;
-  const posts=[...feed.querySelectorAll('.fn-post')];
-  posts.sort((a,b)=>{
-    const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';
-    return order==='newest'?db.localeCompare(da):da.localeCompare(db);
+function sortPosts(order) {
+  const feed = document.getElementById('fnFeed');
+  if (!feed) return;
+  const posts = [...feed.querySelectorAll('.fn-post')];
+  posts.sort((a, b) => {
+    const da = a.dataset.date||'2000-01-01', db = b.dataset.date||'2000-01-01';
+    return order === 'newest' ? db.localeCompare(da) : da.localeCompare(db);
   });
-  posts.forEach(p=>feed.appendChild(p));
-  applyFilterVisibility();
+  posts.forEach(p => feed.appendChild(p));
+  renderPage('fieldNotes', 1);
 }
 
-/* ════════════════════════════════
+/* ════════════════════
    LAB MODAL
-   ════════════════════════════════ */
-const labData={
+   ════════════════════ */
+const labData = {
   dvwa:{active:true,title:'Kali vs DVWA Attack Lab',sub:'Kali Linux Attacker · Linux Mint Target · Splunk SIEM · VirtualBox',overview:'A full red team attack simulation. Kali Linux (attacker) targets a Linux Mint machine running DVWA, with all traffic monitored by Splunk SIEM on Windows.',tools:['Kali Linux','Linux Mint','DVWA','Splunk','Metasploit','Burp Suite','SQLMap','Nmap','Hydra','Netcat'],findings:'19 findings across the kill chain including SQL Injection, Blind SQLi, XSS (Reflected & Stored), Command Injection, File Inclusion (LFI/RFI), CSRF, Brute Force, File Upload bypass, and more.'},
   ad:{active:false,title:'Active Directory Lab',sub:'Windows Server 2019 · VirtualBox',overview:'Planned lab with Windows Server 2019 domain controller for practicing AD enumeration, privilege escalation, pass-the-hash, and lateral movement.',tools:['Windows Server 2019','Kali Linux','BloodHound','Impacket','CrackMapExec']},
   network:{active:false,title:'Network Security Lab',sub:'OPNsense · Wireshark · Zeek',overview:'Planned segmented network lab with OPNsense firewall, VLAN config, IDS/IPS rules, and traffic analysis.',tools:['OPNsense','Wireshark','Zeek','Suricata','VirtualBox']},
@@ -1288,10 +1469,10 @@ const labData={
   docker:{active:false,title:'Docker Security Lab',sub:'Docker · Vulnerable Apps',overview:'Planned containerized lab for web app security testing and Docker-specific attack vector practice.',tools:['Docker','DVWA','WebGoat','Trivy','Kali Linux']}
 };
 
-function openLab(id){
-  const d=labData[id];if(!d)return;
-  const tagClass=d.active?'g':'p';
-  let html=`<div class="lmodal-inner">
+function openLab(id) {
+  const d = labData[id]; if(!d) return;
+  const tagClass = d.active ? 'g' : 'p';
+  let html = `<div class="lmodal-inner">
     <div class="lm-badge ${d.active?'lbdg ab':'lbdg'}">${d.active?'● ACTIVE LAB':'⏳ PLANNED'}</div>
     <div class="lm-title">${d.title}</div>
     <div class="lm-sub">${d.sub}</div>
@@ -1299,35 +1480,35 @@ function openLab(id){
     <div class="lm-text">${d.overview}</div>
     <div class="lm-sec-title">Tools &amp; Technologies</div>
     <div class="lm-tags">${d.tools.map(t=>`<span class="sk ${tagClass}" style="font-size:.68rem">${t}</span>`).join('')}</div>`;
-  if(d.findings){
-    html+=`<div class="lm-sec-title">Findings Summary</div><div class="lm-text">${d.findings}</div>
+  if (d.findings) {
+    html += `<div class="lm-sec-title">Findings Summary</div><div class="lm-text">${d.findings}</div>
     <div class="lm-sec-title">Writeup Status</div><div class="lm-text">Full OWASP-style penetration test report in progress.</div>`;
   } else {
-    html+=`<div class="lm-coming">// WRITEUP COMING SOON</div>`;
+    html += `<div class="lm-coming">// WRITEUP COMING SOON</div>`;
   }
-  html+=`</div>`;
-  document.getElementById('labModalContent').innerHTML=html;
+  html += `</div>`;
+  document.getElementById('labModalContent').innerHTML = html;
   document.getElementById('labModal').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
 
-function closeLabModal(){
+function closeLabModal() {
   document.getElementById('labModal').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow = '';
 }
-function closeLab(e){
-  if(e&&e.target===document.getElementById('labModal'))closeLabModal();
+function closeLab(e) {
+  if (e && e.target === document.getElementById('labModal')) closeLabModal();
 }
 
-/* ════════════════════════════════
+/* ════════════════════
    SKILL TOOLTIP
-   ════════════════════════════════ */
-const skillInfo={
+   ════════════════════ */
+const skillInfo = {
   'Nmap':'Network scanner for host discovery, port scanning, and service/OS detection.',
   'Metasploit':'Exploitation framework for developing and executing exploit code against targets.',
   'Burp Suite':'Web application security testing platform for intercepting and modifying HTTP traffic.',
   'Hydra':'Fast network login cracker supporting many protocols including SSH, FTP, HTTP.',
-  'Netcat':'Networking utility for reading/writing data across network connections. The "Swiss Army knife".',
+  'Netcat':'Networking utility for reading/writing data across network connections.',
   'John the Ripper':'Password cracking tool supporting many hash types and wordlist attacks.',
   'Nikto':'Web server scanner that detects dangerous files, outdated software, and misconfigurations.',
   'Gobuster':'Directory and DNS brute-forcing tool for discovering hidden paths and subdomains.',
@@ -1371,40 +1552,36 @@ const skillInfo={
   'Markdown':'Lightweight markup language for writing documentation and README files.'
 };
 
-const tip=document.getElementById('skTip');
-const tn=document.getElementById('skTipName');
-const td=document.getElementById('skTipDesc');
-let activeSkill=null,tipTimeout=null;
+const tip = document.getElementById('skTip');
+const tn = document.getElementById('skTipName');
+const td = document.getElementById('skTipDesc');
+let activeSkill = null, tipTimeout = null;
+function hideTip() { tip.classList.remove('show'); activeSkill = null; }
 
-function hideTip(){
-  tip.classList.remove('show');
-  activeSkill=null;
-}
-
-document.querySelectorAll('.sk').forEach(el=>{
-  el.addEventListener('click',function(e){
+document.querySelectorAll('.sk').forEach(el => {
+  el.addEventListener('click', function(e) {
     e.stopPropagation();
-    const name=el.textContent.trim();
-    const desc=skillInfo[name];
-    if(!desc)return;
-    if(activeSkill===el){hideTip();return;}
-    activeSkill=el;
-    tn.textContent=name;
-    td.textContent=desc;
-    const r=el.getBoundingClientRect();
-    let x=r.left,y=r.bottom+8;
-    if(x+250>window.innerWidth)x=window.innerWidth-258;
-    if(y+110>window.innerHeight)y=r.top-116;
-    if(x<4)x=4;
-    tip.style.left=x+'px';
-    tip.style.top=y+'px';
+    const name = el.textContent.trim();
+    const desc = skillInfo[name];
+    if (!desc) return;
+    if (activeSkill === el) { hideTip(); return; }
+    activeSkill = el;
+    tn.textContent = name;
+    td.textContent = desc;
+    const r = el.getBoundingClientRect();
+    let x = r.left, y = r.bottom + 8;
+    if (x + 250 > window.innerWidth) x = window.innerWidth - 258;
+    if (y + 110 > window.innerHeight) y = r.top - 116;
+    if (x < 4) x = 4;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
     tip.classList.add('show');
     clearTimeout(tipTimeout);
-    tipTimeout=setTimeout(hideTip,2800);
+    tipTimeout = setTimeout(hideTip, 2800);
   });
 });
-document.addEventListener('click',hideTip);
-document.addEventListener('scroll',hideTip,{passive:true});
+document.addEventListener('click', hideTip);
+document.addEventListener('scroll', hideTip, {passive:true});
 </script>
 </body>
 </html>
