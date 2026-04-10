@@ -412,29 +412,69 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
   .cs-grid{grid-template-columns:1fr 1fr}
   .fn-feed{grid-template-columns:1fr}
 }
+
+/* ── MOBILE FIXES (≤480px) ── */
 @media(max-width:480px){
+  /* layout */
+  body{overflow-x:hidden}
+  #hero{padding:70px .9rem 2rem;overflow:hidden}
+  .hinner{overflow:hidden;width:100%}
+  .sw{padding:3.5rem .9rem}
+  nav{padding:0 .9rem}
+  .nlogo{font-size:.95rem;letter-spacing:1.5px}
+  footer{padding:1.5rem .9rem;flex-direction:column;gap:.5rem}
+
+  /* hero photo + name row */
+  .hphoto-name{gap:.65rem;align-items:flex-start;overflow:hidden;width:100%}
+  .hphoto-box{width:72px;height:92px;flex-shrink:0}
+  .hname-block{min-width:0;overflow:hidden;flex:1}
+
+  /* hero text — kill nowrap, scale down */
+  .hname{font-size:clamp(1.5rem,7.5vw,2.6rem);white-space:normal;word-break:break-word;letter-spacing:.03em;line-height:1}
+  .hrole{font-size:.42rem;letter-spacing:.8px;white-space:normal;word-break:break-word;line-height:1.5}
+  .hsubrole{font-size:.42rem;letter-spacing:.5px;white-space:normal;word-break:break-word;line-height:1.6}
+  .htagline{font-size:clamp(.95rem,4vw,1.3rem);margin-top:1.2rem}
+  .hbtns{gap:.45rem;margin-top:1.4rem}
+  .btn{padding:.5rem .85rem;font-size:.56rem;letter-spacing:.8px}
+
+  /* section headers */
+  .sh{gap:.6rem;margin-bottom:2.2rem}
+  .sn{font-size:2.8rem}
+  .st{font-size:.75rem;letter-spacing:2.5px}
+
+  /* filter chips */
+  .fn-filter-bar{flex-direction:column;align-items:flex-start}
+  .fn-chips{gap:.3rem}
+  .fn-chip{font-size:.55rem;padding:.25rem .65rem;letter-spacing:1px}
+  .fn-sort{width:100%}
+
+  /* cards */
+  .sk-pro-card{padding:1.2rem}
+  .pcard{padding:1.3rem}
+  .ecard{padding:1.3rem}
+  .egrid{grid-template-columns:1fr}
+
+  /* grids */
   .igrid{grid-template-columns:1fr}
   .cgrid{grid-template-columns:1fr}
   .cs-grid{grid-template-columns:1fr}
-  .cs-section-wrap{padding:0 1rem 4rem}
-  .hphoto-box{width:90px;height:115px}
-  .hphoto-name{gap:.8rem}
-  .hname{font-size:clamp(2.2rem,10vw,3.5rem)}
-  .hrole{font-size:.52rem;letter-spacing:1.5px}
-  .hsubrole{font-size:.52rem;letter-spacing:1px}
-  .hbtns{gap:.5rem}
-  .btn{padding:.55rem 1rem;font-size:.6rem;letter-spacing:1px}
-  .sw{padding:3.5rem 1rem}
-  .fn-filter-bar{flex-direction:column;align-items:flex-start}
-  .fn-sort{width:100%}
-  .sk-pro-card{padding:1.2rem}
-  .pcard{padding:1.4rem}
-  .sh{gap:.8rem;margin-bottom:2.5rem}
-  .sn{font-size:3.5rem}
-  #hero{padding:80px 1rem 2rem}
-  footer{padding:1.5rem 1rem;flex-direction:column;gap:.5rem}
-  .fn-img-wrap{max-width:85%}
+  .cs-section-wrap{padding:0 .9rem 4rem}
+  .cs-card{padding:1rem 1.1rem}
+
+  /* contact */
+  .ccrd{padding:1.1rem}
+  .cbig{font-size:clamp(1.8rem,9vw,3rem)}
+  .csub{font-size:.7rem;letter-spacing:1px}
+
+  /* pagination */
   .pagination-bar{flex-direction:column;align-items:flex-start}
+
+  /* images */
+  .fn-img-wrap{max-width:90%}
+
+  /* skills */
+  .sk{font-size:.64rem;padding:.28rem .7rem}
+  .ap{font-size:.8rem}
 }
 </style>
 </head>
@@ -713,7 +753,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
     </div>
     <div class="pagination-bar rv" id="projectsPagination" style="display:none">
       <div class="pagination-info">Showing <span id="projectsShowing">3</span> of <span id="projectsTotal">4</span></div>
-      <div class="pagination-btns">
+      <div class="pagination-btns" id="projectsBtns">
         <button class="pg-btn" id="projectsPrev" onclick="changePage('projects',-1)" disabled>&#x2190; Prev</button>
         <button class="pg-btn active" id="projectsP1" onclick="goPage('projects',1)">1</button>
         <button class="pg-btn" id="projectsP2" onclick="goPage('projects',2)">2</button>
@@ -1090,8 +1130,6 @@ footer{border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;align
         <div class="cs-arrow">&#x2192;</div>
       </a>
 
-      <!-- LetsDefend removed — profile URL doesn't work cross-browser -->
-
     </div>
   </div>
 </section>
@@ -1244,7 +1282,6 @@ function closeMobileMenu(){
 
 /* ════════════════════════════════════
    PAGINATION ENGINE
-   — handles projects, research, labs, fieldNotes
    ════════════════════════════════════ */
 const pageState = { projects:1, research:1, labs:1, fieldNotes:1 };
 const pageSize = { projects:3, research:3, labs:3, fieldNotes:2 };
@@ -1297,26 +1334,21 @@ function renderPage(key, page) {
 
   pageState[key] = page;
 
-  // update showing
-  const shown = Math.min(end, total) - start;
   const showingEl = document.getElementById(cfg.showingId);
   const totalEl = document.getElementById(cfg.totalId);
   if (showingEl) showingEl.textContent = Math.min(end, total);
   if (totalEl) totalEl.textContent = total;
 
-  // update page buttons
   for (let p = 1; p <= cfg.maxPages; p++) {
     const btn = document.getElementById(cfg.btnPrefix + p);
     if (btn) btn.classList.toggle('active', p === page);
   }
 
-  // prev/next
   const prev = document.getElementById(cfg.prevId);
   const next = document.getElementById(cfg.nextId);
   if (prev) prev.disabled = page <= 1;
   if (next) next.disabled = page >= totalPages;
 
-  // hide pagination if only one page
   const pagEl = document.getElementById(cfg.paginationId);
   if (pagEl) pagEl.style.display = totalPages <= 1 ? 'none' : 'flex';
 }
@@ -1335,31 +1367,33 @@ function goPage(key, page) {
   renderPage(key, page);
 }
 
-// init all sections
 ['projects','research','labs','fieldNotes'].forEach(k => renderPage(k, 1));
 
 /* ════════════════════
-   PROJECT FILTER
+   PROJECT FILTER — fixed: always show count bar, hide page buttons when single page
    ════════════════════ */
 function filterProjects(type, btn) {
   document.querySelectorAll('#projects .fn-chip').forEach(c=>c.classList.remove('active'));
   if(btn) btn.classList.add('active');
+
   const grid = document.getElementById('pgrid');
   const items = [...grid.querySelectorAll('.pcard')];
-  // filter items
   const filtered = type ? items.filter(p => p.dataset.ptype === type) : items;
-  const hidden = type ? items.filter(p => p.dataset.ptype !== type) : [];
-  // hide non-matching
+
+  // hide all, show first page of filtered
   items.forEach(p => p.style.display = 'none');
-  // show matching, paginate
   filtered.forEach((p, i) => {
     p.style.display = i < pageSize.projects ? '' : 'none';
   });
-  // rebuild pagination for filtered subset
+
   const totalPages = Math.ceil(filtered.length / pageSize.projects);
   const pagEl = document.getElementById('projectsPagination');
-  if (pagEl) pagEl.style.display = totalPages <= 1 ? 'none' : 'flex';
-  // update count
+  const btnDiv = document.getElementById('projectsBtns');
+
+  // Always show the bar so the count is visible; only hide page buttons when not needed
+  if (pagEl) pagEl.style.display = filtered.length > 0 ? 'flex' : 'none';
+  if (btnDiv) btnDiv.style.display = totalPages <= 1 ? 'none' : 'flex';
+
   const s = document.getElementById('projectsShowing');
   const t = document.getElementById('projectsTotal');
   if (s) s.textContent = Math.min(pageSize.projects, filtered.length);
@@ -1404,24 +1438,17 @@ function filterByTag(tag, btn) {
   const posts = [...feed.querySelectorAll('.fn-post')];
 
   if (!tag) {
-    // remove filter, re-paginate
     posts.forEach(p => delete p.dataset.filterHidden);
     renderPage('fieldNotes', 1);
     checkFnEmpty();
     return;
   }
 
-  // mark matching/non-matching
   const matching = posts.filter(p => {
     const tags = (p.dataset.tags || '').split(',').map(t => t.trim());
     return tags.includes(tag);
   });
-  const nonMatching = posts.filter(p => {
-    const tags = (p.dataset.tags || '').split(',').map(t => t.trim());
-    return !tags.includes(tag);
-  });
 
-  // show first page of matching
   posts.forEach(p => p.style.display = 'none');
   matching.forEach((p, i) => {
     p.style.display = i < pageSize.fieldNotes ? '' : 'none';
