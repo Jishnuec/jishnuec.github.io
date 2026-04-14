@@ -63,7 +63,9 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:var(--nav);display:flex;
 
 @media(max-width:900px){
   nav{padding:0 1.2rem}
-  .nlinks,.nstatus,.nlog-btn{display:none}
+  .nlinks,.nlog-btn{display:none}
+  .nstatus{font-size:.46rem;letter-spacing:1px;gap:.38rem}
+  .nstatus .npulse{width:6px;height:6px}
   .hamburger{display:flex}
 }
 @media(max-width:480px){nav{padding:0 1rem}}
@@ -85,7 +87,6 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:var(--nav);display:flex;
 .hphoto-init{font-family:var(--vt);font-size:3rem;color:var(--g);letter-spacing:4px}
 
 .hname-block{display:flex;flex-direction:column;gap:.4rem;min-width:0;overflow:hidden}
-/* Name: clean green text, no glowing box illusion */
 .hname{
   font-family:var(--vt);
   font-size:clamp(3rem,6.5vw,7rem);
@@ -95,7 +96,6 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:var(--nav);display:flex;
   display:block;
   white-space:normal;
   word-break:break-word;
-  /* subtle glow only — no massive spread that creates a box */
   text-shadow:0 0 12px rgba(0,255,65,.35);
 }
 .hrole{font-family:var(--orb);font-size:.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--amber);line-height:1.5}
@@ -392,7 +392,6 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 @media(max-width:1000px){
   .hinner{grid-template-columns:1fr}
   .hright{display:none}
-  /* About: stack columns, right panel below text */
   .agrid{grid-template-columns:1fr}
   .about-right{width:100%;max-width:100%}
   .egrid{grid-template-columns:1fr 1fr}
@@ -432,13 +431,13 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   /* Hero */
   #hero{padding:70px .9rem 2.2rem;overflow:hidden}
   .hinner{width:100%;max-width:100%;overflow:hidden;grid-template-columns:1fr}
-  .hphoto-name{gap:.55rem;align-items:flex-start;width:100%;overflow:hidden}
-  .hphoto-box{width:68px;height:88px;flex-shrink:0}
+  .hphoto-name{gap:.8rem;align-items:flex-start;width:100%;overflow:hidden}
+  .hphoto-box{width:100px;height:128px;flex-shrink:0}
   .hname-block{min-width:0;flex:1;overflow:hidden}
-  .hname{font-size:clamp(1.6rem,8vw,2.8rem);letter-spacing:.02em;line-height:1;word-break:break-word}
-  .hrole{font-size:.42rem;letter-spacing:.8px;line-height:1.55;word-break:break-word}
-  .hsubrole{font-size:.42rem;letter-spacing:.5px;line-height:1.6;word-break:break-word}
-  .htagline{font-size:clamp(.9rem,4vw,1.25rem);margin-top:1.1rem}
+  .hname{font-size:clamp(2.4rem,11vw,3.8rem);letter-spacing:.02em;line-height:.95;word-break:break-word}
+  .hrole{font-size:.54rem;letter-spacing:1px;line-height:1.6;word-break:break-word}
+  .hsubrole{font-size:.52rem;letter-spacing:.8px;line-height:1.7;word-break:break-word}
+  .htagline{font-size:clamp(1rem,4.5vw,1.4rem);margin-top:1.1rem}
   .hbtns{gap:.42rem;margin-top:1.3rem}
   .btn{padding:.48rem .82rem;font-size:.54rem;letter-spacing:.8px}
 
@@ -448,7 +447,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .sn{font-size:2.6rem}
   .st{font-size:.72rem;letter-spacing:2px}
 
-  /* About — ensure right column fully visible */
+  /* About */
   .agrid{grid-template-columns:1fr;gap:1.6rem}
   .about-right{width:100%;max-width:100%;overflow:hidden}
   .otw-banner{min-width:0;overflow:hidden}
@@ -1273,8 +1272,6 @@ function closeMobileMenu(){
 }
 
 /* ── SCROLL TO SECTION HELPER ─────────────────── */
-/* Called after every filter/page change to anchor
-   the user to the section header — no random jumps */
 function scrollToSection(sectionId){
   const sec=document.getElementById(sectionId);
   if(!sec)return;
@@ -1326,7 +1323,6 @@ function renderPage(key,page,doScroll){
   if(next)next.disabled=page>=totalPages;
   const pagEl=document.getElementById(cfg.paginationId);
   if(pagEl)pagEl.style.display=totalPages<=1?'none':'flex';
-  /* Scroll to section header so content is visible from top */
   if(doScroll)scrollToSection(cfg.sectionId);
 }
 
