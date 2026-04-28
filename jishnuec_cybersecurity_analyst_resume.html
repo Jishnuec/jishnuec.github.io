@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jishnu EC — Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #c8c8c8;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+  font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  font-size: 10.5pt;
+  color: #000;
+  line-height: 1.5;
+}
+
+.page {
+  background: #fff;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 50px 60px 56px;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.22);
+}
+
+/* ── NAME ── */
+.name {
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  font-size: 44pt;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: #000;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* ── TITLES ── */
+.titles {
+  text-align: center;
+  font-size: 10.5pt;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #000;
+  margin-bottom: 8px;
+  font-family: 'Source Serif 4', Georgia, serif;
+}
+
+/* ── CONTACT ── */
+.contact {
+  text-align: center;
+  font-size: 9.5pt;
+  color: #000;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 2px;
+}
+.contact a { color: #000; text-decoration: underline; }
+.sep { color: #777; }
+
+/* ── SECTION ── */
+.section { margin-bottom: 16px; }
+
+.section-title {
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  font-size: 13.5pt;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #000;
+  padding-bottom: 4px;
+  border-bottom: 1.8px solid #000;
+  margin-bottom: 10px;
+}
+
+/* ── SUMMARY ── */
+.summary { text-align: justify; font-size: 10.5pt; line-height: 1.55; }
+
+/* ── SKILLS ── */
+.skills-block { display: table; width: 100%; border-spacing: 0; }
+.skill-row-wrap {
+  display: table-row;
+}
+.skill-label {
+  display: table-cell;
+  font-weight: 700;
+  font-size: 10.5pt;
+  white-space: nowrap;
+  padding-right: 10px;
+  padding-bottom: 4px;
+  vertical-align: top;
+  line-height: 1.55;
+}
+.skill-value {
+  display: table-cell;
+  font-size: 10.5pt;
+  line-height: 1.55;
+  padding-bottom: 4px;
+  vertical-align: top;
+}
+
+/* ── CERTS ── */
+.cert-item { margin-bottom: 5px; }
+.cert-name { font-weight: 700; font-size: 10.5pt; }
+.cert-meta { font-style: italic; font-size: 10.5pt; }
+.cert-sub { font-size: 9.5pt; color: #333; margin-top: 2px; }
+
+/* ── BULLETS ── */
+.bullets { padding-left: 16px; margin-top: 4px; }
+.bullets li {
+  list-style: disc;
+  font-size: 10.5pt;
+  margin-bottom: 3px;
+  text-align: justify;
+  line-height: 1.5;
+}
+
+/* ── PROJECTS ── */
+.project-item { margin-bottom: 13px; }
+.project-name { font-weight: 700; font-size: 11pt; }
+.project-tags { font-style: italic; font-size: 10pt; color: #222; margin-bottom: 3px; margin-top: 1px; }
+.project-link { color: #000; text-decoration: underline; }
+
+/* ── EDUCATION ── */
+.edu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.edu-degree { font-weight: 700; font-size: 10.5pt; }
+.edu-school { font-size: 10pt; font-style: italic; margin-top: 1px; }
+.edu-year { font-size: 10pt; white-space: nowrap; }
+
+/* ── LAB ── */
+.lab-title { font-weight: 700; font-size: 11pt; margin-bottom: 2px; }
+.lab-tags { font-style: italic; font-size: 10pt; margin-bottom: 8px; }
+
+.lab-setup-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid #bbb;
+  margin-bottom: 8px;
+}
+.lab-machine {
+  padding: 7px 10px;
+  border-right: 1px solid #bbb;
+}
+.lab-machine:last-child { border-right: none; }
+.lm-role {
+  font-size: 8pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #555;
+  margin-bottom: 2px;
+}
+.lm-name { font-weight: 700; font-size: 10.5pt; }
+.lm-ip { font-family: 'Courier New', Courier, monospace; font-size: 9pt; color: #333; margin-top: 1px; }
+.lm-svc { font-size: 9pt; color: #444; margin-top: 2px; }
+
+.lab-network { font-size: 9.5pt; color: #222; margin-bottom: 8px; }
+
+/* Attacks table */
+.attacks-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+  margin-bottom: 8px;
+}
+.attacks-tbl thead tr { background: #000; color: #fff; }
+.attacks-tbl thead th {
+  padding: 5px 9px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 9pt;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+.attacks-tbl tbody tr:nth-child(even) { background: #f4f4f4; }
+.attacks-tbl tbody tr:nth-child(odd)  { background: #fff; }
+.attacks-tbl td {
+  padding: 3.5px 9px;
+  border-bottom: 0.5px solid #ddd;
+  vertical-align: middle;
+}
+.atk-id   { font-family: 'Courier New', Courier, monospace; font-size: 9pt; font-weight: 700; white-space: nowrap; width: 1%; }
+.atk-tool { font-family: 'Courier New', Courier, monospace; font-size: 9pt; color: #333; }
+.atk-done { font-weight: 700; font-size: 9.5pt; }
+.phase-tag {
+  font-size: 8.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border: 1px solid #888;
+  border-radius: 2px;
+  color: #333;
+  white-space: nowrap;
+  display: inline-block;
+}
+.atk-outcome { font-size: 9pt; font-weight: 600; }
+
+.findings-note {
+  font-size: 9.5pt;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.lab-github {
+  margin-top: 6px;
+  font-size: 9.5pt;
+}
+.lab-github a { color: #000; text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- NAME -->
+  <div class="name">Jishnu EC</div>
+
+  <!-- TITLES -->
+  <div class="titles">SOC Analyst &nbsp;|&nbsp; Penetration Tester &nbsp;|&nbsp; VAPT Specialist</div>
+
+  <!-- CONTACT -->
+  <div class="contact">
+    <span>Kozhikode, Kerala</span>
+    <span class="sep">|</span>
+    <span><a href="tel:+917510572360">+91 75105 72360</a></span>
+    <span class="sep">|</span>
+    <span><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a></span>
+    <span class="sep">|</span>
+    <span><a href="https://linkedin.com/in/jishnuec">linkedin.com/in/jishnuec</a></span>
+    <span class="sep">|</span>
+    <span><a href="https://github.com/Jishnuec">github.com/Jishnuec</a></span>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="edu-item">
+      <div>
+        <div class="edu-degree">Bachelor of Computer Applications (BCA)</div>
+        <div class="edu-school">Calicut University, Kerala</div>
+      </div>
+      <div class="edu-year">2022 – 2025</div>
+    </div>
+  </div>
+
+  <!-- PROFESSIONAL SUMMARY -->
+  <div class="section">
+    <div class="section-title">Professional Summary</div>
+    <p class="summary">
+      Offensive security practitioner and BCA graduate with hands-on capability across the full red team kill chain — active reconnaissance, vulnerability exploitation, post-exploitation, lateral movement, and persistence — paired with blue team proficiency in SIEM-driven threat detection, log forensics, and structured incident response. Holder of the <strong>EC-Council Certified SOC Analyst (CSA)</strong> credential. Executed an independent VAPT engagement against Calicut University's web infrastructure, identifying injection vectors, broken authentication controls, and server-side misconfiguration. Built and shipped production-grade security tooling in Python and Go: a modular reconnaissance engine, a full-featured OSINT framework with automated reporting, and a publicly distributed CTF machine simulating realistic Linux privilege escalation chains. Experienced in <strong>static and dynamic reverse engineering</strong> — PE binary analysis, disassembly with Ghidra, behavioral IOC extraction, and YARA rule authoring. Equally at home writing an exploit, dissecting a malicious binary, or building detection logic in Splunk to catch it. Targeting a <strong>VAPT or SOC Analyst</strong> position where technical depth drives real security outcomes.
+    </p>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div class="section">
+    <div class="section-title">Certifications</div>
+    <div class="cert-item">
+      <span class="cert-name">Certified SOC Analyst (CSA)</span>
+      <span class="cert-meta"> &nbsp;|&nbsp; EC-Council &nbsp;|&nbsp; Completed 2026</span>
+      <div class="cert-sub">Covers SIEM deployment, log analysis, incident detection, threat intelligence &amp; SOC workflows</div>
+    </div>
+  </div>
+
+  <!-- TECHNICAL SKILLS -->
+  <div class="section">
+    <div class="section-title">Technical Skills</div>
+    <div class="skills-block">
+      <div class="skill-row-wrap">
+        <span class="skill-label">SIEM &amp; SOC:</span>
+        <span class="skill-value">Splunk, Log Analysis &amp; Correlation, Incident Response, Threat Hunting, Threat Intelligence, Digital Forensics</span>
+      </div>
+      <div class="skill-row-wrap">
+        <span class="skill-label">Offensive Security:</span>
+        <span class="skill-value">Nmap, Metasploit, Burp Suite, Hydra, SQLMap, Gobuster, Nikto, Aircrack-ng, Netcat, LinPEAS, GTFOBins, Responder</span>
+      </div>
+      <div class="skill-row-wrap">
+        <span class="skill-label">Reverse Engineering:</span>
+        <span class="skill-value">Ghidra, x64dbg, PE-bear, YARA, Binary Analysis, PE Header Inspection, Behavioral IOC Extraction, INetSim</span>
+      </div>
+      <div class="skill-row-wrap">
+        <span class="skill-label">Defensive:</span>
+        <span class="skill-value">Wireshark, Volatility, OPNsense, OSINT, Vulnerability Assessment, OWASP Top 10, Active Directory, BloodHound</span>
+      </div>
+      <div class="skill-row-wrap">
+        <span class="skill-label">Programming:</span>
+        <span class="skill-value">Python, Bash, Go, SQL, HTML/CSS, PowerShell</span>
+      </div>
+      <div class="skill-row-wrap">
+        <span class="skill-label">Platforms:</span>
+        <span class="skill-value">Kali Linux, Parrot OS, REMnux, FlareVM, Windows Server, VirtualBox, Docker, Git &amp; GitHub</span>
+      </div>
+      <div class="skill-row-wrap">
+        <span class="skill-label">CTF Profiles:</span>
+        <span class="skill-value">TryHackMe (@whoopx), HackTheBox (#2902723), PicoCTF (@jishnuec), Blue Team Labs Online, PentesterLab (@whoop)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="section-title">Projects &amp; Key Achievements</div>
+
+    <div class="project-item">
+      <div class="project-name">Calicut University — Vulnerability Assessment Report</div>
+      <div class="project-tags">Web Security, Vulnerability Assessment, Professional Report &nbsp;·&nbsp; 2025</div>
+      <ul class="bullets">
+        <li><strong>Situation:</strong> Calicut University's web platform had no prior formal security assessment, leaving unknown attack surfaces exposed.</li>
+        <li><strong>Action:</strong> Conducted a structured web vulnerability assessment — mapping endpoints, testing for injection flaws, authentication weaknesses, and misconfigurations using industry-standard methodology.</li>
+        <li><strong>Result:</strong> Delivered a professional report with findings categorised by severity, risk ratings, and actionable remediation recommendations — treated as a real-world client deliverable.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-name">InstaGrep v4.0 — Instagram OSINT Desktop Tool</div>
+      <div class="project-tags">OSINT, Python, Desktop Application &nbsp;·&nbsp; <a href="https://github.com/Jishnuec/InstaGrep" class="project-link">github.com/Jishnuec/InstaGrep</a></div>
+      <ul class="bullets">
+        <li><strong>Situation:</strong> Manual Instagram OSINT investigations were slow, inconsistent, and produced no structured output for reporting.</li>
+        <li><strong>Action:</strong> Built a ~3,000-line Python desktop application with a full GUI, integrating Instagrapi for data extraction, Matplotlib for behavioural pattern charts, and multi-format export (PDF/CSV/JSON).</li>
+        <li><strong>Result:</strong> Delivered a complete professional-grade OSINT suite — profile analysis, media download, activity timeline, and report generation — usable in real investigations.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-name">ReconFrame — Advanced Reconnaissance Framework</div>
+      <div class="project-tags">Penetration Testing, Python, Tool Development &nbsp;·&nbsp; <a href="https://github.com/Jishnuec/reconframe" class="project-link">github.com/Jishnuec/reconframe</a></div>
+      <ul class="bullets">
+        <li><strong>Situation:</strong> Penetration test recon required manually invoking 12+ separate tools with no unified workflow or output formatting.</li>
+        <li><strong>Action:</strong> Built a Python terminal framework integrating Nmap, Whois, DNS enumeration, and 9+ other tools — with smart IP/domain auto-detection and clean ANSI-formatted output.</li>
+        <li><strong>Result:</strong> Single-command recon across all major attack surface dimensions; eliminated manual tool-switching and standardised output for reporting.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-name">Udyama (उद्यम) — Custom CTF Machine</div>
+      <div class="project-tags">CTF Design, Linux, Privilege Escalation &nbsp;·&nbsp; Feb 2026 &nbsp;·&nbsp; <a href="https://archive.org/details/Udyama" class="project-link">archive.org/details/Udyama</a></div>
+      <ul class="bullets">
+        <li><strong>Situation:</strong> The community lacked intermediate-to-advanced Linux privilege escalation CTF challenges grounded in realistic attack techniques.</li>
+        <li><strong>Action:</strong> Designed and packaged a custom Ubuntu 22.04 OVA with 2 flags (User + Root), realistic privilege escalation paths, and persistence mechanisms built in.</li>
+        <li><strong>Result:</strong> Released publicly on Archive.org — freely available to the global cybersecurity community; demonstrates attack chain design, defender thinking, and deep Linux internals knowledge.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- HOME LAB -->
+  <div class="section">
+    <div class="section-title">Home Lab</div>
+
+    <div class="lab-title">Kali vs DVWA — Full Red Team Lab with Splunk SIEM Monitoring</div>
+    <div class="lab-tags">Red Team / Blue Team, SIEM, Web Exploitation, Privilege Escalation, Persistence</div>
+
+    <div class="lab-setup-grid">
+      <div class="lab-machine">
+        <div class="lm-role">⚔ Attacker</div>
+        <div class="lm-name">Kali Linux</div>
+        <div class="lm-ip">10.0.2.16</div>
+        <div class="lm-svc">Network: NAT</div>
+      </div>
+      <div class="lab-machine">
+        <div class="lm-role">🎯 Target</div>
+        <div class="lm-name">Linux Mint</div>
+        <div class="lm-ip">10.0.2.15</div>
+        <div class="lm-svc">Apache · SSH · DVWA</div>
+      </div>
+      <div class="lab-machine">
+        <div class="lm-role">🛡 SIEM</div>
+        <div class="lm-name">Windows (Splunk)</div>
+        <div class="lm-ip">Host-Only Adapter</div>
+        <div class="lm-svc">Splunk Enterprise · Log Ingestion</div>
+      </div>
+    </div>
+
+    <div class="lab-network">
+      <strong>Network:</strong> NAT Network (Kali ↔ Mint) &nbsp;+&nbsp; Host-Only (Mint ↔ Windows / Splunk)
+    </div>
+
+    <table class="attacks-tbl">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Phase</th>
+          <th>Attack / Technique</th>
+          <th>Tool</th>
+          <th>Outcome</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="atk-id">F-01</td><td><span class="phase-tag">Recon</span></td><td>Network &amp; Service Enumeration</td><td class="atk-tool">nmap -sV -sC -A</td><td class="atk-outcome">Services &amp; OS Fingerprinted</td></tr>
+        <tr><td class="atk-id">F-02</td><td><span class="phase-tag">Recon</span></td><td>Directory &amp; Endpoint Discovery</td><td class="atk-tool">Dirb + Gobuster</td><td class="atk-outcome">Hidden Paths Uncovered</td></tr>
+        <tr><td class="atk-id">F-03</td><td><span class="phase-tag">Exploitation</span></td><td>SSH Credential Brute Force</td><td class="atk-tool">Hydra</td><td class="atk-outcome">Valid Credentials Obtained</td></tr>
+        <tr><td class="atk-id">F-04</td><td><span class="phase-tag">Exploitation</span></td><td>DVWA Web Login Brute Force</td><td class="atk-tool">Hydra</td><td class="atk-outcome">Authentication Bypassed</td></tr>
+        <tr><td class="atk-id">F-05</td><td><span class="phase-tag">Exploitation</span></td><td>SQL Injection — Manual + Blind</td><td class="atk-tool">Manual + SQLmap</td><td class="atk-outcome">Database Contents Extracted</td></tr>
+        <tr><td class="atk-id">F-06</td><td><span class="phase-tag">Exploitation</span></td><td>XSS — Reflected &amp; Stored</td><td class="atk-tool">Browser + Curl</td><td class="atk-outcome">Scripts Injected &amp; Confirmed</td></tr>
+        <tr><td class="atk-id">F-07</td><td><span class="phase-tag">Exploitation</span></td><td>Malicious File Upload + Shell</td><td class="atk-tool">Metasploit / PHP</td><td class="atk-outcome">Reverse Shell Payload Uploaded</td></tr>
+        <tr><td class="atk-id">F-08</td><td><span class="phase-tag">Exploitation</span></td><td>Reverse Shell — Remote Access</td><td class="atk-tool">Netcat</td><td class="atk-outcome">Interactive Shell Established</td></tr>
+        <tr><td class="atk-id">F-09</td><td><span class="phase-tag">Post-Exploit</span></td><td>Local Privilege Escalation</td><td class="atk-tool">LinPEAS + GTFOBins</td><td class="atk-outcome">Root Access Achieved</td></tr>
+        <tr><td class="atk-id">F-10</td><td><span class="phase-tag">Post-Exploit</span></td><td>Persistence Mechanisms</td><td class="atk-tool">Crontab + SSH Keys</td><td class="atk-outcome">Persistent Access Maintained</td></tr>
+      </tbody>
+    </table>
+
+    <div class="findings-note">10 Findings Documented · Full Kill Chain · OWASP-style Penetration Test Report</div>
+
+    <div class="lab-github">
+      GitHub: <a href="https://github.com/Jishnuec/red-team-soc-dvwa-lab-splunk">github.com/Jishnuec/red-team-soc-dvwa-lab-splunk</a>
+    </div>
+
+  </div>
+
+  <!-- LAB 2: AD -->
+  <div class="section">
+    <div class="lab-title">Active Directory Red Team Lab — Attack &amp; Hardening</div>
+    <div class="lab-tags">Active Directory, Windows Server 2019, Kerberos Attacks, Post-Exploitation, GPO Hardening</div>
+
+    <div class="lab-setup-grid">
+      <div class="lab-machine">
+        <div class="lm-role">🏛 Domain Controller</div>
+        <div class="lm-name">Windows Server 2019</div>
+        <div class="lm-ip">AD DS · DNS · LDAP</div>
+        <div class="lm-svc">Domain: lab.local</div>
+      </div>
+      <div class="lab-machine">
+        <div class="lm-role">💻 Workstation</div>
+        <div class="lm-name">Windows 10</div>
+        <div class="lm-ip">Domain-joined client</div>
+        <div class="lm-svc">Standard user context</div>
+      </div>
+      <div class="lab-machine">
+        <div class="lm-role">⚔ Attacker</div>
+        <div class="lm-name">Kali Linux</div>
+        <div class="lm-ip">Host-Only Network</div>
+        <div class="lm-svc">Impacket · BloodHound</div>
+      </div>
+    </div>
+
+    <ul class="bullets" style="margin-top:4px;">
+      <li>Performed <strong>BloodHound / SharpHound</strong> enumeration to map privilege escalation paths, ACL misconfigurations, and Kerberoastable service accounts across the domain graph.</li>
+      <li>Executed <strong>Kerberoasting</strong> and <strong>AS-REP Roasting</strong> attacks using Impacket's GetUserSPNs and GetNPUsers, cracking harvested TGS/AS-REP hashes offline with Hashcat.</li>
+      <li>Conducted <strong>Pass-the-Hash</strong> lateral movement via Impacket's psexec and wmiexec, pivoting from a compromised workstation to Domain Admin context.</li>
+      <li>Applied targeted hardening post-exploitation: enforced <strong>LAPS</strong>, disabled NTLM where possible, configured fine-grained audit policies, and hardened Kerberos delegation settings via GPO.</li>
+    </ul>
+  </div>
+
+  <!-- LAB 3: Malware RE -->
+  <div class="section">
+    <div class="lab-title">Malware Analysis &amp; Reverse Engineering Sandbox</div>
+    <div class="lab-tags">Static Analysis, Dynamic Analysis, Reverse Engineering, Ghidra, x64dbg, YARA, Behavioral IOCs</div>
+
+    <div class="lab-setup-grid">
+      <div class="lab-machine">
+        <div class="lm-role">🔬 Analysis Host</div>
+        <div class="lm-name">FlareVM (Win 10)</div>
+        <div class="lm-ip">Isolated — no internet</div>
+        <div class="lm-svc">Ghidra · x64dbg · PE-bear</div>
+      </div>
+      <div class="lab-machine">
+        <div class="lm-role">🐧 Linux Tools</div>
+        <div class="lm-name">REMnux</div>
+        <div class="lm-ip">Host-Only Network</div>
+        <div class="lm-svc">Strings · YARA · Volatility</div>
+      </div>
+      <div class="lab-machine">
+        <div class="lm-role">🌐 Fake Internet</div>
+        <div class="lm-name">INetSim</div>
+        <div class="lm-ip">Simulated services</div>
+        <div class="lm-svc">DNS · HTTP · SMTP stubs</div>
+      </div>
+    </div>
+
+    <ul class="bullets" style="margin-top:4px;">
+      <li>Conducted <strong>static PE analysis</strong> — inspecting import address tables, section entropy, embedded strings, and packer signatures using PE-bear and FLOSS to triage suspicious binaries before execution.</li>
+      <li>Performed <strong>dynamic behavioral analysis</strong> in FlareVM: monitored process creation, registry writes, file-system mutations, and network callbacks using Process Monitor and Wireshark against INetSim.</li>
+      <li>Used <strong>Ghidra</strong> for disassembly and code-level reverse engineering — tracing malicious control flow, identifying decryption routines, and reconstructing C2 communication logic.</li>
+      <li>Authored <strong>YARA rules</strong> derived from extracted byte patterns and behavioral indicators, enabling signature-based detection of analysed samples and their variants.</li>
+    </ul>
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>
