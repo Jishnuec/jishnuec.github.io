@@ -19,16 +19,12 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
 .titles { text-align: center; font-size: 10.5pt; font-weight: 700; letter-spacing: 0.02em; color: #000; margin-bottom: 8px; font-family: 'Source Serif 4', Georgia, serif; }
 
 /* ── CONTACT ── */
-/* Desktop: single row with separators */
 .contact-desktop { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: 8px; row-gap: 2px; font-size: 9.5pt; color: #000; margin-bottom: 20px; }
 .contact-desktop a { color: #000; text-decoration: underline; }
 .sep { color: #777; }
-
-/* Mobile: two-column pill grid, separators hidden */
-.contact-mobile { display: none; margin-bottom: 20px; }
-.contact-mobile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; justify-items: center; font-size: 9.5pt; text-align: center; }
-.contact-mobile-grid .full-row { grid-column: 1 / -1; }
-.contact-mobile-grid a { color: #000; text-decoration: underline; }
+.contact-mobile { display: none; margin-bottom: 20px; text-align: center; font-size: 9.5pt; }
+.contact-mobile a { color: #000; text-decoration: underline; display: block; line-height: 2; }
+.contact-mobile span { display: block; line-height: 2; }
 
 @media (max-width: 600px) {
   .page { padding: 18px 14px; }
@@ -152,15 +148,13 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
     <span><a href="https://github.com/Jishnuec">github.com/Jishnuec</a></span>
   </div>
 
-  <!-- Mobile contact grid (hidden on desktop) -->
+  <!-- Mobile contact (hidden on desktop) -->
   <div class="contact-mobile">
-    <div class="contact-mobile-grid">
-      <span class="full-row">Kozhikode, Kerala</span>
-      <span><a href="tel:+917510572360">+91 75105 72360</a></span>
-      <span><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a></span>
-      <span><a href="https://linkedin.com/in/jishnuec">linkedin.com/in/jishnuec</a></span>
-      <span><a href="https://github.com/Jishnuec">github.com/Jishnuec</a></span>
-    </div>
+    <span>Kozhikode, Kerala</span>
+    <a href="tel:+917510572360">+91 75105 72360</a>
+    <a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a>
+    <a href="https://linkedin.com/in/jishnuec">linkedin.com/in/jishnuec</a>
+    <a href="https://github.com/Jishnuec">github.com/Jishnuec</a>
   </div>
 
   <!-- EDUCATION -->
