@@ -270,6 +270,7 @@ option{background:var(--bg3)}
 .rb-p{background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.18);color:var(--cyan)}
 .rb-v{background:rgba(255,49,49,.04);border:1px solid rgba(255,49,49,.18);color:var(--red)}
 .rb-d{background:rgba(255,165,0,.04);border:1px solid rgba(255,165,0,.18);color:var(--amber)}
+.rb-ml{background:rgba(0,255,65,.04);border:1px solid rgba(0,255,65,.22);color:var(--g)}
 .rtitle{font-family:var(--orb);font-size:.74rem;color:var(--g);letter-spacing:1px;line-height:1.5}
 .rdesc{font-size:.74rem;line-height:1.9;color:var(--text);flex:1}
 .rsoon{font-family:var(--vt);font-size:1.25rem;color:#6dcc75;letter-spacing:3px;margin-top:auto}
@@ -316,6 +317,8 @@ option{background:var(--bg3)}
 .fn-post[data-accent="amber"]:hover::after{box-shadow:0 0 9px var(--amber)}
 .fn-post[data-accent="red"]::after{background:var(--red)}
 .fn-post[data-accent="purple"]::after{background:var(--purple)}
+.fn-post[data-accent="green"]::after{background:var(--g)}
+.fn-post[data-accent="green"]:hover::after{box-shadow:0 0 9px var(--g)}
 .fn-meta{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;padding:.8rem 1.2rem .45rem;background:rgba(0,0,0,.22);border-bottom:1px solid rgba(0,255,65,.06)}
 .fn-badge{font-family:var(--orb);font-size:.46rem;letter-spacing:2px;padding:.18rem .6rem;border:1px solid}
 .fn-badge-dfir{color:var(--cyan);border-color:rgba(0,229,255,.38);background:rgba(0,229,255,.04)}
@@ -323,6 +326,7 @@ option{background:var(--bg3)}
 .fn-badge-osint{color:var(--amber);border-color:rgba(255,183,50,.38);background:rgba(255,183,50,.04)}
 .fn-badge-ctf{color:var(--amber);border-color:rgba(255,183,50,.38);background:rgba(255,183,50,.04)}
 .fn-badge-pentest{color:var(--red);border-color:rgba(255,85,85,.38);background:rgba(255,85,85,.04)}
+.fn-badge-ml{color:var(--g);border-color:rgba(0,255,65,.38);background:rgba(0,255,65,.04)}
 .fn-date{font-size:.54rem;letter-spacing:1.5px;color:var(--text2);margin-left:auto;font-family:var(--mono);opacity:.65}
 .fn-card-body{padding:.85rem 1.2rem 1.1rem;display:flex;flex-direction:column;flex:1;gap:.45rem}
 .fn-title{font-family:var(--orb);font-size:.8rem;color:var(--g);letter-spacing:.5px;line-height:1.55;margin-bottom:.2rem}
@@ -442,10 +446,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   html,body{overflow-x:hidden;max-width:100vw}
   nav{padding:0 1rem;max-width:100vw}
   .nlogo{font-size:.92rem;letter-spacing:1.5px}
-
-  /* ── FIX 1: allow CV dropdown to escape hero overflow ── */
   #hero{padding:70px .9rem 2.2rem;overflow:visible}
-
   .hinner{width:100%;max-width:100%;overflow:hidden;grid-template-columns:1fr}
   .hphoto-name{gap:.8rem;align-items:flex-start;width:100%;overflow:hidden}
   .hphoto-box{width:100px;height:128px;flex-shrink:0}
@@ -454,37 +455,12 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .hrole{font-size:.54rem;letter-spacing:1px;line-height:1.6;word-break:break-word}
   .hsubrole{font-size:.52rem;letter-spacing:.8px;line-height:1.7;word-break:break-word}
   .htagline{font-size:clamp(1rem,4.5vw,1.4rem);margin-top:1.1rem}
-
-  /* ── FIX 3: stack hero buttons vertically ── */
-  .hbtns{
-    flex-direction:column;
-    align-items:stretch;
-    gap:.5rem;
-    margin-top:1.3rem;
-    width:100%;
-  }
-  .btn{
-    width:100%;
-    justify-content:center;
-    padding:.62rem 1rem;
-    font-size:.6rem;
-    letter-spacing:1px;
-  }
-
-  /* ── FIX 1+2: CV dropdown full-width, always visible ── */
+  .hbtns{flex-direction:column;align-items:stretch;gap:.5rem;margin-top:1.3rem;width:100%}
+  .btn{width:100%;justify-content:center;padding:.62rem 1rem;font-size:.6rem;letter-spacing:1px}
   .cv-dropdown-wrap{width:100%}
   .cv-toggle{width:100%;justify-content:center}
-  .cv-dropdown{
-    position:absolute;
-    top:calc(100% + 4px);
-    left:0;
-    right:0;
-    min-width:100%;
-    white-space:normal;
-    z-index:9999;
-  }
+  .cv-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;min-width:100%;white-space:normal;z-index:9999}
   .cv-opt{font-size:.64rem;padding:.7rem 1rem}
-
   .sw{padding:3.5rem .9rem;overflow-x:hidden}
   .sh{gap:.55rem;margin-bottom:2rem}
   .sn{font-size:2.6rem}
@@ -595,7 +571,6 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
       <div class="htagline"><span id="tw"></span><span class="twc"></span></div>
       <div class="hbtns">
         <a href="#projects" class="btn btn-p"><span>View Projects</span></a>
-        <!-- CV dropdown -->
         <div class="cv-dropdown-wrap">
           <button class="btn btn-p cv-toggle" onclick="toggleCVDropdown(event)"><span>Download CV &#x25BE;</span></button>
           <div class="cv-dropdown" id="cvDropdown">
@@ -758,9 +733,12 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         <button class="fn-chip active" onclick="filterProjects(null,this)">All</button>
         <button class="fn-chip" onclick="filterProjects('tool',this)">&#x1F6E0; Tools</button>
         <button class="fn-chip" onclick="filterProjects('ctf',this)">&#x1F6A9; CTF</button>
+        <button class="fn-chip" onclick="filterProjects('ml',this)">&#x1F916; ML / AI</button>
       </div>
     </div>
     <div class="pgrid" id="pgrid">
+
+      <!-- PROJECT: InstaGrep -->
       <div class="pcard rv" data-ptype="tool">
         <div class="ptag">OSINT Tool</div>
         <div class="pname">InstaGrep</div>
@@ -772,6 +750,8 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <a href="instagrep.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
+
+      <!-- PROJECT: ReconFrame -->
       <div class="pcard rv" data-ptype="tool">
         <div class="ptag">Recon Framework</div>
         <div class="pname">ReconFrame</div>
@@ -783,6 +763,8 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <a href="reconframe.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
+
+      <!-- PROJECT: TerminalChat -->
       <div class="pcard rv" data-ptype="tool">
         <div class="ptag">Terminal Application</div>
         <div class="pname">TerminalChat</div>
@@ -795,6 +777,8 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <a href="https://medium.com/@jishnuwhoopofficial/how-i-built-a-real-time-anonymous-chat-app-for-free-architecture-deep-dive-f6d73b11434e" target="_blank" class="plink" style="color:var(--amber)">Medium <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
+
+      <!-- PROJECT: Udyama -->
       <div class="pcard rv" data-ptype="ctf">
         <div class="ptag" style="color:var(--amber)">&#x1F6A9; CTF Machine</div>
         <div class="pname">Udyama (उद्यम)</div>
@@ -806,9 +790,22 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <a href="udyama.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
+
+      <!-- PROJECT: Driver Vigilance (NEW) -->
+      <div class="pcard rv" data-ptype="ml">
+        <div class="ptag" style="color:var(--g)">&#x1F916; ML / Computer Vision</div>
+        <div class="pname">Driver Vigilance</div>
+        <div class="pver">Real-Time Driver Monitoring &amp; Distraction Detection System</div>
+        <p class="pdesc">A machine learning–powered driver monitoring system that analyzes live video to detect distracted driving behaviors — phone usage, turning around, reaching to the rear seat — and issues real-time alerts to prevent accidents. Built for drivers, fleet operators, and automotive integration.</p>
+        <div class="pstack"><span class="pstag">Python</span><span class="pstag">OpenCV</span><span class="pstag">Machine Learning</span><span class="pstag">Computer Vision</span><span class="pstag">Real-Time Detection</span></div>
+        <div class="plinks">
+          <a href="Driver%20Vigilance.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
     </div>
     <div class="pagination-bar rv" id="projectsPagination" style="display:none">
-      <div class="pagination-info">Showing <span id="projectsShowing">3</span> of <span id="projectsTotal">4</span></div>
+      <div class="pagination-info">Showing <span id="projectsShowing">3</span> of <span id="projectsTotal">5</span></div>
       <div class="pagination-btns" id="projectsBtns">
         <button class="pg-btn" id="projectsPrev" onclick="changePage('projects',-1,this)">&#x2190; Prev</button>
         <button class="pg-btn active" id="projectsP1" onclick="goPage('projects',1,this)">1</button>
@@ -830,51 +827,74 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
       </div>
     </div>
     <div class="res-grid" id="resGrid">
+
+      <!-- RESEARCH: Calicut Uni VAR -->
       <div class="rcard rv" data-d="1" onclick="window.open('VAR-University%20of%20calicut.pdf','_blank')" data-date="2025-01-01">
         <div class="rbadge rb-d">&#x1F4D1; Security Report</div>
         <div class="rtitle">Calicut University Vulnerability Assessment Report</div>
         <div class="rdesc">A professional vulnerability assessment of the Calicut University web platform — identifying security weaknesses, risk ratings, and remediation recommendations.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to open PDF</div>
       </div>
+
+      <!-- RESEARCH: TerminalChat -->
       <div class="rcard rv" data-d="2" onclick="window.location.href='terminalchat.html'" data-date="2025-03-01">
         <div class="rbadge rb-p">&#x1F4C4; Project Writeup</div>
         <div class="rtitle">TerminalChat &#x2014; Technical Writeup</div>
         <div class="rdesc">Deep-dive into building an anonymous real-time terminal chat application — architecture, tech stack, challenges, and how SSE-based messaging works across platforms.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
       </div>
+
+      <!-- RESEARCH: Udyama -->
       <div class="rcard rv" data-d="2" onclick="window.location.href='udyama.html'" data-date="2026-02-01">
         <div class="rbadge rb-w">&#x1F6A9; CTF Writeup</div>
         <div class="rtitle">Udyama (उद्यम) &#x2014; CTF Machine Writeup</div>
         <div class="rdesc">Full writeup for the Udyama CTF VM — Linux privilege escalation path, persistence techniques, and solution walkthrough.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
       </div>
+
+      <!-- RESEARCH: InstaGrep -->
       <div class="rcard rv" data-d="3" onclick="window.location.href='instagrep.html'" data-date="2024-12-01">
         <div class="rbadge rb-p">&#x1F4C4; Project Writeup</div>
         <div class="rtitle">InstaGrep &#x2014; Technical Writeup</div>
         <div class="rdesc">Deep-dive into building a professional Instagram OSINT tool — architecture, GUI design, data analysis, and ethical constraints.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
       </div>
+
+      <!-- RESEARCH: ReconFrame -->
       <div class="rcard rv" data-d="1" onclick="window.location.href='reconframe.html'" data-date="2024-11-01">
         <div class="rbadge rb-p">&#x1F4C4; Project Writeup</div>
         <div class="rtitle">ReconFrame &#x2014; Technical Writeup</div>
         <div class="rdesc">How I built a professional terminal reconnaissance framework — 12 integrated tools, cinematic UI, smart target detection.</div>
         <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
       </div>
+
+      <!-- RESEARCH: Driver Vigilance (NEW) -->
+      <div class="rcard rv" data-d="2" onclick="window.location.href='Driver%20Vigilance.html'" data-date="2025-05-01">
+        <div class="rbadge rb-ml">&#x1F916; Project Writeup</div>
+        <div class="rtitle">Driver Vigilance &#x2014; Technical Writeup</div>
+        <div class="rdesc">Deep-dive into building a real-time driver monitoring system — ML model pipeline, distraction detection, alert system design, and safety implications for road accident prevention.</div>
+        <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
+      </div>
+
+      <!-- RESEARCH: Home Lab Video -->
       <div class="rcard rv" data-d="2" data-date="2025-06-01">
         <div class="rbadge rb-v">&#x25B6; Video Series</div>
         <div class="rtitle">Home Lab Setup Guide</div>
         <div class="rdesc">Video series walking through building a cybersecurity home lab — attacker, targets, SIEM integration.</div>
         <div class="rsoon">// COMING SOON</div>
       </div>
+
+      <!-- RESEARCH: Network Threat Detection -->
       <div class="rcard rv" data-d="3" data-date="2025-07-01">
         <div class="rbadge rb-p">&#x1F4C4; Research Paper</div>
         <div class="rtitle">Network Threat Detection</div>
         <div class="rdesc">Research covering network-based attack detection techniques, traffic analysis, and automated alerting with SIEM platforms.</div>
         <div class="rsoon">// COMING SOON</div>
       </div>
+
     </div>
     <div class="pagination-bar rv" id="researchPagination">
-      <div class="pagination-info">Showing <span id="researchShowing">3</span> of <span id="researchTotal">7</span></div>
+      <div class="pagination-info">Showing <span id="researchShowing">3</span> of <span id="researchTotal">8</span></div>
       <div class="pagination-btns">
         <button class="pg-btn" id="researchPrev" onclick="changePage('research',-1,this)">&#x2190; Prev</button>
         <button class="pg-btn active" id="researchP1" onclick="goPage('research',1,this)">1</button>
@@ -974,6 +994,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         <button class="fn-chip" onclick="filterByTag('CTF',this)">CTF</button>
         <button class="fn-chip" onclick="filterByTag('Penetration Testing',this)">Pentest</button>
         <button class="fn-chip" onclick="filterByTag('Network Security',this)">Network</button>
+        <button class="fn-chip" onclick="filterByTag('Machine Learning',this)">ML / AI</button>
       </div>
       <select class="fn-sort" onchange="sortPosts(this.value)">
         <option value="newest">Newest</option>
@@ -1104,10 +1125,32 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           </div>
         </div>
 
+        <!-- NOTE 6: Driver Vigilance (NEW) -->
+        <div class="fn-post" data-tags="Machine Learning" data-date="2025-05-10" data-accent="green">
+          <div class="fn-meta">
+            <div class="fn-badge fn-badge-ml">ML / CV</div>
+            <div class="fn-date">May 10, 2025</div>
+          </div>
+          <div class="fn-card-body">
+            <div class="fn-title">&#x1F6E1;&#xFE0F; Built Driver Vigilance &mdash; Real-Time Distraction Detection with ML</div>
+            <div class="fn-body">Designed and built a machine learning–driven driver monitoring system capable of detecting dangerous driving behaviors in real time — phone usage, turning around, reaching to the rear — and issuing instant alerts before they cause accidents.</div>
+            <div class="fn-findings">
+              <div class="fn-finding"><span>Detection Scope</span> &mdash; Phone usage, rear-seat distraction, abnormal head &amp; body orientation</div>
+              <div class="fn-finding"><span>Core Stack</span> &mdash; Python + OpenCV + ML classification model on live video input</div>
+              <div class="fn-finding"><span>Alert System</span> &mdash; Real-time warnings triggered at configurable confidence thresholds</div>
+              <div class="fn-finding"><span>Key Insight</span> &mdash; Most accidents begin 0.5–2 seconds before impact; real-time is the only acceptable latency</div>
+            </div>
+            <a href="Driver%20Vigilance.html" class="fn-link">Read Full Writeup</a>
+            <div class="fn-tags-row">
+              <span class="fn-tag" onclick="filterByTag('Machine Learning',null)">Machine Learning</span>
+            </div>
+          </div>
+        </div>
+
       </div><!-- /fn-feed -->
       <div id="fnEmpty" class="fn-empty">// No posts found</div>
       <div class="pagination-bar" id="fieldNotesPagination">
-        <div class="pagination-info">Showing <span id="fnShowing">2</span> of <span id="fnTotal">5</span></div>
+        <div class="pagination-info">Showing <span id="fnShowing">2</span> of <span id="fnTotal">6</span></div>
         <div class="pagination-btns">
           <button class="pg-btn" id="fnPrev" onclick="changePage('fieldNotes',-1,this)">&#x2190; Prev</button>
           <button class="pg-btn active" id="fnP1" onclick="goPage('fieldNotes',1,this)">1</button>
@@ -1195,7 +1238,6 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         <div class="cico">&#x1D54F;</div>
         <div><div class="clbl">Twitter / X</div><div class="cval">@jishxec</div></div>
       </a>
-      <!-- CV card — choose format -->
       <div class="ccrd cv-contact-card">
         <div class="cv-card-top">
           <div class="cico">&#x2193;</div>
