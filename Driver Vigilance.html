@@ -41,100 +41,245 @@
     position: fixed;
     inset: 0 0 auto 0;
     height: var(--nav-h);
-    background: rgba(250,250,248,.96);
+    background: rgba(250,250,248,.97);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--rule);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
     z-index: 500;
+    gap: 1rem;
   }
   .nav-back {
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    font-family: var(--mono);
-    font-size: .72rem;
-    letter-spacing: .04em;
-    color: var(--ink-3);
-    text-decoration: none;
-    transition: color .2s;
-  }
-  .nav-back:hover { color: var(--accent); }
-  .nav-back svg { transition: transform .2s; }
-  .nav-back:hover svg { transform: translateX(-2px); }
-  .nav-label {
-    font-family: var(--mono);
-    font-size: .68rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-  }
-  .nav-dl {
     display: inline-flex;
     align-items: center;
     gap: .45rem;
     font-family: var(--mono);
     font-size: .7rem;
     letter-spacing: .04em;
+    color: var(--ink-3);
+    text-decoration: none;
+    transition: color .2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .nav-back:hover { color: var(--accent); }
+  .nav-back:hover svg { transform: translateX(-2px); }
+  .nav-back svg { transition: transform .2s; }
+  .nav-label {
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: center;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .nav-dl {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .04em;
     color: var(--accent);
     text-decoration: none;
     border: 1px solid var(--accent);
-    padding: .32rem .85rem;
+    padding: .3rem .8rem;
     transition: all .2s;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .nav-dl:hover { background: var(--accent); color: #fff; }
 
-  /* ── PDF VIEWER ── */
+  /* ── PDF SECTION ── */
   .pdf-section {
     margin-top: var(--nav-h);
-    background: #2a2a2a;
+    background: #1e1e1e;
     border-bottom: 3px solid var(--accent);
+    position: relative;
   }
+
+  /* PDF header bar */
   .pdf-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: .75rem 1.5rem;
-    background: #1e1e1e;
-    border-bottom: 1px solid #3a3a3a;
+    flex-wrap: wrap;
+    gap: .5rem;
+    padding: .6rem 1.25rem;
+    background: #161616;
+    border-bottom: 1px solid #333;
   }
   .pdf-header-title {
     font-family: var(--mono);
-    font-size: .7rem;
-    letter-spacing: .08em;
-    color: #aaa;
+    font-size: .68rem;
+    letter-spacing: .07em;
+    color: #999;
     text-transform: uppercase;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .pdf-header-actions {
     display: flex;
-    gap: .75rem;
+    gap: .6rem;
     align-items: center;
+    flex-shrink: 0;
   }
   .pdf-action-link {
     font-family: var(--mono);
-    font-size: .66rem;
-    letter-spacing: .05em;
+    font-size: .63rem;
+    letter-spacing: .04em;
     color: #888;
     text-decoration: none;
-    transition: color .2s;
-    padding: .22rem .6rem;
-    border: 1px solid #3a3a3a;
+    transition: color .2s, border-color .2s;
+    padding: .2rem .55rem;
+    border: 1px solid #333;
+    white-space: nowrap;
   }
   .pdf-action-link:hover { color: #ccc; border-color: #666; }
-  .pdf-embed-wrap {
+
+  /* Desktop PDF embed — shown only on ≥769px */
+  .pdf-desktop-wrap {
+    display: block;
+    position: relative;
     width: 100%;
     height: 88vh;
-    position: relative;
-    background: #3a3a3a;
+    background: #2a2a2a;
   }
-  .pdf-embed-wrap iframe {
+  .pdf-desktop-wrap iframe {
     width: 100%;
     height: 100%;
     border: none;
     display: block;
+    position: relative;
+    z-index: 1;
   }
+
+  /* Scroll-hint overlay — visible until user interacts with the PDF */
+  .pdf-scroll-hint {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(20,20,20,.72);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    cursor: pointer;
+    transition: opacity .4s ease;
+    pointer-events: auto;
+  }
+  .pdf-scroll-hint.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hint-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid rgba(200,169,110,.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulseHint 2s ease-in-out infinite;
+  }
+  @keyframes pulseHint {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%       { transform: scale(1.08); opacity: .7; }
+  }
+  .hint-text {
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #ccc;
+  }
+  .hint-sub {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .08em;
+    color: #777;
+    text-align: center;
+    padding: 0 2rem;
+  }
+
+  /* Mobile PDF card — shown only on ≤768px */
+  .pdf-mobile-card {
+    display: none;
+    padding: 2rem 1.25rem;
+    background: #161616;
+    text-align: center;
+  }
+  .pdf-mobile-icon {
+    width: 56px;
+    height: 56px;
+    background: rgba(26,58,92,.25);
+    border: 1px solid rgba(26,58,92,.5);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+  .pdf-mobile-filename {
+    font-family: var(--mono);
+    font-size: .7rem;
+    letter-spacing: .06em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: .4rem;
+  }
+  .pdf-mobile-title {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    color: #ddd;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+  }
+  .pdf-mobile-btns {
+    display: flex;
+    gap: .75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .pdf-mobile-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .06em;
+    text-decoration: none;
+    padding: .55rem 1.1rem;
+    border-radius: 2px;
+    transition: all .2s;
+  }
+  .pdf-mobile-btn.primary {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid var(--accent);
+  }
+  .pdf-mobile-btn.secondary {
+    background: transparent;
+    color: #999;
+    border: 1px solid #333;
+  }
+  .pdf-mobile-btn.primary:hover { background: #254e7a; }
+  .pdf-mobile-btn.secondary:hover { border-color: #666; color: #ccc; }
+
+  /* PDF fallback (if iframe fails on desktop) */
   .pdf-fallback {
     display: none;
     position: absolute;
@@ -143,24 +288,23 @@
     justify-content: center;
     flex-direction: column;
     gap: 1rem;
-    background: #2a2a2a;
-    color: #aaa;
+    background: #1e1e1e;
+    color: #888;
     font-family: var(--mono);
     font-size: .8rem;
+    z-index: 5;
+    text-align: center;
+    padding: 2rem;
   }
-  .pdf-fallback a {
-    color: var(--accent-2);
-    font-size: .75rem;
-    text-decoration: underline;
-  }
+  .pdf-fallback a { color: var(--accent-2); text-decoration: underline; }
 
   /* ── DIVIDER ── */
   .section-divider {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding: 2.5rem var(--max-w) 0;
-    max-width: calc(var(--max-w) + 8rem);
+    gap: 1.25rem;
+    padding: 2.5rem 2rem 0;
+    max-width: calc(var(--max-w) + 6rem);
     margin: 0 auto;
   }
   .section-divider::before,
@@ -172,233 +316,228 @@
   }
   .section-divider span {
     font-family: var(--mono);
-    font-size: .65rem;
+    font-size: .63rem;
     letter-spacing: .14em;
     text-transform: uppercase;
     color: var(--ink-3);
     white-space: nowrap;
   }
 
-  /* ── PAPER ── */
+  /* ── PAPER BODY ── */
   .paper {
     max-width: var(--max-w);
     margin: 0 auto;
-    padding: 3.5rem 2rem 6rem;
+    padding: 3rem 2rem 6rem;
   }
 
   /* ── MASTHEAD ── */
   .paper-type {
     font-family: var(--mono);
-    font-size: .68rem;
-    letter-spacing: .16em;
+    font-size: .67rem;
+    letter-spacing: .15em;
     text-transform: uppercase;
     color: var(--accent-2);
-    margin-bottom: 1rem;
+    margin-bottom: .9rem;
     display: flex;
     align-items: center;
-    gap: .65rem;
+    gap: .6rem;
   }
   .paper-type::before {
     content: '';
     display: block;
-    width: 28px;
+    width: 24px;
     height: 1px;
     background: var(--accent-2);
+    flex-shrink: 0;
   }
   .paper-title {
     font-family: var(--display);
-    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-size: clamp(1.75rem, 5vw, 2.8rem);
     font-weight: 700;
     line-height: 1.2;
     color: var(--ink);
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
     letter-spacing: -.01em;
   }
   .paper-subtitle {
     font-family: var(--display);
-    font-size: 1.05rem;
+    font-size: clamp(.92rem, 2.5vw, 1.05rem);
     font-weight: 400;
     font-style: italic;
     color: var(--ink-2);
     margin-bottom: 2rem;
-    line-height: 1.5;
+    line-height: 1.55;
   }
+
+  /* Meta grid */
   .paper-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    padding: 1.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: .75rem 1.25rem;
+    padding: 1.1rem 1.25rem;
     background: var(--bg-warm);
     border-left: 3px solid var(--accent);
-    margin-bottom: 2.5rem;
-    font-size: .85rem;
+    margin-bottom: 2.25rem;
   }
-  .paper-meta-item { display: flex; flex-direction: column; gap: .15rem; }
+  .paper-meta-item { display: flex; flex-direction: column; gap: .12rem; }
   .meta-label {
     font-family: var(--mono);
-    font-size: .6rem;
+    font-size: .58rem;
     letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--ink-3);
   }
-  .meta-value { color: var(--ink); font-weight: 400; font-size: .9rem; }
+  .meta-value { color: var(--ink); font-size: .88rem; }
+  .meta-value a { color: var(--accent); text-decoration: none; }
+  .meta-value a:hover { text-decoration: underline; }
 
-  /* ── RULE ── */
-  .paper-rule {
-    border: none;
-    border-top: 1px solid var(--rule);
-    margin: 2.5rem 0;
+  /* Tags */
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin: .75rem 0 1.5rem;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: .62rem;
+    letter-spacing: .04em;
+    padding: .2rem .65rem;
+    border: 1px solid var(--rule);
+    color: var(--ink-3);
+    background: var(--bg-warm);
+    border-radius: 2px;
+    white-space: nowrap;
   }
 
-  /* ── ABSTRACT ── */
+  /* Rule */
+  .paper-rule { border: none; border-top: 1px solid var(--rule); margin: 2.25rem 0; }
+
+  /* Abstract */
   .abstract-box {
-    padding: 1.5rem 1.75rem;
+    padding: 1.3rem 1.5rem;
     background: var(--highlight);
     border: 1px solid var(--rule);
-    margin-bottom: 2.5rem;
-    position: relative;
+    margin-bottom: 2.25rem;
   }
   .abstract-label {
     font-family: var(--mono);
-    font-size: .62rem;
+    font-size: .6rem;
     letter-spacing: .14em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: .75rem;
+    margin-bottom: .65rem;
     font-weight: 500;
   }
   .abstract-text {
-    font-size: .95rem;
+    font-size: .94rem;
     line-height: 1.85;
     color: var(--ink-2);
     font-style: italic;
   }
 
-  /* ── SECTION HEADINGS ── */
+  /* Section headings */
   .section-number {
     font-family: var(--mono);
-    font-size: .68rem;
+    font-size: .65rem;
     letter-spacing: .1em;
     color: var(--accent-2);
     display: block;
-    margin-bottom: .25rem;
+    margin-bottom: .2rem;
     font-weight: 500;
   }
   h2 {
     font-family: var(--display);
-    font-size: 1.55rem;
+    font-size: clamp(1.25rem, 3vw, 1.55rem);
     font-weight: 700;
     color: var(--ink);
-    margin: 2.5rem 0 1rem;
+    margin: 2.25rem 0 .85rem;
     letter-spacing: -.01em;
-    padding-bottom: .55rem;
+    padding-bottom: .5rem;
     border-bottom: 1px solid var(--rule-light);
   }
   h3 {
     font-family: var(--display);
-    font-size: 1.12rem;
+    font-size: clamp(1rem, 2.5vw, 1.12rem);
     font-weight: 600;
     color: var(--ink);
-    margin: 1.8rem 0 .6rem;
-    letter-spacing: -.005em;
+    margin: 1.6rem 0 .55rem;
   }
   h4 {
     font-family: var(--mono);
-    font-size: .78rem;
+    font-size: .75rem;
     font-weight: 500;
     letter-spacing: .08em;
     text-transform: uppercase;
     color: var(--accent);
-    margin: 1.4rem 0 .5rem;
+    margin: 1.3rem 0 .45rem;
   }
 
-  /* ── BODY TEXT ── */
-  p {
-    margin-bottom: 1.1rem;
-    color: var(--ink-2);
-    font-size: .97rem;
-  }
-
-  ul, ol {
-    margin: .75rem 0 1.1rem 1.5rem;
-    color: var(--ink-2);
-    font-size: .95rem;
-  }
-  li { margin-bottom: .45rem; line-height: 1.75; }
+  /* Body text */
+  p { margin-bottom: 1rem; color: var(--ink-2); font-size: .96rem; }
+  ul, ol { margin: .6rem 0 1rem 1.35rem; color: var(--ink-2); font-size: .94rem; }
+  li { margin-bottom: .4rem; line-height: 1.75; }
   li strong { color: var(--ink); font-weight: 600; }
 
-  /* ── CALLOUT ── */
+  /* Callout */
   .callout {
-    padding: 1rem 1.4rem;
+    padding: .9rem 1.25rem;
     border-left: 3px solid var(--accent);
     background: var(--highlight);
-    margin: 1.5rem 0;
-    font-size: .92rem;
+    margin: 1.25rem 0;
+    font-size: .91rem;
     color: var(--ink-2);
     line-height: 1.75;
   }
   .callout strong { color: var(--accent); }
 
-  /* ── TAGS ── */
-  .tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .45rem;
-    margin: 1rem 0;
-  }
-  .tag {
-    font-family: var(--mono);
-    font-size: .65rem;
-    letter-spacing: .05em;
-    padding: .22rem .7rem;
-    border: 1px solid var(--rule);
-    color: var(--ink-3);
-    background: var(--bg-warm);
-    border-radius: 2px;
-  }
-
-  /* ── MODULE GRID ── */
+  /* Module grid */
   .module-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin: 1.25rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: .85rem;
+    margin: 1.1rem 0;
   }
   .module-card {
-    padding: 1.1rem 1.25rem;
+    padding: 1rem 1.1rem;
     border: 1px solid var(--rule);
     background: #fff;
   }
   .module-card-title {
     font-family: var(--display);
-    font-size: .95rem;
+    font-size: .93rem;
     font-weight: 600;
     color: var(--accent);
-    margin-bottom: .5rem;
+    margin-bottom: .45rem;
   }
-  .module-card ul { margin: 0; padding-left: 1.1rem; font-size: .84rem; }
-  .module-card li { margin-bottom: .25rem; }
+  .module-card ul { margin: 0; padding-left: 1.05rem; font-size: .82rem; }
+  .module-card li { margin-bottom: .22rem; }
 
-  /* ── SPEC TABLE ── */
+  /* Spec table */
   .spec-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1rem 0 1.5rem;
-    font-size: .88rem;
+    margin: .85rem 0 1.35rem;
+    font-size: .87rem;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
+  .spec-table table { width: 100%; border-collapse: collapse; min-width: 420px; }
   .spec-table th {
     text-align: left;
     font-family: var(--mono);
-    font-size: .65rem;
+    font-size: .62rem;
     letter-spacing: .1em;
     text-transform: uppercase;
     color: var(--accent);
-    padding: .6rem 1rem;
+    padding: .55rem .9rem;
     border-bottom: 2px solid var(--rule);
     background: var(--bg-warm);
+    white-space: nowrap;
   }
   .spec-table td {
-    padding: .7rem 1rem;
+    padding: .65rem .9rem;
     border-bottom: 1px solid var(--rule-light);
     color: var(--ink-2);
     vertical-align: top;
@@ -407,72 +546,92 @@
     font-weight: 600;
     color: var(--ink);
     white-space: nowrap;
-    font-size: .85rem;
+    font-size: .84rem;
   }
   .spec-table tr:last-child td { border-bottom: none; }
 
-  /* ── CONCLUSION CARD ── */
+  /* Conclusion card */
   .conclusion-card {
-    padding: 2rem;
+    padding: 1.75rem;
     background: var(--accent);
     color: #e8eef4;
-    margin: 2rem 0;
+    margin: 1.75rem 0;
   }
-  .conclusion-card p { color: #c8d8e8; font-size: .95rem; margin-bottom: .85rem; }
+  .conclusion-card p { color: #c8d8e8; font-size: .94rem; margin-bottom: .8rem; }
   .conclusion-card p:last-child { margin-bottom: 0; }
   .conclusion-card-title {
     font-family: var(--display);
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #fff;
-    margin-bottom: 1rem;
-    letter-spacing: -.01em;
+    margin-bottom: .9rem;
   }
 
-  /* ── FOOTER ── */
+  /* Footer */
   .paper-footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
+    margin-top: 2.75rem;
+    padding-top: 1.25rem;
     border-top: 1px solid var(--rule);
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: .75rem;
   }
   .paper-footer-left {
     font-family: var(--mono);
-    font-size: .65rem;
-    letter-spacing: .08em;
+    font-size: .63rem;
+    letter-spacing: .07em;
     color: var(--ink-3);
     line-height: 1.7;
   }
-  .paper-footer-left a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-  .paper-footer-right {
-    display: flex;
-    gap: .75rem;
-  }
+  .paper-footer-left a { color: var(--accent); text-decoration: none; }
   .footer-btn {
     font-family: var(--mono);
-    font-size: .65rem;
+    font-size: .63rem;
     letter-spacing: .06em;
     color: var(--ink-3);
     text-decoration: none;
     border: 1px solid var(--rule);
-    padding: .32rem .85rem;
+    padding: .3rem .8rem;
     transition: all .2s;
   }
   .footer-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  @media (max-width: 640px) {
-    .paper { padding: 2.5rem 1.1rem 5rem; }
-    .pdf-embed-wrap { height: 70vh; }
-    .site-nav { padding: 0 1rem; }
-    .nav-label { display: none; }
-    .paper-meta { gap: 1rem; }
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    /* Show mobile card, hide desktop embed */
+    .pdf-desktop-wrap  { display: none !important; }
+    .pdf-mobile-card   { display: block; }
+
+    /* Nav */
+    .site-nav { padding: 0 .9rem; gap: .5rem; }
+    .nav-label { font-size: .58rem; }
+
+    /* Paper */
+    .paper { padding: 2rem 1rem 5rem; }
+
+    /* Meta grid: 2 columns on phone */
+    .paper-meta { grid-template-columns: 1fr 1fr; padding: .9rem 1rem; }
+
+    /* Module grid: single column */
+    .module-grid { grid-template-columns: 1fr; }
+
+    /* Headings */
+    h2 { margin: 1.75rem 0 .7rem; }
+
+    /* Tags overflow */
+    .tag-row { gap: .35rem; }
+    .tag { font-size: .6rem; }
+
+    /* Section divider */
+    .section-divider { padding: 2rem 1rem 0; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-dl span { display: none; }
+    .paper-meta { grid-template-columns: 1fr; gap: .6rem; }
+    .paper { padding: 1.75rem .9rem 5rem; }
   }
 </style>
 </head>
@@ -481,22 +640,24 @@
 <!-- NAV -->
 <nav class="site-nav">
   <a href="index.html" class="nav-back">
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
       <path d="M10 3L5 8l5 5"/>
     </svg>
     Back to Portfolio
   </a>
   <span class="nav-label">Research Paper</span>
   <a href="Driver Vigilance.pdf" download="Driver_Vigilance_System.pdf" class="nav-dl">
-    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
       <path d="M8 2v9M4 8l4 4 4-4M2 14h12"/>
     </svg>
-    Download PDF
+    <span>Download PDF</span>
   </a>
 </nav>
 
-<!-- PDF VIEWER -->
+<!-- PDF SECTION -->
 <div class="pdf-section">
+
+  <!-- Header bar (always visible) -->
   <div class="pdf-header">
     <span class="pdf-header-title">Driver Vigilance System — Project Report (PDF)</span>
     <div class="pdf-header-actions">
@@ -504,17 +665,68 @@
       <a href="Driver Vigilance.pdf" download class="pdf-action-link">Download ↓</a>
     </div>
   </div>
-  <div class="pdf-embed-wrap">
+
+  <!-- Desktop: iframe embed -->
+  <div class="pdf-desktop-wrap" id="pdfDesktopWrap">
     <iframe
       src="Driver Vigilance.pdf"
+      id="pdfIframe"
       title="Driver Vigilance System — Project Report"
       type="application/pdf">
     </iframe>
+
+    <!-- Scroll hint overlay (click to dismiss) -->
+    <div class="pdf-scroll-hint" id="pdfScrollHint" onclick="dismissHint()">
+      <div class="hint-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8a96e" stroke-width="1.5">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </div>
+      <div class="hint-text">Scroll inside to read PDF</div>
+      <div class="hint-sub">Click anywhere to interact · Use mouse wheel or trackpad to scroll the document</div>
+    </div>
+
+    <!-- Fallback if iframe fails -->
     <div class="pdf-fallback" id="pdfFallback">
-      <p>Unable to display PDF inline.</p>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.4">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+      </svg>
+      <p>Your browser could not display the PDF inline.</p>
       <a href="Driver Vigilance.pdf" target="_blank">Open PDF directly →</a>
     </div>
   </div>
+
+  <!-- Mobile: download card -->
+  <div class="pdf-mobile-card">
+    <div class="pdf-mobile-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4a7ab5" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+      </svg>
+    </div>
+    <div class="pdf-mobile-filename">Driver_Vigilance_System.pdf</div>
+    <div class="pdf-mobile-title">Driver Vigilance System — Project Report</div>
+    <div class="pdf-mobile-btns">
+      <a href="Driver Vigilance.pdf" target="_blank" class="pdf-mobile-btn primary">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Open PDF
+      </a>
+      <a href="Driver Vigilance.pdf" download="Driver_Vigilance_System.pdf" class="pdf-mobile-btn secondary">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <!-- DIVIDER -->
@@ -547,7 +759,7 @@
     </div>
     <div class="paper-meta-item">
       <span class="meta-label">GitHub</span>
-      <span class="meta-value"><a href="https://github.com/Jishnuec" target="_blank" style="color:var(--accent)">github.com/Jishnuec</a></span>
+      <span class="meta-value"><a href="https://github.com/Jishnuec" target="_blank">github.com/Jishnuec</a></span>
     </div>
   </div>
 
@@ -710,34 +922,38 @@
   <h2>System Design &amp; Specification</h2>
 
   <h3>Hardware Requirements</h3>
-  <table class="spec-table">
-    <thead>
-      <tr><th>Component</th><th>Specification</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Processor</td><td>Intel Core 2 Dual or above</td></tr>
-      <tr><td>Android Version</td><td>7.0 (Nougat) or above</td></tr>
-      <tr><td>RAM</td><td>1 GB minimum</td></tr>
-      <tr><td>Storage</td><td>40 GB hard disk minimum</td></tr>
-      <tr><td>Camera</td><td>Smartphone front camera (720p or above recommended)</td></tr>
-      <tr><td>Display</td><td>VGA color monitor / smartphone display</td></tr>
-    </tbody>
-  </table>
+  <div class="spec-table">
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Specification</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Processor</td><td>Intel Core 2 Dual or above</td></tr>
+        <tr><td>Android Version</td><td>7.0 (Nougat) or above</td></tr>
+        <tr><td>RAM</td><td>1 GB minimum</td></tr>
+        <tr><td>Storage</td><td>40 GB hard disk minimum</td></tr>
+        <tr><td>Camera</td><td>Smartphone front camera (720p or above recommended)</td></tr>
+        <tr><td>Display</td><td>VGA color monitor / smartphone display</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <h3>Software Requirements</h3>
-  <table class="spec-table">
-    <thead>
-      <tr><th>Layer</th><th>Technology</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Front End</td><td>HTML / CSS, Android (Java)</td></tr>
-      <tr><td>Back End</td><td>Python (Flask framework)</td></tr>
-      <tr><td>Database</td><td>MySQL</td></tr>
-      <tr><td>Operating System</td><td>Windows 7 or above / Android 7+</td></tr>
-      <tr><td>IDE</td><td>PyCharm, Android Studio</td></tr>
-      <tr><td>Version Control</td><td>Git / GitHub</td></tr>
-    </tbody>
-  </table>
+  <div class="spec-table">
+    <table>
+      <thead>
+        <tr><th>Layer</th><th>Technology</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Front End</td><td>HTML / CSS, Android (Java)</td></tr>
+        <tr><td>Back End</td><td>Python (Flask framework)</td></tr>
+        <tr><td>Database</td><td>MySQL</td></tr>
+        <tr><td>Operating System</td><td>Windows 7 or above / Android 7+</td></tr>
+        <tr><td>IDE</td><td>PyCharm, Android Studio</td></tr>
+        <tr><td>Version Control</td><td>Git / GitHub</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <h3>Data Flow</h3>
   <p>
@@ -797,17 +1013,17 @@
     <li>Vincent, W.S. — <em>Django for APIs: Build Web APIs with Python &amp; Django</em></li>
     <li>Mednieks, Z. — <em>Programming Android: Java Programming for The New Generation of Mobile Devices</em></li>
     <li>Shields, W. — <em>SQL QuickStart Guide</em></li>
-    <li><a href="https://stackoverflow.com/questions/tagged/django" target="_blank">stackoverflow.com — Django Q&amp;A</a></li>
-    <li><a href="https://developer.android.com/studio" target="_blank">Android Developers — Android Studio</a></li>
-    <li><a href="https://scikit-learn.org/stable/documentation.html" target="_blank">scikit-learn Documentation</a></li>
-    <li><a href="https://www.django-rest-framework.org/" target="_blank">Django REST Framework</a></li>
-    <li><a href="https://firebase.google.com/docs" target="_blank">Firebase Documentation</a></li>
+    <li><a href="https://stackoverflow.com/questions/tagged/django" target="_blank" style="color:var(--accent)">stackoverflow.com — Django Q&amp;A</a></li>
+    <li><a href="https://developer.android.com/studio" target="_blank" style="color:var(--accent)">Android Developers — Android Studio</a></li>
+    <li><a href="https://scikit-learn.org/stable/documentation.html" target="_blank" style="color:var(--accent)">scikit-learn Documentation</a></li>
+    <li><a href="https://www.django-rest-framework.org/" target="_blank" style="color:var(--accent)">Django REST Framework</a></li>
+    <li><a href="https://firebase.google.com/docs" target="_blank" style="color:var(--accent)">Firebase Documentation</a></li>
   </ul>
 
   <!-- FOOTER -->
   <div class="paper-footer">
     <div class="paper-footer-left">
-      <a href="https://github.com/Jishnuec" target="_blank" style="color:var(--accent)">github.com/Jishnuec</a>
+      <a href="https://github.com/Jishnuec" target="_blank">github.com/Jishnuec</a>
     </div>
     <div class="paper-footer-right">
       <a href="Driver Vigilance.pdf" download class="footer-btn">Download PDF</a>
@@ -817,24 +1033,44 @@
 </article>
 
 <script>
-  // If iframe fails to load PDF, show fallback
-  const iframe = document.querySelector('.pdf-embed-wrap iframe');
+  // ── Scroll hint dismiss ──
+  function dismissHint() {
+    const hint = document.getElementById('pdfScrollHint');
+    if (hint) hint.classList.add('hidden');
+  }
+
+  // Auto-dismiss hint after 6 seconds
+  setTimeout(dismissHint, 6000);
+
+  // Dismiss on scroll inside PDF area (desktop)
+  const wrap = document.getElementById('pdfDesktopWrap');
+  if (wrap) {
+    wrap.addEventListener('wheel', dismissHint, { once: true, passive: true });
+    wrap.addEventListener('touchstart', dismissHint, { once: true, passive: true });
+  }
+
+  // ── iframe error detection ──
+  const iframe = document.getElementById('pdfIframe');
   const fallback = document.getElementById('pdfFallback');
-  iframe.addEventListener('error', () => {
-    iframe.style.display = 'none';
-    fallback.style.display = 'flex';
-  });
-  // Timeout fallback for browsers that block PDF embed silently
-  setTimeout(() => {
-    try {
-      if (!iframe.contentDocument && !iframe.contentWindow?.document) {
-        iframe.style.display = 'none';
-        fallback.style.display = 'flex';
+  if (iframe && fallback) {
+    iframe.addEventListener('error', () => {
+      iframe.style.display = 'none';
+      fallback.style.display = 'flex';
+      dismissHint();
+    });
+    // Silent failure fallback (some browsers block PDF iframes without firing error)
+    setTimeout(() => {
+      try {
+        if (!iframe.contentDocument && !iframe.contentWindow?.document) {
+          iframe.style.display = 'none';
+          fallback.style.display = 'flex';
+          dismissHint();
+        }
+      } catch (e) {
+        // Cross-origin — PDF is loading fine
       }
-    } catch(e) {
-      // cross-origin — PDF is likely loading fine
-    }
-  }, 4000);
+    }, 4500);
+  }
 </script>
 </body>
 </html>
