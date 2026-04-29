@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Driver Vigilance System — Research Paper | Jishnu EC</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink:       #1a1a1a;
+    --ink-2:     #3d3d3d;
+    --ink-3:     #6b6b6b;
+    --rule:      #d4d4d4;
+    --rule-light:#ebebeb;
+    --bg:        #fafaf8;
+    --bg-warm:   #f5f4f0;
+    --accent:    #1a3a5c;
+    --accent-2:  #c8a96e;
+    --highlight: #eef2f7;
+    --serif:     'Source Serif 4', Georgia, serif;
+    --display:   'Playfair Display', Georgia, serif;
+    --mono:      'JetBrains Mono', 'Courier New', monospace;
+    --max-w:     780px;
+    --nav-h:     56px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  .site-nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: var(--nav-h);
+    background: rgba(250,250,248,.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    z-index: 500;
+  }
+  .nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .04em;
+    color: var(--ink-3);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-back:hover { color: var(--accent); }
+  .nav-back svg { transition: transform .2s; }
+  .nav-back:hover svg { transform: translateX(-2px); }
+  .nav-label {
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .nav-dl {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    font-family: var(--mono);
+    font-size: .7rem;
+    letter-spacing: .04em;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: .32rem .85rem;
+    transition: all .2s;
+  }
+  .nav-dl:hover { background: var(--accent); color: #fff; }
+
+  /* ── PDF VIEWER ── */
+  .pdf-section {
+    margin-top: var(--nav-h);
+    background: #2a2a2a;
+    border-bottom: 3px solid var(--accent);
+  }
+  .pdf-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .75rem 1.5rem;
+    background: #1e1e1e;
+    border-bottom: 1px solid #3a3a3a;
+  }
+  .pdf-header-title {
+    font-family: var(--mono);
+    font-size: .7rem;
+    letter-spacing: .08em;
+    color: #aaa;
+    text-transform: uppercase;
+  }
+  .pdf-header-actions {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+  }
+  .pdf-action-link {
+    font-family: var(--mono);
+    font-size: .66rem;
+    letter-spacing: .05em;
+    color: #888;
+    text-decoration: none;
+    transition: color .2s;
+    padding: .22rem .6rem;
+    border: 1px solid #3a3a3a;
+  }
+  .pdf-action-link:hover { color: #ccc; border-color: #666; }
+  .pdf-embed-wrap {
+    width: 100%;
+    height: 88vh;
+    position: relative;
+    background: #3a3a3a;
+  }
+  .pdf-embed-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .pdf-fallback {
+    display: none;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    background: #2a2a2a;
+    color: #aaa;
+    font-family: var(--mono);
+    font-size: .8rem;
+  }
+  .pdf-fallback a {
+    color: var(--accent-2);
+    font-size: .75rem;
+    text-decoration: underline;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2.5rem var(--max-w) 0;
+    max-width: calc(var(--max-w) + 8rem);
+    margin: 0 auto;
+  }
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-divider span {
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  /* ── PAPER ── */
+  .paper {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 3.5rem 2rem 6rem;
+  }
+
+  /* ── MASTHEAD ── */
+  .paper-type {
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+  }
+  .paper-type::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--accent-2);
+  }
+  .paper-title {
+    font-family: var(--display);
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+    letter-spacing: -.01em;
+  }
+  .paper-subtitle {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-2);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+  .paper-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-warm);
+    border-left: 3px solid var(--accent);
+    margin-bottom: 2.5rem;
+    font-size: .85rem;
+  }
+  .paper-meta-item { display: flex; flex-direction: column; gap: .15rem; }
+  .meta-label {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .meta-value { color: var(--ink); font-weight: 400; font-size: .9rem; }
+
+  /* ── RULE ── */
+  .paper-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 2.5rem 0;
+  }
+
+  /* ── ABSTRACT ── */
+  .abstract-box {
+    padding: 1.5rem 1.75rem;
+    background: var(--highlight);
+    border: 1px solid var(--rule);
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .abstract-label {
+    font-family: var(--mono);
+    font-size: .62rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .75rem;
+    font-weight: 500;
+  }
+  .abstract-text {
+    font-size: .95rem;
+    line-height: 1.85;
+    color: var(--ink-2);
+    font-style: italic;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-number {
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    color: var(--accent-2);
+    display: block;
+    margin-bottom: .25rem;
+    font-weight: 500;
+  }
+  h2 {
+    font-family: var(--display);
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 2.5rem 0 1rem;
+    letter-spacing: -.01em;
+    padding-bottom: .55rem;
+    border-bottom: 1px solid var(--rule-light);
+  }
+  h3 {
+    font-family: var(--display);
+    font-size: 1.12rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 1.8rem 0 .6rem;
+    letter-spacing: -.005em;
+  }
+  h4 {
+    font-family: var(--mono);
+    font-size: .78rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 1.4rem 0 .5rem;
+  }
+
+  /* ── BODY TEXT ── */
+  p {
+    margin-bottom: 1.1rem;
+    color: var(--ink-2);
+    font-size: .97rem;
+  }
+
+  ul, ol {
+    margin: .75rem 0 1.1rem 1.5rem;
+    color: var(--ink-2);
+    font-size: .95rem;
+  }
+  li { margin-bottom: .45rem; line-height: 1.75; }
+  li strong { color: var(--ink); font-weight: 600; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    padding: 1rem 1.4rem;
+    border-left: 3px solid var(--accent);
+    background: var(--highlight);
+    margin: 1.5rem 0;
+    font-size: .92rem;
+    color: var(--ink-2);
+    line-height: 1.75;
+  }
+  .callout strong { color: var(--accent); }
+
+  /* ── TAGS ── */
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    margin: 1rem 0;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .05em;
+    padding: .22rem .7rem;
+    border: 1px solid var(--rule);
+    color: var(--ink-3);
+    background: var(--bg-warm);
+    border-radius: 2px;
+  }
+
+  /* ── MODULE GRID ── */
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.25rem 0;
+  }
+  .module-card {
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--rule);
+    background: #fff;
+  }
+  .module-card-title {
+    font-family: var(--display);
+    font-size: .95rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: .5rem;
+  }
+  .module-card ul { margin: 0; padding-left: 1.1rem; font-size: .84rem; }
+  .module-card li { margin-bottom: .25rem; }
+
+  /* ── SPEC TABLE ── */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+    font-size: .88rem;
+  }
+  .spec-table th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: .6rem 1rem;
+    border-bottom: 2px solid var(--rule);
+    background: var(--bg-warm);
+  }
+  .spec-table td {
+    padding: .7rem 1rem;
+    border-bottom: 1px solid var(--rule-light);
+    color: var(--ink-2);
+    vertical-align: top;
+  }
+  .spec-table td:first-child {
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    font-size: .85rem;
+  }
+  .spec-table tr:last-child td { border-bottom: none; }
+
+  /* ── CONCLUSION CARD ── */
+  .conclusion-card {
+    padding: 2rem;
+    background: var(--accent);
+    color: #e8eef4;
+    margin: 2rem 0;
+  }
+  .conclusion-card p { color: #c8d8e8; font-size: .95rem; margin-bottom: .85rem; }
+  .conclusion-card p:last-child { margin-bottom: 0; }
+  .conclusion-card-title {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+    letter-spacing: -.01em;
+  }
+
+  /* ── FOOTER ── */
+  .paper-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .paper-footer-left {
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .08em;
+    color: var(--ink-3);
+    line-height: 1.7;
+  }
+  .paper-footer-left a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .paper-footer-right {
+    display: flex;
+    gap: .75rem;
+  }
+  .footer-btn {
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .06em;
+    color: var(--ink-3);
+    text-decoration: none;
+    border: 1px solid var(--rule);
+    padding: .32rem .85rem;
+    transition: all .2s;
+  }
+  .footer-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .paper { padding: 2.5rem 1.1rem 5rem; }
+    .pdf-embed-wrap { height: 70vh; }
+    .site-nav { padding: 0 1rem; }
+    .nav-label { display: none; }
+    .paper-meta { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M10 3L5 8l5 5"/>
+    </svg>
+    Back to Portfolio
+  </a>
+  <span class="nav-label">Research Paper</span>
+  <a href="Driver Vigilance.pdf" download="Driver_Vigilance_System.pdf" class="nav-dl">
+    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M8 2v9M4 8l4 4 4-4M2 14h12"/>
+    </svg>
+    Download PDF
+  </a>
+</nav>
+
+<!-- PDF VIEWER -->
+<div class="pdf-section">
+  <div class="pdf-header">
+    <span class="pdf-header-title">Driver Vigilance System — Project Report (PDF)</span>
+    <div class="pdf-header-actions">
+      <a href="Driver Vigilance.pdf" target="_blank" class="pdf-action-link">Open in new tab ↗</a>
+      <a href="Driver Vigilance.pdf" download class="pdf-action-link">Download ↓</a>
+    </div>
+  </div>
+  <div class="pdf-embed-wrap">
+    <iframe
+      src="Driver Vigilance.pdf"
+      title="Driver Vigilance System — Project Report"
+      type="application/pdf">
+    </iframe>
+    <div class="pdf-fallback" id="pdfFallback">
+      <p>Unable to display PDF inline.</p>
+      <a href="Driver Vigilance.pdf" target="_blank">Open PDF directly →</a>
+    </div>
+  </div>
+</div>
+
+<!-- DIVIDER -->
+<div class="section-divider"><span>Detailed Write-Up Below</span></div>
+
+<!-- PAPER BODY -->
+<article class="paper">
+
+  <!-- MASTHEAD -->
+  <div class="paper-type">BCA Group Project &mdash; Calicut University</div>
+  <h1 class="paper-title">Driver Vigilance System</h1>
+  <p class="paper-subtitle">An AI-Powered Real-Time Driver Monitoring Solution for Detecting Drowsiness and Distracted Driving</p>
+
+  <div class="paper-meta">
+    <div class="paper-meta-item">
+      <span class="meta-label">Project Type</span>
+      <span class="meta-value">BCA Group Project</span>
+    </div>
+    <div class="paper-meta-item">
+      <span class="meta-label">Institution</span>
+      <span class="meta-value">Calicut University, Kerala</span>
+    </div>
+    <div class="paper-meta-item">
+      <span class="meta-label">Domain</span>
+      <span class="meta-value">Computer Vision &amp; Road Safety</span>
+    </div>
+    <div class="paper-meta-item">
+      <span class="meta-label">Stack</span>
+      <span class="meta-value">Python, Android, MySQL, Flask</span>
+    </div>
+    <div class="paper-meta-item">
+      <span class="meta-label">GitHub</span>
+      <span class="meta-value"><a href="https://github.com/Jishnuec" target="_blank" style="color:var(--accent)">github.com/Jishnuec</a></span>
+    </div>
+  </div>
+
+  <div class="tag-row">
+    <span class="tag">Machine Learning</span>
+    <span class="tag">Computer Vision</span>
+    <span class="tag">Android</span>
+    <span class="tag">Python / Flask</span>
+    <span class="tag">MySQL</span>
+    <span class="tag">GPS &amp; Real-Time Alerts</span>
+    <span class="tag">Road Safety</span>
+    <span class="tag">Emergency Services</span>
+  </div>
+
+  <hr class="paper-rule"/>
+
+  <!-- ABSTRACT -->
+  <div class="abstract-box">
+    <div class="abstract-label">Abstract</div>
+    <p class="abstract-text">
+      The Driver Vigilance System is a cutting-edge driver monitoring solution designed to detect and prevent distracted driving and drowsiness-related accidents. This system utilizes advanced machine learning algorithms to analyze real-time video of the driver, identifying dangerous behaviors such as phone usage, looking away from the road, or falling asleep. By providing immediate alerts and warnings, it aims to minimize human error and ensure timely assistance. Leveraging AI and computer vision, the system targets a significant reduction in accidents caused by driver inattention — ultimately saving lives and promoting safer road environments.
+    </p>
+  </div>
+
+  <!-- 1. INTRODUCTION -->
+  <span class="section-number">Section 01</span>
+  <h2>Introduction</h2>
+
+  <h3>Problem Statement</h3>
+  <p>
+    Distracted driving and drowsiness are leading causes of road accidents, resulting in significant loss of life and property. Despite growing awareness, the number of accidents attributed to driver inattention and fatigue continues to rise. Traditional preventive measures — driver education programs, legislation, in-car warning lights — have proven insufficient in addressing this critical issue in real time.
+  </p>
+  <p>
+    The absence of continuous, intelligent, real-time monitoring systems means most interventions are <em>reactive</em> rather than preventive. This project aims to address that gap by developing an advanced Driver Vigilance System that monitors drivers continuously and intervenes before an accident occurs.
+  </p>
+
+  <h3>How the System Works</h3>
+  <p>
+    The system integrates computer vision, machine learning, and real-time mobile monitoring. A camera module captures live video of the driver. Advanced ML algorithms then analyze facial expressions, eye movements, head posture, and behavioral patterns to detect signs of drowsiness or distraction. Upon detection, an immediate alert is triggered to refocus the driver's attention on the road.
+  </p>
+
+  <div class="callout">
+    <strong>Core insight:</strong> Most existing systems alert the driver <em>after</em> drifting occurs (e.g., lane departure). This system detects <em>physiological and behavioral cues before any vehicle movement</em> — catching the problem at its source.
+  </div>
+
+  <!-- 2. SYSTEM CAPABILITIES -->
+  <span class="section-number">Section 02</span>
+  <h2>System Capabilities</h2>
+
+  <ul>
+    <li>Real-time drowsiness detection via eye-closure monitoring using the smartphone camera</li>
+    <li>Distraction detection — phone usage, turning around, picking items from rear seat</li>
+    <li>Mobile application with registration, login, partner settings, and location sharing</li>
+    <li>Driving pattern detection using mobile sensors (accelerometer, GPS)</li>
+    <li>Voice assistance and road condition notifications</li>
+    <li>One-tap emergency contact with police, ambulance, and hospital services</li>
+    <li>Partner app for remote monitoring of driver status and phone mode control</li>
+    <li>Synchronization website to bridge driver and partner data flows</li>
+  </ul>
+
+  <h3>Key Advantages</h3>
+  <ul>
+    <li><strong>Early intervention:</strong> Detects drowsiness before physical symptoms escalate into accidents</li>
+    <li><strong>Comprehensive emergency support:</strong> Direct channels to ambulance, hospital, and police</li>
+    <li><strong>Technology integration:</strong> Combines AI, GPS, and mobile sensors in a unified platform</li>
+    <li><strong>Seamless coordination:</strong> Driver, partner, and emergency services share a synchronized data layer</li>
+    <li><strong>User-friendly design:</strong> Minimal training needed; designed for everyday drivers</li>
+  </ul>
+
+  <h3>Limitations</h3>
+  <ul>
+    <li>Requires stable internet connectivity for optimal cloud sync and GPS tracking</li>
+    <li>Camera effectiveness varies with lighting and camera hardware quality</li>
+    <li>Personal data (location, camera feed) requires careful handling per privacy regulations</li>
+    <li>Dependent on user compliance — voluntary adoption limits effectiveness</li>
+  </ul>
+
+  <!-- 3. SYSTEM ANALYSIS -->
+  <span class="section-number">Section 03</span>
+  <h2>System Analysis</h2>
+
+  <h3>Existing Systems &amp; Their Shortcomings</h3>
+  <p>
+    Current solutions include in-car lane departure warnings, collision avoidance systems, and smartphone apps that disable certain features while driving. While useful, these share common weaknesses:
+  </p>
+  <ul>
+    <li>False alarms and missed detections that erode driver trust</li>
+    <li>Reactive design — most alert <em>after</em> the dangerous moment has begun</li>
+    <li>High cost making advanced systems inaccessible to most drivers</li>
+    <li>Dependent on user compliance; easy to bypass or disable</li>
+    <li>Difficulty enforcing legislative measures uniformly</li>
+  </ul>
+
+  <h3>Proposed System — Three-Tier Architecture</h3>
+  <p>The proposed solution is divided into seven interconnected modules:</p>
+
+  <div class="module-grid">
+    <div class="module-card">
+      <div class="module-card-title">Driver App</div>
+      <ul>
+        <li>Registration &amp; Login</li>
+        <li>Partner Settings</li>
+        <li>Location Sharing</li>
+        <li>Eye Closure Detection</li>
+        <li>Distraction Alerts</li>
+        <li>Emergency SOS</li>
+        <li>Road Condition GPS</li>
+      </ul>
+    </div>
+    <div class="module-card">
+      <div class="module-card-title">Partner App</div>
+      <ul>
+        <li>View Driver Status</li>
+        <li>Phone Mode Control</li>
+        <li>Call Blocking Settings</li>
+        <li>View Drive Logs</li>
+        <li>Real-Time Location</li>
+        <li>Messaging</li>
+      </ul>
+    </div>
+    <div class="module-card">
+      <div class="module-card-title">Emergency Apps</div>
+      <ul>
+        <li>Ambulance App</li>
+        <li>Hospital App</li>
+        <li>Police App</li>
+        <li>Driver Location Tracking</li>
+        <li>Emergency Coordination</li>
+      </ul>
+    </div>
+    <div class="module-card">
+      <div class="module-card-title">Sync Website</div>
+      <ul>
+        <li>User Account Management</li>
+        <li>Data Flow Control</li>
+        <li>Feedback &amp; Complaints</li>
+        <li>Emergency Data Sharing</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4. FEASIBILITY -->
+  <span class="section-number">Section 04</span>
+  <h2>Feasibility Study</h2>
+
+  <h4>Technical Feasibility</h4>
+  <p>The system uses proven, widely-available technologies — Python (Flask), MySQL, Android SDK, and standard camera/sensor APIs. All components are free and well-supported by large communities. Cloud storage and GPS tracking enable real-time updates without requiring proprietary infrastructure.</p>
+
+  <h4>Economic Feasibility</h4>
+  <p>Initial costs involve camera hardware and cloud infrastructure. Long-term benefits — reduced accidents, faster emergency responses, and fewer fatalities — substantially outweigh these costs. Potential partnerships with road safety agencies could reduce development overhead further.</p>
+
+  <h4>Legal &amp; Operational Feasibility</h4>
+  <p>The system must comply with data privacy regulations governing GPS tracking and camera footage storage. All emergency service integrations must conform to regional laws. Operationally, voice alerts and automated detection minimize training requirements, making deployment practical at scale.</p>
+
+  <h4>Behavioral Feasibility</h4>
+  <p>Initial resistance to monitoring is expected. However, the life-saving potential combined with an intuitive interface significantly increases acceptance once benefits are experienced. Educational demonstrations can accelerate adoption among target user groups.</p>
+
+  <!-- 5. SYSTEM DESIGN & SPEC -->
+  <span class="section-number">Section 05</span>
+  <h2>System Design &amp; Specification</h2>
+
+  <h3>Hardware Requirements</h3>
+  <table class="spec-table">
+    <thead>
+      <tr><th>Component</th><th>Specification</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Processor</td><td>Intel Core 2 Dual or above</td></tr>
+      <tr><td>Android Version</td><td>7.0 (Nougat) or above</td></tr>
+      <tr><td>RAM</td><td>1 GB minimum</td></tr>
+      <tr><td>Storage</td><td>40 GB hard disk minimum</td></tr>
+      <tr><td>Camera</td><td>Smartphone front camera (720p or above recommended)</td></tr>
+      <tr><td>Display</td><td>VGA color monitor / smartphone display</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Software Requirements</h3>
+  <table class="spec-table">
+    <thead>
+      <tr><th>Layer</th><th>Technology</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Front End</td><td>HTML / CSS, Android (Java)</td></tr>
+      <tr><td>Back End</td><td>Python (Flask framework)</td></tr>
+      <tr><td>Database</td><td>MySQL</td></tr>
+      <tr><td>Operating System</td><td>Windows 7 or above / Android 7+</td></tr>
+      <tr><td>IDE</td><td>PyCharm, Android Studio</td></tr>
+      <tr><td>Version Control</td><td>Git / GitHub</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Data Flow</h3>
+  <p>
+    The system follows a three-tier data flow: the <strong>Driver App</strong> captures and transmits real-time sensor and camera data to the <strong>Flask backend</strong>, which processes it and stores structured records in <strong>MySQL</strong>. Partner and emergency apps receive push notifications and location updates via the same backend. The synchronization website provides an administrative layer over all data flows.
+  </p>
+
+  <!-- 6. TESTING -->
+  <span class="section-number">Section 06</span>
+  <h2>Testing &amp; Implementation</h2>
+
+  <h3>Testing Methodology</h3>
+  <p>The system underwent five levels of structured testing to ensure reliability before deployment:</p>
+  <ul>
+    <li><strong>Unit Testing:</strong> Each module tested individually against design specifications; errors corrected immediately</li>
+    <li><strong>Integration Testing:</strong> Modules tested together to verify data interfaces and communication between components</li>
+    <li><strong>Validation Testing:</strong> Full system tested against the original requirements document; data integrity checks across all database tables</li>
+    <li><strong>Output Testing:</strong> System outputs verified against requirements defined during system analysis</li>
+    <li><strong>User Acceptance Testing:</strong> End-to-end validation with simulated user scenarios to confirm system reliability and usability</li>
+  </ul>
+
+  <h3>Implementation Approach</h3>
+  <p>The system was deployed using a <strong>parallel conversion</strong> strategy — the new system was operated alongside existing manual processes until reliability was confirmed. This minimized risk during the transition period.</p>
+
+  <h3>System Maintenance Plan</h3>
+  <ul>
+    <li><strong>Corrective:</strong> Urgent bug fixes for processing or performance failures post-deployment</li>
+    <li><strong>Adaptive:</strong> Modifications for new Android versions or regulatory changes</li>
+    <li><strong>Perfective:</strong> Enhancements to detection accuracy, UI usability, and alert speed</li>
+    <li><strong>Preventive:</strong> Proactive modernization of outdated methodologies before they become problems</li>
+  </ul>
+
+  <!-- CONCLUSION -->
+  <span class="section-number">Section 07</span>
+  <h2>Conclusion</h2>
+
+  <div class="conclusion-card">
+    <div class="conclusion-card-title">Summary</div>
+    <p>
+      The Driver Vigilance System addresses distracted and drowsy driving — a leading cause of road fatalities — through a comprehensive, AI-driven monitoring platform. By combining real-time computer vision with a coordinated ecosystem of driver, partner, and emergency service applications, it moves beyond reactive safety measures toward genuine prevention.
+    </p>
+    <p>
+      The integration of machine learning, GPS, mobile sensors, and cloud-based synchronization sets a new standard for road safety technology. Early detection, immediate alerts, and seamless emergency coordination collectively reduce the human cost of driver inattention.
+    </p>
+    <p>
+      This project demonstrates the practical application of computer science skills — from AI and mobile development to database design and system integration — toward a real-world problem with measurable impact on human lives.
+    </p>
+  </div>
+
+  <!-- REFERENCES -->
+  <hr class="paper-rule"/>
+  <span class="section-number">References</span>
+  <h2>Bibliography</h2>
+
+  <ul>
+    <li>Vincent, W.S. — <em>Django for Beginners</em></li>
+    <li>Matthes, E. — <em>Python Crash Course</em></li>
+    <li>Vincent, W.S. — <em>Django for APIs: Build Web APIs with Python &amp; Django</em></li>
+    <li>Mednieks, Z. — <em>Programming Android: Java Programming for The New Generation of Mobile Devices</em></li>
+    <li>Shields, W. — <em>SQL QuickStart Guide</em></li>
+    <li><a href="https://stackoverflow.com/questions/tagged/django" target="_blank">stackoverflow.com — Django Q&amp;A</a></li>
+    <li><a href="https://developer.android.com/studio" target="_blank">Android Developers — Android Studio</a></li>
+    <li><a href="https://scikit-learn.org/stable/documentation.html" target="_blank">scikit-learn Documentation</a></li>
+    <li><a href="https://www.django-rest-framework.org/" target="_blank">Django REST Framework</a></li>
+    <li><a href="https://firebase.google.com/docs" target="_blank">Firebase Documentation</a></li>
+  </ul>
+
+  <!-- FOOTER -->
+  <div class="paper-footer">
+    <div class="paper-footer-left">
+      <a href="https://github.com/Jishnuec" target="_blank" style="color:var(--accent)">github.com/Jishnuec</a>
+    </div>
+    <div class="paper-footer-right">
+      <a href="Driver Vigilance.pdf" download class="footer-btn">Download PDF</a>
+    </div>
+  </div>
+
+</article>
+
+<script>
+  // If iframe fails to load PDF, show fallback
+  const iframe = document.querySelector('.pdf-embed-wrap iframe');
+  const fallback = document.getElementById('pdfFallback');
+  iframe.addEventListener('error', () => {
+    iframe.style.display = 'none';
+    fallback.style.display = 'flex';
+  });
+  // Timeout fallback for browsers that block PDF embed silently
+  setTimeout(() => {
+    try {
+      if (!iframe.contentDocument && !iframe.contentWindow?.document) {
+        iframe.style.display = 'none';
+        fallback.style.display = 'flex';
+      }
+    } catch(e) {
+      // cross-origin — PDF is likely loading fine
+    }
+  }, 4000);
+</script>
+</body>
+</html>
