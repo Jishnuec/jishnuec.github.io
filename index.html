@@ -827,6 +827,13 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
       </div>
     </div>
     <div class="res-grid" id="resGrid">
+      <!-- RESEARCH: Basic Pentesting THM -->
+      <div class="rcard rv" data-d="1" onclick="window.location.href='basicpentestingTHM.html'" data-date="2026-06-04">
+        <div class="rbadge rb-w">&#x1F6A9; CTF Writeup</div>
+        <div class="rtitle">Basic Pentesting &mdash; TryHackMe Writeup</div>
+        <div class="rdesc">Full walkthrough of the Basic Pentesting TryHackMe room &mdash; Nmap enumeration, Gobuster, Hydra brute-force, SSH exploitation, and Linux privilege escalation to root.</div>
+        <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
+      </div>
 
       <!-- RESEARCH: Calicut Uni VAR -->
       <div class="rcard rv" data-d="1" onclick="window.open('VAR-University%20of%20calicut.pdf','_blank')" data-date="2025-01-01">
@@ -1004,6 +1011,33 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 
     <div class="rv" data-d="1">
       <div class="fn-feed" id="fnFeed">
+        <!-- NOTE: Basic Pentesting THM -->
+        <div class="fn-post" data-tags="Penetration Testing,CTF" data-date="2026-06-04" data-accent="red">
+          <div class="fn-meta">
+            <div class="fn-badge fn-badge-pentest">Pentest</div>
+            <div class="fn-badge fn-badge-ctf" style="margin-left:.2rem">CTF</div>
+            <div class="fn-date">Jun 04, 2026</div>
+          </div>
+          <div class="fn-card-body">
+            <div class="fn-title">&#x1F513; Basic Pentesting &mdash; TryHackMe</div>
+            <div class="fn-body">Worked through the Basic Pentesting room on TryHackMe &mdash; a beginner-to-intermediate Linux box covering the full kill chain: enumeration, exploitation, and privilege escalation to root.</div>
+            <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src,this.querySelector('img').alt);event.stopPropagation()">
+              <img src="https://jishnuec.github.io/Screenshot%202026-06-04%20121519.png" alt="Basic Pentesting - TryHackMe" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
+            </div>
+            <div class="fn-findings">
+              <div class="fn-finding"><span>Enumeration</span> &mdash; Nmap service scan, Gobuster directory brute-force, SMB enumeration</div>
+              <div class="fn-finding"><span>Exploitation</span> &mdash; Weak SSH credentials discovered via Hydra brute-force &mdash; initial foothold gained</div>
+              <div class="fn-finding"><span>Privilege Escalation</span> &mdash; Linux privesc to root via misconfigured sudo permissions</div>
+              <div class="fn-finding"><span>Key Takeaway</span> &mdash; Thorough enumeration is the foundation of every successful pentest</div>
+            </div>
+            <a href="https://tryhackme.com/room/basicpentestingjt" target="_blank" class="fn-link">View TryHackMe Room</a>
+            <a href="basicpentestingTHM.html" class="fn-link" style="color:var(--g)">Read Full Writeup</a>
+            <div class="fn-tags-row">
+              <span class="fn-tag" onclick="filterByTag('Penetration Testing',null)">Penetration Testing</span>
+              <span class="fn-tag" onclick="filterByTag('CTF',null)">CTF</span>
+            </div>
+          </div>
+        </div>
 
         <!-- NOTE 1 -->
         <div class="fn-post" data-tags="Digital Forensics" data-date="2026-04-09" data-accent="cyan">
@@ -1156,6 +1190,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <button class="pg-btn active" id="fnP1" onclick="goPage('fieldNotes',1,this)">1</button>
           <button class="pg-btn" id="fnP2" onclick="goPage('fieldNotes',2,this)">2</button>
           <button class="pg-btn" id="fnP3" onclick="goPage('fieldNotes',3,this)">3</button>
+          <button class="pg-btn" id="fnP4" onclick="goPage('fieldNotes',4,this)">4</button>
           <button class="pg-btn" id="fnNext" onclick="changePage('fieldNotes',1,this)">Next &#x2192;</button>
         </div>
       </div>
@@ -1382,7 +1417,7 @@ const pageConfig={
     btnPrefix:'labsP',maxPages:3,sectionId:'labs'},
   fieldNotes:{gridId:'fnFeed',selector:'.fn-post',totalId:'fnTotal',showingId:'fnShowing',
     prevId:'fnPrev',nextId:'fnNext',paginationId:'fieldNotesPagination',
-    btnPrefix:'fnP',maxPages:3,sectionId:'timeline'}
+    btnPrefix:'fnP',maxPages:4,sectionId:'timeline'}
 };
 
 function renderPage(key,page,doScroll){
