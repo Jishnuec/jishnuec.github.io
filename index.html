@@ -1012,6 +1012,32 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
     <div class="rv" data-d="1">
       <div class="fn-feed" id="fnFeed">
 
+        <!-- NOTE: AI/ML/DL/LLM Security Threats -->
+        <div class="fn-post" data-tags="Machine Learning" data-date="2026-06-08" data-accent="green">
+          <div class="fn-meta">
+            <div class="fn-badge fn-badge-ml">ML / AI</div>
+            <div class="fn-date">Jun 08, 2026</div>
+          </div>
+          <div class="fn-card-body">
+            <div class="fn-title">&#x1F916; AI, ML, DL &amp; LLM Security Threats &mdash; TryHackMe</div>
+            <div class="fn-body">Covered the fundamentals of how AI, ML, DL, and LLMs work &mdash; and how they intersect with cybersecurity as both dangerous attack vectors and powerful defensive tools.</div>
+            <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src,this.querySelector('img').alt);event.stopPropagation()">
+              <img src="https://jishnuec.github.io/aimlsecuritythreats.png" alt="AI/ML Security Threats - TryHackMe" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
+            </div>
+            <div class="fn-findings">
+              <div class="fn-finding"><span>AI</span> &mdash; The overarching field enabling machines/systems to mimic human behaviour and decision-making</div>
+              <div class="fn-finding"><span>Machine Learning</span> &mdash; A subfield of AI where models are trained on input data to learn patterns and make predictions</div>
+              <div class="fn-finding"><span>Deep Learning</span> &mdash; A subfield of ML using Neural Networks to self-learn and process mass amounts of data without human interaction</div>
+              <div class="fn-finding"><span>LLMs &amp; Cyber Offense</span> &mdash; AI-powered phishing, automated vulnerability discovery, deepfake social engineering</div>
+              <div class="fn-finding"><span>AI in Defense</span> &mdash; Anomaly detection, intelligent SIEM correlation, and ML-driven threat hunting</div>
+            </div>
+            <a href="https://tryhackme.com/room/aimlsecuritythreats" target="_blank" class="fn-link">View TryHackMe Room</a>
+            <div class="fn-tags-row">
+              <span class="fn-tag" onclick="filterByTag('Machine Learning',null)">Machine Learning</span>
+            </div>
+          </div>
+        </div>
+
         <!-- NOTE: D3FEND BTLO -->
         <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2026-06-06" data-accent="cyan">
           <div class="fn-meta">
@@ -1212,7 +1238,8 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <button class="pg-btn" id="fnP2" onclick="goPage('fieldNotes',2,this)">2</button>
           <button class="pg-btn" id="fnP3" onclick="goPage('fieldNotes',3,this)">3</button>
           <button class="pg-btn" id="fnP4" onclick="goPage('fieldNotes',4,this)">4</button>
-          <button class="pg-btn" id="fnNext" onclick="changePage('fieldNotes',1,this)">Next &#x2192;</button>
+          <button class="pg-btn" id="fnP5" onclick="goPage('fieldNotes',5,this)">5</button>
+        <button class="pg-btn" id="fnNext" onclick="changePage('fieldNotes',1,this)">Next &#x2192;</button>
         </div>
       </div>
     </div>
@@ -1438,7 +1465,7 @@ const pageConfig={
     btnPrefix:'labsP',maxPages:3,sectionId:'labs'},
   fieldNotes:{gridId:'fnFeed',selector:'.fn-post',totalId:'fnTotal',showingId:'fnShowing',
     prevId:'fnPrev',nextId:'fnNext',paginationId:'fieldNotesPagination',
-    btnPrefix:'fnP',maxPages:4,sectionId:'timeline'}
+    btnPrefix:'fnP',maxPages:5,sectionId:'timeline'}
 };
 
 function renderPage(key,page,doScroll){
