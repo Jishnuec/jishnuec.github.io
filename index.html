@@ -499,7 +499,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   #lightbox{padding:3.5rem .5rem 1.5rem;flex-direction:column;align-items:center;justify-content:center}
   #lightbox-img{max-width:96vw!important;max-height:76vh!important;width:auto!important;height:auto!important;position:relative;left:auto;right:auto;top:auto;bottom:auto;transform:none;display:block;margin:0 auto}
   #lightbox-close{position:fixed;top:.5rem;right:.5rem;font-size:.56rem;padding:.28rem .6rem}
-  #lightbox-caption{position:fixed;bottom:.5rem;left:50%;transform:translateX(-50%);width:90vw;text-align:center;white-space:normal;font-size:.46rem}
+  #lightbox-caption{position:fixed;bottom:.5rem;left:50%;transform:translateX(-50%);width:90vw;text-align:center;white-space:normal;font-size:.46em}
 }
 </style>
 </head>
@@ -1011,6 +1011,58 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 
     <div class="rv" data-d="1">
       <div class="fn-feed" id="fnFeed">
+
+        <!-- NOTE: Phishing Email Analysis - LetsDefend -->
+        <div class="fn-post" data-tags="Incident Response,Digital Forensics" data-date="2026-06-10" data-accent="amber">
+          <div class="fn-meta">
+            <div class="fn-badge fn-badge-dfir">DFIR</div>
+            <div class="fn-badge fn-badge-ir" style="margin-left:.2rem">IR</div>
+            <div class="fn-date">Jun 10, 2026</div>
+          </div>
+          <div class="fn-card-body">
+            <div class="fn-title">&#x1F4E7; Phishing Email Analysis &mdash; LetsDefend</div>
+            <div class="fn-body">Deep-dived into phishing email analysis &mdash; covering static and dynamic techniques to dissect malicious emails, read and trace headers, analyze suspicious attachments, and identify threat actor infrastructure.</div>
+            <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src,this.querySelector('img').alt);event.stopPropagation()">
+              <img src="https://jishnuec.github.io/Screenshot%202026-06-10%20202938.png" alt="Phishing Email Analysis - LetsDefend" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
+            </div>
+            <div class="fn-findings">
+              <div class="fn-finding"><span>Email Header Analysis</span> &mdash; Tracing Return-Path, Received headers, and X-Originating-IP to detect spoofing and map the full delivery chain</div>
+              <div class="fn-finding"><span>Static Analysis</span> &mdash; Inspecting raw email source, embedded URLs, and attachment hashes without execution</div>
+              <div class="fn-finding"><span>Dynamic Analysis</span> &mdash; Safely detonating phishing links and attachments in sandboxed environments for behavioral observation</div>
+              <div class="fn-finding"><span>Key Takeaway</span> &mdash; Headers never lie &mdash; even the most convincing phish leaves forensic trails in the metadata</div>
+            </div>
+            <a href="https://app.letsdefend.io/training/lessons/phishing-email-analysis" target="_blank" class="fn-link">View LetsDefend Training</a>
+            <div class="fn-tags-row">
+              <span class="fn-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
+              <span class="fn-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTE: Training Impact on Teams - TryHackMe -->
+        <div class="fn-post" data-tags="Incident Response" data-date="2026-06-09" data-accent="purple">
+          <div class="fn-meta">
+            <div class="fn-badge fn-badge-ir">IR</div>
+            <div class="fn-date">Jun 09, 2026</div>
+          </div>
+          <div class="fn-card-body">
+            <div class="fn-title">&#x1F4CA; Training Impact on Teams &mdash; TryHackMe</div>
+            <div class="fn-body">Explored how structured cybersecurity training drives measurable ROI for security teams &mdash; covering skill progression frameworks, detection rate improvements, and how to justify training investment to stakeholders.</div>
+            <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src,this.querySelector('img').alt);event.stopPropagation()">
+              <img src="https://jishnuec.github.io/trainingimpactonteamsbythm.png" alt="Training Impact on Teams - TryHackMe" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
+            </div>
+            <div class="fn-findings">
+              <div class="fn-finding"><span>ROI of Training</span> &mdash; Quantifying the return on security training through reduced incident response time and improved detection accuracy</div>
+              <div class="fn-finding"><span>Skill Gap Analysis</span> &mdash; Identifying team weaknesses and mapping training paths to close coverage gaps in the security posture</div>
+              <div class="fn-finding"><span>Team Performance Metrics</span> &mdash; How training translates directly into faster triage, better threat identification, and lower MTTR</div>
+              <div class="fn-finding"><span>Key Takeaway</span> &mdash; A well-trained SOC team is the most cost-effective security control an organization can invest in</div>
+            </div>
+            <a href="https://tryhackme.com/room/training" target="_blank" class="fn-link">View TryHackMe Room</a>
+            <div class="fn-tags-row">
+              <span class="fn-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
+            </div>
+          </div>
+        </div>
 
         <!-- NOTE: AI/ML/DL/LLM Security Threats -->
         <div class="fn-post" data-tags="Machine Learning" data-date="2026-06-08" data-accent="green">
