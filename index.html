@@ -1012,6 +1012,32 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
     <div class="rv" data-d="1">
       <div class="fn-feed" id="fnFeed">
 
+        <!-- NOTE: Spectrum - Blue Team Labs Online -->
+        <div class="fn-post" data-tags="Digital Forensics,Incident Response" data-date="2026-06-14" data-accent="cyan">
+          <div class="fn-meta">
+            <div class="fn-badge fn-badge-dfir">DFIR</div>
+            <div class="fn-date">Jun 14, 2026</div>
+          </div>
+          <div class="fn-card-body">
+            <div class="fn-title">&#x1F50D; Spectrum Challenge &mdash; Blue Team Labs Online</div>
+            <div class="fn-body">Tackled the Spectrum challenge on BTLO &mdash; a surprisingly realistic forensic investigation combining audio steganography, zip cracking, and hidden data extraction. Audacity, fcrackzip, and steghide made this one a proper toolchain workout.</div>
+            <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src,this.querySelector('img').alt);event.stopPropagation()">
+              <img src="https://jishnuec.github.io/Screenshot%202026-06-14%20142823.png" alt="Spectrum - Blue Team Labs Online" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
+            </div>
+            <div class="fn-findings">
+              <div class="fn-finding"><span>Audacity</span> &mdash; Analyzed audio files for hidden data embedded in spectrograms and waveform anomalies</div>
+              <div class="fn-finding"><span>fcrackzip</span> &mdash; Brute-forced password-protected zip archives to extract concealed evidence</div>
+              <div class="fn-finding"><span>steghide</span> &mdash; Extracted hidden payloads embedded inside image files using steganography techniques</div>
+              <div class="fn-finding"><span>Key Takeaway</span> &mdash; Real investigations rarely use one tool &mdash; the ability to chain techniques is what separates good analysts</div>
+            </div>
+            <a href="https://blueteamlabs.online/home/challenge/spectrum-d6ff2a32b9" target="_blank" class="fn-link">View Challenge</a>
+            <div class="fn-tags-row">
+              <span class="fn-tag" onclick="filterByTag('Digital Forensics',null)">Digital Forensics</span>
+              <span class="fn-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
+            </div>
+          </div>
+        </div>
+
         <!-- NOTE: Phishing Email Analysis - LetsDefend -->
         <div class="fn-post" data-tags="Incident Response,Digital Forensics" data-date="2026-06-10" data-accent="amber">
           <div class="fn-meta">
