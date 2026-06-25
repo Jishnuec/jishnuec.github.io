@@ -1012,6 +1012,32 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
     <div class="rv" data-d="1">
       <div class="fn-feed" id="fnFeed">
 
+        <!-- NOTE: Detection and Analysis - TryHackMe -->
+        <div class="fn-post" data-tags="Incident Response,Splunk" data-date="2026-06-17" data-accent="cyan">
+          <div class="fn-meta">
+            <div class="fn-badge fn-badge-dfir">DFIR</div>
+            <div class="fn-date">Jun 17, 2026</div>
+          </div>
+          <div class="fn-card-body">
+            <div class="fn-title">&#x1F4C8; Detection and Analysis &mdash; TryHackMe</div>
+            <div class="fn-body">Picked up where alert triage leaves off &mdash; this room dives into the Detection and Analysis phase of incident response. Learned to write SPL queries to dig deeper into logs and build a clearer picture of what actually happened after an alert fires.</div>
+            <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src,this.querySelector('img').alt);event.stopPropagation()">
+              <img src="https://jishnuec.github.io/Detectionandanalysis%20thm%20pic.png" alt="Detection and Analysis - TryHackMe" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
+            </div>
+            <div class="fn-findings">
+              <div class="fn-finding"><span>SPL Queries</span> &mdash; Writing Splunk Search Processing Language queries to pivot through logs and surface relevant events</div>
+              <div class="fn-finding"><span>Post-Triage Analysis</span> &mdash; Moving past the initial alert to confirm scope, timeline, and root cause of an incident</div>
+              <div class="fn-finding"><span>Detection Logic</span> &mdash; Understanding how correlation rules turn raw log data into actionable alerts</div>
+              <div class="fn-finding"><span>Key Takeaway</span> &mdash; Triage tells you something happened; detection and analysis tells you exactly what, how, and how far it spread</div>
+            </div>
+            <a href="https://tryhackme.com/room/detectionandanalysis" target="_blank" class="fn-link">View TryHackMe Room</a>
+            <div class="fn-tags-row">
+              <span class="fn-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
+              <span class="fn-tag" onclick="filterByTag('Splunk',null)">Splunk</span>
+            </div>
+          </div>
+        </div>
+
         <!-- NOTE: SOC L1 Alert Triage - TryHackMe -->
         <div class="fn-post" data-tags="Incident Response,Splunk" data-date="2026-06-16" data-accent="green">
           <div class="fn-meta">
