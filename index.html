@@ -221,18 +221,42 @@ option{background:var(--bg3)}
 .sk-tip-name{font-family:var(--orb);font-size:.6rem;letter-spacing:2px;color:var(--g);margin-bottom:.35rem}
 .sk-tip-desc{font-size:.68rem;line-height:1.7;color:var(--text2)}
 
-/* ── EDUCATION ─────────────────────────────────── */
-.egrid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
-.ecard{background:var(--bg2);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:all .3s}
-.ecard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--cyan));opacity:0;transition:opacity .3s}
-.ecard:hover{border-color:rgba(0,255,65,.5);box-shadow:0 0 28px rgba(0,255,65,.06)}.ecard:hover::before{opacity:1}
-.eico{font-family:var(--vt);font-size:2.8rem;color:var(--g);margin-bottom:1rem;opacity:.7}
-.edeg{font-family:var(--orb);font-size:.72rem;letter-spacing:2px;color:var(--g);margin-bottom:.4rem}
-.eschool{font-size:.74rem;color:var(--text);margin-bottom:.3rem}
-.eyear{font-size:.64rem;color:var(--text2);letter-spacing:2px}
-.cert-row{margin-top:1.1rem;display:flex;flex-wrap:wrap;gap:.5rem}
-.cert{display:inline-flex;align-items:center;gap:.45rem;padding:.28rem .8rem;border:1px solid rgba(255,183,50,.28);color:var(--amber);font-size:.64rem;letter-spacing:1.5px;background:rgba(255,183,50,.04)}
-.cert::before{content:'⚡';font-size:.75rem}
+/* ── EDUCATION / CERTIFICATIONS ────────────────── */
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
+.cert-box{position:relative;background:var(--bg2);border:1px solid var(--border2);padding:1.9rem;overflow:hidden;transition:border-color .35s,transform .35s,box-shadow .35s;display:flex;flex-direction:column}
+.cert-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--g),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.cert-box:hover{border-color:rgba(0,255,65,.5);transform:translateY(-5px);box-shadow:0 22px 55px rgba(0,0,0,.45),0 0 30px rgba(0,255,65,.06)}
+.cert-box:hover::before{transform:scaleX(1)}
+.cert-box-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.1rem;gap:.6rem}
+.cert-icon-wrap{position:relative;width:fit-content}
+.cert-icon{width:46px;height:46px;border:1px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.35rem;transition:border-color .3s,transform .3s}
+.cert-box:hover .cert-icon{border-color:var(--g);transform:scale(1.06) rotate(-4deg)}
+.cert-check-badge{position:absolute;bottom:-5px;right:-7px;background:var(--bg2);border-radius:50%;line-height:0}
+.cert-check-badge svg path{stroke-dasharray:14;stroke-dashoffset:14;transition:stroke-dashoffset .6s ease .35s}
+.cert-box:not(.hidden-rv) .cert-check-badge svg path{stroke-dashoffset:0}
+.cert-status-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--orb);font-size:.5rem;letter-spacing:2px;padding:.32rem .68rem;border:1px solid;text-transform:uppercase;flex-shrink:0;white-space:nowrap}
+.cert-status-badge.earned{color:var(--g);border-color:rgba(0,255,65,.45);background:rgba(0,255,65,.06)}
+.cert-status-badge.degree{color:var(--cyan);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
+.cert-status-badge.progress{color:var(--amber);border-color:rgba(255,183,50,.4);background:rgba(255,183,50,.05)}
+.cert-status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor;animation:blink 1.4s step-end infinite;flex-shrink:0}
+.cert-priority-tag{font-size:.54rem;letter-spacing:2px;color:var(--text2);opacity:.55;margin-bottom:.6rem;text-transform:uppercase}
+.cert-name{font-family:var(--orb);font-size:.86rem;letter-spacing:1px;color:var(--text);line-height:1.55;margin-bottom:.35rem}
+.cert-issuer{font-size:.72rem;color:var(--g);letter-spacing:1px;margin-bottom:1rem}
+.cert-date-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem .8rem;background:rgba(0,0,0,.24);border:1px solid var(--border2);margin-bottom:1.05rem}
+.cert-date-label{font-size:.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2)}
+.cert-date-val{font-size:.68rem;color:var(--text);font-weight:600;letter-spacing:.5px}
+.cert-desc{font-size:.76rem;line-height:1.9;color:var(--text2);flex:1;margin-bottom:1.1rem}
+.cert-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.3rem}
+.cert-tag{font-size:.58rem;padding:.2rem .6rem;background:rgba(0,255,65,.04);border:1px solid rgba(0,255,65,.14);color:var(--g);letter-spacing:.5px}
+.cert-view-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.62rem 1rem;border:1px solid var(--border);color:var(--text2);font-family:var(--mono);font-size:.62rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;position:relative;overflow:hidden;transition:color .3s,border-color .3s;margin-top:auto}
+.cert-view-btn::before{content:'';position:absolute;inset:0;background:var(--g);transform:translateX(-101%);transition:transform .32s cubic-bezier(.16,1,.3,1)}
+.cert-view-btn span,.cert-view-btn svg{position:relative;z-index:1;transition:color .3s}
+.cert-view-btn:hover{border-color:var(--g)}
+.cert-view-btn:hover::before{transform:translateX(0)}
+.cert-view-btn:hover span,.cert-view-btn:hover svg{color:var(--bg)}
+.cert-view-btn svg{transition:transform .3s}
+.cert-view-btn:hover svg{transform:translateX(3px)}
+.cert-pending-note{font-size:.6rem;letter-spacing:1px;color:var(--text2);opacity:.5;font-style:italic;margin-top:auto;padding-top:.7rem;border-top:1px dashed var(--border2)}
 
 /* ── PROJECTS ──────────────────────────────────── */
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
@@ -413,6 +437,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
    ══════════════════════════════════════════════════ */
 @media(max-width:1200px){
   .pgrid{grid-template-columns:1fr 1fr}
+  .cert-grid{grid-template-columns:1fr 1fr}
   .hinner{gap:2rem}
   .cs-grid{grid-template-columns:repeat(2,1fr)}
 }
@@ -421,7 +446,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .hright{display:none}
   .agrid{grid-template-columns:1fr}
   .about-right{width:100%;max-width:100%}
-  .egrid{grid-template-columns:1fr 1fr}
+  .cert-grid{grid-template-columns:1fr 1fr}
   .pgrid{grid-template-columns:1fr 1fr}
   .cgrid{grid-template-columns:repeat(2,1fr)}
   .res-grid{grid-template-columns:1fr 1fr}
@@ -440,7 +465,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .cgrid{grid-template-columns:1fr 1fr}
   .cs-grid{grid-template-columns:1fr 1fr}
   .fn-feed{grid-template-columns:1fr}
-  .egrid{grid-template-columns:1fr}
+  .cert-grid{grid-template-columns:1fr}
 }
 @media(max-width:480px){
   html,body{overflow-x:hidden;max-width:100vw}
@@ -479,8 +504,8 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .fn-sort{width:100%}
   .sk-pro-card{padding:1.2rem}
   .pcard{padding:1.2rem}
-  .ecard{padding:1.2rem}
-  .egrid{grid-template-columns:1fr}
+  .cert-box{padding:1.3rem}
+  .cert-grid{grid-template-columns:1fr}
   .cgrid{grid-template-columns:1fr}
   .cs-grid{grid-template-columns:1fr}
   .cs-section-wrap{padding:0 .9rem 4rem;overflow-x:hidden}
@@ -571,6 +596,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
       <div class="htagline"><span id="tw"></span><span class="twc"></span></div>
       <div class="hbtns">
         <a href="#projects" class="btn btn-p"><span>View Projects</span></a>
+        <a href="#education" class="btn btn-p"><span>Education &amp; Certifications</span></a>
         <div class="cv-dropdown-wrap">
           <button class="btn btn-p cv-toggle" onclick="toggleCVDropdown(event)"><span>Download CV &#x25BE;</span></button>
           <div class="cv-dropdown" id="cvDropdown">
@@ -602,7 +628,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <div class="tl"><span class="pr">&#x276F;</span> <span class="ky">cat</span> <span class="vl">profile.conf</span></div>
           <div class="tl"><span class="am">location</span>  <span class="vl">= Kozhikode, Kerala</span></div>
           <div class="tl"><span class="am">degree</span>    <span class="vl">= BCA, Calicut Univ 2025</span></div>
-          <div class="tl"><span class="am">cert</span>      <span class="pu">= CSA [IN PROGRESS]</span></div>
+          <div class="tl"><span class="am">cert</span>      <span style="color:var(--g)">= CSA (EC-Council) [EARNED] &#x2713;</span></div>
           <div class="tl"><span class="am">status</span>    <span class="rd">= OPEN_TO_WORK &#x25CF;</span></div>
           <div class="tl">&nbsp;</div>
           <div class="tl"><span class="pr">&#x276F;</span> <span style="display:inline-block;width:8px;height:.82em;background:var(--g);vertical-align:middle;animation:blink .75s step-end infinite"></span></div>
@@ -643,7 +669,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <div class="ii"><div class="ik">&#x1F464; Name</div><div class="iv">Jishnu EC</div></div>
           <div class="ii"><div class="ik">&#x1F4CD; Location</div><div class="iv">Kozhikode, Kerala</div></div>
           <div class="ii"><div class="ik">&#x1F393; Degree</div><div class="iv">BCA &#x2014; 2025</div></div>
-          <div class="ii"><div class="ik">&#x1F6E1;&#xFE0F; Cert</div><div class="iv" style="color:var(--amber)">CSA In Progress</div></div>
+          <div class="ii"><div class="ik">&#x1F6E1;&#xFE0F; Cert</div><div class="iv" style="color:var(--g)">CSA &#x2713; Earned</div></div>
           <div class="ii"><div class="ik">&#x2709; Email</div><div class="iv"><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial<br>@gmail.com</a></div></div>
           <div class="ii"><div class="ik">&#x2325; GitHub</div><div class="iv"><a href="https://github.com/Jishnuec" target="_blank">github.com/Jishnuec</a></div></div>
         </div>
@@ -706,20 +732,71 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 <section id="education">
   <div class="sw">
     <div class="sh rv"><span class="sn">03</span><span class="st">Education &amp; Certifications</span><div class="sl"></div></div>
-    <div class="egrid">
-      <div class="ecard rv" data-d="1">
-        <div class="eico">&#x1F393;</div>
-        <div class="edeg">Bachelor of Computer Applications</div>
-        <div class="eschool">Calicut University, Kerala</div>
-        <div class="eyear">2022 &#x2014; 2025</div>
+
+    <div class="fn-filter-bar rv" style="margin-bottom:2rem">
+      <div class="fn-chips" id="eduChips">
+        <button class="fn-chip active" onclick="sortEducation('priority',this)">&#x2605; Priority</button>
+        <button class="fn-chip" onclick="sortEducation('newest',this)">Newest First</button>
+        <button class="fn-chip" onclick="sortEducation('oldest',this)">Oldest First</button>
       </div>
-      <div class="ecard rv" data-d="2">
-        <div class="eico">&#x1F6E1;&#xFE0F;</div>
-        <div class="edeg">Certifications</div>
-        <div class="eschool">Currently pursuing CSA by EC-Council</div>
-        <div class="eyear">IN PROGRESS</div>
-        <div class="cert-row"><span class="cert">CSA by EC-Council &#x2014; Certified SOC Analyst</span></div>
+    </div>
+
+    <div class="cert-grid" id="eduGrid">
+
+      <!-- BCA Degree -->
+      <div class="cert-box rv" data-d="1" data-priority="1" data-date="2025-06-01">
+        <div class="cert-box-top">
+          <div class="cert-icon-wrap">
+            <div class="cert-icon">&#x1F393;</div>
+            <div class="cert-check-badge"><svg viewBox="0 0 20 20" width="16" height="16"><circle cx="10" cy="10" r="9" fill="var(--bg2)" stroke="var(--cyan)" stroke-width="1.5"/><path d="M5.5 10.5l3 3 6-6.5" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="cert-status-badge degree"><span class="cert-status-dot"></span>Completed</div>
+        </div>
+        <div class="cert-priority-tag">// Core Credential &mdash; Priority 01</div>
+        <div class="cert-name">Bachelor of Computer Applications</div>
+        <div class="cert-issuer">Calicut University, Kerala</div>
+        <div class="cert-date-row"><span class="cert-date-label">Duration</span><span class="cert-date-val">2022 &#x2014; 2025</span></div>
+        <p class="cert-desc">Undergraduate degree covering programming fundamentals, networking, databases, and systems &#x2014; the foundation everything since has been built on.</p>
+        <div class="cert-tags"><span class="cert-tag">Computer Science</span><span class="cert-tag">Programming</span><span class="cert-tag">Networking</span></div>
+        <div class="cert-pending-note">Foundational degree &#x2014; no single-file certificate to view</div>
       </div>
+
+      <!-- CSA (EC-Council) -->
+      <div class="cert-box rv" data-d="2" data-priority="2" data-date="2026-06-29">
+        <div class="cert-box-top">
+          <div class="cert-icon-wrap">
+            <div class="cert-icon">&#x1F6E1;&#xFE0F;</div>
+            <div class="cert-check-badge"><svg viewBox="0 0 20 20" width="16" height="16"><circle cx="10" cy="10" r="9" fill="var(--bg2)" stroke="var(--g)" stroke-width="1.5"/><path d="M5.5 10.5l3 3 6-6.5" fill="none" stroke="var(--g)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="cert-status-badge earned"><span class="cert-status-dot"></span>Earned</div>
+        </div>
+        <div class="cert-priority-tag">// Core Credential &mdash; Priority 02</div>
+        <div class="cert-name">Certified SOC Analyst (CSA)</div>
+        <div class="cert-issuer">EC-Council</div>
+        <div class="cert-date-row"><span class="cert-date-label">Exam Date</span><span class="cert-date-val">Jun 29, 2026</span></div>
+        <p class="cert-desc">Validates practical Tier I &amp; II SOC skills &#x2014; log management, SIEM operations, incident detection, and threat intelligence in real security operations.</p>
+        <div class="cert-tags"><span class="cert-tag">SOC Operations</span><span class="cert-tag">SIEM</span><span class="cert-tag">Threat Detection</span></div>
+        <a href="CSA-EC-Council-Certificate.pdf" target="_blank" class="cert-view-btn"><span>View Certificate</span><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+
+      <!-- CICSA V3 (RedTeam Hacker Academy) -->
+      <div class="cert-box rv" data-d="3" data-priority="3" data-date="2026-06-30">
+        <div class="cert-box-top">
+          <div class="cert-icon-wrap">
+            <div class="cert-icon">&#x1F5A5;&#xFE0F;</div>
+            <div class="cert-check-badge"><svg viewBox="0 0 20 20" width="16" height="16"><circle cx="10" cy="10" r="9" fill="var(--bg2)" stroke="var(--g)" stroke-width="1.5"/><path d="M5.5 10.5l3 3 6-6.5" fill="none" stroke="var(--g)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="cert-status-badge earned"><span class="cert-status-dot"></span>Earned</div>
+        </div>
+        <div class="cert-priority-tag">// Priority 03</div>
+        <div class="cert-name">CICSA V3 &#x2014; Certified IT Infrastructure &amp; Cyber SOC Analyst</div>
+        <div class="cert-issuer">RedTeam Hacker Academy</div>
+        <div class="cert-date-row"><span class="cert-date-label">Issued</span><span class="cert-date-val">Jun 30, 2026</span></div>
+        <p class="cert-desc">Covers IT infrastructure fundamentals alongside SOC analyst skills &#x2014; system administration, network defense, and cyber operations monitoring.</p>
+        <div class="cert-tags"><span class="cert-tag">IT Infrastructure</span><span class="cert-tag">SOC Analyst</span><span class="cert-tag">Cyber Operations</span></div>
+        <a href="RedTeam-Certified%20IT%20Infrastructure%20and%20Cyber%20SOC%20Analyst-Certificate.pdf" target="_blank" class="cert-view-btn"><span>View Certificate</span><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1696,6 +1773,23 @@ function sortResearch(order,btn){
   cards.sort((a,b)=>{const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';return order==='newest'?db.localeCompare(da):da.localeCompare(db);});
   cards.forEach(c=>grid.appendChild(c));
   renderPage('research',1,true);
+}
+
+/* ── EDUCATION & CERTIFICATIONS SORT ──────────── */
+function sortEducation(mode,btn){
+  document.querySelectorAll('#eduChips .fn-chip').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const grid=document.getElementById('eduGrid');
+  if(!grid)return;
+  const cards=[...grid.querySelectorAll('.cert-box')];
+  cards.sort((a,b)=>{
+    if(mode==='priority'){
+      return (parseInt(a.dataset.priority)||99)-(parseInt(b.dataset.priority)||99);
+    }
+    const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';
+    return mode==='newest'?db.localeCompare(da):da.localeCompare(db);
+  });
+  cards.forEach(c=>grid.appendChild(c));
 }
 
 /* ── FIELD NOTES FILTER & SORT ────────────────── */
