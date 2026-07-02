@@ -6,6 +6,24 @@
 <title>Jishnu EC — Cybersecurity Analyst</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>"/>
 <meta name="description" content="Cybersecurity Analyst &amp; SOC Analyst — Penetration Testing, SIEM, OSINT, Digital Forensics. BCA Graduate, Kozhikode Kerala."/>
+
+<!-- Open Graph / Facebook / LinkedIn -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://jishnuec.github.io/"/>
+<meta property="og:title" content="Jishnu EC — Cybersecurity Analyst"/>
+<meta property="og:description" content="Cybersecurity Analyst &amp; SOC Analyst — Penetration Testing, SIEM, OSINT, Digital Forensics. BCA Graduate, Kozhikode Kerala."/>
+<meta property="og:image" content="https://jishnuec.github.io/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:site_name" content="Jishnu EC"/>
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:url" content="https://jishnuec.github.io/"/>
+<meta name="twitter:title" content="Jishnu EC — Cybersecurity Analyst"/>
+<meta name="twitter:description" content="Cybersecurity Analyst &amp; SOC Analyst — Penetration Testing, SIEM, OSINT, Digital Forensics. BCA Graduate, Kozhikode Kerala."/>
+<meta name="twitter:image" content="https://jishnuec.github.io/og-image.png"/>
+
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet"/>
 <script>
 (function(){
@@ -222,14 +240,15 @@ option{background:var(--bg3)}
 .sk-tip-desc{font-size:.68rem;line-height:1.7;color:var(--text2)}
 
 /* ── EDUCATION / CERTIFICATIONS ────────────────── */
-.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
+.cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem}
 .cert-box{position:relative;background:var(--bg2);border:1px solid var(--border2);padding:1.9rem;overflow:hidden;transition:border-color .35s,transform .35s,box-shadow .35s;display:flex;flex-direction:column}
 .cert-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--g),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
 .cert-box:hover{border-color:rgba(0,255,65,.5);transform:translateY(-5px);box-shadow:0 22px 55px rgba(0,0,0,.45),0 0 30px rgba(0,255,65,.06)}
 .cert-box:hover::before{transform:scaleX(1)}
 .cert-box-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.1rem;gap:.6rem}
 .cert-icon-wrap{position:relative;width:fit-content}
-.cert-icon{width:46px;height:46px;border:1px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.35rem;transition:border-color .3s,transform .3s}
+.cert-icon{width:46px;height:46px;border:1px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.35rem;transition:border-color .3s,transform .3s;overflow:hidden}
+.cert-icon-img img{width:100%;height:100%;object-fit:contain;padding:3px}
 .cert-box:hover .cert-icon{border-color:var(--g);transform:scale(1.06) rotate(-4deg)}
 .cert-check-badge{position:absolute;bottom:-5px;right:-7px;background:var(--bg2);border-radius:50%;line-height:0}
 .cert-check-badge svg path{stroke-dasharray:14;stroke-dashoffset:14;transition:stroke-dashoffset .6s ease .35s}
@@ -437,7 +456,6 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
    ══════════════════════════════════════════════════ */
 @media(max-width:1200px){
   .pgrid{grid-template-columns:1fr 1fr}
-  .cert-grid{grid-template-columns:1fr 1fr}
   .hinner{gap:2rem}
   .cs-grid{grid-template-columns:repeat(2,1fr)}
 }
@@ -446,7 +464,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .hright{display:none}
   .agrid{grid-template-columns:1fr}
   .about-right{width:100%;max-width:100%}
-  .cert-grid{grid-template-columns:1fr 1fr}
+  .cert-grid{grid-template-columns:1fr}
   .pgrid{grid-template-columns:1fr 1fr}
   .cgrid{grid-template-columns:repeat(2,1fr)}
   .res-grid{grid-template-columns:1fr 1fr}
@@ -601,7 +619,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <button class="btn btn-p cv-toggle" onclick="toggleCVDropdown(event)"><span>Download CV &#x25BE;</span></button>
           <div class="cv-dropdown" id="cvDropdown">
             <a href="jishnuec_cybersecurity_analyst_resume.html" target="_blank" class="cv-opt">&#x1F441;&#xFE0F;&nbsp;&nbsp;View HTML</a>
-            <a href="jishnuec_cybersecurity_analyst_resume.pdf" download="jishnuec_cybersecurity_analyst_resume.pdf" class="cv-opt">&#x2193;&nbsp;&nbsp;Download PDF</a>
+            <a href="jishnuec_cybersecurity_analyst_resume.pdf.pdf" download="jishnuec_cybersecurity_analyst_resume.pdf" class="cv-opt">&#x2193;&nbsp;&nbsp;Download PDF</a>
           </div>
         </div>
         <a href="#research" class="btn btn-p"><span>Research &amp; Papers</span></a>
@@ -628,7 +646,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <div class="tl"><span class="pr">&#x276F;</span> <span class="ky">cat</span> <span class="vl">profile.conf</span></div>
           <div class="tl"><span class="am">location</span>  <span class="vl">= Kozhikode, Kerala</span></div>
           <div class="tl"><span class="am">degree</span>    <span class="vl">= BCA, Calicut Univ 2025</span></div>
-          <div class="tl"><span class="am">cert</span>      <span style="color:var(--g)">= CSA (EC-Council) [EARNED] &#x2713;</span></div>
+          <div class="tl"><span class="am">cert</span>      <span style="color:var(--g)">= CSA (EC-Council)</span></div>
           <div class="tl"><span class="am">status</span>    <span class="rd">= OPEN_TO_WORK &#x25CF;</span></div>
           <div class="tl">&nbsp;</div>
           <div class="tl"><span class="pr">&#x276F;</span> <span style="display:inline-block;width:8px;height:.82em;background:var(--g);vertical-align:middle;animation:blink .75s step-end infinite"></span></div>
@@ -669,7 +687,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <div class="ii"><div class="ik">&#x1F464; Name</div><div class="iv">Jishnu EC</div></div>
           <div class="ii"><div class="ik">&#x1F4CD; Location</div><div class="iv">Kozhikode, Kerala</div></div>
           <div class="ii"><div class="ik">&#x1F393; Degree</div><div class="iv">BCA &#x2014; 2025</div></div>
-          <div class="ii"><div class="ik">&#x1F6E1;&#xFE0F; Cert</div><div class="iv" style="color:var(--g)">CSA &#x2713; Earned</div></div>
+          <div class="ii"><div class="ik">&#x1F6E1;&#xFE0F; Cert</div><div class="iv" style="color:var(--g)">CSA</div></div>
           <div class="ii"><div class="ik">&#x2709; Email</div><div class="iv"><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial<br>@gmail.com</a></div></div>
           <div class="ii"><div class="ik">&#x2325; GitHub</div><div class="iv"><a href="https://github.com/Jishnuec" target="_blank">github.com/Jishnuec</a></div></div>
         </div>
@@ -765,7 +783,9 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
       <div class="cert-box rv" data-d="2" data-priority="2" data-date="2026-06-29">
         <div class="cert-box-top">
           <div class="cert-icon-wrap">
-            <div class="cert-icon">&#x1F6E1;&#xFE0F;</div>
+            <div class="cert-icon cert-icon-img">
+              <img src="ECC-CSA-07FE19KHD2E3.png" alt="EC-Council CSA Badge" onerror="this.parentElement.innerHTML='&#x1F6E1;&#xFE0F;'"/>
+            </div>
             <div class="cert-check-badge"><svg viewBox="0 0 20 20" width="16" height="16"><circle cx="10" cy="10" r="9" fill="var(--bg2)" stroke="var(--g)" stroke-width="1.5"/><path d="M5.5 10.5l3 3 6-6.5" fill="none" stroke="var(--g)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </div>
           <div class="cert-status-badge earned"><span class="cert-status-dot"></span>Earned</div>
@@ -773,10 +793,10 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         <div class="cert-priority-tag">// Core Credential &mdash; Priority 02</div>
         <div class="cert-name">Certified SOC Analyst (CSA)</div>
         <div class="cert-issuer">EC-Council</div>
-        <div class="cert-date-row"><span class="cert-date-label">Exam Date</span><span class="cert-date-val">Jun 29, 2026</span></div>
+        <div class="cert-date-row"><span class="cert-date-label">Issued</span><span class="cert-date-val">Jun 29, 2026</span></div>
         <p class="cert-desc">Validates practical Tier I &amp; II SOC skills &#x2014; log management, SIEM operations, incident detection, and threat intelligence in real security operations.</p>
         <div class="cert-tags"><span class="cert-tag">SOC Operations</span><span class="cert-tag">SIEM</span><span class="cert-tag">Threat Detection</span></div>
-        <a href="CSA-EC-Council-Certificate.pdf" target="_blank" class="cert-view-btn"><span>View Certificate</span><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="ECC-CSA-Certificate.pdf" target="_blank" class="cert-view-btn"><span>View Certificate</span><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
 
       <!-- CICSA V3 (RedTeam Hacker Academy) -->
@@ -795,6 +815,23 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         <p class="cert-desc">Covers IT infrastructure fundamentals alongside SOC analyst skills &#x2014; system administration, network defense, and cyber operations monitoring.</p>
         <div class="cert-tags"><span class="cert-tag">IT Infrastructure</span><span class="cert-tag">SOC Analyst</span><span class="cert-tag">Cyber Operations</span></div>
         <a href="RedTeam-Certified%20IT%20Infrastructure%20and%20Cyber%20SOC%20Analyst-Certificate.pdf" target="_blank" class="cert-view-btn"><span>View Certificate</span><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+
+      <!-- Certified in Cybersecurity (CC) by ISC2 -->
+      <div class="cert-box rv" data-d="1" data-priority="4" data-date="2099-01-01">
+        <div class="cert-box-top">
+          <div class="cert-icon-wrap">
+            <div class="cert-icon">&#x1F512;</div>
+          </div>
+          <div class="cert-status-badge progress"><span class="cert-status-dot"></span>In Progress</div>
+        </div>
+        <div class="cert-priority-tag">// Priority 04</div>
+        <div class="cert-name">Certified in Cybersecurity (CC)</div>
+        <div class="cert-issuer">ISC2</div>
+        <div class="cert-date-row"><span class="cert-date-label">Status</span><span class="cert-date-val">In Progress</span></div>
+        <p class="cert-desc">Entry-level credential covering the core domains of cybersecurity &#x2014; security principles, incident response, access control, network security, and security operations.</p>
+        <div class="cert-tags"><span class="cert-tag">Security Principles</span><span class="cert-tag">Incident Response</span><span class="cert-tag">Network Security</span></div>
+        <div class="cert-pending-note">In progress &#x2014; certificate will be added once earned</div>
       </div>
 
     </div>
@@ -1471,7 +1508,6 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <button class="pg-btn" id="fnP2" onclick="goPage('fieldNotes',2,this)">2</button>
           <button class="pg-btn" id="fnP3" onclick="goPage('fieldNotes',3,this)">3</button>
           <button class="pg-btn" id="fnP4" onclick="goPage('fieldNotes',4,this)">4</button>
-          <button class="pg-btn" id="fnP5" onclick="goPage('fieldNotes',5,this)">5</button>
         <button class="pg-btn" id="fnNext" onclick="changePage('fieldNotes',1,this)">Next &#x2192;</button>
         </div>
       </div>
@@ -1561,7 +1597,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         </div>
         <div class="cv-contact-btns">
           <a href="jishnuec_cybersecurity_analyst_resume.html" target="_blank" class="cv-fmt-btn">&#x1F441;&#xFE0F; View HTML</a>
-          <a href="jishnuec_cybersecurity_analyst_resume.pdf" download="jishnuec_cybersecurity_analyst_resume.pdf" class="cv-fmt-btn">&#x2193; Download PDF</a>
+          <a href="jishnuec_cybersecurity_analyst_resume.pdf.pdf" download="jishnuec_cybersecurity_analyst_resume.pdf" class="cv-fmt-btn">&#x2193; Download PDF</a>
         </div>
       </div>
     </div>
@@ -1685,7 +1721,7 @@ function scrollToSection(sectionId){
 
 /* ── PAGINATION ENGINE ────────────────────────── */
 const pageState={projects:1,research:1,labs:1,fieldNotes:1};
-const pageSize={projects:3,research:3,labs:3,fieldNotes:2};
+const pageSize={projects:3,research:3,labs:3,fieldNotes:4};
 const pageConfig={
   projects:{gridId:'pgrid',selector:'.pcard',totalId:'projectsTotal',showingId:'projectsShowing',
     prevId:'projectsPrev',nextId:'projectsNext',paginationId:'projectsPagination',
@@ -1698,7 +1734,7 @@ const pageConfig={
     btnPrefix:'labsP',maxPages:3,sectionId:'labs'},
   fieldNotes:{gridId:'fnFeed',selector:'.fn-post',totalId:'fnTotal',showingId:'fnShowing',
     prevId:'fnPrev',nextId:'fnNext',paginationId:'fieldNotesPagination',
-    btnPrefix:'fnP',maxPages:5,sectionId:'timeline'}
+    btnPrefix:'fnP',maxPages:4,sectionId:'timeline'}
 };
 
 function renderPage(key,page,doScroll){
