@@ -51,6 +51,9 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
   /* attacks table: allow horizontal scroll */
   .attacks-tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .attacks-tbl { min-width: 520px; }
+
+  /* credential cards: full-width single column on phones */
+  .cred-card { min-width: 100%; }
 }
 
 /* ── SECTION ── */
@@ -72,6 +75,9 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
 .cert-name { font-weight: 700; font-size: 10.5pt; }
 .cert-meta { font-style: italic; font-size: 10.5pt; }
 .cert-sub { font-size: 9.5pt; color: #333; margin-top: 2px; }
+.cred-cards { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
+.cred-card { flex: 1; min-width: 220px; border: 1.5px solid #000; padding: 8px 12px; }
+.cred-tag { font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #555; margin-bottom: 3px; }
 
 /* ── BULLETS ── */
 .bullets { padding-left: 16px; margin-top: 4px; }
@@ -137,11 +143,13 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
 
   <!-- Desktop contact bar -->
   <div class="contact-desktop">
-    <span>Kozhikode, Kerala</span>
+    <span>Calicut, Kerala</span>
     <span class="sep">|</span>
     <span><a href="tel:+917510572360">+91 75105 72360</a></span>
     <span class="sep">|</span>
     <span><a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a></span>
+    <span class="sep">|</span>
+    <span><a href="https://jishnuec.github.io/" target="_blank">jishnuec.github.io</a></span>
     <span class="sep">|</span>
     <span><a href="https://linkedin.com/in/jishnuec">linkedin.com/in/jishnuec</a></span>
     <span class="sep">|</span>
@@ -150,9 +158,10 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
 
   <!-- Mobile contact (hidden on desktop) -->
   <div class="contact-mobile">
-    <span>Kozhikode, Kerala</span>
+    <span>Calicut, Kerala</span>
     <a href="tel:+917510572360">+91 75105 72360</a>
     <a href="mailto:jishnuwhoopofficial@gmail.com">jishnuwhoopofficial@gmail.com</a>
+    <a href="https://jishnuec.github.io/" target="_blank">jishnuec.github.io</a>
     <a href="https://linkedin.com/in/jishnuec">linkedin.com/in/jishnuec</a>
     <a href="https://github.com/Jishnuec">github.com/Jishnuec</a>
   </div>
@@ -173,13 +182,13 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
   <div class="section">
     <div class="section-title">Professional Summary</div>
     <p class="summary">
-      Offensive security practitioner and BCA graduate with demonstrated capability across the full red team kill chain — active reconnaissance, vulnerability exploitation, post-exploitation, lateral movement, and persistence — paired with blue team proficiency in SIEM-driven threat detection, log forensics, and structured incident response. Holder of the <strong>EC-Council Certified SOC Analyst (CSA)</strong> credential. Executed an independent VAPT engagement against Calicut University's web infrastructure, identifying injection vectors, broken authentication controls, and server-side misconfigurations, delivering findings in a professional client-ready report. Engineered and shipped production-grade security tooling in Python and Go: a modular reconnaissance framework, a full-featured OSINT suite with automated multi-format reporting, and a publicly distributed CTF machine simulating realistic Linux privilege escalation chains. Proficient in <strong>static and dynamic reverse engineering</strong> — PE binary analysis, disassembly with Ghidra, behavioral IOC extraction, and YARA rule authoring. Equally at home writing an exploit, dissecting a malicious binary, or building detection logic in Splunk to catch it. Targeting a <strong>VAPT or SOC Analyst</strong> position where technical depth drives real security outcomes.
+      Offensive security practitioner (BCA graduate) with hands-on experience across the full attack lifecycle — reconnaissance, exploitation, and post-exploitation — and blue team proficiency in SIEM-driven detection and incident response. EC-Council CSA certified. Led an independent VAPT engagement on Calicut University's web infrastructure, uncovering injection and authentication flaws with a client-ready report. Builds security tooling in Python/Go, including a recon framework and OSINT suite, alongside reverse engineering work in Ghidra and YARA.
     </p>
   </div>
 
   <!-- EXPERIENCE -->
   <div class="section">
-    <div class="section-title">Experience</div>
+    <div class="section-title">Work Experience</div>
     <div class="exp-item">
       <div class="exp-header">
         <div>
@@ -189,10 +198,9 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
         <div class="exp-date">2023 – Present</div>
       </div>
       <ul class="bullets">
-        <li>Conducted a formal web VAPT engagement against Calicut University's public-facing infrastructure — identified critical injection flaws, broken authentication controls, and misconfigured server headers; delivered a severity-rated remediation report modeled on industry-standard OWASP methodology.</li>
-        <li>Engineered and open-sourced three security tools (InstaGrep, ReconFrame, Udyama CTF machine) adopted by the wider cybersecurity community — demonstrating the ability to scope, build, and ship professional deliverables independently.</li>
-        <li>Maintained active research across <strong>TryHackMe, HackTheBox, PicoCTF, Blue Team Labs Online, and PentesterLab</strong> — completing 100+ rooms and challenges spanning web exploitation (SQLi, XSS, SSRF, file inclusion, IDOR), Linux &amp; Windows privilege escalation, Active Directory attacks (Kerberoasting, AS-REP Roasting, Pass-the-Hash, BloodHound enumeration), network forensics, packet analysis, OSINT, reverse engineering, binary exploitation, cryptography, steganography, and structured incident response scenarios — consistently applying real-world offensive and defensive methodologies in graded, scenario-based environments.</li>
-        <li>Designed and executed multi-phase attack simulations in self-built home labs (Red Team / Blue Team DVWA lab, Active Directory red team lab, malware analysis sandbox) — documenting findings as structured technical reports to reinforce professional methodology.</li>
+        <li>Conducted an independent web VAPT engagement on Calicut University's public infrastructure using OWASP methodology; identified injection flaws, broken authentication, and server misconfigurations; delivered a severity-rated remediation report.</li>
+        <li>Built and open-sourced three security tools — InstaGrep (OSINT suite), ReconFrame (reconnaissance framework), and Udyama (CTF machine simulating Linux privilege escalation).</li>
+        <li>Ran multi-phase attack simulations in self-built home labs (AD red team lab, malware analysis sandbox), documenting findings in structured technical reports.</li>
       </ul>
     </div>
   </div>
@@ -201,39 +209,18 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
   <div class="section">
     <div class="section-title">Certifications</div>
 
-    <!-- Primary certs: CSA + ISC2 CC -->
-    <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:10px;">
-      <div style="flex:1; min-width:220px; border:1.5px solid #000; padding:8px 12px;">
-        <div style="font-size:8pt; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#555; margin-bottom:3px;">★ Primary Credential</div>
+    <!-- Primary certs: CSA + RedTeam Hacker Academy -->
+    <div class="cred-cards">
+      <div class="cred-card">
+        <div class="cred-tag">★ Primary Credential</div>
         <div class="cert-name">Certified SOC Analyst (CSA)</div>
-        <div class="cert-meta">EC-Council &nbsp;·&nbsp; 2026</div>
+        <div class="cert-meta">EC-Council &nbsp;·&nbsp; 2025 – 2026</div>
         <div class="cert-sub">SIEM deployment, log analysis &amp; correlation, incident detection, threat intelligence, SOC workflows</div>
       </div>
-      <div style="flex:1; min-width:220px; border:1.5px solid #000; padding:8px 12px;">
-        <div style="font-size:8pt; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#555; margin-bottom:3px;">★ Primary Credential</div>
-        <div class="cert-name">Certified in Cybersecurity (CC)</div>
-        <div class="cert-meta">ISC² &nbsp;·&nbsp; 2026</div>
-        <div class="cert-sub">Security principles, network &amp; endpoint security, incident response, access control, cryptography</div>
-      </div>
-    </div>
-
-    <!-- Professional Development 2026 -->
-    <div style="margin-bottom:4px; font-size:8.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#555; border-bottom:0.8px solid #ccc; padding-bottom:2px; margin-top:4px;">Professional Development &nbsp;·&nbsp; 2026</div>
-    <div style="display:flex; flex-direction:column; gap:3px; margin-top:5px;">
-      <div class="cert-item">
-        <span class="cert-name">Network Basics</span>
-        <span class="cert-meta"> &nbsp;|&nbsp; Cybrary &nbsp;|&nbsp; 2026</span>
-        <div class="cert-sub">TCP/IP stack, subnetting, routing protocols, network security fundamentals</div>
-      </div>
-      <div class="cert-item">
-        <span class="cert-name">Networking Basics</span>
-        <span class="cert-meta"> &nbsp;|&nbsp; Cisco Networking Academy &nbsp;|&nbsp; 2026</span>
-        <div class="cert-sub">Network devices, IP addressing, LAN/WAN concepts, basic troubleshooting</div>
-      </div>
-      <div class="cert-item">
-        <span class="cert-name">Deep Reinforcement Learning Course</span>
-        <span class="cert-meta"> &nbsp;|&nbsp; Hugging Face &nbsp;|&nbsp; 2026</span>
-        <div class="cert-sub">RL fundamentals, policy gradients, DQN, actor-critic methods — broadening AI/ML foundational knowledge</div>
+      <div class="cred-card">
+        <div class="cred-tag">★ Primary Credential</div>
+        <div class="cert-name">Certified IT Infrastructure &amp; Cyber SOC Analyst</div>
+        <div class="cert-meta">RedTeam Hacker Academy, Calicut &nbsp;·&nbsp; 2025 – 2026</div>
       </div>
     </div>
 
@@ -288,7 +275,7 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
         <span class="skill-value">
           <a href="https://tryhackme.com/p/whoopx" target="_blank">TryHackMe @whoopx</a> &nbsp;·&nbsp;
           <a href="https://app.hackthebox.com/public/users/2902723" target="_blank">HackTheBox #2902723</a> &nbsp;·&nbsp;
-          <a href="https://play.picoctf.org/users/jishnuec" target="_blank">PicoCTF @jishnuec</a> &nbsp;·&nbsp;
+          <a href="https://learn.cylabacademy.org/" target="_blank">CyLab Security Academy @jishnuec</a> &nbsp;·&nbsp;
           <a href="https://blueteamlabs.online/public/user/6538c5ab2cf278e3842d79" target="_blank">Blue Team Labs Online</a> &nbsp;·&nbsp;
           <a href="https://pentesterlab.com/profile/whoop" target="_blank">PentesterLab @whoop</a>
         </span>
@@ -298,15 +285,15 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
 
   <!-- PROJECTS -->
   <div class="section">
-    <div class="section-title">Projects &amp; Key Achievements</div>
+    <div class="section-title">Projects &amp; CTFs</div>
 
     <div class="project-item">
-      <div class="project-name">Calicut University — Vulnerability Assessment Report</div>
-      <div class="project-tags">Web Security, VAPT, Professional Report &nbsp;·&nbsp; 2025</div>
+      <div class="project-name">ReconFrame — Advanced Reconnaissance Framework</div>
+      <div class="project-tags">Penetration Testing, Python, Tool Development &nbsp;·&nbsp; <a href="https://github.com/Jishnuec/reconframe" class="project-link">github.com/Jishnuec/reconframe</a></div>
       <ul class="bullets">
-        <li><strong>Situation:</strong> Calicut University's web platform had no prior formal security assessment, leaving unknown attack surfaces exposed to potential threat actors.</li>
-        <li><strong>Action:</strong> Conducted a structured web vulnerability assessment — mapped 15+ endpoints, tested for injection flaws, authentication weaknesses, and server misconfigurations following OWASP Top 10 methodology.</li>
-        <li><strong>Result:</strong> Identified and documented multiple severity-rated vulnerabilities; delivered a professional remediation report treating the engagement as a real-world client deliverable — demonstrating both technical depth and communication skills.</li>
+        <li><strong>Situation:</strong> Penetration test reconnaissance required manually invoking 12+ separate tools with no unified workflow or consistent output formatting.</li>
+        <li><strong>Action:</strong> Built a Python terminal framework integrating Nmap, Whois, DNS enumeration, and 9+ other tools — with intelligent IP/domain auto-detection and clean ANSI-formatted output.</li>
+        <li><strong>Result:</strong> Consolidated full attack-surface reconnaissance into a single command — eliminating manual tool-switching and standardising output for professional reporting; reduced recon phase setup time significantly.</li>
       </ul>
     </div>
 
@@ -321,12 +308,12 @@ body { background: #c8c8c8; padding: 1rem; min-height: 100vh; font-family: 'Sour
     </div>
 
     <div class="project-item">
-      <div class="project-name">ReconFrame — Advanced Reconnaissance Framework</div>
-      <div class="project-tags">Penetration Testing, Python, Tool Development &nbsp;·&nbsp; <a href="https://github.com/Jishnuec/reconframe" class="project-link">github.com/Jishnuec/reconframe</a></div>
+      <div class="project-name">Calicut University — Vulnerability Assessment Report</div>
+      <div class="project-tags">Web Security, VAPT, Professional Report &nbsp;·&nbsp; <a href="https://jishnuec.github.io/VAR-University%20of%20calicut.pdf" class="project-link">(anonymous)</a></div>
       <ul class="bullets">
-        <li><strong>Situation:</strong> Penetration test reconnaissance required manually invoking 12+ separate tools with no unified workflow or consistent output formatting.</li>
-        <li><strong>Action:</strong> Built a Python terminal framework integrating Nmap, Whois, DNS enumeration, and 9+ other tools — with intelligent IP/domain auto-detection and clean ANSI-formatted output.</li>
-        <li><strong>Result:</strong> Consolidated full attack-surface reconnaissance into a single command — eliminating manual tool-switching and standardising output for professional reporting; reduced recon phase setup time significantly.</li>
+        <li><strong>Situation:</strong> Calicut University's web platform had no prior formal security assessment, leaving unknown attack surfaces exposed to potential threat actors.</li>
+        <li><strong>Action:</strong> Conducted a structured web vulnerability assessment — mapped 15+ endpoints, tested for injection flaws, authentication weaknesses, and server misconfigurations following OWASP Top 10 methodology.</li>
+        <li><strong>Result:</strong> Identified and documented multiple severity-rated vulnerabilities; delivered a professional remediation report treating the engagement as a real-world client deliverable — demonstrating both technical depth and communication skills.</li>
       </ul>
     </div>
 
