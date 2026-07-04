@@ -255,9 +255,6 @@ option{background:var(--bg3)}
 .cert-icon-wrap{position:relative;width:fit-content}
 .cert-icon{width:46px;height:46px;border:1px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.35rem;transition:border-color .3s,transform .3s;overflow:hidden}
 .cert-icon-img img{width:100%;height:100%;object-fit:contain;padding:3px}
-.cert-icon-clickable{cursor:pointer;transition:border-color .3s,transform .3s}
-.cert-icon-clickable:hover{border-color:var(--amber)!important;transform:scale(1.1)!important;box-shadow:0 0 16px rgba(255,215,0,.35)}
-.cert-icon-clickable:active{transform:scale(.94)!important}
 .popper-piece{position:fixed;top:0;left:0;pointer-events:none;z-index:9998;border-radius:1px;will-change:transform,opacity}
 .cert-box:hover .cert-icon{border-color:var(--g);transform:scale(1.06) rotate(-4deg)}
 .cert-check-badge{position:absolute;bottom:-5px;right:-7px;background:var(--bg2);border-radius:50%;line-height:0}
@@ -799,7 +796,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
       <div class="cert-box rv" data-d="2" data-priority="2" data-date="2026-06-29">
         <div class="cert-box-top">
           <div class="cert-icon-wrap">
-            <div class="cert-icon cert-icon-img cert-icon-clickable" onclick="celebrateBadge(event)" title="Click me!">
+            <div class="cert-icon cert-icon-img">
               <img src="ECC-CSA-07FE19KHD2E3.png" alt="EC-Council CSA Badge" onerror="this.parentElement.innerHTML='&#x1F6E1;&#xFE0F;'"/>
             </div>
             <div class="cert-check-badge"><svg viewBox="0 0 20 20" width="16" height="16"><circle cx="10" cy="10" r="9" fill="var(--bg2)" stroke="var(--g)" stroke-width="1.5"/><path d="M5.5 10.5l3 3 6-6.5" fill="none" stroke="var(--g)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -812,7 +809,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         <div class="cert-date-row"><span class="cert-date-label">Issued</span><span class="cert-date-val">Jun 29, 2026</span></div>
         <p class="cert-desc">Validates practical Tier I &amp; II SOC skills &#x2014; log management, SIEM operations, incident detection, and threat intelligence in real security operations.</p>
         <div class="cert-tags"><span class="cert-tag">SOC Operations</span><span class="cert-tag">SIEM</span><span class="cert-tag">Threat Detection</span></div>
-        <a href="ECC-CSA-Certificate.pdf" target="_blank" class="cert-view-btn"><span>View Certificate</span><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="ECC-CSA-Certificate.pdf" target="_blank" class="cert-view-btn" onclick="celebrateBadge(event)"><span>View Certificate</span><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
 
       <!-- CICSA V3 (RedTeam Hacker Academy) -->
@@ -830,7 +827,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         <div class="cert-date-row"><span class="cert-date-label">Issued</span><span class="cert-date-val">Jun 30, 2026</span></div>
         <p class="cert-desc">Covers IT infrastructure fundamentals alongside SOC analyst skills &#x2014; system administration, network defense, and cyber operations monitoring.</p>
         <div class="cert-tags"><span class="cert-tag">IT Infrastructure</span><span class="cert-tag">SOC Analyst</span><span class="cert-tag">Cyber Operations</span></div>
-        <a href="RedTeam-Certified%20IT%20Infrastructure%20and%20Cyber%20SOC%20Analyst-Certificate.pdf" target="_blank" class="cert-view-btn"><span>View Certificate</span><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="RedTeam-Certified%20IT%20Infrastructure%20and%20Cyber%20SOC%20Analyst-Certificate.pdf" target="_blank" class="cert-view-btn" onclick="celebrateBadge(event)"><span>View Certificate</span><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
 
       <!-- Certified in Cybersecurity (CC) by ISC2 -->
@@ -1141,6 +1138,31 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 
     <div class="rv" data-d="1">
       <div class="fn-feed" id="fnFeed">
+
+        <!-- NOTE: General Skills - CyLab Security Academy -->
+        <div class="fn-post" data-tags="CTF" data-date="2026-07-04" data-accent="amber">
+          <div class="fn-meta">
+            <div class="fn-badge fn-badge-ctf">CTF</div>
+            <div class="fn-date">Jul 04, 2026</div>
+          </div>
+          <div class="fn-card-body">
+            <div class="fn-title">&#x1F6A9; General Skills &mdash; CyLab Security Academy</div>
+            <div class="fn-body">Completed the General Skills category &mdash; the foundational track every CTF player starts with. Most of the modules were finished back when the platform was still known as picoCTF, before its 2026 rebrand to CyLab Security Academy.</div>
+            <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src,this.querySelector('img').alt);event.stopPropagation()">
+              <img src="https://jishnuec.github.io/generalskillsinCTFbyCylab.png" alt="General Skills - CyLab Security Academy" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
+            </div>
+            <div class="fn-findings">
+              <div class="fn-finding"><span>Linux Fundamentals</span> &mdash; navigating the filesystem, permissions, and piping commands together to hunt down flags</div>
+              <div class="fn-finding"><span>Basic Scripting</span> &mdash; quick Python/Bash one-liners to automate repetitive CTF grunt work</div>
+              <div class="fn-finding"><span>Encoding Schemes</span> &mdash; Base64, hex, and other common encodings used to hide flags in plain sight</div>
+              <div class="fn-finding"><span>Key Takeaway</span> &mdash; General Skills is the on-ramp; every other category (crypto, forensics, web) leans on these fundamentals</div>
+            </div>
+            <a href="https://play.picoctf.org/users/jishnuec" target="_blank" class="fn-link">View CyLab Profile</a>
+            <div class="fn-tags-row">
+              <span class="fn-tag" onclick="filterByTag('CTF',null)">CTF</span>
+            </div>
+          </div>
+        </div>
 
         <!-- NOTE: Detection and Analysis - TryHackMe -->
         <div class="fn-post" data-tags="Incident Response,Splunk" data-date="2026-06-17" data-accent="cyan">
