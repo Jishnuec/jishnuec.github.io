@@ -458,6 +458,27 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 #lightbox-close:hover{border-color:var(--g);color:var(--g)}
 #lightbox-caption{position:fixed;bottom:1.1rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.56rem;letter-spacing:2px;color:rgba(0,255,65,.45);text-transform:uppercase;pointer-events:none;white-space:nowrap}
 
+/* ── RECENT ACTIVITY POPUP ─────────────────────── */
+.recent-popup{position:fixed;right:1.4rem;bottom:1.4rem;z-index:970;width:290px;max-width:calc(100vw - 2rem);background:rgba(2,13,2,.97);border:1px solid var(--border);backdrop-filter:blur(14px);box-shadow:0 18px 46px rgba(0,0,0,.55),0 0 22px rgba(0,255,65,.08);opacity:0;visibility:hidden;transform:translateY(18px) scale(.97);transition:opacity .4s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.16,1,.3,1),visibility .4s,border-color .25s;pointer-events:none}
+.recent-popup.show{opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto}
+.recent-popup.hide-out{opacity:0;transform:translateY(12px) scale(.97);pointer-events:none}
+.recent-popup:hover{border-color:rgba(0,255,65,.5)}
+.recent-popup-close{position:absolute;top:.35rem;right:.35rem;background:transparent;border:none;color:var(--text2);font-family:var(--mono);font-size:.6rem;cursor:pointer;padding:.3rem;line-height:1;opacity:.55;transition:opacity .2s,color .2s;z-index:2}
+.recent-popup-close:hover{opacity:1;color:var(--red)}
+.recent-popup-inner{display:flex;align-items:center;gap:.75rem;padding:.9rem 1.5rem .9rem 1rem;cursor:pointer}
+.recent-popup-pulse{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);flex-shrink:0;animation:blink 1.4s step-end infinite}
+.recent-popup-text{flex:1;min-width:0}
+.recent-popup-label{font-family:var(--orb);font-size:.5rem;letter-spacing:2px;color:var(--g);text-transform:uppercase;margin-bottom:.32rem;opacity:.9}
+.recent-popup-title{font-size:.7rem;line-height:1.5;color:var(--text);font-family:var(--mono);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.recent-popup-arrow{font-size:.85rem;color:var(--g);flex-shrink:0;transition:transform .25s}
+.recent-popup-inner:hover .recent-popup-arrow{transform:translateX(3px)}
+.recent-highlight{animation:recentGlow 1.9s ease}
+@keyframes recentGlow{
+  0%{box-shadow:0 0 0 0 rgba(0,255,65,.5)}
+  35%{box-shadow:0 0 0 9px rgba(0,255,65,0)}
+  100%{box-shadow:0 0 0 0 rgba(0,255,65,0)}
+}
+
 /* ══════════════════════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════════════════════ */
@@ -552,6 +573,9 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   #lightbox-img{max-width:96vw!important;max-height:76vh!important;width:auto!important;height:auto!important;position:relative;left:auto;right:auto;top:auto;bottom:auto;transform:none;display:block;margin:0 auto}
   #lightbox-close{position:fixed;top:.5rem;right:.5rem;font-size:.56rem;padding:.28rem .6rem}
   #lightbox-caption{position:fixed;bottom:.5rem;left:50%;transform:translateX(-50%);width:90vw;text-align:center;white-space:normal;font-size:.46em}
+  .recent-popup{right:.7rem;bottom:.7rem;width:calc(100vw - 1.4rem);max-width:280px}
+  .recent-popup-inner{padding:.78rem 1.4rem .78rem .85rem;gap:.55rem}
+  .recent-popup-title{font-size:.64rem}
 }
 </style>
 </head>
@@ -564,6 +588,19 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   <button id="lightbox-close" onclick="closeLightbox()">&#x2715; CLOSE</button>
   <img id="lightbox-img" src="" alt=""/>
   <div id="lightbox-caption">ESC or click anywhere to close</div>
+</div>
+
+<!-- RECENT ACTIVITY POPUP -->
+<div class="recent-popup" id="recentPopup">
+  <button class="recent-popup-close" onclick="dismissRecentPopup(event)" aria-label="Dismiss">&#x2715;</button>
+  <div class="recent-popup-inner" onclick="goToRecentItem()">
+    <div class="recent-popup-pulse"></div>
+    <div class="recent-popup-text">
+      <div class="recent-popup-label" id="recentPopupLabel">RECENT</div>
+      <div class="recent-popup-title" id="recentPopupTitle"></div>
+    </div>
+    <div class="recent-popup-arrow">&#x2192;</div>
+  </div>
 </div>
 
 <!-- NAV -->
@@ -954,6 +991,14 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
       </div>
     </div>
     <div class="res-grid" id="resGrid">
+      <!-- RESEARCH: SOC Simulator Phishing Scenario -->
+      <div class="rcard rv" data-d="1" onclick="window.location.href='thmphishingwalkthroughscenario.html'" data-date="2026-07-18">
+        <div class="rbadge rb-w">&#x1F6A9; Scenario Walkthrough</div>
+        <div class="rtitle">SOC Simulator: Introduction to Phishing &mdash; TryHackMe Walkthrough</div>
+        <div class="rdesc">Full walkthrough of TryHackMe's SOC Simulator &mdash; triaging five live alerts as a Tier 1 analyst, spotting typosquatted and lookalike-brand phishing domains, and separating true positives from false positives using firewall logs and correspondence review.</div>
+        <div class="rsoon" style="color:var(--g);font-size:1rem;letter-spacing:2px">&#x2192; Click to read</div>
+      </div>
+
       <!-- RESEARCH: Basic Pentesting THM -->
       <div class="rcard rv" data-d="1" onclick="window.location.href='basicpentestingTHM.html'" data-date="2026-06-04">
         <div class="rbadge rb-w">&#x1F6A9; CTF Writeup</div>
@@ -1028,12 +1073,13 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 
     </div>
     <div class="pagination-bar rv" id="researchPagination">
-      <div class="pagination-info">Showing <span id="researchShowing">3</span> of <span id="researchTotal">8</span></div>
+      <div class="pagination-info">Showing <span id="researchShowing">3</span> of <span id="researchTotal">10</span></div>
       <div class="pagination-btns">
         <button class="pg-btn" id="researchPrev" onclick="changePage('research',-1,this)">&#x2190; Prev</button>
         <button class="pg-btn active" id="researchP1" onclick="goPage('research',1,this)">1</button>
         <button class="pg-btn" id="researchP2" onclick="goPage('research',2,this)">2</button>
         <button class="pg-btn" id="researchP3" onclick="goPage('research',3,this)">3</button>
+        <button class="pg-btn" id="researchP4" onclick="goPage('research',4,this)">4</button>
         <button class="pg-btn" id="researchNext" onclick="changePage('research',1,this)">Next &#x2192;</button>
       </div>
     </div>
@@ -1138,6 +1184,32 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 
     <div class="rv" data-d="1">
       <div class="fn-feed" id="fnFeed">
+
+        <!-- NOTE: TryHackMe SOC Simulator - Introduction to Phishing -->
+        <div class="fn-post" data-tags="Incident Response,Splunk" data-date="2026-07-18" data-accent="amber">
+          <div class="fn-meta">
+            <div class="fn-badge fn-badge-dfir">SOC</div>
+            <div class="fn-date">Jul 18, 2026</div>
+          </div>
+          <div class="fn-card-body">
+            <div class="fn-title">&#x1F3A3; Completed: TryHackMe SOC Simulator &mdash; Introduction to Phishing</div>
+            <div class="fn-body">Worked through TryHackMe's SOC Simulator as a Tier 1 analyst, triaging five live alerts in a simulated Splunk environment. Identified three true positive phishing attempts &mdash; including a typosquatted Microsoft domain and a lookalike Amazon shipping scam &mdash; and correctly cleared two false positives after pivoting through firewall logs and internal correspondence to confirm context.</div>
+            <div class="fn-img-wrap" onclick="openLightbox(this.querySelector('img').src,this.querySelector('img').alt);event.stopPropagation()">
+              <img src="https://jishnuec.github.io/thmscenario.png" alt="TryHackMe SOC Simulator - Introduction to Phishing" loading="lazy" onerror="this.closest('.fn-img-wrap').style.display='none'"/>
+            </div>
+            <div class="fn-findings">
+              <div class="fn-finding"><span>Alerts Triaged</span> &mdash; 5 live alerts worked end-to-end as a Tier 1 SOC analyst inside a simulated Splunk environment</div>
+              <div class="fn-finding"><span>True Positives</span> &mdash; 3 confirmed, including a typosquatted Microsoft domain and a lookalike Amazon shipping scam</div>
+              <div class="fn-finding"><span>False Positives Cleared</span> &mdash; 2, confirmed by pivoting through firewall logs and internal correspondence for context</div>
+              <div class="fn-finding"><span>Result</span> &mdash; 95 points, 1st place on the leaderboard, 60% true positive rate</div>
+            </div>
+            <a href="thmphishingwalkthroughscenario.html" class="fn-link" style="color:var(--g)">Read Full Writeup</a>
+            <div class="fn-tags-row">
+              <span class="fn-tag" onclick="filterByTag('Incident Response',null)">Incident Response</span>
+              <span class="fn-tag" onclick="filterByTag('Splunk',null)">Splunk</span>
+            </div>
+          </div>
+        </div>
 
         <!-- NOTE: General Skills - CyLab Security Academy -->
         <div class="fn-post" data-tags="CTF" data-date="2026-07-04" data-accent="amber">
@@ -1539,13 +1611,14 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
       </div><!-- /fn-feed -->
       <div id="fnEmpty" class="fn-empty">// No posts found</div>
       <div class="pagination-bar" id="fieldNotesPagination">
-        <div class="pagination-info">Showing <span id="fnShowing">2</span> of <span id="fnTotal">6</span></div>
+        <div class="pagination-info">Showing <span id="fnShowing">2</span> of <span id="fnTotal">17</span></div>
         <div class="pagination-btns">
           <button class="pg-btn" id="fnPrev" onclick="changePage('fieldNotes',-1,this)">&#x2190; Prev</button>
           <button class="pg-btn active" id="fnP1" onclick="goPage('fieldNotes',1,this)">1</button>
           <button class="pg-btn" id="fnP2" onclick="goPage('fieldNotes',2,this)">2</button>
           <button class="pg-btn" id="fnP3" onclick="goPage('fieldNotes',3,this)">3</button>
           <button class="pg-btn" id="fnP4" onclick="goPage('fieldNotes',4,this)">4</button>
+          <button class="pg-btn" id="fnP5" onclick="goPage('fieldNotes',5,this)">5</button>
         <button class="pg-btn" id="fnNext" onclick="changePage('fieldNotes',1,this)">Next &#x2192;</button>
         </div>
       </div>
@@ -1843,13 +1916,13 @@ const pageConfig={
     btnPrefix:'projectsP',maxPages:2,sectionId:'projects'},
   research:{gridId:'resGrid',selector:'.rcard',totalId:'researchTotal',showingId:'researchShowing',
     prevId:'researchPrev',nextId:'researchNext',paginationId:'researchPagination',
-    btnPrefix:'researchP',maxPages:3,sectionId:'research'},
+    btnPrefix:'researchP',maxPages:4,sectionId:'research'},
   labs:{gridId:'labsGrid',selector:'.lcard',totalId:'labsTotal',showingId:'labsShowing',
     prevId:'labsPrev',nextId:'labsNext',paginationId:'labsPagination',
     btnPrefix:'labsP',maxPages:3,sectionId:'labs'},
   fieldNotes:{gridId:'fnFeed',selector:'.fn-post',totalId:'fnTotal',showingId:'fnShowing',
     prevId:'fnPrev',nextId:'fnNext',paginationId:'fieldNotesPagination',
-    btnPrefix:'fnP',maxPages:4,sectionId:'timeline'}
+    btnPrefix:'fnP',maxPages:5,sectionId:'timeline'}
 };
 
 function renderPage(key,page,doScroll){
@@ -2085,6 +2158,82 @@ document.querySelectorAll('.sk').forEach(el=>{
   });
 });
 document.addEventListener('click',hideTip);
+
+/* ── RECENT ACTIVITY POPUP ─────────────────────── */
+(function(){
+  const pop=document.getElementById('recentPopup');
+  if(!pop)return;
+  let recentItem=null,dismissTimer=null,shown=false,scrollDismissed=false;
+
+  function pickRecent(){
+    const notes=[...document.querySelectorAll('#fnFeed .fn-post[data-date]')].map(el=>({
+      el,date:el.dataset.date,type:'note',
+      title:(el.querySelector('.fn-title')?.textContent||'').trim()
+    }));
+    const papers=[...document.querySelectorAll('#resGrid .rcard[data-date][onclick]')].map(el=>({
+      el,date:el.dataset.date,type:'paper',
+      title:(el.querySelector('.rtitle')?.textContent||'').trim()
+    }));
+    const all=notes.concat(papers).filter(x=>x.date&&x.title);
+    if(!all.length)return null;
+    all.sort((a,b)=>{
+      const c=b.date.localeCompare(a.date);
+      return c!==0?c:(a.type==='note'?-1:1);
+    });
+    return all[0];
+  }
+
+  function hidePopup(){
+    if(!shown)return;
+    clearTimeout(dismissTimer);
+    pop.classList.remove('show');
+    pop.classList.add('hide-out');
+    shown=false;
+  }
+
+  function showPopup(){
+    recentItem=pickRecent();
+    if(!recentItem)return;
+    const labelEl=document.getElementById('recentPopupLabel');
+    const titleEl=document.getElementById('recentPopupTitle');
+    if(labelEl)labelEl.textContent=recentItem.type==='note'?'[ NEW FIELD NOTE ]':'[ NEW RESEARCH ]';
+    if(titleEl)titleEl.textContent=recentItem.title;
+    pop.classList.remove('hide-out');
+    pop.classList.add('show');
+    shown=true;
+    dismissTimer=setTimeout(hidePopup,10000);
+  }
+
+  window.dismissRecentPopup=function(e){
+    if(e)e.stopPropagation();
+    hidePopup();
+  };
+
+  window.goToRecentItem=function(){
+    if(!recentItem)return;
+    const item=recentItem;
+    hidePopup();
+    const targetSection=item.type==='note'?'timeline':'research';
+    scrollToSection(targetSection);
+    setTimeout(()=>{
+      const el=item.el;
+      if(el&&getComputedStyle(el).display!=='none'){
+        el.scrollIntoView({behavior:'smooth',block:'center'});
+        el.classList.add('recent-highlight');
+        setTimeout(()=>el.classList.remove('recent-highlight'),1900);
+      }
+    },480);
+  };
+
+  window.addEventListener('scroll',()=>{
+    if(shown&&!scrollDismissed&&window.scrollY>window.innerHeight*0.9){
+      scrollDismissed=true;
+      hidePopup();
+    }
+  },{passive:true});
+
+  setTimeout(showPopup,2600);
+})();
 </script>
 </body>
 </html>
