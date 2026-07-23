@@ -488,14 +488,14 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 .stat-divider{width:1px;height:34px;background:var(--border2);flex-shrink:0}
 
 /* ── QUICK SEARCH ("/" TO SEARCH) ──────────────── */
-.search-overlay{position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding:9vh 1.5rem 2rem}
+.search-overlay{position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,.78);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding:7vh 1.2rem 2rem}
 .search-overlay.open{display:flex}
-.search-box{background:var(--bg2);border:1px solid var(--border);width:100%;max-width:620px;max-height:74vh;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 40px rgba(0,255,65,.08)}
-.search-input-row{display:flex;align-items:center;gap:.7rem;padding:1rem 1.2rem;border-bottom:1px solid var(--border2);flex-shrink:0}
-.search-prompt{font-family:var(--mono);font-size:.8rem;color:var(--g);flex-shrink:0}
-.search-input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:.85rem;caret-color:var(--g)}
-.search-input::placeholder{color:var(--text2);opacity:.55}
-.search-close{background:transparent;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.56rem;letter-spacing:1.5px;padding:.28rem .6rem;cursor:pointer;flex-shrink:0;transition:all .2s}
+.search-box{background:var(--bg2);border:1px solid var(--g);width:100%;max-width:700px;max-height:70vh;display:flex;flex-direction:column;box-shadow:0 30px 90px rgba(0,0,0,.65),0 0 50px rgba(0,255,65,.12)}
+.search-input-row{display:flex;align-items:center;gap:.9rem;padding:1.05rem 1.3rem;border-bottom:1px solid var(--border2);flex-shrink:0}
+.search-prompt{font-family:var(--mono);font-size:1.05rem;color:var(--g);flex-shrink:0}
+.search-input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:1rem;letter-spacing:.3px;caret-color:var(--g)}
+.search-input::placeholder{color:var(--text2);opacity:.5}
+.search-close{background:transparent;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.56rem;letter-spacing:1.5px;padding:.32rem .65rem;cursor:pointer;flex-shrink:0;transition:all .2s}
 .search-close:hover{border-color:var(--g);color:var(--g)}
 .search-results{flex:1;min-height:0;overflow-y:auto;padding:.5rem}
 .search-result{display:flex;flex-direction:column;gap:.28rem;padding:.75rem .9rem;cursor:pointer;border-left:2px solid transparent;transition:all .18s}
@@ -503,18 +503,32 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 .search-result-top{display:flex;align-items:center;gap:.5rem}
 .search-result-badge{font-family:var(--orb);font-size:.46rem;letter-spacing:1.5px;padding:.16rem .5rem;border:1px solid rgba(0,229,255,.35);color:var(--cyan);background:rgba(0,229,255,.05);flex-shrink:0;white-space:nowrap}
 .search-result-badge.paper{border-color:rgba(180,79,255,.35);color:var(--purple);background:rgba(180,79,255,.05)}
+.search-result-badge.lab{border-color:rgba(255,183,50,.4);color:var(--amber);background:rgba(255,183,50,.06)}
 .search-result-title{font-family:var(--mono);font-size:.74rem;color:var(--text)}
 .search-result-snippet{font-size:.66rem;color:var(--text2);line-height:1.6;padding-left:.05rem}
 .search-empty{padding:2.2rem 1rem;text-align:center;font-family:var(--vt);font-size:1.1rem;color:var(--text2);letter-spacing:2px;opacity:.5}
 .search-hint{padding:.8rem 1.2rem;border-top:1px solid var(--border2);font-size:.56rem;letter-spacing:1px;color:var(--text2);opacity:.55;display:flex;gap:1.2rem;flex-shrink:0;flex-wrap:wrap}
 
-/* ── BOOT SEQUENCE ─────────────────────────────── */
-.boot-seq{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;justify-content:center;padding:2rem 3rem;cursor:pointer;transition:opacity .45s ease,visibility .45s}
-.boot-seq.done{opacity:0;visibility:hidden;pointer-events:none}
-.boot-lines{font-family:var(--mono);font-size:.78rem;line-height:1.9;color:var(--g);max-width:640px;text-shadow:0 0 8px rgba(0,255,65,.3)}
-.boot-line{opacity:0;white-space:pre-wrap;transition:opacity .18s}
-.boot-line.show{opacity:1}
-.boot-skip{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.54rem;letter-spacing:2.5px;color:rgba(0,255,65,.4)}
+/* ── BOOT SEQUENCE (compact runner widget) ─────── */
+.boot-widget{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;width:300px;max-width:calc(100vw - 2.4rem);background:rgba(2,10,2,.95);border:1px solid var(--border);padding:1.1rem 1.3rem 1rem;box-shadow:0 25px 70px rgba(0,0,0,.6),0 0 34px rgba(0,255,65,.1);overflow:hidden;cursor:pointer;transition:opacity .4s ease,transform .4s ease,visibility .4s}
+.boot-widget.done{opacity:0;transform:translate(-50%,-50%) scale(.96);visibility:hidden;pointer-events:none}
+.boot-rain{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.32}
+.boot-rain span{position:absolute;top:-14px;font-family:var(--mono);font-size:.62rem;color:var(--g);animation:bootRainFall 1.6s linear infinite}
+@keyframes bootRainFall{0%{transform:translateY(-14px);opacity:0}10%{opacity:1}100%{transform:translateY(100px);opacity:0}}
+.boot-widget-label{position:relative;font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;color:var(--text2);margin-bottom:.55rem}
+.boot-runner-track{position:relative;height:28px;margin-bottom:.4rem}
+.boot-runner-wrap{position:absolute;top:0;left:0;animation:bootRunX 2.1s linear forwards}
+.boot-runner{display:block;stroke:var(--g);stroke-width:1.6;stroke-linecap:round;fill:none;filter:drop-shadow(0 0 3px rgba(0,255,65,.55));animation:bootHop .24s steps(1) infinite}
+.boot-runner .br-head{fill:var(--g);stroke:none}
+.boot-runner .br-frame1{animation:bootFrame1 .24s steps(1) infinite}
+.boot-runner .br-frame2{animation:bootFrame2 .24s steps(1) infinite;opacity:0}
+@keyframes bootRunX{from{left:0}to{left:calc(100% - 20px)}}
+@keyframes bootHop{0%,50%{transform:translateY(0)}51%,100%{transform:translateY(-2px)}}
+@keyframes bootFrame1{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes bootFrame2{0%,49%{opacity:0}50%,100%{opacity:1}}
+.boot-progress-track{width:100%;height:4px;background:rgba(0,255,65,.14);position:relative;overflow:hidden}
+.boot-progress-fill{height:100%;width:0%;background:var(--g);box-shadow:0 0 6px var(--g);animation:bootFill 2.1s linear forwards}
+@keyframes bootFill{from{width:0%}to{width:100%}}
 
 /* ── PERMALINK BUTTON ──────────────────────────── */
 .permalink-btn{background:transparent;border:1px solid var(--border2);color:var(--text2);font-size:.6rem;padding:.14rem .42rem;cursor:pointer;line-height:1.4;transition:all .2s;flex-shrink:0;font-family:var(--mono)}
@@ -625,18 +639,50 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .stat-num{font-size:1.7rem}
   .stat-label{font-size:.5rem;letter-spacing:1px}
   .search-overlay{padding:4vh .6rem 1rem}
-  .search-input{font-size:.78rem}
+  .search-prompt{font-size:.9rem}
+  .search-input{font-size:.82rem}
   .search-hint{gap:.7rem}
-  .boot-seq{padding:1.5rem 1.2rem}
-  .boot-lines{font-size:.66rem}
+  .boot-widget{width:250px;padding:.9rem 1rem .85rem}
+  .boot-widget-label{font-size:.56rem}
+  .permalink-btn{padding:.22rem .5rem;font-size:.66rem}
 }
 </style>
 </head>
 <body>
 <!-- BOOT SEQUENCE -->
-<div id="bootSeq" class="boot-seq">
-  <div class="boot-lines" id="bootLines"></div>
-  <div class="boot-skip">PRESS ANY KEY OR CLICK TO SKIP</div>
+<div id="bootSeq" class="boot-widget">
+  <div class="boot-rain" aria-hidden="true">
+    <span style="left:6%;animation-delay:0s">1</span>
+    <span style="left:18%;animation-delay:.35s">0</span>
+    <span style="left:30%;animation-delay:.1s">1</span>
+    <span style="left:42%;animation-delay:.55s">0</span>
+    <span style="left:54%;animation-delay:.2s">1</span>
+    <span style="left:66%;animation-delay:.45s">0</span>
+    <span style="left:78%;animation-delay:.05s">1</span>
+    <span style="left:90%;animation-delay:.3s">0</span>
+  </div>
+  <div class="boot-widget-label" id="bootWidgetLabel">booting profile&hellip;</div>
+  <div class="boot-runner-track">
+    <div class="boot-runner-wrap" id="bootRunnerWrap">
+      <svg class="boot-runner" viewBox="0 0 20 26" width="20" height="26">
+        <circle class="br-head" cx="10" cy="4" r="3.2"/>
+        <line class="br-body" x1="10" y1="7.2" x2="10" y2="16"/>
+        <g class="br-frame1">
+          <line x1="10" y1="10" x2="15" y2="8"/>
+          <line x1="10" y1="10" x2="5" y2="13"/>
+          <line x1="10" y1="16" x2="16" y2="23"/>
+          <line x1="10" y1="16" x2="5" y2="22"/>
+        </g>
+        <g class="br-frame2">
+          <line x1="10" y1="10" x2="5" y2="8"/>
+          <line x1="10" y1="10" x2="15" y2="13"/>
+          <line x1="10" y1="16" x2="4" y2="23"/>
+          <line x1="10" y1="16" x2="15" y2="22"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="boot-progress-track"><div class="boot-progress-fill" id="bootProgressFill"></div></div>
 </div>
 
 <div class="crt-l"></div>
@@ -665,7 +711,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 <!-- RECENT ACTIVITY POPUP -->
 <div class="recent-popup" id="recentPopup">
   <button class="recent-popup-close" onclick="dismissRecentPopup(event)" aria-label="Dismiss">&#x2715;</button>
-  <div class="recent-popup-inner" onclick="goToRecentItem()">
+  <div class="recent-popup-inner" onclick="onPopupClick()">
     <div class="recent-popup-pulse"></div>
     <div class="recent-popup-text">
       <div class="recent-popup-label" id="recentPopupLabel">RECENT</div>
@@ -2259,11 +2305,18 @@ document.querySelectorAll('.sk').forEach(el=>{
 });
 document.addEventListener('click',hideTip);
 
-/* ── RECENT ACTIVITY POPUP ─────────────────────── */
+/* ── RECENT ACTIVITY POPUP (recurring) ─────────── */
 (function(){
   const pop=document.getElementById('recentPopup');
   if(!pop)return;
-  let recentItem=null,dismissTimer=null,shown=false,scrollDismissed=false;
+  const labelEl=document.getElementById('recentPopupLabel');
+  const titleEl=document.getElementById('recentPopupTitle');
+  const SHOW_MS=30000, GAP_MS=50000, MAX_CYCLES=5;
+  const tips=[
+    {label:'[ TIP ]',title:'Press / to search field notes, research & labs'},
+    {label:'[ TIP ]',title:'Click the \uD83D\uDD17 on any entry to copy a direct link to it'}
+  ];
+  let recentItem=null,dismissTimer=null,cycleTimer=null,shown=false,scrollDismissed=false,mode='recent',cycles=0;
 
   function pickRecent(){
     const notes=[...document.querySelectorAll('#fnFeed .fn-post[data-date]')].map(el=>({
@@ -2289,27 +2342,59 @@ document.addEventListener('click',hideTip);
     pop.classList.remove('show');
     pop.classList.add('hide-out');
     shown=false;
+    scheduleNextCycle();
   }
 
-  function showPopup(){
-    recentItem=pickRecent();
-    if(!recentItem)return;
-    const labelEl=document.getElementById('recentPopupLabel');
-    const titleEl=document.getElementById('recentPopupTitle');
-    if(labelEl)labelEl.textContent=recentItem.type==='note'?'[ NEW FIELD NOTE ]':'[ NEW RESEARCH ]';
-    if(titleEl)titleEl.textContent=recentItem.title;
+  function reveal(){
     pop.classList.remove('hide-out');
     pop.classList.add('show');
     shown=true;
-    dismissTimer=setTimeout(hidePopup,17000);
+    scrollDismissed=false;
+    dismissTimer=setTimeout(hidePopup,SHOW_MS);
+  }
+
+  function runCycle(){
+    if(cycles>=MAX_CYCLES)return;
+    if(cycles===0){
+      recentItem=pickRecent();
+      if(recentItem){
+        mode='recent';
+        labelEl.textContent=recentItem.type==='note'?'[ NEW FIELD NOTE ]':'[ NEW RESEARCH ]';
+        titleEl.textContent=recentItem.title;
+      }else{
+        mode='tip';
+        labelEl.textContent=tips[0].label;
+        titleEl.textContent=tips[0].title;
+      }
+    }else{
+      mode='tip';
+      const t=tips[(cycles-1)%tips.length];
+      labelEl.textContent=t.label;
+      titleEl.textContent=t.title;
+    }
+    cycles++;
+    reveal();
+  }
+
+  function scheduleNextCycle(){
+    clearTimeout(cycleTimer);
+    if(cycles>=MAX_CYCLES)return;
+    cycleTimer=setTimeout(runCycle,GAP_MS);
   }
 
   window.dismissRecentPopup=function(e){
     if(e)e.stopPropagation();
+    clearTimeout(cycleTimer);
+    cycles=MAX_CYCLES;
     hidePopup();
   };
 
-  window.goToRecentItem=function(){
+  window.onPopupClick=function(){
+    if(mode==='tip'){
+      hidePopup();
+      if(typeof window.openSearchUI==='function')window.openSearchUI();
+      return;
+    }
     if(!recentItem)return;
     const item=recentItem;
     hidePopup();
@@ -2337,11 +2422,11 @@ document.addEventListener('click',hideTip);
     let fired=false;
     document.addEventListener('bootComplete',()=>{
       if(fired)return;fired=true;
-      setTimeout(showPopup,900);
+      setTimeout(runCycle,900);
     },{once:true});
-    setTimeout(()=>{if(!fired){fired=true;showPopup();}},6500);
+    setTimeout(()=>{if(!fired){fired=true;runCycle();}},4000);
   }else{
-    setTimeout(showPopup,2600);
+    setTimeout(runCycle,2600);
   }
 })();
 
@@ -2381,43 +2466,21 @@ document.addEventListener('click',hideTip);
   obs.observe(strip);
 })();
 
-/* ── BOOT SEQUENCE ─────────────────────────────── */
+/* ── BOOT SEQUENCE (compact runner widget) ─────── */
 (function(){
   const boot=document.getElementById('bootSeq');
-  const linesEl=document.getElementById('bootLines');
-  if(!boot||!linesEl)return;
-  const lines=[
-    'initializing secure session...',
-    'loading profile: jishnu_ec [OK]',
-    'mounting skills.conf, profile.conf [OK]',
-    'verifying certifications... [OK]',
-    'establishing connection to jishnuec.github.io [OK]',
-    'access granted.'
-  ];
-  document.body.style.overflow='hidden';
-  let i=0,finished=false;
+  if(!boot)return;
+  let finished=false;
   function finish(){
     if(finished)return;
     finished=true;
     boot.classList.add('done');
-    document.body.style.overflow='';
     document.dispatchEvent(new Event('bootComplete'));
-    setTimeout(()=>{if(boot&&boot.parentNode)boot.parentNode.removeChild(boot);},500);
+    setTimeout(()=>{if(boot&&boot.parentNode)boot.parentNode.removeChild(boot);},450);
   }
-  function next(){
-    if(i>=lines.length){setTimeout(finish,420);return;}
-    const d=document.createElement('div');
-    d.className='boot-line';
-    d.textContent=lines[i];
-    linesEl.appendChild(d);
-    requestAnimationFrame(()=>d.classList.add('show'));
-    i++;
-    setTimeout(next,230);
-  }
-  next();
   boot.addEventListener('click',finish);
   document.addEventListener('keydown',finish,{once:true});
-  setTimeout(finish,4200);
+  setTimeout(finish,2500);
 })();
 
 /* ── QUICK SEARCH ("/" TO SEARCH) ──────────────── */
@@ -2444,7 +2507,13 @@ document.addEventListener('click',hideTip);
       body:(el.querySelector('.rdesc')?.textContent||'').trim(),
       section:'research'
     }));
-    return notes.concat(papers);
+    const labs=[...document.querySelectorAll('#labsGrid .lcard')].map(el=>({
+      el,type:'lab',
+      title:(el.querySelector('.ltitle')?.textContent||'').trim(),
+      body:(el.querySelector('.ldesc')?.textContent||'').trim(),
+      section:'labs'
+    }));
+    return notes.concat(papers).concat(labs);
   }
 
   function snippet(text,q){
@@ -2469,7 +2538,7 @@ document.addEventListener('click',hideTip);
     const index=buildIndex();
     resultsEl.innerHTML='';
     if(!q.trim()){
-      resultsEl.innerHTML='<div class="search-empty">// type to search field notes &amp; research</div>';
+      resultsEl.innerHTML='<div class="search-empty">// type to search field notes, research &amp; labs</div>';
       return;
     }
     const ql=q.toLowerCase();
@@ -2481,7 +2550,9 @@ document.addEventListener('click',hideTip);
     matches.forEach((m,i)=>{
       const row=document.createElement('div');
       row.className='search-result'+(i===0?' sel':'');
-      row.innerHTML='<div class="search-result-top"><span class="search-result-badge'+(m.type==='paper'?' paper':'')+'">'+(m.type==='paper'?'RESEARCH':'FIELD NOTE')+'</span><span class="search-result-title">'+escapeHtml(m.title)+'</span></div><div class="search-result-snippet">'+escapeHtml(snippet(m.body,q))+'</div>';
+      const badgeClass=m.type==='paper'?' paper':(m.type==='lab'?' lab':'');
+      const badgeText=m.type==='paper'?'RESEARCH':(m.type==='lab'?'LAB':'FIELD NOTE');
+      row.innerHTML='<div class="search-result-top"><span class="search-result-badge'+badgeClass+'">'+badgeText+'</span><span class="search-result-title">'+escapeHtml(m.title)+'</span></div><div class="search-result-snippet">'+escapeHtml(snippet(m.body,q))+'</div>';
       row.addEventListener('click',()=>goToResult(m));
       resultsEl.appendChild(row);
     });
@@ -2500,6 +2571,7 @@ document.addEventListener('click',hideTip);
     input.blur();
   }
   window.closeSearch=closeSearchFn;
+  window.openSearchUI=openSearchFn;
 
   document.addEventListener('keydown',(e)=>{
     const tag=(e.target.tagName||'').toLowerCase();
