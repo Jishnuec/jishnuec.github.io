@@ -69,6 +69,9 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:var(--nav);display:flex;
 .nlinks a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--g);transform:scaleX(0);transition:transform .22s}
 .nlinks a:hover{color:var(--g)}.nlinks a:hover::after{transform:scaleX(1)}
 .nright{display:flex;align-items:center;gap:1.2rem}
+.nav-search-btn{display:flex;align-items:center;gap:.42rem;background:transparent;border:1px solid var(--border2);color:var(--text2);padding:.36rem .6rem;cursor:pointer;transition:all .2s;font-family:var(--mono)}
+.nav-search-btn:hover{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.05)}
+.nav-search-key{font-size:.6rem;letter-spacing:.5px;border:1px solid currentColor;padding:0 .32rem;line-height:1.5;opacity:.75}
 .nstatus{display:flex;align-items:center;gap:.55rem;font-size:.56rem;letter-spacing:2px;color:var(--text2);white-space:nowrap}
 .npulse{width:7px;height:7px;border-radius:50%;background:var(--g);position:relative;flex-shrink:0}
 .npulse::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--g);animation:sonar 2s ease-out infinite}
@@ -91,6 +94,8 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:var(--nav);display:flex;
   .nlinks{display:none}
   .nstatus{font-size:.46rem;letter-spacing:1px;gap:.38rem}
   .nstatus .npulse{width:6px;height:6px}
+  .nav-search-key{display:none}
+  .nav-search-btn{padding:.36rem .5rem}
   .hamburger{display:flex}
 }
 @media(max-width:480px){nav{padding:0 1rem}}
@@ -472,12 +477,17 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 .recent-popup-title{font-size:.7rem;line-height:1.5;color:var(--text);font-family:var(--mono);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .recent-popup-arrow{font-size:.85rem;color:var(--g);flex-shrink:0;transition:transform .25s}
 .recent-popup-inner:hover .recent-popup-arrow{transform:translateX(3px)}
-.recent-highlight{animation:recentGlow 1.9s ease}
+.recent-highlight{animation:recentGlow 2.6s ease}
 @keyframes recentGlow{
-  0%{box-shadow:0 0 0 0 rgba(0,255,65,.5)}
-  35%{box-shadow:0 0 0 9px rgba(0,255,65,0)}
-  100%{box-shadow:0 0 0 0 rgba(0,255,65,0)}
+  0%,100%{box-shadow:0 0 0 0 rgba(0,255,65,0)}
+  6%{box-shadow:0 0 0 0 rgba(0,255,65,.7),0 0 46px 8px rgba(0,255,65,.4)}
+  22%{box-shadow:0 0 0 16px rgba(0,255,65,0)}
+  32%{box-shadow:0 0 0 0 rgba(0,255,65,.6),0 0 34px 6px rgba(0,255,65,.32)}
+  46%{box-shadow:0 0 0 13px rgba(0,255,65,0)}
 }
+.highlight-marker{position:absolute;transform:translate(-50%,calc(-100% - 8px));background:var(--g);color:#04140a;font-family:var(--orb);font-size:.6rem;font-weight:700;letter-spacing:1.5px;padding:.34rem .8rem;z-index:9500;box-shadow:0 4px 22px rgba(0,255,65,.55);opacity:0;transition:opacity .3s ease,transform .3s ease;pointer-events:none;white-space:nowrap}
+.highlight-marker.show{opacity:1;transform:translate(-50%,calc(-100% - 14px))}
+.highlight-marker::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--g)}
 
 /* ── STATUS STRIP ──────────────────────────────── */
 .status-strip-wrap{position:relative;z-index:2;border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);background:rgba(0,255,65,.025)}
@@ -510,24 +520,31 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 .search-hint{padding:.8rem 1.2rem;border-top:1px solid var(--border2);font-size:.56rem;letter-spacing:1px;color:var(--text2);opacity:.55;display:flex;gap:1.2rem;flex-shrink:0;flex-wrap:wrap}
 
 /* ── BOOT SEQUENCE (compact runner widget) ─────── */
-.boot-widget{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;width:300px;max-width:calc(100vw - 2.4rem);background:rgba(2,10,2,.95);border:1px solid var(--border);padding:1.1rem 1.3rem 1rem;box-shadow:0 25px 70px rgba(0,0,0,.6),0 0 34px rgba(0,255,65,.1);overflow:hidden;cursor:pointer;transition:opacity .4s ease,transform .4s ease,visibility .4s}
-.boot-widget.done{opacity:0;transform:translate(-50%,-50%) scale(.96);visibility:hidden;pointer-events:none}
-.boot-rain{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.32}
-.boot-rain span{position:absolute;top:-14px;font-family:var(--mono);font-size:.62rem;color:var(--g);animation:bootRainFall 1.6s linear infinite}
-@keyframes bootRainFall{0%{transform:translateY(-14px);opacity:0}10%{opacity:1}100%{transform:translateY(100px);opacity:0}}
-.boot-widget-label{position:relative;font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;color:var(--text2);margin-bottom:.55rem}
-.boot-runner-track{position:relative;height:28px;margin-bottom:.4rem}
-.boot-runner-wrap{position:absolute;top:0;left:0;animation:bootRunX 2.1s linear forwards}
-.boot-runner{display:block;stroke:var(--g);stroke-width:1.6;stroke-linecap:round;fill:none;filter:drop-shadow(0 0 3px rgba(0,255,65,.55));animation:bootHop .24s steps(1) infinite}
+.boot-widget{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;width:300px;max-width:calc(100vw - 2.4rem);background:rgba(2,10,2,.96);border:1px solid var(--border);padding:1.05rem 1.3rem .95rem;box-shadow:0 25px 70px rgba(0,0,0,.6),0 0 34px rgba(0,255,65,.1);overflow:hidden;cursor:pointer;transition:opacity .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1),visibility .3s,box-shadow .3s}
+.boot-widget.complete{box-shadow:0 25px 70px rgba(0,0,0,.6),0 0 58px rgba(0,255,65,.5)}
+.boot-widget.done{opacity:0;transform:translate(-50%,-50%) scale(.95);visibility:hidden;pointer-events:none}
+.boot-rain{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.28}
+.boot-rain span{position:absolute;top:-14px;font-family:var(--mono);font-size:.6rem;color:var(--g);animation:bootRainFall 1s linear infinite}
+@keyframes bootRainFall{0%{transform:translateY(-14px);opacity:0}12%{opacity:1}100%{transform:translateY(96px);opacity:0}}
+.boot-widget-top{position:relative;display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.55rem}
+.boot-widget-label{font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;color:var(--text2)}
+.boot-widget-pct{font-family:var(--vt);font-size:1.05rem;color:var(--g);text-shadow:0 0 8px rgba(0,255,65,.45);letter-spacing:1px;min-width:2.6em;text-align:right}
+.boot-runner-track{position:relative;height:28px;margin-bottom:.45rem}
+.boot-runner-wrap{position:absolute;top:0;left:0;animation:bootRunX 1s cubic-bezier(.45,0,.55,1) forwards}
+.boot-trail{position:absolute;top:11px;height:2px;background:linear-gradient(90deg,transparent,var(--g));border-radius:1px}
+.boot-trail.t1{left:-9px;width:9px;opacity:.55}
+.boot-trail.t2{left:-17px;width:6px;opacity:.32}
+.boot-trail.t3{left:-23px;width:4px;opacity:.16}
+.boot-runner{display:block;stroke:var(--g);stroke-width:1.6;stroke-linecap:round;fill:none;filter:drop-shadow(0 0 4px rgba(0,255,65,.6));transform:skewX(-8deg);animation:bootHop .16s steps(1) infinite}
 .boot-runner .br-head{fill:var(--g);stroke:none}
-.boot-runner .br-frame1{animation:bootFrame1 .24s steps(1) infinite}
-.boot-runner .br-frame2{animation:bootFrame2 .24s steps(1) infinite;opacity:0}
+.boot-runner .br-frame1{animation:bootFrame1 .16s steps(1) infinite}
+.boot-runner .br-frame2{animation:bootFrame2 .16s steps(1) infinite;opacity:0}
 @keyframes bootRunX{from{left:0}to{left:calc(100% - 20px)}}
-@keyframes bootHop{0%,50%{transform:translateY(0)}51%,100%{transform:translateY(-2px)}}
+@keyframes bootHop{0%,50%{transform:translateY(0) skewX(-8deg)}51%,100%{transform:translateY(-2px) skewX(-8deg)}}
 @keyframes bootFrame1{0%,49%{opacity:1}50%,100%{opacity:0}}
 @keyframes bootFrame2{0%,49%{opacity:0}50%,100%{opacity:1}}
 .boot-progress-track{width:100%;height:4px;background:rgba(0,255,65,.14);position:relative;overflow:hidden}
-.boot-progress-fill{height:100%;width:0%;background:var(--g);box-shadow:0 0 6px var(--g);animation:bootFill 2.1s linear forwards}
+.boot-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--g2),var(--g));box-shadow:0 0 8px var(--g);animation:bootFill 1s cubic-bezier(.45,0,.55,1) forwards}
 @keyframes bootFill{from{width:0%}to{width:100%}}
 
 /* ── PERMALINK BUTTON ──────────────────────────── */
@@ -643,6 +660,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .search-input{font-size:.82rem}
   .search-hint{gap:.7rem}
   .boot-widget{width:250px;padding:.9rem 1rem .85rem}
+  .boot-widget-pct{font-size:.9rem}
   .boot-widget-label{font-size:.56rem}
   .permalink-btn{padding:.22rem .5rem;font-size:.66rem}
 }
@@ -661,9 +679,15 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
     <span style="left:78%;animation-delay:.05s">1</span>
     <span style="left:90%;animation-delay:.3s">0</span>
   </div>
-  <div class="boot-widget-label" id="bootWidgetLabel">booting profile&hellip;</div>
+  <div class="boot-widget-top">
+    <div class="boot-widget-label">booting profile</div>
+    <div class="boot-widget-pct" id="bootWidgetPct">0%</div>
+  </div>
   <div class="boot-runner-track">
     <div class="boot-runner-wrap" id="bootRunnerWrap">
+      <span class="boot-trail t1"></span>
+      <span class="boot-trail t2"></span>
+      <span class="boot-trail t3"></span>
       <svg class="boot-runner" viewBox="0 0 20 26" width="20" height="26">
         <circle class="br-head" cx="10" cy="4" r="3.2"/>
         <line class="br-body" x1="10" y1="7.2" x2="10" y2="16"/>
@@ -736,6 +760,10 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nright">
+    <button class="nav-search-btn" onclick="if(typeof openSearchUI==='function')openSearchUI()" aria-label="Search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-key">/</span>
+    </button>
     <div class="nstatus"><div class="npulse"></div>AVAILABLE FOR HIRE</div>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -2053,6 +2081,27 @@ function scrollToSection(sectionId){
   window.scrollTo({top,behavior:'smooth'});
 }
 
+/* ── SHARED "YOU ARE HERE" MARKER ──────────────── */
+function flashHighlight(el){
+  if(!el)return;
+  el.classList.remove('recent-highlight');
+  void el.offsetWidth;
+  el.classList.add('recent-highlight');
+  const rect=el.getBoundingClientRect();
+  const marker=document.createElement('div');
+  marker.className='highlight-marker';
+  marker.textContent='\u26A1 here';
+  marker.style.left=(rect.left+rect.width/2)+'px';
+  marker.style.top=(rect.top+window.scrollY)+'px';
+  document.body.appendChild(marker);
+  requestAnimationFrame(()=>marker.classList.add('show'));
+  setTimeout(()=>{
+    marker.classList.remove('show');
+    setTimeout(()=>marker.remove(),350);
+  },2300);
+  setTimeout(()=>el.classList.remove('recent-highlight'),2650);
+}
+
 /* ── PAGINATION ENGINE ────────────────────────── */
 const pageState={projects:1,research:1,labs:1,fieldNotes:1};
 const pageSize={projects:3,research:3,labs:3,fieldNotes:4};
@@ -2311,12 +2360,12 @@ document.addEventListener('click',hideTip);
   if(!pop)return;
   const labelEl=document.getElementById('recentPopupLabel');
   const titleEl=document.getElementById('recentPopupTitle');
-  const SHOW_MS=30000, GAP_MS=50000, MAX_CYCLES=5;
+  const SHOW_MS=45000, GAP_MS=35000, MAX_CYCLES=6;
   const tips=[
     {label:'[ TIP ]',title:'Press / to search field notes, research & labs'},
     {label:'[ TIP ]',title:'Click the \uD83D\uDD17 on any entry to copy a direct link to it'}
   ];
-  let recentItem=null,dismissTimer=null,cycleTimer=null,shown=false,scrollDismissed=false,mode='recent',cycles=0;
+  let recentItem=null,dismissTimer=null,cycleTimer=null,shown=false,mode='recent',cycles=0;
 
   function pickRecent(){
     const notes=[...document.querySelectorAll('#fnFeed .fn-post[data-date]')].map(el=>({
@@ -2349,7 +2398,6 @@ document.addEventListener('click',hideTip);
     pop.classList.remove('hide-out');
     pop.classList.add('show');
     shown=true;
-    scrollDismissed=false;
     dismissTimer=setTimeout(hidePopup,SHOW_MS);
   }
 
@@ -2404,18 +2452,10 @@ document.addEventListener('click',hideTip);
       const el=item.el;
       if(el&&getComputedStyle(el).display!=='none'){
         el.scrollIntoView({behavior:'smooth',block:'center'});
-        el.classList.add('recent-highlight');
-        setTimeout(()=>el.classList.remove('recent-highlight'),1900);
+        flashHighlight(el);
       }
     },480);
   };
-
-  window.addEventListener('scroll',()=>{
-    if(shown&&!scrollDismissed&&window.scrollY>window.innerHeight*0.9){
-      scrollDismissed=true;
-      hidePopup();
-    }
-  },{passive:true});
 
   const bootElAtLoad=document.getElementById('bootSeq');
   if(bootElAtLoad){
@@ -2470,17 +2510,44 @@ document.addEventListener('click',hideTip);
 (function(){
   const boot=document.getElementById('bootSeq');
   if(!boot)return;
+  const pctEl=document.getElementById('bootWidgetPct');
+  const RUN_MS=1000;
   let finished=false;
-  function finish(){
+
+  if(pctEl){
+    const start=performance.now();
+    requestAnimationFrame(function tick(now){
+      if(finished)return;
+      const p=Math.min(1,(now-start)/RUN_MS);
+      pctEl.textContent=Math.round(p*100)+'%';
+      if(p<1)requestAnimationFrame(tick);
+    });
+  }
+
+  function remove(){
+    if(boot&&boot.parentNode)boot.parentNode.removeChild(boot);
+  }
+  function finish(skip){
     if(finished)return;
     finished=true;
-    boot.classList.add('done');
-    document.dispatchEvent(new Event('bootComplete'));
-    setTimeout(()=>{if(boot&&boot.parentNode)boot.parentNode.removeChild(boot);},450);
+    if(pctEl)pctEl.textContent='100%';
+    if(skip){
+      boot.classList.add('done');
+      document.dispatchEvent(new Event('bootComplete'));
+      setTimeout(remove,320);
+    }else{
+      boot.classList.add('complete');
+      setTimeout(()=>{
+        boot.classList.remove('complete');
+        boot.classList.add('done');
+        document.dispatchEvent(new Event('bootComplete'));
+        setTimeout(remove,320);
+      },260);
+    }
   }
-  boot.addEventListener('click',finish);
-  document.addEventListener('keydown',finish,{once:true});
-  setTimeout(finish,2500);
+  boot.addEventListener('click',()=>finish(true));
+  document.addEventListener('keydown',()=>finish(true),{once:true});
+  setTimeout(()=>finish(false),RUN_MS+60);
 })();
 
 /* ── QUICK SEARCH ("/" TO SEARCH) ──────────────── */
@@ -2529,8 +2596,7 @@ document.addEventListener('click',hideTip);
     scrollToSection(m.section);
     setTimeout(()=>{
       m.el.scrollIntoView({behavior:'smooth',block:'center'});
-      m.el.classList.add('recent-highlight');
-      setTimeout(()=>m.el.classList.remove('recent-highlight'),1900);
+      flashHighlight(m.el);
     },480);
   }
 
@@ -2695,8 +2761,7 @@ document.addEventListener('click',hideTip);
       if(sectionId)scrollToSection(sectionId);
       setTimeout(()=>{
         el.scrollIntoView({behavior:'smooth',block:'center'});
-        el.classList.add('recent-highlight');
-        setTimeout(()=>el.classList.remove('recent-highlight'),1900);
+        flashHighlight(el);
       },sectionId?520:0);
     },300);
   }
