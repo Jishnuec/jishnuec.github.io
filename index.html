@@ -24,6 +24,7 @@
 <meta name="twitter:description" content="Cybersecurity Analyst &amp; SOC Analyst — Penetration Testing, SIEM, OSINT, Digital Forensics. BCA Graduate, Kozhikode Kerala."/>
 <meta name="twitter:image" content="https://jishnuec.github.io/og-image.png"/>
 
+<link rel="alternate" type="application/rss+xml" title="Jishnu EC — Field Notes" href="https://jishnuec.github.io/rss.xml"/>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet"/>
 <script>
 (function(){
@@ -177,6 +178,13 @@ nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:var(--nav);display:flex;
 .hb-left{font-family:var(--orb);font-size:.58rem;letter-spacing:2px;color:var(--g);line-height:1.8}
 .hb-left small{display:block;font-family:var(--mono);font-size:.54rem;color:var(--text2);letter-spacing:1px;margin-top:.15rem}
 .hb-dot{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);flex-shrink:0;animation:blink 1.4s step-end infinite}
+#termBody{max-height:640px;overflow-y:auto;overflow-x:hidden;cursor:text}
+#termBody::-webkit-scrollbar{width:5px}
+#termBody::-webkit-scrollbar-track{background:var(--bg3)}
+#termBody::-webkit-scrollbar-thumb{background:var(--g2);border-radius:2px}
+.term-input{background:transparent;border:none;outline:none;font-family:var(--mono);font-size:.78rem;width:calc(100% - 16px);caret-color:var(--g);padding:0;margin:0}
+.tl a{color:inherit;text-decoration:none;border-bottom:1px dotted rgba(0,255,65,.4)}
+.tl a:hover{color:var(--g);border-bottom-color:var(--g)}
 
 /* ── SECTION WRAPPER ───────────────────────────── */
 .sw{padding:7rem 3rem;max-width:1200px;margin:0 auto}
@@ -812,6 +820,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <div class="cv-dropdown" id="cvDropdown">
             <a href="jishnuec_cybersecurity_analyst_resume.html" target="_blank" class="cv-opt">&#x1F441;&#xFE0F;&nbsp;&nbsp;View HTML</a>
             <a href="jishnuec_cybersecurity_analyst_resume.pdf.pdf" download="jishnuec_cybersecurity_analyst_resume.pdf" class="cv-opt">&#x2193;&nbsp;&nbsp;Download PDF</a>
+            <a href="one-pager.html" target="_blank" class="cv-opt">&#x1FAAA;&nbsp;&nbsp;Printable One-Pager</a>
           </div>
         </div>
         <a href="#research" class="btn btn-p"><span>Research &amp; Papers</span></a>
@@ -824,7 +833,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>
           <span class="ttitle">jishnu@kali:~$ bash</span>
         </div>
-        <div class="tbody">
+        <div class="tbody" id="termBody">
           <div class="tl"><span class="pr">&#x276F;</span> <span class="ky">whoami</span></div>
           <div class="tl"><span class="vl">jishnu_ec &#x2014; cybersecurity analyst</span></div>
           <div class="tl">&nbsp;</div>
@@ -844,7 +853,8 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
           <div class="tl"><span class="pr">&#x276F;</span> <span class="ky">tip</span></div>
           <div class="tl"><span class="vl">press</span> <span style="color:var(--g)">/</span> <span class="vl">to search notes &amp; research</span></div>
           <div class="tl">&nbsp;</div>
-          <div class="tl"><span class="pr">&#x276F;</span> <span style="display:inline-block;width:8px;height:.82em;background:var(--g);vertical-align:middle;animation:blink .75s step-end infinite"></span></div>
+          <div class="tl"><span class="cm">// this terminal is live &#x2014; click below and type 'help'</span></div>
+          <div class="tl" id="termInputLine"><span class="pr">&#x276F;</span> <input type="text" id="termInput" class="term-input vl" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="type 'help'&#x2026;" aria-label="Interactive terminal command input"/></div>
         </div>
         <div class="hire-badge">
           <div class="hb-left">OPEN TO WORK &#x2014; HIRE ME
@@ -1354,6 +1364,10 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         <option value="newest">Newest</option>
         <option value="oldest">Oldest</option>
       </select>
+      <a href="rss.xml" target="_blank" rel="noopener" class="fn-sort" style="text-decoration:none;display:inline-flex;align-items:center;gap:.4rem" title="Subscribe to Field Notes via RSS">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 1 0 0 4.36 2.18 2.18 0 0 0 0-4.36zM4 4.44v3.18c7.03 0 12.73 5.7 12.73 12.73h3.18C19.91 11.5 12.85 4.44 4 4.44zm0 6.36v3.18a6.4 6.4 0 0 1 6.36 6.36h3.18c0-5.27-4.27-9.54-9.54-9.54z"/></svg>
+        RSS
+      </a>
     </div>
 
     <div class="rv" data-d="1">
@@ -1883,6 +1897,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
         <div class="cv-contact-btns">
           <a href="jishnuec_cybersecurity_analyst_resume.html" target="_blank" class="cv-fmt-btn">&#x1F441;&#xFE0F; View HTML</a>
           <a href="jishnuec_cybersecurity_analyst_resume.pdf.pdf" download="jishnuec_cybersecurity_analyst_resume.pdf" class="cv-fmt-btn">&#x2193; Download PDF</a>
+          <a href="one-pager.html" target="_blank" class="cv-fmt-btn">&#x1FAAA; One-Pager + QR</a>
         </div>
       </div>
     </div>
@@ -2767,6 +2782,265 @@ document.addEventListener('click',hideTip);
   }
   assignPermalinks();
   goToHashOnLoad();
+})();
+
+/* ── INTERACTIVE TERMINAL ─────────────────────── */
+(function(){
+  const termBody=document.getElementById('termBody');
+  const termInput=document.getElementById('termInput');
+  const termInputLine=document.getElementById('termInputLine');
+  if(!termBody||!termInput||!termInputLine)return;
+
+  const INFO={
+    location:'Kozhikode, Kerala',
+    degree:'BCA, Calicut Univ 2025',
+    cert:'CSA (EC-Council)',
+    email:'jishnuwhoopofficial@gmail.com',
+    phone:'+91 7510572360',
+    linkedin:'linkedin.com/in/jishnuec',
+    github:'github.com/Jishnuec',
+    twitter:'@jishxec',
+    resumeUrl:'jishnuec_cybersecurity_analyst_resume.pdf.pdf'
+  };
+
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function addLine(html){
+    const d=document.createElement('div');
+    d.className='tl';
+    d.innerHTML=html;
+    termBody.insertBefore(d,termInputLine);
+    return d;
+  }
+  function textOf(el,sel){const n=el.querySelector(sel);return n?n.textContent.replace(/\s+/g,' ').trim():'';}
+  function scrollBottom(){termBody.scrollTop=termBody.scrollHeight;}
+
+  /* directory listings pull live from the page itself so they never go stale */
+  function lsRoot(){
+    addLine('<span class="cm">// ~</span>');
+    ['projects/','research/','certifications/','field-notes/','cyberspace/'].forEach(d=>addLine(`<span class="am">${d}</span>`));
+    ['contact.txt','resume.pdf','skills.conf','profile.conf'].forEach(f=>addLine(`<span class="vl">${f}</span>`));
+    addLine('<span class="cm">// try: ls projects/ &middot; cat skills.conf &middot; help</span>');
+  }
+  function lsProjects(){
+    const cards=[...document.querySelectorAll('#pgrid .pcard')];
+    addLine('<span class="cm">// projects/</span>');
+    if(!cards.length){addLine('<span class="vl">// empty</span>');return;}
+    cards.forEach(c=>{
+      const name=textOf(c,'.pname')||'untitled';
+      const tag=textOf(c,'.ptag')||'';
+      addLine(`<span class="ky">${esc(name)}</span> <span class="vl" style="opacity:.65">&#x2014; ${esc(tag)}</span>`);
+    });
+    addLine('<span class="cm">// see the Projects section for links</span>');
+  }
+  function lsResearch(){
+    const cards=[...document.querySelectorAll('#resGrid .rcard')];
+    const linked=cards.filter(c=>c.hasAttribute('onclick'));
+    addLine('<span class="cm">// research/</span>');
+    linked.forEach(c=>addLine(`<span class="ky">${esc(textOf(c,'.rtitle')||'untitled')}</span>`));
+    const soon=cards.length-linked.length;
+    if(soon>0)addLine(`<span class="vl" style="opacity:.55">// +${soon} more in progress</span>`);
+  }
+  function lsCerts(){
+    const cards=[...document.querySelectorAll('#eduGrid .cert-box')];
+    addLine('<span class="cm">// certifications/</span>');
+    cards.forEach(c=>{
+      const name=textOf(c,'.cert-name')||'untitled';
+      const issuer=textOf(c,'.cert-issuer');
+      const status=textOf(c,'.cert-status-badge');
+      addLine(`<span class="ky">${esc(name)}</span> <span class="vl" style="opacity:.65">&#x2014; ${esc(issuer)} &middot; ${esc(status)}</span>`);
+    });
+  }
+  function lsCyberspace(){
+    const cards=[...document.querySelectorAll('#cyberspace .cs-card')];
+    addLine('<span class="cm">// cyberspace/</span>');
+    cards.forEach(c=>{
+      const name=textOf(c,'.cs-name');
+      const handle=textOf(c,'.cs-handle');
+      addLine(`<span class="ky">${esc(name)}</span> <span class="vl" style="opacity:.65">${esc(handle)}</span>`);
+    });
+  }
+  function lsFieldNotes(){
+    const posts=[...document.querySelectorAll('#fnFeed .fn-post[data-date]')].sort((a,b)=>b.dataset.date.localeCompare(a.dataset.date));
+    addLine('<span class="cm">// field-notes/ (latest 6)</span>');
+    posts.slice(0,6).forEach(p=>addLine(`<span class="ky">${esc(p.dataset.date)}</span> <span class="vl" style="opacity:.8">${esc(textOf(p,'.fn-title'))}</span>`));
+    addLine(`<span class="vl" style="opacity:.55">// ${posts.length} total &#x2014; see Field Notes section</span>`);
+  }
+  function cmdLs(argRaw){
+    const tokens=(argRaw||'').trim().split(/\s+/).filter(Boolean);
+    const dirTok=(tokens.find(t=>!t.startsWith('-'))||'').replace(/\/+$/,'').toLowerCase();
+    switch(dirTok){
+      case '': lsRoot(); break;
+      case 'projects': case 'project': lsProjects(); break;
+      case 'research': case 'papers': case 'writeups': lsResearch(); break;
+      case 'certifications': case 'certs': case 'cert': case 'education': lsCerts(); break;
+      case 'cyberspace': case 'platforms': case 'profiles': lsCyberspace(); break;
+      case 'field-notes': case 'fieldnotes': case 'notes': lsFieldNotes(); break;
+      default: addLine(`<span class="rd">ls: cannot access '${esc(dirTok)}': No such file or directory</span>`);
+    }
+  }
+
+  function catSkills(){
+    addLine('<span class="cm">// skills.conf</span>');
+    document.querySelectorAll('#skills .sk-pro-card').forEach(card=>{
+      const label=(textOf(card,'.sk-pro-title')||'skills').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+      const tags=[...card.querySelectorAll('.sk')].map(t=>t.textContent.trim());
+      addLine(`<span class="pu">[${esc(label)}]</span>`);
+      addLine(`<span class="vl">${esc(tags.join(', '))}</span>`);
+      addLine('&nbsp;');
+    });
+    document.querySelectorAll('#skills .sk-sec-row > div').forEach(sec=>{
+      const raw=textOf(sec,'.sk-cat').replace(/^\/\/\s*/,'');
+      const label=(raw.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,''))||'misc';
+      const tags=[...sec.querySelectorAll('.sk')].map(t=>t.textContent.trim());
+      addLine(`<span class="pu">[${esc(label)}]</span>`);
+      addLine(`<span class="vl">${esc(tags.join(', '))}</span>`);
+      addLine('&nbsp;');
+    });
+    addLine('<span class="am">status</span>    <span class="rd">= ALL_SYSTEMS_ARMED &#x25CF;</span>');
+  }
+  function catProfile(){
+    addLine('<span class="cm">// profile.conf</span>');
+    addLine(`<span class="am">location</span>  <span class="vl">= ${esc(INFO.location)}</span>`);
+    addLine(`<span class="am">degree</span>    <span class="vl">= ${esc(INFO.degree)}</span>`);
+    addLine(`<span class="am">cert</span>      <span style="color:var(--g)">= ${esc(INFO.cert)}</span>`);
+    addLine('<span class="am">status</span>    <span class="rd">= OPEN_TO_WORK &#x25CF;</span>');
+  }
+  function catContact(){
+    addLine('<span class="cm">// contact.txt</span>');
+    addLine(`<span class="am">email</span>    <span class="vl">= <a href="mailto:${INFO.email}">${esc(INFO.email)}</a></span>`);
+    addLine(`<span class="am">phone</span>    <span class="vl">= <a href="tel:${INFO.phone.replace(/\s+/g,'')}">${esc(INFO.phone)}</a></span>`);
+    addLine(`<span class="am">linkedin</span> <span class="vl">= <a href="https://${INFO.linkedin}" target="_blank" rel="noopener">${esc(INFO.linkedin)}</a></span>`);
+    addLine(`<span class="am">github</span>   <span class="vl">= <a href="https://${INFO.github}" target="_blank" rel="noopener">${esc(INFO.github)}</a></span>`);
+    addLine(`<span class="am">twitter</span>  <span class="vl">= <a href="https://x.com/jishxec" target="_blank" rel="noopener">${esc(INFO.twitter)}</a></span>`);
+  }
+  function cmdCat(argRaw){
+    const f=(argRaw||'').trim().toLowerCase().replace(/^\.?\//,'');
+    if(!f){addLine('<span class="rd">cat: missing file operand</span>');return;}
+    if(f==='skills.conf')return catSkills();
+    if(f==='profile.conf')return catProfile();
+    if(f==='contact.txt')return catContact();
+    if(f==='resume.pdf'){addLine('<span class="vl">cat: resume.pdf: binary file (use "open resume.pdf")</span>');return;}
+    addLine(`<span class="rd">cat: ${esc(f)}: No such file or directory</span>`);
+  }
+  function cmdOpen(argRaw){
+    const f=(argRaw||'').trim().toLowerCase();
+    if(f==='resume.pdf'||f==='resume'||f===''){
+      window.open(INFO.resumeUrl,'_blank');
+      addLine('<span class="cm">&#x21B3; opening resume.pdf in a new tab&#x2026;</span>');
+      return;
+    }
+    addLine(`<span class="rd">open: ${esc(f)}: No such file or directory</span>`);
+  }
+  function cmdNeofetch(){
+    addLine('<span class="ky">jishnu@kali</span>');
+    addLine('<span class="vl" style="opacity:.4">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</span>');
+    addLine('<span class="am">OS</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="vl">Kali Linux (offense) &middot; Arch (daily)</span>');
+    addLine('<span class="am">Role</span>&nbsp;&nbsp;&nbsp;<span class="vl">Cybersecurity Analyst / SOC Analyst</span>');
+    addLine(`<span class="am">Degree</span>&nbsp;<span class="vl">${esc(INFO.degree)}</span>`);
+    addLine('<span class="am">Certs</span>&nbsp;&nbsp;<span class="vl">CSA, CICSA V3</span>');
+    addLine('<span class="am">Focus</span>&nbsp;&nbsp;<span class="vl">OSINT &middot; SIEM &middot; Forensics &middot; Pentest</span>');
+    addLine('<span class="am">Status</span>&nbsp;<span class="rd">OPEN_TO_WORK &#x25CF;</span>');
+  }
+  function cmdSudo(){
+    addLine('<span class="rd">[sudo] password for jishnu:</span>');
+    addLine(`<span class="vl">nice try &#x1F604; &#x2014; I'm already open to work, no root required. Reach me at ${esc(INFO.email)}</span>`);
+  }
+  function cmdHistory(){
+    if(!cmdLog.length){addLine('<span class="vl" style="opacity:.6">// no commands yet</span>');return;}
+    cmdLog.forEach((c,i)=>addLine(`<span class="vl" style="opacity:.7">${i+1}&nbsp;&nbsp;${esc(c)}</span>`));
+  }
+  function printHelp(){
+    addLine('<span class="cm">// available commands</span>');
+    [
+      ['whoami',"who you're talking to"],
+      ['ls [dir]','projects/ research/ certifications/ cyberspace/ field-notes/'],
+      ['cat &lt;file&gt;','skills.conf &middot; profile.conf &middot; contact.txt'],
+      ['open resume.pdf','open the resume in a new tab'],
+      ['contact','show contact details'],
+      ['neofetch','system info card'],
+      ['date','current date &amp; time'],
+      ['history',"this session's commands"],
+      ['clear','clear the screen']
+    ].forEach(([c,d])=>addLine(`<span class="ky">${c}</span> <span class="vl" style="opacity:.7">&#x2014; ${d}</span>`));
+  }
+  function cmdClear(){
+    [...termBody.querySelectorAll('.tl')].forEach(l=>{if(l!==termInputLine)l.remove();});
+  }
+
+  const COMPLETIONS=['help','whoami','ls','cat','clear','neofetch','date','history','pwd','echo','contact','socials','open','resume','sudo','exit'];
+  function dispatch(cmdRaw,argRaw){
+    const cmd=cmdRaw.toLowerCase();
+    switch(cmd){
+      case 'help': case '?': printHelp(); break;
+      case 'whoami': addLine('<span class="vl">jishnu_ec &#x2014; cybersecurity analyst</span>'); break;
+      case 'ls': cmdLs(argRaw); break;
+      case 'cat': cmdCat(argRaw); break;
+      case 'clear': case 'cls': cmdClear(); break;
+      case 'neofetch': cmdNeofetch(); break;
+      case 'date': addLine(`<span class="vl">${esc(new Date().toString())}</span>`); break;
+      case 'history': cmdHistory(); break;
+      case 'pwd': addLine('<span class="vl">/home/jishnu/portfolio</span>'); break;
+      case 'echo': addLine(`<span class="vl">${esc(argRaw)}</span>`); break;
+      case 'contact': catContact(); break;
+      case 'socials': case 'platforms': cmdLs('cyberspace'); break;
+      case 'open': case 'download': cmdOpen(argRaw); break;
+      case 'resume': cmdOpen('resume.pdf'); break;
+      case 'sudo': cmdSudo(); break;
+      case 'exit': case 'quit': case 'logout':
+        addLine("<span class=\"vl\">this session doesn't have a quit command &#x2014; try closing the tab, or type 'help' &#x1F642;</span>");
+        break;
+      default:
+        addLine(`<span class="rd">bash: ${esc(cmd)}: command not found</span> <span class="vl" style="opacity:.6">&#x2014; type 'help' for available commands</span>`);
+    }
+  }
+
+  let cmdLog=[],logIdx=0;
+  function runCommand(raw){
+    addLine(`<span class="pr">&#x276F;</span> <span class="vl">${esc(raw)}</span>`);
+    const trimmed=raw.trim();
+    if(!trimmed)return;
+    cmdLog.push(trimmed);
+    logIdx=cmdLog.length;
+    const parts=trimmed.split(/\s+/);
+    dispatch(parts[0],parts.slice(1).join(' '));
+  }
+  function placeCaretEnd(el){const l=el.value.length;el.setSelectionRange(l,l);}
+  function tryComplete(){
+    const val=termInput.value;
+    const parts=val.split(/\s+/);
+    if(parts.length>1)return;
+    const partial=parts[0].toLowerCase();
+    if(!partial)return;
+    const matches=COMPLETIONS.filter(c=>c.startsWith(partial));
+    if(matches.length===1){termInput.value=matches[0]+' ';placeCaretEnd(termInput);}
+    else if(matches.length>1){
+      addLine(`<span class="pr">&#x276F;</span> <span class="vl">${esc(val)}</span>`);
+      addLine(`<span class="vl" style="opacity:.6">${matches.join('&nbsp;&nbsp;')}</span>`);
+    }
+  }
+
+  termInput.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){
+      e.preventDefault();
+      const val=termInput.value;
+      termInput.value='';
+      runCommand(val);
+      scrollBottom();
+    }else if(e.key==='ArrowUp'){
+      e.preventDefault();
+      if(cmdLog.length){logIdx=Math.max(0,logIdx-1);termInput.value=cmdLog[logIdx]||'';placeCaretEnd(termInput);}
+    }else if(e.key==='ArrowDown'){
+      e.preventDefault();
+      if(cmdLog.length){logIdx=Math.min(cmdLog.length,logIdx+1);termInput.value=cmdLog[logIdx]||'';placeCaretEnd(termInput);}
+    }else if(e.key==='Tab'){
+      e.preventDefault();
+      tryComplete();
+    }
+  });
+  termBody.addEventListener('click',function(e){
+    if(e.target.tagName!=='A')termInput.focus();
+  });
+  scrollBottom();
 })();
 </script>
 </body>
