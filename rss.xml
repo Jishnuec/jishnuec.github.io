@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Jishnu EC — Field Notes</title>
+  <link>https://jishnuec.github.io/</link>
+  <atom:link href="https://jishnuec.github.io/rss.xml" rel="self" type="application/rss+xml"/>
+  <description>Field notes from Jishnu EC — SOC simulations, DFIR labs, CTF write-ups, and pentesting practice, logged as they happen.</description>
+  <language>en-us</language>
+  <lastBuildDate>Sat, 25 Jul 2026 13:24:27 +0530</lastBuildDate>
+  <generator>hand-rolled static feed</generator>
+  <item>
+    <title>🎣 Completed: TryHackMe SOC Simulator — Introduction to Phishing</title>
+    <link>https://jishnuec.github.io/#note-2026-07-18-completed-tryhackme-soc-simulator-introduction-to</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-07-18-completed-tryhackme-soc-simulator-introduction-to</guid>
+    <pubDate>Sat, 18 Jul 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Worked through TryHackMe's SOC Simulator as a Tier 1 analyst, triaging five live alerts in a simulated Splunk environment. Identified three true positive phishing attempts — including a typosquatted Microsoft domain and a lookalike Amazon shipping scam — and correctly cleared two false positives after pivoting through firewall logs and internal correspondence to confirm context.</p><ul><li>Alerts Triaged — 5 live alerts worked end-to-end as a Tier 1 SOC analyst inside a simulated Splunk environment</li><li>True Positives — 3 confirmed, including a typosquatted Microsoft domain and a lookalike Amazon shipping scam</li><li>False Positives Cleared — 2, confirmed by pivoting through firewall logs and internal correspondence for context</li><li>Result — 95 points, 1st place on the leaderboard, 60% true positive rate</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🚩 General Skills — CyLab Security Academy</title>
+    <link>https://jishnuec.github.io/#note-2026-07-04-general-skills-cylab-security-academy</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-07-04-general-skills-cylab-security-academy</guid>
+    <pubDate>Sat, 04 Jul 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Completed the General Skills category — the foundational track every CTF player starts with. Most of the modules were finished back when the platform was still known as picoCTF, before its 2026 rebrand to CyLab Security Academy.</p><ul><li>Linux Fundamentals — navigating the filesystem, permissions, and piping commands together to hunt down flags</li><li>Basic Scripting — quick Python/Bash one-liners to automate repetitive CTF grunt work</li><li>Encoding Schemes — Base64, hex, and other common encodings used to hide flags in plain sight</li><li>Key Takeaway — General Skills is the on-ramp; every other category (crypto, forensics, web) leans on these fundamentals</li></ul>]]></description>
+  </item>
+  <item>
+    <title>📈 Detection and Analysis — TryHackMe</title>
+    <link>https://jishnuec.github.io/#note-2026-06-17-detection-and-analysis-tryhackme</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-06-17-detection-and-analysis-tryhackme</guid>
+    <pubDate>Wed, 17 Jun 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Picked up where alert triage leaves off — this room dives into the Detection and Analysis phase of incident response. Learned to write SPL queries to dig deeper into logs and build a clearer picture of what actually happened after an alert fires.</p><ul><li>SPL Queries — Writing Splunk Search Processing Language queries to pivot through logs and surface relevant events</li><li>Post-Triage Analysis — Moving past the initial alert to confirm scope, timeline, and root cause of an incident</li><li>Detection Logic — Understanding how correlation rules turn raw log data into actionable alerts</li><li>Key Takeaway — Triage tells you something happened; detection and analysis tells you exactly what, how, and how far it spread</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🚨 SOC L1 Alert Triage — TryHackMe</title>
+    <link>https://jishnuec.github.io/#note-2026-06-16-soc-l1-alert-triage-tryhackme</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-06-16-soc-l1-alert-triage-tryhackme</guid>
+    <pubDate>Tue, 16 Jun 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Worked through a hands-on SOC L1 alert triage room with a real dashboard simulation — great way to practice prioritizing alerts, distinguishing false positives from genuine threats, and learning the day-to-day triage workflow analysts use on the job.</p><ul><li>Real Dashboard Simulation — Practiced triage inside an actual SOC-style alert console, not just theory slides</li><li>Alert Prioritization — Sorting alerts by severity and business impact to decide what gets investigated first</li><li>False Positive Reduction — Identifying noisy or benign alerts to keep analyst attention on real threats</li><li>Key Takeaway — Fast, accurate triage at L1 is what keeps a SOC from drowning in alert fatigue</li></ul>]]></description>
+  </item>
+  <item>
+    <title>📋 Preparation — TryHackMe</title>
+    <link>https://jishnuec.github.io/#note-2026-06-15-preparation-tryhackme</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-06-15-preparation-tryhackme</guid>
+    <pubDate>Mon, 15 Jun 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Covered the Preparation phase of incident response — the foundation every SOC team needs before an incident ever happens. Dug into IR frameworks, building a Playbook/Procedure Pyramid (PPP), and the role of visibility, logging, and detection in being truly ready.</p><ul><li>IR Frameworks — Structured approaches (NIST, SANS) that define how an organization prepares for and responds to incidents</li><li>Playbooks & Procedures (PPP) — Documented response steps that turn chaotic incidents into repeatable, consistent action</li><li>Visibility & Logging — Centralized log collection across endpoints and network as the backbone of any detection capability</li><li>Key Takeaway — You can't respond to what you can't see — preparation is 90% of incident response</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🔍 Spectrum Challenge — Blue Team Labs Online</title>
+    <link>https://jishnuec.github.io/#note-2026-06-14-spectrum-challenge-blue-team-labs-online</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-06-14-spectrum-challenge-blue-team-labs-online</guid>
+    <pubDate>Sun, 14 Jun 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Tackled the Spectrum challenge on BTLO — a surprisingly realistic forensic investigation combining audio steganography, zip cracking, and hidden data extraction. Audacity, fcrackzip, and steghide made this one a proper toolchain workout.</p><ul><li>Audacity — Analyzed audio files for hidden data embedded in spectrograms and waveform anomalies</li><li>fcrackzip — Brute-forced password-protected zip archives to extract concealed evidence</li><li>steghide — Extracted hidden payloads embedded inside image files using steganography techniques</li><li>Key Takeaway — Real investigations rarely use one tool — the ability to chain techniques is what separates good analysts</li></ul>]]></description>
+  </item>
+  <item>
+    <title>📧 Phishing Email Analysis — LetsDefend</title>
+    <link>https://jishnuec.github.io/#note-2026-06-10-phishing-email-analysis-letsdefend</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-06-10-phishing-email-analysis-letsdefend</guid>
+    <pubDate>Wed, 10 Jun 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Deep-dived into phishing email analysis — covering static and dynamic techniques to dissect malicious emails, read and trace headers, analyze suspicious attachments, and identify threat actor infrastructure.</p><ul><li>Email Header Analysis — Tracing Return-Path, Received headers, and X-Originating-IP to detect spoofing and map the full delivery chain</li><li>Static Analysis — Inspecting raw email source, embedded URLs, and attachment hashes without execution</li><li>Dynamic Analysis — Safely detonating phishing links and attachments in sandboxed environments for behavioral observation</li><li>Key Takeaway — Headers never lie — even the most convincing phish leaves forensic trails in the metadata</li></ul>]]></description>
+  </item>
+  <item>
+    <title>📊 Training Impact on Teams — TryHackMe</title>
+    <link>https://jishnuec.github.io/#note-2026-06-09-training-impact-on-teams-tryhackme</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-06-09-training-impact-on-teams-tryhackme</guid>
+    <pubDate>Tue, 09 Jun 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Explored how structured cybersecurity training drives measurable ROI for security teams — covering skill progression frameworks, detection rate improvements, and how to justify training investment to stakeholders.</p><ul><li>ROI of Training — Quantifying the return on security training through reduced incident response time and improved detection accuracy</li><li>Skill Gap Analysis — Identifying team weaknesses and mapping training paths to close coverage gaps in the security posture</li><li>Team Performance Metrics — How training translates directly into faster triage, better threat identification, and lower MTTR</li><li>Key Takeaway — A well-trained SOC team is the most cost-effective security control an organization can invest in</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🤖 AI, ML, DL &amp; LLM Security Threats — TryHackMe</title>
+    <link>https://jishnuec.github.io/#note-2026-06-08-ai-ml-dl-llm-security-threats</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-06-08-ai-ml-dl-llm-security-threats</guid>
+    <pubDate>Mon, 08 Jun 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Covered the fundamentals of how AI, ML, DL, and LLMs work — and how they intersect with cybersecurity as both dangerous attack vectors and powerful defensive tools.</p><ul><li>AI — The overarching field enabling machines/systems to mimic human behaviour and decision-making</li><li>Machine Learning — A subfield of AI where models are trained on input data to learn patterns and make predictions</li><li>Deep Learning — A subfield of ML using Neural Networks to self-learn and process mass amounts of data without human interaction</li><li>LLMs & Cyber Offense — AI-powered phishing, automated vulnerability discovery, deepfake social engineering</li><li>AI in Defense — Anomaly detection, intelligent SIEM correlation, and ML-driven threat hunting</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🛡️ D3FEND Challenge — Blue Team Labs Online</title>
+    <link>https://jishnuec.github.io/#note-2026-06-06-d3fend-challenge-blue-team-labs-online</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-06-06-d3fend-challenge-blue-team-labs-online</guid>
+    <pubDate>Sat, 06 Jun 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Looks like a small one, but it's deeply rooted to the core of MITRE D3FEND — a knowledge graph of cybersecurity countermeasures that maps defensive techniques against adversarial TTPs.</p>]]></description>
+  </item>
+  <item>
+    <title>🔓 Basic Pentesting — TryHackMe</title>
+    <link>https://jishnuec.github.io/#note-2026-06-04-basic-pentesting-tryhackme</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-06-04-basic-pentesting-tryhackme</guid>
+    <pubDate>Thu, 04 Jun 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Worked through the Basic Pentesting room on TryHackMe — a beginner-to-intermediate Linux box covering the full kill chain: enumeration, exploitation, and privilege escalation to root.</p><ul><li>Enumeration — Nmap service scan, Gobuster directory brute-force, SMB enumeration</li><li>Exploitation — Weak SSH credentials discovered via Hydra brute-force — initial foothold gained</li><li>Privilege Escalation — Linux privesc to root via misconfigured sudo permissions</li><li>Key Takeaway — Thorough enumeration is the foundation of every successful pentest</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🧠 Learning Volatility — A Path Toward Forensic Archiving</title>
+    <link>https://jishnuec.github.io/#note-2026-04-09-learning-volatility-a-path-toward-forensic</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-04-09-learning-volatility-a-path-toward-forensic</guid>
+    <pubDate>Thu, 09 Apr 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Mastering Volatility isn't just about live incident response — it's a foundational step toward forensic archiving. Memory artifacts captured today can be preserved and referenced in case files long after the incident closes.</p><ul><li>Forensic Archiving — Volatility outputs (pslist, netscan, malfind) exported as structured evidence for case records</li><li>Memory Artifact Preservation — volatile evidence captured before power-off becomes a permanent forensic record</li><li>Plugin Deep Dive — cmdline, dlllist, handles, and filescan reveal attacker footprint even without disk artifacts</li><li>Key Insight — Fileless malware leaves no trace on disk, but memory never lies</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🚀 Completed Memory Analysis Introduction — TryHackMe</title>
+    <link>https://jishnuec.github.io/#note-2026-04-08-completed-memory-analysis-introduction-tryhackme</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-04-08-completed-memory-analysis-introduction-tryhackme</guid>
+    <pubDate>Wed, 08 Apr 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Dived into the fundamentals of memory forensics — how RAM works, how attackers exploit it, and how defenders catch threats in-memory before any trace hits disk.</p><ul><li>RAM & Memory Structures — Stack, Heap, User vs Kernel Space</li><li>Process & Full Memory Dumps — capturing volatile data before it's gone</li><li>Code Injection Detection — identifying injected shellcode inside process memory</li><li>First Steps with Volatility — hands-on dump analysis and plugin usage</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🚩 Released Udyama — My First Custom CTF Machine</title>
+    <link>https://jishnuec.github.io/#note-2026-02-15-released-udyama-my-first-custom-ctf</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2026-02-15-released-udyama-my-first-custom-ctf</guid>
+    <pubDate>Sun, 15 Feb 2026 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Designed and packaged a fully custom Linux CTF VM with 2 flags — User and Root. Focused on real-world privilege escalation paths, not contrived puzzle challenges. Packaged as Ubuntu OVA for VirtualBox.</p><ul><li>Platform — Ubuntu 22.04 OVA, runs in VirtualBox</li><li>Difficulty — Intermediate to Advanced</li><li>Focus — Realistic Linux privilege escalation & persistence techniques</li><li>Hosted on archive.org — free to download for the community</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🛡️ Built Driver Vigilance — Real-Time Distraction Detection with ML</title>
+    <link>https://jishnuec.github.io/#note-2025-05-10-built-driver-vigilance-real-time-distraction-detection</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2025-05-10-built-driver-vigilance-real-time-distraction-detection</guid>
+    <pubDate>Sat, 10 May 2025 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Designed and built a machine learning–driven driver monitoring system capable of detecting dangerous driving behaviors in real time — phone usage, turning around, reaching to the rear — and issuing instant alerts before they cause accidents.</p><ul><li>Detection Scope — Phone usage, rear-seat distraction, abnormal head & body orientation</li><li>Core Stack — Python + OpenCV + ML classification model on live video input</li><li>Alert System — Real-time warnings triggered at configurable confidence thresholds</li><li>Key Insight — Most accidents begin 0.5–2 seconds before impact; real-time is the only acceptable latency</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🛡️ Completed DFIR Introduction — TryHackMe</title>
+    <link>https://jishnuec.github.io/#note-2025-03-10-completed-dfir-introduction-tryhackme</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2025-03-10-completed-dfir-introduction-tryhackme</guid>
+    <pubDate>Mon, 10 Mar 2025 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Solid grounding in Digital Forensics & Incident Response fundamentals — the methodology that separates a reactive responder from a structured, methodical analyst.</p><ul><li>PICERL Framework — Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned</li><li>Evidence Handling — Chain of Custody, Evidence Preservation, Order of Volatility</li><li>Tools Covered — EZ Tools, KAPE, Autopsy, Volatility</li><li>Key Takeaway — Always collect most volatile evidence first; RAM disappears at shutdown</li></ul>]]></description>
+  </item>
+  <item>
+    <title>🔥 MemLoot Challenge — Ransomware Hidden as Spotify Installer</title>
+    <link>https://jishnuec.github.io/#note-2025-02-24-memloot-challenge-ransomware-hidden-as-spotify</link>
+    <guid isPermaLink="true">https://jishnuec.github.io/#note-2025-02-24-memloot-challenge-ransomware-hidden-as-spotify</guid>
+    <pubDate>Mon, 24 Feb 2025 09:00:00 +0530</pubDate>
+    <description><![CDATA[<p>Analyzed a Windows memory dump using Volatility 3. A fake Spotify installer turned out to be Dark Havoc ransomware — a classic trojan delivery technique caught through memory forensics.</p><ul><li>Malicious File — Spotify_setup.exe identified as Dark Havoc ransomware</li><li>C2 Server — 104.152.52.238:6548, encryption extension: .havoc</li><li>Execution Vector — Parent process explorer.exe, user double-clicked the fake installer</li><li>Detection Method — Process tree analysis + network artifacts from memory dump</li></ul>]]></description>
+  </item>
+</channel>
+</rss>
