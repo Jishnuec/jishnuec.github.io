@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jishnu EC — One-Pager</title>
+<meta name="description" content="Printable one-page contact card for Jishnu EC — Cybersecurity Analyst / SOC Analyst / Penetration Tester."/>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--g:#00ff41;--amber:#ffd700;--mono:'Share Tech Mono',monospace;--orb:'Orbitron',monospace}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:#04140a;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2.5rem 1rem 4rem;font-family:var(--mono);color:#eeffee}
+
+.op-chrome{display:flex;flex-direction:column;align-items:center;gap:.7rem;margin-bottom:1.8rem;text-align:center;max-width:640px}
+.op-chrome-actions{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
+.op-link{color:#8fdb9a;text-decoration:none;font-size:.7rem;letter-spacing:1px;border:1px solid rgba(0,255,65,.35);padding:.55rem 1rem;transition:all .2s}
+.op-link:hover{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
+.op-print-btn{background:var(--g);color:#04140a;border:none;padding:.6rem 1.3rem;font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:1px;cursor:pointer}
+.op-print-btn:hover{background:#33ff6c}
+.op-hint{color:#8fae94;font-size:.66rem;letter-spacing:.5px;max-width:420px;line-height:1.6}
+
+.one-pager{width:100%;max-width:800px;background:#fdfdfb;color:#161616;box-shadow:0 30px 90px rgba(0,0,0,.55),0 0 0 1px rgba(0,255,65,.25);padding:2.6rem 3rem}
+.op-header{border-bottom:2px solid #161616;padding-bottom:1.1rem;margin-bottom:1.3rem;display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap}
+.op-name{font-family:var(--orb);font-size:2.1rem;font-weight:900;letter-spacing:1px;line-height:1}
+.op-role{font-family:var(--orb);font-size:.68rem;letter-spacing:1.5px;color:#0a6b30;margin-top:.4rem;text-transform:uppercase}
+.op-status{font-size:.68rem;color:#0a6b30;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+
+.op-contact-row{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font-size:.72rem;color:#333;margin-bottom:1.3rem;line-height:1.6}
+.op-contact-row b{color:#161616}
+
+.op-summary{font-size:.82rem;line-height:1.75;color:#2a2a2a;margin-bottom:1.5rem}
+
+.op-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:1.4rem}
+.op-section-title{font-family:var(--orb);font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:#0a6b30;border-bottom:1px solid #ddd;padding-bottom:.35rem;margin-bottom:.7rem}
+.op-list{list-style:none;font-size:.76rem;line-height:1.85;color:#2a2a2a}
+.op-list li{margin-bottom:.15rem}
+.op-list b{color:#161616}
+.op-list span{color:#777;font-size:.7rem}
+.op-skills{font-size:.76rem;line-height:1.85;color:#2a2a2a;margin-bottom:.4rem}
+.op-skills b{color:#161616}
+
+.op-footer{margin-top:1.6rem;padding-top:1.2rem;border-top:2px solid #161616;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+.op-footer-label{font-size:.64rem;color:#777;letter-spacing:.5px}
+.op-footer-url{font-family:var(--orb);font-size:.9rem;font-weight:700;letter-spacing:.5px;margin:.15rem 0}
+.op-footer-status{font-size:.68rem;color:#0a6b30;font-weight:700}
+.op-qr{width:76px;height:76px;border:1px solid #ddd;flex-shrink:0}
+.op-qr-cap{font-size:.55rem;color:#999;text-align:center;margin-top:.3rem;letter-spacing:.5px}
+
+@media print{
+  @page{margin:14mm}
+  body{background:#fff;padding:0;display:block}
+  .screen-only{display:none!important}
+  .one-pager{box-shadow:none;max-width:100%;padding:0;margin:0}
+}
+@media(max-width:640px){
+  .one-pager{padding:1.6rem 1.4rem}
+  .op-grid{grid-template-columns:1fr;gap:1.2rem}
+  .op-name{font-size:1.6rem}
+}
+</style>
+</head>
+<body>
+
+<div class="op-chrome screen-only">
+  <div class="op-chrome-actions">
+    <a href="index.html" class="op-link">&#x2190; Full Portfolio</a>
+    <a href="jishnuec_cybersecurity_analyst_resume.pdf.pdf" target="_blank" class="op-link">Full Resume (PDF)</a>
+    <button onclick="window.print()" class="op-print-btn">&#x1F5A8;&#xFE0F; Print / Save as PDF</button>
+  </div>
+  <p class="op-hint">This card prints as a clean, ink-friendly single page — the dark background here is just a screen preview and won't print.</p>
+</div>
+
+<main class="one-pager" id="onePager">
+  <header class="op-header">
+    <div>
+      <div class="op-name">JISHNU EC</div>
+      <div class="op-role">Cybersecurity Analyst &middot; SOC Analyst &middot; Penetration Tester</div>
+    </div>
+    <div class="op-status">&#x25CF; Open to work</div>
+  </header>
+
+  <div class="op-contact-row">
+    <span><b>Email</b> jishnuwhoopofficial@gmail.com</span>
+    <span><b>Phone</b> +91 7510572360</span>
+    <span><b>LinkedIn</b> linkedin.com/in/jishnuec</span>
+    <span><b>GitHub</b> github.com/Jishnuec</span>
+    <span><b>Location</b> Kozhikode, Kerala</span>
+  </div>
+
+  <p class="op-summary">Cybersecurity enthusiast with a foundation in both offensive and defensive security — penetration testing, SOC operations, SIEM &amp; log analysis, OSINT, and digital forensics. Believes the best defenders think like attackers, and invests heavily in real-world attack technique, not just theory.</p>
+
+  <div class="op-grid">
+    <section>
+      <div class="op-section-title">// Certifications</div>
+      <ul class="op-list">
+        <li><b>CSA</b> — Certified SOC Analyst, EC-Council <span>&middot; Jun 2026</span></li>
+        <li><b>CICSA V3</b> — RedTeam Hacker Academy <span>&middot; Jun 2026</span></li>
+        <li><b>BCA</b> — Calicut University <span>&middot; 2025</span></li>
+        <li><b>CC</b> — ISC2 <span>&middot; In Progress</span></li>
+      </ul>
+    </section>
+    <section>
+      <div class="op-section-title">// Core Skills</div>
+      <p class="op-skills"><b>Offensive</b> — Nmap, Metasploit, Burp Suite, Hydra, SQLMap, Gobuster</p>
+      <p class="op-skills"><b>Defensive</b> — Splunk, Wireshark, SIEM &amp; Log Analysis, Incident Response, Digital Forensics, OSINT</p>
+    </section>
+  </div>
+
+  <section>
+    <div class="op-section-title">// Selected Projects</div>
+    <ul class="op-list">
+      <li><b>InstaGrep</b> — Instagram OSINT desktop tool (Python, ~3,000 LOC)</li>
+      <li><b>ReconFrame</b> — 12-tool reconnaissance automation framework</li>
+      <li><b>Udyama</b> — custom Linux privilege-escalation CTF machine</li>
+    </ul>
+  </section>
+
+  <footer class="op-footer">
+    <div>
+      <div class="op-footer-label">Full portfolio &middot; live field notes &middot; resume</div>
+      <div class="op-footer-url">jishnuec.github.io</div>
+      <div class="op-footer-status">Open to SOC Analyst / Cybersecurity Analyst / Pentest roles</div>
+    </div>
+    <div>
+      <img src="qr-contact.png" alt="QR code linking to jishnuec.github.io contact section" class="op-qr"/>
+      <div class="op-qr-cap">scan for contact</div>
+    </div>
+  </footer>
+</main>
+
+</body>
+</html>
