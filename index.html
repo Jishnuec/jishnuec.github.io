@@ -527,33 +527,10 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 .search-empty{padding:2.2rem 1rem;text-align:center;font-family:var(--vt);font-size:1.1rem;color:var(--text2);letter-spacing:2px;opacity:.5}
 .search-hint{padding:.8rem 1.2rem;border-top:1px solid var(--border2);font-size:.56rem;letter-spacing:1px;color:var(--text2);opacity:.55;display:flex;gap:1.2rem;flex-shrink:0;flex-wrap:wrap}
 
-/* ── BOOT SEQUENCE (compact runner widget) ─────── */
-.boot-widget{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;width:300px;max-width:calc(100vw - 2.4rem);background:rgba(2,10,2,.96);border:1px solid var(--border);padding:1.05rem 1.3rem .95rem;box-shadow:0 25px 70px rgba(0,0,0,.6),0 0 34px rgba(0,255,65,.1);overflow:hidden;cursor:pointer;transition:opacity .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1),visibility .3s,box-shadow .3s}
-.boot-widget.complete{box-shadow:0 25px 70px rgba(0,0,0,.6),0 0 58px rgba(0,255,65,.5)}
-.boot-widget.done{opacity:0;transform:translate(-50%,-50%) scale(.95);visibility:hidden;pointer-events:none}
-.boot-rain{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.28}
-.boot-rain span{position:absolute;top:-14px;font-family:var(--mono);font-size:.6rem;color:var(--g);animation:bootRainFall 1s linear infinite}
-@keyframes bootRainFall{0%{transform:translateY(-14px);opacity:0}12%{opacity:1}100%{transform:translateY(96px);opacity:0}}
-.boot-widget-top{position:relative;display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.55rem}
-.boot-widget-label{font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;color:var(--text2)}
-.boot-widget-pct{font-family:var(--vt);font-size:1.05rem;color:var(--g);text-shadow:0 0 8px rgba(0,255,65,.45);letter-spacing:1px;min-width:2.6em;text-align:right}
-.boot-runner-track{position:relative;height:28px;margin-bottom:.45rem}
-.boot-runner-wrap{position:absolute;top:0;left:0;animation:bootRunX 1s cubic-bezier(.45,0,.55,1) forwards}
-.boot-trail{position:absolute;top:11px;height:2px;background:linear-gradient(90deg,transparent,var(--g));border-radius:1px}
-.boot-trail.t1{left:-9px;width:9px;opacity:.55}
-.boot-trail.t2{left:-17px;width:6px;opacity:.32}
-.boot-trail.t3{left:-23px;width:4px;opacity:.16}
-.boot-runner{display:block;stroke:var(--g);stroke-width:1.6;stroke-linecap:round;fill:none;filter:drop-shadow(0 0 4px rgba(0,255,65,.6));transform:skewX(-8deg);animation:bootHop .16s steps(1) infinite}
-.boot-runner .br-head{fill:var(--g);stroke:none}
-.boot-runner .br-frame1{animation:bootFrame1 .16s steps(1) infinite}
-.boot-runner .br-frame2{animation:bootFrame2 .16s steps(1) infinite;opacity:0}
-@keyframes bootRunX{from{left:0}to{left:calc(100% - 20px)}}
-@keyframes bootHop{0%,50%{transform:translateY(0) skewX(-8deg)}51%,100%{transform:translateY(-2px) skewX(-8deg)}}
-@keyframes bootFrame1{0%,49%{opacity:1}50%,100%{opacity:0}}
-@keyframes bootFrame2{0%,49%{opacity:0}50%,100%{opacity:1}}
-.boot-progress-track{width:100%;height:4px;background:rgba(0,255,65,.14);position:relative;overflow:hidden}
-.boot-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--g2),var(--g));box-shadow:0 0 8px var(--g);animation:bootFill 1s cubic-bezier(.45,0,.55,1) forwards}
-@keyframes bootFill{from{width:0%}to{width:100%}}
+/* ── HERO INTRO (photo blends into hero via GSAP) ─────── */
+.hero-intro{position:fixed;inset:0;z-index:1500;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2.4rem;cursor:pointer;background:radial-gradient(circle at 50% 46%,rgba(2,13,2,0) 0%,rgba(2,13,2,.62) 78%);transition:opacity .3s ease}
+.hero-intro.done{opacity:0;pointer-events:none}
+.hero-intro-hint{font-family:var(--mono);font-size:.58rem;letter-spacing:2px;color:rgba(197,232,197,.55);text-transform:uppercase;user-select:none}
 
 /* ── PERMALINK BUTTON ──────────────────────────── */
 .permalink-btn{background:transparent;border:1px solid var(--border2);color:var(--text2);font-size:.6rem;padding:.14rem .42rem;cursor:pointer;line-height:1.4;transition:all .2s;flex-shrink:0;font-family:var(--mono)}
@@ -667,54 +644,16 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .search-prompt{font-size:.9rem}
   .search-input{font-size:.82rem}
   .search-hint{gap:.7rem}
-  .boot-widget{width:250px;padding:.9rem 1rem .85rem}
-  .boot-widget-pct{font-size:.9rem}
-  .boot-widget-label{font-size:.56rem}
+  .hero-intro{padding-bottom:1.6rem}
+  .hero-intro-hint{font-size:.52rem;letter-spacing:1.5px}
   .permalink-btn{padding:.22rem .5rem;font-size:.66rem}
 }
 </style>
 </head>
 <body>
-<!-- BOOT SEQUENCE -->
-<div id="bootSeq" class="boot-widget">
-  <div class="boot-rain" aria-hidden="true">
-    <span style="left:6%;animation-delay:0s">1</span>
-    <span style="left:18%;animation-delay:.35s">0</span>
-    <span style="left:30%;animation-delay:.1s">1</span>
-    <span style="left:42%;animation-delay:.55s">0</span>
-    <span style="left:54%;animation-delay:.2s">1</span>
-    <span style="left:66%;animation-delay:.45s">0</span>
-    <span style="left:78%;animation-delay:.05s">1</span>
-    <span style="left:90%;animation-delay:.3s">0</span>
-  </div>
-  <div class="boot-widget-top">
-    <div class="boot-widget-label">booting profile</div>
-    <div class="boot-widget-pct" id="bootWidgetPct">0%</div>
-  </div>
-  <div class="boot-runner-track">
-    <div class="boot-runner-wrap" id="bootRunnerWrap">
-      <span class="boot-trail t1"></span>
-      <span class="boot-trail t2"></span>
-      <span class="boot-trail t3"></span>
-      <svg class="boot-runner" viewBox="0 0 20 26" width="20" height="26">
-        <circle class="br-head" cx="10" cy="4" r="3.2"/>
-        <line class="br-body" x1="10" y1="7.2" x2="10" y2="16"/>
-        <g class="br-frame1">
-          <line x1="10" y1="10" x2="15" y2="8"/>
-          <line x1="10" y1="10" x2="5" y2="13"/>
-          <line x1="10" y1="16" x2="16" y2="23"/>
-          <line x1="10" y1="16" x2="5" y2="22"/>
-        </g>
-        <g class="br-frame2">
-          <line x1="10" y1="10" x2="5" y2="8"/>
-          <line x1="10" y1="10" x2="15" y2="13"/>
-          <line x1="10" y1="16" x2="4" y2="23"/>
-          <line x1="10" y1="16" x2="15" y2="22"/>
-        </g>
-      </svg>
-    </div>
-  </div>
-  <div class="boot-progress-track"><div class="boot-progress-fill" id="bootProgressFill"></div></div>
+<!-- HERO INTRO (the hero photo blends into place via GSAP; see script near end of body) -->
+<div id="bootSeq" class="hero-intro" aria-hidden="true">
+  <span class="hero-intro-hint">click or press any key to skip</span>
 </div>
 
 <div class="crt-l"></div>
@@ -1915,6 +1854,8 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   <div class="sk-tip-desc" id="skTipDesc"></div>
 </div>
 
+<!-- GSAP was not previously included in this project; added via CDN since this is a plain-HTML/no-build-step site -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
 <script>
 /* ── MATRIX RAIN ──────────────────────────────── */
 (function(){
@@ -2521,48 +2462,66 @@ document.addEventListener('click',hideTip);
   obs.observe(strip);
 })();
 
-/* ── BOOT SEQUENCE (compact runner widget) ─────── */
+/* ── HERO INTRO: photo blends into the hero via a GSAP timeline ─────── */
 (function(){
-  const boot=document.getElementById('bootSeq');
-  if(!boot)return;
-  const pctEl=document.getElementById('bootWidgetPct');
-  const RUN_MS=1000;
+  const overlay=document.getElementById('bootSeq');
+  const photoBox=document.querySelector('.hphoto-box');
+  if(!overlay)return;
+
+  const heroBits={
+    nameBlock:document.querySelector('.hname-block'),
+    tagline:document.querySelector('.htagline'),
+    btns:document.querySelector('.hbtns'),
+    terminal:document.querySelector('.hright'),
+    scrollCue:document.getElementById('scrollCue'),
+    nav:document.querySelector('nav')
+  };
+
   let finished=false;
-
-  if(pctEl){
-    const start=performance.now();
-    requestAnimationFrame(function tick(now){
-      if(finished)return;
-      const p=Math.min(1,(now-start)/RUN_MS);
-      pctEl.textContent=Math.round(p*100)+'%';
-      if(p<1)requestAnimationFrame(tick);
-    });
-  }
-
-  function remove(){
-    if(boot&&boot.parentNode)boot.parentNode.removeChild(boot);
-  }
-  function finish(skip){
+  function remove(){if(overlay&&overlay.parentNode)overlay.parentNode.removeChild(overlay);}
+  function unlockScroll(){document.documentElement.style.overflow='';}
+  function finishIntro(){
     if(finished)return;
     finished=true;
-    if(pctEl)pctEl.textContent='100%';
-    if(skip){
-      boot.classList.add('done');
-      document.dispatchEvent(new Event('bootComplete'));
-      setTimeout(remove,320);
-    }else{
-      boot.classList.add('complete');
-      setTimeout(()=>{
-        boot.classList.remove('complete');
-        boot.classList.add('done');
-        document.dispatchEvent(new Event('bootComplete'));
-        setTimeout(remove,320);
-      },260);
-    }
+    if(photoBox&&window.gsap)gsap.set(photoBox,{clearProps:'transform,zIndex,boxShadow'});
+    unlockScroll();
+    overlay.classList.add('done');
+    document.dispatchEvent(new Event('bootComplete'));
+    setTimeout(remove,320);
   }
-  boot.addEventListener('click',()=>finish(true));
-  document.addEventListener('keydown',()=>finish(true),{once:true});
-  setTimeout(()=>finish(false),RUN_MS+60);
+
+  // Graceful fallback: if GSAP failed to load (blocked CDN, offline, etc.) just reveal everything normally
+  if(typeof gsap==='undefined'||!photoBox){
+    finishIntro();
+    return;
+  }
+
+  document.documentElement.style.overflow='hidden';
+
+  const rect=photoBox.getBoundingClientRect();
+  const vw=window.innerWidth,vh=window.innerHeight;
+  const targetH=Math.min(vh*0.6,480);
+  const scale=Math.max(1,targetH/rect.height);
+  const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+  const dx=vw/2-cx,dy=vh/2-cy;
+
+  gsap.set(photoBox,{transformOrigin:'50% 50%',x:dx,y:dy,scale:scale,zIndex:1450,boxShadow:'0 45px 130px rgba(0,0,0,.65)'});
+  const revealTargets=[heroBits.nameBlock,heroBits.tagline,heroBits.btns,heroBits.terminal,heroBits.scrollCue].filter(Boolean);
+  gsap.set(revealTargets,{opacity:0,y:26});
+  if(heroBits.nav)gsap.set(heroBits.nav,{opacity:0,y:-16});
+
+  const tl=gsap.timeline({defaults:{ease:'power3.out'},onComplete:finishIntro});
+  tl.to(photoBox,{x:0,y:0,scale:1,duration:1.15,ease:'power4.inOut',boxShadow:'0 0 0 rgba(0,0,0,0)'});
+  if(heroBits.nameBlock)tl.to(heroBits.nameBlock,{opacity:1,y:0,duration:.7},'-=.55');
+  if(heroBits.nav)tl.to(heroBits.nav,{opacity:1,y:0,duration:.5},'-=.5');
+  if(heroBits.tagline)tl.to(heroBits.tagline,{opacity:1,y:0,duration:.6},'-=.4');
+  if(heroBits.terminal)tl.to(heroBits.terminal,{opacity:1,y:0,duration:.7},'-=.5');
+  if(heroBits.btns)tl.to(heroBits.btns,{opacity:1,y:0,duration:.6},'-=.35');
+  if(heroBits.scrollCue)tl.to(heroBits.scrollCue,{opacity:1,y:0,duration:.5},'-=.3');
+
+  function skip(){tl.progress(1);}
+  overlay.addEventListener('click',skip);
+  document.addEventListener('keydown',skip,{once:true});
 })();
 
 /* ── QUICK SEARCH ("/" TO SEARCH) ──────────────── */
