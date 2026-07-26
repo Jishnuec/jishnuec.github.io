@@ -528,9 +528,16 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 .search-hint{padding:.8rem 1.2rem;border-top:1px solid var(--border2);font-size:.56rem;letter-spacing:1px;color:var(--text2);opacity:.55;display:flex;gap:1.2rem;flex-shrink:0;flex-wrap:wrap}
 
 /* ── HERO INTRO (photo blends into hero via GSAP) ─────── */
-.hero-intro{position:fixed;inset:0;z-index:1500;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2.4rem;cursor:pointer;background:radial-gradient(circle at 50% 46%,rgba(2,13,2,0) 0%,rgba(2,13,2,.62) 78%);transition:opacity .3s ease}
+.hero-intro{position:fixed;inset:0;z-index:1500;background:radial-gradient(circle at 50% 46%,rgba(2,13,2,0) 0%,rgba(2,13,2,.62) 78%);transition:opacity .3s ease}
 .hero-intro.done{opacity:0;pointer-events:none}
-.hero-intro-hint{font-family:var(--mono);font-size:.58rem;letter-spacing:2px;color:rgba(197,232,197,.55);text-transform:uppercase;user-select:none}
+/* hidden the instant CSS loads (before any JS runs) so there's no flash of the normal page before the intro takes over */
+body:not(.hero-intro-done) .hphoto-box,
+body:not(.hero-intro-done) .hname-block,
+body:not(.hero-intro-done) .htagline,
+body:not(.hero-intro-done) .hbtns,
+body:not(.hero-intro-done) .hright,
+body:not(.hero-intro-done) nav,
+body:not(.hero-intro-done) .scroll-cue{opacity:0}
 
 /* ── PERMALINK BUTTON ──────────────────────────── */
 .permalink-btn{background:transparent;border:1px solid var(--border2);color:var(--text2);font-size:.6rem;padding:.14rem .42rem;cursor:pointer;line-height:1.4;transition:all .2s;flex-shrink:0;font-family:var(--mono)}
@@ -644,17 +651,23 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
   .search-prompt{font-size:.9rem}
   .search-input{font-size:.82rem}
   .search-hint{gap:.7rem}
-  .hero-intro{padding-bottom:1.6rem}
-  .hero-intro-hint{font-size:.52rem;letter-spacing:1.5px}
   .permalink-btn{padding:.22rem .5rem;font-size:.66rem}
 }
 </style>
+<noscript><style>
+.hero-intro{display:none}
+body:not(.hero-intro-done) .hphoto-box,
+body:not(.hero-intro-done) .hname-block,
+body:not(.hero-intro-done) .htagline,
+body:not(.hero-intro-done) .hbtns,
+body:not(.hero-intro-done) .hright,
+body:not(.hero-intro-done) nav,
+body:not(.hero-intro-done) .scroll-cue{opacity:1}
+</style></noscript>
 </head>
 <body>
-<!-- HERO INTRO (the hero photo blends into place via GSAP; see script near end of body) -->
-<div id="bootSeq" class="hero-intro" aria-hidden="true">
-  <span class="hero-intro-hint">click or press any key to skip</span>
-</div>
+<!-- HERO INTRO (the hero photo blends into place via GSAP; see script near end of body). Not skippable by design — plays once, fully, on every load. -->
+<div id="bootSeq" class="hero-intro" aria-hidden="true"></div>
 
 <div class="crt-l"></div>
 <div class="crt-v"></div>
@@ -2476,19 +2489,24 @@ document.addEventListener('click',hideTip);
     scrollCue:document.getElementById('scrollCue'),
     nav:document.querySelector('nav')
   };
+  const allBits=[photoBox,heroBits.nameBlock,heroBits.tagline,heroBits.btns,heroBits.terminal,heroBits.scrollCue,heroBits.nav].filter(Boolean);
 
   let finished=false;
   function remove(){if(overlay&&overlay.parentNode)overlay.parentNode.removeChild(overlay);}
-  function unlockScroll(){document.documentElement.style.overflow='';}
   function finishIntro(){
     if(finished)return;
     finished=true;
-    if(photoBox&&window.gsap)gsap.set(photoBox,{clearProps:'transform,zIndex,boxShadow'});
-    unlockScroll();
+    // flips the CSS gate that was hiding these elements since first paint, then clears the
+    // inline styles GSAP used so nothing is left behind to fight later CSS (e.g. scroll-cue's own .hide class)
+    document.body.classList.add('hero-intro-done');
+    if(window.gsap)gsap.set(allBits,{clearProps:'opacity,transform,zIndex,boxShadow'});
+    document.documentElement.style.overflow='';
     overlay.classList.add('done');
     document.dispatchEvent(new Event('bootComplete'));
     setTimeout(remove,320);
   }
+  // safety net only (not a user-facing skip) — guarantees the page can never get stuck hidden
+  setTimeout(()=>{if(!finished)finishIntro();},6000);
 
   // Graceful fallback: if GSAP failed to load (blocked CDN, offline, etc.) just reveal everything normally
   if(typeof gsap==='undefined'||!photoBox){
@@ -2505,23 +2523,21 @@ document.addEventListener('click',hideTip);
   const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
   const dx=vw/2-cx,dy=vh/2-cy;
 
-  gsap.set(photoBox,{transformOrigin:'50% 50%',x:dx,y:dy,scale:scale,zIndex:1450,boxShadow:'0 45px 130px rgba(0,0,0,.65)'});
+  gsap.set(photoBox,{transformOrigin:'50% 50%',x:dx,y:dy,scale:scale,zIndex:1450,opacity:0,boxShadow:'0 45px 130px rgba(0,0,0,.65)'});
   const revealTargets=[heroBits.nameBlock,heroBits.tagline,heroBits.btns,heroBits.terminal,heroBits.scrollCue].filter(Boolean);
   gsap.set(revealTargets,{opacity:0,y:26});
   if(heroBits.nav)gsap.set(heroBits.nav,{opacity:0,y:-16});
 
   const tl=gsap.timeline({defaults:{ease:'power3.out'},onComplete:finishIntro});
-  tl.to(photoBox,{x:0,y:0,scale:1,duration:1.15,ease:'power4.inOut',boxShadow:'0 0 0 rgba(0,0,0,0)'});
+  // photo fades in already large (no pop from small->large), then eases down into its real hero position
+  tl.to(photoBox,{opacity:1,duration:.6,ease:'power2.out'});
+  tl.to(photoBox,{x:0,y:0,scale:1,duration:1.15,ease:'power4.inOut',boxShadow:'0 0 0 rgba(0,0,0,0)'},'-=.15');
   if(heroBits.nameBlock)tl.to(heroBits.nameBlock,{opacity:1,y:0,duration:.7},'-=.55');
   if(heroBits.nav)tl.to(heroBits.nav,{opacity:1,y:0,duration:.5},'-=.5');
   if(heroBits.tagline)tl.to(heroBits.tagline,{opacity:1,y:0,duration:.6},'-=.4');
   if(heroBits.terminal)tl.to(heroBits.terminal,{opacity:1,y:0,duration:.7},'-=.5');
   if(heroBits.btns)tl.to(heroBits.btns,{opacity:1,y:0,duration:.6},'-=.35');
   if(heroBits.scrollCue)tl.to(heroBits.scrollCue,{opacity:1,y:0,duration:.5},'-=.3');
-
-  function skip(){tl.progress(1);}
-  overlay.addEventListener('click',skip);
-  document.addEventListener('keydown',skip,{once:true});
 })();
 
 /* ── QUICK SEARCH ("/" TO SEARCH) ──────────────── */
