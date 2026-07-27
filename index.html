@@ -2,6 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<script>
+/* Hero intro (see near end of body) only plays on a front-door visit. If this load has a
+   hash (e.g. a shared field-note permalink), leave scroll alone so existing hash-navigation
+   further down the page can do its job, and the intro skips itself entirely. Otherwise, stop
+   the browser from restoring a previous scroll position on reload — that's what was causing
+   the intro's full-screen overlay to appear over whatever section was scrolled into view. */
+if(!location.hash){
+  if('scrollRestoration' in history)history.scrollRestoration='manual';
+  window.scrollTo(0,0);
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Jishnu EC — Cybersecurity Analyst</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>"/>
@@ -528,8 +539,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 .search-hint{padding:.8rem 1.2rem;border-top:1px solid var(--border2);font-size:.56rem;letter-spacing:1px;color:var(--text2);opacity:.55;display:flex;gap:1.2rem;flex-shrink:0;flex-wrap:wrap}
 
 /* ── HERO INTRO (photo blends into hero via GSAP) ─────── */
-.hero-intro{position:fixed;inset:0;z-index:1500;background:radial-gradient(circle at 50% 46%,rgba(2,13,2,0) 0%,rgba(2,13,2,.62) 78%);transition:opacity .3s ease}
-.hero-intro.done{opacity:0;pointer-events:none}
+.hero-intro{position:fixed;inset:0;z-index:1500}
 /* hidden the instant CSS loads (before any JS runs) so there's no flash of the normal page before the intro takes over */
 body:not(.hero-intro-done) .hphoto-box,
 body:not(.hero-intro-done) .hname-block,
@@ -2492,7 +2502,6 @@ document.addEventListener('click',hideTip);
   const allBits=[photoBox,heroBits.nameBlock,heroBits.tagline,heroBits.btns,heroBits.terminal,heroBits.scrollCue,heroBits.nav].filter(Boolean);
 
   let finished=false;
-  function remove(){if(overlay&&overlay.parentNode)overlay.parentNode.removeChild(overlay);}
   function finishIntro(){
     if(finished)return;
     finished=true;
@@ -2501,10 +2510,17 @@ document.addEventListener('click',hideTip);
     document.body.classList.add('hero-intro-done');
     if(window.gsap)gsap.set(allBits,{clearProps:'opacity,transform,zIndex,boxShadow'});
     document.documentElement.style.overflow='';
-    overlay.classList.add('done');
+    if(overlay.parentNode)overlay.parentNode.removeChild(overlay);
     document.dispatchEvent(new Event('bootComplete'));
-    setTimeout(remove,320);
   }
+
+  // Deep link (e.g. a shared field-note permalink) — skip the intro outright so it
+  // doesn't fight the page's own hash-navigation / scroll-to-entry logic.
+  if(location.hash){
+    finishIntro();
+    return;
+  }
+
   // safety net only (not a user-facing skip) — guarantees the page can never get stuck hidden
   setTimeout(()=>{if(!finished)finishIntro();},6000);
 
