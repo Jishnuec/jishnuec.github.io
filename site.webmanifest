@@ -1,0 +1,13 @@
+{
+  "name": "Jishnu EC — Cybersecurity Analyst",
+  "short_name": "Jishnu EC",
+  "description": "Cybersecurity Analyst & SOC Analyst — Penetration Testing, SIEM, OSINT, Digital Forensics.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020d02",
+  "theme_color": "#020d02",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

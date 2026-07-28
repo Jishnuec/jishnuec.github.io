@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>404 — Not Found | Jishnu EC</title>
+<meta name="robots" content="noindex"/>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png"/>
+<link rel="icon" href="icons/favicon.ico" sizes="any"/>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#020d02;color:#eeffee;font-family:'Share Tech Mono',monospace;min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:2rem;overflow:hidden;position:relative}
+canvas#mc{position:fixed;inset:0;opacity:.08;z-index:0}
+.wrap{position:relative;z-index:1;max-width:520px;width:100%}
+.big404{font-family:'VT323',monospace;font-size:clamp(5rem,18vw,8rem);color:#00ff41;text-shadow:0 0 22px rgba(0,255,65,.4);line-height:1}
+.term{background:#071a07;border:1px solid rgba(0,255,65,.5);text-align:left;margin:1.8rem 0;padding:1.1rem 1.3rem;font-size:.8rem;line-height:2}
+.term .pr{color:#00ff41}.term .rd{color:#ff5555}.term .vl{color:#eafff0}
+.msg{font-size:.82rem;color:#c5e8c5;line-height:1.8;margin-bottom:1.7rem}
+.btn{display:inline-block;border:1px solid #00ff41;color:#00ff41;padding:.7rem 1.7rem;text-decoration:none;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;transition:all .25s}
+.btn:hover{background:#00ff41;color:#020d02}
+@media(prefers-reduced-motion:reduce){canvas#mc{display:none}}
+</style>
+</head>
+<body>
+<canvas id="mc" aria-hidden="true"></canvas>
+<div class="wrap">
+  <div class="big404">404</div>
+  <div class="term">
+    <div><span class="pr">&#x276F;</span> <span class="vl">nmap -p- this-page</span></div>
+    <div><span class="rd">0 hosts up &mdash; target unreachable</span></div>
+    <div>&nbsp;</div>
+    <div><span class="pr">&#x276F;</span> <span class="vl">locate requested-page</span></div>
+    <div><span class="rd">locate: no such file or directory</span></div>
+  </div>
+  <p class="msg">This page doesn't exist, moved, or the link's wrong. Nothing sensitive here &mdash; just an empty route.</p>
+  <a href="/" class="btn">&#x2190; Back to base</a>
+</div>
+<script>
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var cv=document.getElementById('mc'),ctx=cv.getContext('2d');
+  var cols,drops;
+  function init(){cv.width=window.innerWidth;cv.height=window.innerHeight;cols=Math.floor(cv.width/18);drops=Array(cols).fill(1);}
+  init();
+  window.addEventListener('resize',init);
+  var chars='01ABCDEFGHIJKLMNOPQRSTUVWXYZ$#@%';
+  setInterval(function(){
+    ctx.fillStyle='rgba(1,8,1,.06)';ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle='#00ff41';ctx.font='13px monospace';
+    drops.forEach(function(y,i){
+      ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*18,y*18);
+      if(y*18>cv.height&&Math.random()>.975)drops[i]=0;
+      drops[i]++;
+    });
+  },50);
+})();
+</script>
+</body>
+</html>
