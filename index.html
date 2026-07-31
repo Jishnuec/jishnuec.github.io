@@ -2766,12 +2766,12 @@ document.addEventListener('click',hideTip);
     const btn=document.createElement('button');
     btn.className='permalink-btn';
     btn.type='button';
-    btn.title='Copy link to this entry';
+    btn.title='Copy shareable link (shows a proper preview on social media)';
     btn.textContent='\uD83D\uDD17';
     btn.addEventListener('click',(e)=>{
       e.stopPropagation();
       e.preventDefault();
-      const url=window.location.href.split('#')[0]+'#'+id;
+      const url=window.location.origin+'/share/'+id+'.html';
       copyToClipboard(url,()=>{
         const original=btn.textContent;
         btn.textContent='copied';

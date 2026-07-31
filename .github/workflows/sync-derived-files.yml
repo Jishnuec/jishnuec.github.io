@@ -1,0 +1,39 @@
+name: Sync RSS feed & share pages
+
+# Runs automatically whenever index.html changes on main, and regenerates
+# rss.xml + share/*.html to match. You never need to touch this file.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+  workflow_dispatch: {}   # lets you trigger it manually from the Actions tab too
+
+permissions:
+  contents: write   # needed so the bot can push the regenerated files back
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install beautifulsoup4
+
+      - run: python3 scripts/generate_derived_files.py
+
+      - name: Commit regenerated files (if anything changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add rss.xml share/
+          if git diff --staged --quiet; then
+            echo "Nothing to sync."
+          else
+            git commit -m "chore: auto-sync rss.xml + share pages [skip ci]"
+            git push
+          fi
