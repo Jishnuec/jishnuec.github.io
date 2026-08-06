@@ -52,6 +52,7 @@ for el in soup.select("#fnFeed .fn-post[data-date]"):
     date = (el.get("data-date") or "").strip()
     title_el = el.select_one(".fn-title")
     body_el = el.select_one(".fn-body")
+    img_el = el.select_one(".fn-img-wrap img")
     if not date or not title_el:
         continue
     notes.append({
@@ -59,6 +60,7 @@ for el in soup.select("#fnFeed .fn-post[data-date]"):
         "title": title_el.get_text(strip=True),
         "body": body_el.get_text(" ", strip=True) if body_el else "",
         "findings": [f.get_text(" ", strip=True) for f in el.select(".fn-finding")],
+        "image": (img_el.get("src") or "").strip() if img_el else "",
     })
 
 papers = []
@@ -72,6 +74,7 @@ for el in soup.select("#resGrid .rcard[data-date]"):
         "date": date,
         "title": title_el.get_text(strip=True),
         "desc": desc_el.get_text(" ", strip=True) if desc_el else "",
+        "image": "",  # research cards don't carry their own image in the source markup
     })
 
 notes.sort(key=lambda e: e["date"], reverse=True)
@@ -127,14 +130,12 @@ TEMPLATE = """<!DOCTYPE html>
 <meta property="og:url" content="{page_url}"/>
 <meta property="og:title" content="{title}"/>
 <meta property="og:description" content="{desc}"/>
-<meta property="og:image" content="{site}og-image.png"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:site_name" content="Jishnu EC"/>
+<meta property="og:image" content="{image}"/>
+{dims}<meta property="og:site_name" content="Jishnu EC"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="{title}"/>
 <meta name="twitter:description" content="{desc}"/>
-<meta name="twitter:image" content="{site}og-image.png"/>
+<meta name="twitter:image" content="{image}"/>
 <link rel="icon" type="image/png" sizes="32x32" href="../icons/icon-32.png"/>
 <style>
 body{{background:#020d02;color:#eeffee;font-family:'Share Tech Mono',monospace;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem}}
@@ -156,11 +157,21 @@ def emit(prefix, items, desc_key):
         id_ = f"{prefix}-{e['date']}-{slugify(e['title'])}"
         valid_ids.add(id_)
         target = f"{SITE}#{id_}"
+        # use the entry's own screenshot when it has one; otherwise fall back to the
+        # generic branded image (whose exact 1200x630 dimensions we can safely declare)
+        img = e.get("image") or ""
+        if img:
+            image_url = img
+            dims = ""
+        else:
+            image_url = f"{SITE}og-image.png"
+            dims = '<meta property="og:image:width" content="1200"/>\n<meta property="og:image:height" content="630"/>\n'
         html = TEMPLATE.format(
             target=target,
             title=e["title"].replace('"', '&quot;'),
             desc=truncate(e[desc_key]).replace('"', '&quot;'),
-            site=SITE,
+            image=image_url,
+            dims=dims,
             page_url=f"{SITE}share/{id_}.html",
         )
         with open(os.path.join(SHARE_DIR, f"{id_}.html"), "w", encoding="utf-8") as f:
