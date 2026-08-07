@@ -118,7 +118,7 @@ td strong { color: var(--ink); }
 .skill-tag { font-size: 13px; font-weight: 600; background: var(--bg-1); border: 1px solid var(--line-strong); color: var(--ink); padding: 7px 13px; border-radius: var(--radius-sm); }
 
 /* ---------------- closing links ---------------- */
-.link-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+.link-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 10px; }
 .link-card { background: var(--bg-1); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow-card); transition: border-color .15s, transform .15s var(--ease); }
 .link-card:hover { border-color: var(--brand); transform: translateY(-2px); text-decoration: none; }
 .link-card .lc-label { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); margin-bottom: 6px; }
@@ -143,6 +143,7 @@ footer a { color: var(--ink-dim); }
 <div class="topbar">
   <span class="topbar-name">Shitty Human</span>
   <div class="topbar-links">
+    <a href="https://jishnuec.github.io/shitty-human">Live app</a>
     <a href="https://jishnuec.github.io/shitty-human-documentation.html">Technical docs</a>
     <a href="https://github.com/Jishnuec/shitty-human">Source</a>
     <a href="https://jishnuec.github.io/">Portfolio</a>
@@ -156,7 +157,8 @@ footer a { color: var(--ink-dim); }
     <h1>Shitty <span>Human</span></h1>
     <p class="hero-lede">A daily mood tracker that grew into a full social app — friends, real-time chat, voice notes, an achievement system — built as a single HTML file with no backend. Firebase holds the data; Firestore's security rules hold the trust boundary a server would normally own.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="https://jishnuec.github.io/shitty-human-documentation.html">Read the full technical write-up →</a>
+      <a class="btn btn-primary" href="https://jishnuec.github.io/shitty-human">Try the live app →</a>
+      <a class="btn btn-ghost" href="https://jishnuec.github.io/shitty-human-documentation.html">Read the technical write-up</a>
       <a class="btn btn-ghost" href="https://github.com/Jishnuec/shitty-human">View the source</a>
     </div>
     <div class="stat-strip">
@@ -297,6 +299,10 @@ const VOICE_MIME_CANDIDATES = ['audio/webm;codecs=opus', 'audio/ogg;codecs=opus'
     <h2>Everything's linked, nothing's hidden</h2>
     <p>The full technical write-up covers the complete data model, every collection and field, the full security-rules walkthrough, and every code reference above in context — including line numbers, cross-checked directly against the source.</p>
     <div class="link-cards">
+      <a class="link-card" href="https://jishnuec.github.io/shitty-human">
+        <div class="lc-label">Try it</div>
+        <div class="lc-title">Live app <span class="lc-arrow">→</span></div>
+      </a>
       <a class="link-card" href="https://jishnuec.github.io/shitty-human-documentation.html">
         <div class="lc-label">Deep dive</div>
         <div class="lc-title">Technical docs <span class="lc-arrow">→</span></div>
