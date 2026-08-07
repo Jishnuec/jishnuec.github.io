@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shitty Human — Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-0: #0C0C0E; --bg-1: #17171B; --bg-2: #1F1F24; --bg-3: #26262d;
+  --line: rgba(255,255,255,.08); --line-strong: rgba(255,255,255,.16);
+  --ink: #EDEBE6; --ink-dim: #A6A29B; --ink-faint: #6E6A63;
+  --brand: #AD8750; --brand-hi: #C9A165; --brand-ink: #1B1409;
+  --bad: #A5514B; --bad-ink: #F3C8BE;
+  --good: #6E8C7A; --good-ink: #cfe0d6;
+  --premium: #4A90D9; --premium-ink: #cfe3f7;
+  --shadow-card: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.28);
+  --font-display: 'Source Serif 4', Georgia, serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius-sm: 8px; --radius: 12px; --radius-lg: 20px;
+  --ease: cubic-bezier(.16,.84,.44,1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *,*::before,*::after { animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+html, body { margin: 0; padding: 0; }
+body {
+  background: radial-gradient(ellipse 80% 40% at 50% -10%, rgba(255,255,255,.035) 0%, transparent 55%), var(--bg-0);
+  background-attachment: fixed; color: var(--ink); font-family: var(--font-body); font-size: 16.5px;
+  -webkit-font-smoothing: antialiased; line-height: 1.65;
+}
+a { color: var(--brand-hi); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--brand-hi); outline-offset: 2px; border-radius: 4px; }
+code { font-family: var(--font-mono); background: var(--bg-2); border: 1px solid var(--line-strong); padding: 1px 6px; border-radius: 5px; font-size: .87em; color: var(--brand-hi); }
+::selection { background: var(--brand); color: var(--brand-ink); }
+strong { color: var(--ink); }
+h2 { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 30px; color: var(--ink); margin: 0 0 .5em; letter-spacing: -.01em; }
+h3 { font-family: var(--font-body); font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; color: var(--brand-hi); margin: 0 0 .8em; }
+p { margin: 0 0 1.15em; color: var(--ink-dim); max-width: 68ch; }
+ul { color: var(--ink-dim); padding-left: 1.2em; margin: 0 0 1.15em; max-width: 66ch; }
+li { margin-bottom: .5em; }
+li::marker { color: var(--brand); }
+
+/* ---------------- topbar ---------------- */
+.topbar { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 14px 28px; background: color-mix(in srgb, var(--bg-0) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.topbar-name { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 16px; }
+.topbar-links { display: flex; gap: 18px; font-size: 12.5px; font-weight: 600; }
+.topbar-links a { color: var(--ink-dim); }
+.topbar-links a:hover { color: var(--brand-hi); text-decoration: none; }
+
+/* ---------------- shell ---------------- */
+.wrap { max-width: 700px; margin: 0 auto; padding: 0 28px 100px; }
+
+/* ---------------- hero ---------------- */
+.hero { padding: 60px 0 10px; }
+.hero-kicker { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 20px; }
+.hero h1 { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 48px; line-height: 1.08; color: var(--ink); margin: 0 0 20px; letter-spacing: -.01em; }
+.hero h1 span { color: var(--brand-hi); }
+.hero-lede { font-size: 18px; color: var(--ink-dim); max-width: 58ch; margin-bottom: 30px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+.btn { font-family: var(--font-body); font-weight: 700; font-size: 13.5px; padding: 11px 18px; border-radius: var(--radius-sm); transition: transform .15s var(--ease), filter .15s ease, border-color .15s; display: inline-flex; align-items: center; gap: 7px; }
+.btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn-primary { background: var(--brand); color: var(--brand-ink); border: 1px solid var(--brand); }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { background: var(--bg-1); color: var(--ink); border: 1px solid var(--line-strong); }
+.btn-ghost:hover { border-color: var(--ink-faint); }
+
+.stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin-bottom: 54px; }
+.stat-tile { background: var(--bg-1); padding: 18px 10px; text-align: center; }
+.stat-tile .v { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 24px; color: var(--brand-hi); display: block; }
+.stat-tile .l { font-size: 10.5px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; display: block; }
+
+/* ---------------- sections ---------------- */
+section { padding: 46px 0; border-top: 1px solid var(--line); }
+section:first-of-type { border-top: none; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--brand); margin-bottom: 12px; font-weight: 600; }
+
+.pull { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 25px; line-height: 1.35; color: var(--brand-hi); margin: 0 0 20px; max-width: 20ch; }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 7px; margin: 6px 0 24px; }
+.pill { font-family: var(--font-mono); font-size: 11.5px; background: var(--bg-2); border: 1px solid var(--line-strong); color: var(--ink-dim); padding: 5px 11px; border-radius: 20px; }
+
+.tbl-wrap { overflow-x: auto; margin: 18px 0; border: 1px solid var(--line); border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { text-align: left; background: var(--bg-2); color: var(--ink-dim); font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding: 10px 14px; border-bottom: 1px solid var(--line-strong); }
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--ink-dim); }
+tr:last-child td { border-bottom: none; }
+td strong { color: var(--ink); }
+
+/* ---------------- problem cards ---------------- */
+.problem { margin-bottom: 46px; }
+.problem:last-child { margin-bottom: 0; }
+.problem-num { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); letter-spacing: .06em; margin-bottom: 6px; }
+
+/* ---------------- snippets ---------------- */
+.snippet { margin: 16px 0 20px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line-strong); box-shadow: var(--shadow-card); }
+.snippet-tab { display: flex; align-items: center; justify-content: space-between; background: var(--bg-2); padding: 9px 14px; border-bottom: 1px solid var(--line-strong); }
+.snippet-tab .fn { font-family: var(--font-mono); font-size: 12px; color: var(--brand-hi); font-weight: 600; }
+.snippet-tab .loc { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint); margin-left: 8px; }
+.snippet pre { margin: 0; padding: 15px 18px; background: var(--bg-2); overflow-x: auto; }
+.snippet code { font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--ink); white-space: pre; background: none; border: none; padding: 0; }
+.snippet .cm { color: var(--ink-faint); font-style: italic; }
+.copy-btn { font-family: var(--font-body); font-size: 11px; font-weight: 600; background: var(--bg-3); border: 1px solid var(--line-strong); color: var(--ink-dim); border-radius: 6px; padding: 4px 10px; cursor: pointer; transition: color .15s, border-color .15s; }
+.copy-btn:hover { color: var(--ink); border-color: var(--ink-faint); }
+.copy-btn.copied { color: var(--good-ink); border-color: var(--good); }
+
+/* ---------------- callout ---------------- */
+.callout { border: 1px solid var(--line-strong); border-left: 3px solid var(--brand); background: var(--bg-1); border-radius: 0 var(--radius) var(--radius) 0; padding: 16px 20px; margin: 18px 0; box-shadow: var(--shadow-card); }
+.callout p:last-child { margin-bottom: 0; }
+.callout-label { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700; margin-bottom: 8px; color: var(--brand-hi); }
+
+/* ---------------- skills cloud ---------------- */
+.skills-cloud { display: flex; flex-wrap: wrap; gap: 9px; margin: 10px 0 6px; }
+.skill-tag { font-size: 13px; font-weight: 600; background: var(--bg-1); border: 1px solid var(--line-strong); color: var(--ink); padding: 7px 13px; border-radius: var(--radius-sm); }
+
+/* ---------------- closing links ---------------- */
+.link-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+.link-card { background: var(--bg-1); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow-card); transition: border-color .15s, transform .15s var(--ease); }
+.link-card:hover { border-color: var(--brand); transform: translateY(-2px); text-decoration: none; }
+.link-card .lc-label { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); margin-bottom: 6px; }
+.link-card .lc-title { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 18px; color: var(--ink); }
+.link-card .lc-arrow { color: var(--brand-hi); }
+
+footer { padding: 40px 0 0; color: var(--ink-faint); font-size: 12px; }
+footer a { color: var(--ink-dim); }
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 20px 80px; }
+  .hero h1 { font-size: 36px; }
+  .stat-strip { grid-template-columns: repeat(2, 1fr); }
+  .link-cards { grid-template-columns: 1fr; }
+  .topbar { padding: 12px 18px; }
+  .topbar-links { gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-name">Shitty Human</span>
+  <div class="topbar-links">
+    <a href="https://jishnuec.github.io/shitty-human-documentation.html">Technical docs</a>
+    <a href="https://github.com/Jishnuec/shitty-human">Source</a>
+    <a href="https://jishnuec.github.io/">Portfolio</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-kicker">Case study · solo-built, ground-up</div>
+    <h1>Shitty <span>Human</span></h1>
+    <p class="hero-lede">A daily mood tracker that grew into a full social app — friends, real-time chat, voice notes, an achievement system — built as a single HTML file with no backend. Firebase holds the data; Firestore's security rules hold the trust boundary a server would normally own.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://jishnuec.github.io/shitty-human-documentation.html">Read the full technical write-up →</a>
+      <a class="btn btn-ghost" href="https://github.com/Jishnuec/shitty-human">View the source</a>
+    </div>
+    <div class="stat-strip">
+      <div class="stat-tile"><span class="v">1</span><span class="l">file, no backend</span></div>
+      <div class="stat-tile"><span class="v">2,894</span><span class="l">lines</span></div>
+      <div class="stat-tile"><span class="v">13</span><span class="l">achievements</span></div>
+      <div class="stat-tile"><span class="v">3</span><span class="l">message types</span></div>
+    </div>
+  </div>
+
+  <section id="why">
+    <div class="eyebrow">Why</div>
+    <h2>I wanted a number, not a wellness app</h2>
+    <p>Most mood trackers want a paragraph, a mood wheel, and a streak to protect. I wanted something closer to a private ledger: pick 1–10, write a line if you feel like it, decide right there whether it's private. That part came first and stayed the core of the app.</p>
+    <p>The social side came from actually using it — rating your day alone gets old fast, and the two people this started for wanted to compare notes, not just log in isolation. So a friend system, a shared chat, and a head-to-head "Compare" tab stopped being nice-to-haves and became half the app. There's still a fossil of that origin buried in the code: if the whole <code>users</code> collection ever has exactly two accounts in it, a migration function auto-friends them — no request, no accept, just instantly connected. I've left it in.</p>
+  </section>
+
+  <section id="what">
+    <div class="eyebrow">What it does</div>
+    <h2>The feature list, honestly</h2>
+    <div class="pill-row">
+      <span class="pill">Daily 1–10 rating + notes + tags</span><span class="pill">Per-entry privacy</span>
+      <span class="pill">Friend requests</span><span class="pill">Real-time 1:1 chat</span>
+      <span class="pill">Shared "day cards"</span><span class="pill">30s voice notes</span>
+      <span class="pill">Emoji reactions</span><span class="pill">13-item achievement system</span>
+      <span class="pill">Head-to-head Compare tab</span><span class="pill">Premium via redeem codes</span>
+      <span class="pill">Theme + font switching</span>
+    </div>
+    <p>Everything above is one screen, one Firebase project, and zero servers I have to keep running. That constraint shaped almost every decision below.</p>
+  </section>
+
+  <section id="how">
+    <div class="eyebrow">How it's built</div>
+    <h2>No framework, no build step, on purpose</h2>
+    <p>It's plain HTML, CSS, and JavaScript in a single file — no React, no bundler, no <code>package.json</code>. For a project this size, that was a deliberate trade: I wanted every part of the stack to be something I fully controlled and could reason about end to end, not abstracted behind tooling. The whole app ships to <strong>GitHub Pages</strong> as-is.</p>
+    <div class="skills-cloud">
+      <span class="skill-tag">Firebase Authentication</span>
+      <span class="skill-tag">Cloud Firestore</span>
+      <span class="skill-tag">Firestore Security Rules</span>
+      <span class="skill-tag">Real-time listeners</span>
+      <span class="skill-tag">Batched / atomic writes</span>
+      <span class="skill-tag">MediaRecorder API</span>
+      <span class="skill-tag">Web Audio API</span>
+      <span class="skill-tag">Chart.js</span>
+      <span class="skill-tag">NoSQL data modeling</span>
+      <span class="skill-tag">CSS custom properties / theming</span>
+      <span class="skill-tag">Vanilla JS state management</span>
+      <span class="skill-tag">GitHub Pages deployment</span>
+    </div>
+  </section>
+
+  <section id="problems">
+    <div class="eyebrow">The interesting part</div>
+    <h2>Four problems worth talking about</h2>
+
+    <div class="problem">
+      <div class="problem-num">01</div>
+      <p class="pull">Auth, with no email address in sight.</p>
+      <p>I wanted sign-up to be just a username and a password — no email field, no verification step. Firebase's password provider still wants something email-shaped under the hood, so I manufacture one deterministically from the username:</p>
+      <div class="snippet">
+  <div class="snippet-tab"><span><span class="fn">usernameToEmail()</span><span class="loc">index.html · line 1214</span></span><button class="copy-btn" type="button">Copy</button></div>
+  <pre><code>function usernameToEmail(username) { return username.trim().toLowerCase().replace(/[^a-z0-9_]/g,'') + '@dayvibe.local'; }</code></pre>
+</div>
+      <p>A username becomes <code>username@dayvibe.local</code> — a domain that never has to resolve, because Firebase Auth never sends anything through it. I reused the exact same function later, in an unrelated spot: re-authenticating a user with their password before letting them delete their account, since Firebase requires a fresh credential for that and the "credential" is just this same fake email plus their real password.</p>
+    </div>
+
+    <div class="problem">
+      <div class="problem-num">02</div>
+      <p class="pull">The security rules are the backend.</p>
+      <p>With no server, <code>firestore.rules</code> is the only thing standing between any signed-in user and everyone else's data. So it isn't a formality — it's real schema validation, written as if I were validating request bodies in an API. The rule for creating a chat message, for instance, enforces a completely different required shape depending on whether the message is text, a shared day, or a voice note. Here's a smaller example: the rule that locks a user's <code>isPremium</code> field so it can never change through a normal client update —</p>
+      <div class="snippet">
+  <div class="snippet-tab"><span><span class="fn">users/{uid} update rule</span><span class="loc">firestore.rules · lines 72–81</span></span><button class="copy-btn" type="button">Copy</button></div>
+  <pre><code>      allow update: if isSelf(uid)
+        &amp;&amp; request.resource.data.username == resource.data.username
+        &amp;&amp; request.resource.data.usernameLower == resource.data.usernameLower
+        &amp;&amp; request.resource.data.createdAt == resource.data.createdAt
+<span class="cm">        // Not self-service — see note at the top of this file.</span>
+        &amp;&amp; request.resource.data.isPremium == resource.data.isPremium
+<span class="cm">        // memberNumber may be claimed once (self-heal path for old accounts)</span>
+<span class="cm">        // but never reassigned after that.</span>
+        &amp;&amp; (request.resource.data.memberNumber == resource.data.get('memberNumber', null)
+            || resource.data.get('memberNumber', null) == null);</code></pre>
+</div>
+      <p>Writing rules like this forces a different kind of discipline than writing UI code: every field on every collection has to be justified out loud, because the default in Firestore is deny, not allow.</p>
+    </div>
+
+    <div class="problem">
+      <div class="problem-num">03</div>
+      <p class="pull">Voice notes inside someone else's size limit.</p>
+      <p>Recording uses <code>MediaRecorder</code> against a mono <code>getUserMedia</code> stream, with a fallback chain across five MIME types because not every browser will encode opus. The harder constraint was underneath that: Firestore caps a document at 1&nbsp;MiB, and a voice note has to be stored as base64 text inside one. That meant working the math backwards from the limit instead of forwards from "how long should a voice note be":</p>
+      <div class="snippet">
+  <div class="snippet-tab"><span><span class="fn">voice-note constants</span><span class="loc">index.html · lines 2686–2692</span></span><button class="copy-btn" type="button">Copy</button></div>
+  <pre><code>const VOICE_MAX_MS = 30000; // hard auto-stop at 30s
+<span class="cm">// 32kbps mono opus for ~30s lands around 120-150KB raw / ~160-200KB base64 - inside the</span>
+<span class="cm">// 150-250KB target. The hard cap below is a safety net for browsers (e.g. Safari's AAC</span>
+<span class="cm">// encoder) that don't honor the requested bitrate; it still leaves the doc well under</span>
+<span class="cm">// Firestore's 1 MiB limit once the other small message fields are added.</span>
+const VOICE_MAX_BASE64_BYTES = 350 * 1024;
+const VOICE_MIME_CANDIDATES = ['audio/webm;codecs=opus', 'audio/ogg;codecs=opus', 'audio/mp4', 'audio/webm', 'audio/mpeg'];</code></pre>
+</div>
+      <p>30 seconds, 32kbps, a byte ceiling with headroom for browsers that ignore the bitrate hint — and then that same ceiling enforced twice: once client-side for instant feedback, and again inside the Firestore rule itself, so the check can't be skipped by talking to Firestore directly instead of through the UI.</p>
+    </div>
+
+    <div class="problem">
+      <div class="problem-num">04</div>
+      <p class="pull">Something I caught, not something I hid.</p>
+      <p>While writing this case study I went back through the rules against the actual code, line by line, instead of trusting that they still agreed with each other. They didn't, in one place: the rule above locks <code>isPremium</code> from client writes, but the redeem-code button in Settings still sets it directly from the browser —</p>
+      <div class="snippet">
+  <div class="snippet-tab"><span><span class="fn">redeemCodeBtn click handler</span><span class="loc">index.html · lines 1747–1760</span></span><button class="copy-btn" type="button">Copy</button></div>
+  <pre><code>redeemCodeBtn.addEventListener('click', async () =&gt; {
+  const code = redeemCodeInput.value.trim().toUpperCase();
+  if (!code) return showProfileMsg('Enter a code first.', true, redeemMsg);
+  if (!PREMIUM_CODES.includes(code)) return showProfileMsg("That code doesn't look right.", true, redeemMsg);
+  redeemCodeBtn.disabled = true;
+  try {
+    await db.collection('users').doc(currentUser.uid).update({ isPremium: true, premiumSince: firebase.firestore.FieldValue.serverTimestamp() });
+    currentProfile.isPremium = true;
+    renderSettingsScreen();
+    showProfileMsg('Premium unlocked!', false, redeemMsg);
+    launchConfetti(24);
+  } catch (e) { console.error(e); showProfileMsg('Could not redeem — try again.', true, redeemMsg); }
+  redeemCodeBtn.disabled = false;
+});</code></pre>
+</div>
+      <p>Deploy the rules exactly as written and that button starts failing with <code>permission-denied</code> the next time someone redeems a code. It's a one-line fix in one of two directions — either move the grant behind a trusted server check if Premium is ever meant to gate something real, or drop the lock and accept it as the fun, unenforced toggle it is today — and I'd rather show that I found it during review than pretend the first draft was airtight. The full reasoning, plus the exact line numbers on both sides, is in the technical write-up.</p>
+    </div>
+  </section>
+
+  <section id="learned">
+    <div class="eyebrow">Looking back</div>
+    <h2>What building this alone taught me</h2>
+    <p>Working without a backend doesn't remove the hard problems a backend usually absorbs — it just moves them somewhere more visible. Every validation rule, every access check, every "can this field ever change after creation" question had to be answered explicitly in <code>firestore.rules</code> instead of hiding inside a framework's ORM or an API middleware. That turned out to be a good thing: I understand this data model completely, because I had to write down every rule that governs it by hand.</p>
+    <p>The other lesson is smaller but stuck with me: the bug most worth finding wasn't in the UI at all — it was in the disagreement between two files that never run in the same place. Catching that took deliberately reading the rules and the client code side by side, not just testing the happy path in the browser.</p>
+  </section>
+
+  <section id="links">
+    <div class="eyebrow">Go deeper</div>
+    <h2>Everything's linked, nothing's hidden</h2>
+    <p>The full technical write-up covers the complete data model, every collection and field, the full security-rules walkthrough, and every code reference above in context — including line numbers, cross-checked directly against the source.</p>
+    <div class="link-cards">
+      <a class="link-card" href="https://jishnuec.github.io/shitty-human-documentation.html">
+        <div class="lc-label">Deep dive</div>
+        <div class="lc-title">Technical docs <span class="lc-arrow">→</span></div>
+      </a>
+      <a class="link-card" href="https://github.com/Jishnuec/shitty-human">
+        <div class="lc-label">Source</div>
+        <div class="lc-title">GitHub repo <span class="lc-arrow">→</span></div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    Built solo, top to bottom — HTML/CSS/JS, Firebase, Firestore rules, and the write-ups both. More at <a href="https://jishnuec.github.io/">jishnuec.github.io</a>.
+  </footer>
+
+</div>
+<script>
+(function () {
+  "use strict";
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.copy-btn');
+    if (!btn) return;
+    var wrap = btn.closest('.snippet');
+    var code = wrap && wrap.querySelector('code');
+    if (!code) return;
+    var text = code.textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () {
+      btn.textContent = 'Copied'; btn.classList.add('copied');
+      setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1600);
+    }).catch(function () {
+      btn.textContent = 'Select + ⌘C'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+    });
+  });
+})();
+</script>
+</body>
+</html>
