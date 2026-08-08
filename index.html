@@ -577,6 +577,7 @@ footer{border-top:1px solid var(--border);padding:2.2rem 3rem;display:flex;align
 .search-result-badge{font-family:var(--orb);font-size:.46rem;letter-spacing:1.5px;padding:.16rem .5rem;border:1px solid rgba(0,229,255,.35);color:var(--cyan);background:rgba(0,229,255,.05);flex-shrink:0;white-space:nowrap}
 .search-result-badge.paper{border-color:rgba(180,79,255,.35);color:var(--purple);background:rgba(180,79,255,.05)}
 .search-result-badge.lab{border-color:rgba(255,183,50,.4);color:var(--amber);background:rgba(255,183,50,.06)}
+.search-result-badge.project{border-color:rgba(0,255,65,.35);color:var(--g);background:rgba(0,255,65,.05)}
 .search-result-title{font-family:var(--mono);font-size:.74rem;color:var(--text)}
 .search-result-snippet{font-size:.66rem;color:var(--text2);line-height:1.6;padding-left:.05rem}
 .search-empty{padding:2.2rem 1rem;text-align:center;font-family:var(--vt);font-size:1.1rem;color:var(--text2);letter-spacing:2px;opacity:.5}
@@ -1171,7 +1172,7 @@ body:not(.hero-intro-done) .scroll-cue{opacity:1}
         <p class="pdesc">Serverless social web app for daily mood tracking — real-time friend chat, voice notes, and a 13-item achievement system, running entirely on Firebase Auth and Firestore with no backend server. Features custom Firestore security rules as the full access-control layer, real-time listeners, MediaRecorder-based voice messages, Chart.js comparisons, and a complete light/dark theming system.</p>
         <div class="pstack"><span class="pstag">JavaScript</span><span class="pstag">Firebase</span><span class="pstag">Firestore</span><span class="pstag">Security Rules</span><span class="pstag">Chart.js</span><span class="pstag">MediaRecorder API</span></div>
         <div class="plinks">
-          <a href="https://jishnuec.github.io/shitty-human" target="_blank" class="plink" style="color:var(--amber)">Live App <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="https://jishnuec.github.io/shitty-human/" target="_blank" class="plink" style="color:var(--amber)">Live App <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <a href="https://github.com/Jishnuec/shitty-human" target="_blank" class="plink">GitHub <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <a href="shitty-human-writeup.html" class="plink" style="color:var(--cyan)">Writeup <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <a href="shitty-human-documentation.html" class="plink" style="color:var(--purple)">Docs <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -1461,6 +1462,7 @@ body:not(.hero-intro-done) .scroll-cue{opacity:1}
             </div>
             <a href="shitty-human-writeup.html" class="fn-link" style="color:var(--g)">Read Full Writeup</a>
             <a href="shitty-human-documentation.html" class="fn-link">View Documentation</a>
+            <a href="https://jishnuec.github.io/shitty-human/" target="_blank" class="fn-link" style="color:var(--amber)">Try the Live App</a>
             <div class="fn-tags-row">
               <span class="fn-tag" onclick="filterByTag('Web Development',null)">Web Development</span>
             </div>
@@ -2233,25 +2235,47 @@ const pageConfig={
     btnPrefix:'fnP',maxPages:5,sectionId:'timeline'}
 };
 
+/* activeFilter[key] is either null (show everything) or a predicate (item => boolean)
+   set by filterProjects/filterByTag. renderPage and changePage both read through
+   getMatchingItems() so Prev/Next, the page-number buttons, and the "Showing X of Y"
+   count always match whatever filter is currently active. Sorting never touches this,
+   since sort only reorders the DOM — so a filter stays applied across a sort. */
+const activeFilter={projects:null,research:null,labs:null,fieldNotes:null};
+
+function getMatchingItems(key){
+  const cfg=pageConfig[key];
+  const grid=document.getElementById(cfg.gridId);
+  if(!grid)return[];
+  const allItems=[...grid.querySelectorAll(cfg.selector)];
+  const pred=activeFilter[key];
+  return pred?allItems.filter(pred):allItems;
+}
+
 function renderPage(key,page,doScroll){
   const cfg=pageConfig[key];
   const grid=document.getElementById(cfg.gridId);
   if(!grid)return;
-  const items=[...grid.querySelectorAll(cfg.selector)];
+  const allItems=[...grid.querySelectorAll(cfg.selector)];
+  const matching=getMatchingItems(key);
   const ps=pageSize[key];
-  const total=items.length;
+  const total=matching.length;
   const totalPages=Math.ceil(total/ps)||1;
+  page=Math.max(1,Math.min(totalPages,page));
   const start=(page-1)*ps;
   const end=start+ps;
-  items.forEach((item,i)=>{item.style.display=(i>=start&&i<end)?'':'none';});
+  allItems.forEach(item=>{item.style.display='none';});
+  matching.forEach((item,i)=>{if(i>=start&&i<end)item.style.display='';});
   pageState[key]=page;
   const showingEl=document.getElementById(cfg.showingId);
   const totalEl=document.getElementById(cfg.totalId);
-  if(showingEl)showingEl.textContent=Math.min(end,total);
+  if(showingEl)showingEl.textContent=total===0?0:Math.min(end,total);
   if(totalEl)totalEl.textContent=total;
   for(let p=1;p<=cfg.maxPages;p++){
     const btn=document.getElementById(cfg.btnPrefix+p);
-    if(btn)btn.classList.toggle('active',p===page);
+    if(btn){
+      btn.classList.toggle('active',p===page);
+      btn.style.display=p<=totalPages?'':'none';
+    }
   }
   const prev=document.getElementById(cfg.prevId);
   const next=document.getElementById(cfg.nextId);
@@ -2263,11 +2287,7 @@ function renderPage(key,page,doScroll){
 }
 
 function changePage(key,delta,btn){
-  const cfg=pageConfig[key];
-  const grid=document.getElementById(cfg.gridId);
-  if(!grid)return;
-  const items=[...grid.querySelectorAll(cfg.selector)];
-  const totalPages=Math.ceil(items.length/pageSize[key])||1;
+  const totalPages=Math.ceil(getMatchingItems(key).length/pageSize[key])||1;
   const newPage=Math.max(1,Math.min(totalPages,pageState[key]+delta));
   renderPage(key,newPage,true);
 }
@@ -2278,37 +2298,19 @@ function goPage(key,page,btn){renderPage(key,page,true);}
 function filterProjects(type,btn){
   document.querySelectorAll('#projectTypeChips .fn-chip').forEach(c=>c.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  const grid=document.getElementById('pgrid');
-  const items=[...grid.querySelectorAll('.pcard')];
-  const filtered=type?items.filter(p=>p.dataset.ptype===type):items;
-  items.forEach(p=>p.style.display='none');
-  filtered.forEach((p,i)=>{p.style.display=i<pageSize.projects?'':'none';});
-  const totalPages=Math.ceil(filtered.length/pageSize.projects)||1;
-  const pagEl=document.getElementById('projectsPagination');
-  const btnDiv=document.getElementById('projectsBtns');
-  if(pagEl)pagEl.style.display=filtered.length>0?'flex':'none';
-  if(btnDiv)btnDiv.style.display=totalPages<=1?'none':'flex';
-  const s=document.getElementById('projectsShowing');
-  const t=document.getElementById('projectsTotal');
-  if(s)s.textContent=Math.min(pageSize.projects,filtered.length);
-  if(t)t.textContent=filtered.length;
-  scrollToSection('projects');
+  activeFilter.projects=type?(p=>p.dataset.ptype===type):null;
+  renderPage('projects',1,true);
 }
 
 /* ── PROJECT SORT ──────────────────────────────── */
 function sortProjects(order,btn){
   document.querySelectorAll('#projectSortChips .fn-chip').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  document.querySelectorAll('#projectTypeChips .fn-chip').forEach(c=>c.classList.remove('active'));
-  const allBtn=document.querySelector('#projectTypeChips .fn-chip');
-  if(allBtn)allBtn.classList.add('active');
   const grid=document.getElementById('pgrid');
   if(!grid)return;
   const cards=[...grid.querySelectorAll('.pcard')];
   cards.sort((a,b)=>{const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';return order==='newest'?db.localeCompare(da):da.localeCompare(db);});
-  cards.forEach(c=>{c.style.display='';grid.appendChild(c);});
-  const btnDiv=document.getElementById('projectsBtns');
-  if(btnDiv)btnDiv.style.display='flex';
+  cards.forEach(c=>grid.appendChild(c));
   renderPage('projects',1,true);
 }
 
@@ -2347,28 +2349,9 @@ function filterByTag(tag,btn){
   currentTag=tag;
   if(btn){document.querySelectorAll('#fnChips .fn-chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');}
   else if(tag){document.querySelectorAll('#fnChips .fn-chip').forEach(c=>{const oc=c.getAttribute('onclick')||'';c.classList.toggle('active',oc.includes(`'${tag}'`));});}
-  const feed=document.getElementById('fnFeed');
-  if(!feed)return;
-  const posts=[...feed.querySelectorAll('.fn-post')];
-  if(!tag){
-    posts.forEach(p=>delete p.dataset.filterHidden);
-    renderPage('fieldNotes',1,false);
-    checkFnEmpty();
-    scrollToSection('timeline');
-    return;
-  }
-  const matching=posts.filter(p=>{const tags=(p.dataset.tags||'').split(',').map(t=>t.trim());return tags.includes(tag);});
-  posts.forEach(p=>p.style.display='none');
-  matching.forEach((p,i)=>{p.style.display=i<pageSize.fieldNotes?'':'none';});
-  const totalPages=Math.ceil(matching.length/pageSize.fieldNotes)||1;
-  const pagEl=document.getElementById('fieldNotesPagination');
-  if(pagEl)pagEl.style.display=totalPages<=1?'none':'flex';
-  const s=document.getElementById('fnShowing');
-  const t=document.getElementById('fnTotal');
-  if(s)s.textContent=Math.min(pageSize.fieldNotes,matching.length);
-  if(t)t.textContent=matching.length;
+  activeFilter.fieldNotes=tag?(p=>{const tags=(p.dataset.tags||'').split(',').map(t=>t.trim());return tags.includes(tag);}):null;
+  renderPage('fieldNotes',1,true);
   checkFnEmpty();
-  scrollToSection('timeline');
 }
 function checkFnEmpty(){
   const feed=document.getElementById('fnFeed');
@@ -2576,7 +2559,27 @@ document.addEventListener('click',hideTip);
     if(!recentItem)return;
     const item=recentItem;
     hidePopup();
+    const key=item.type==='note'?'fieldNotes':'research';
     const targetSection=item.type==='note'?'timeline':'research';
+    if(activeFilter[key]){
+      activeFilter[key]=null;
+      if(key==='fieldNotes'){
+        currentTag=null;
+        const chips=[...document.querySelectorAll('#fnChips .fn-chip')];
+        chips.forEach(c=>c.classList.remove('active'));
+        if(chips[0])chips[0].classList.add('active');
+        checkFnEmpty();
+      }
+    }
+    const cfg=pageConfig[key];
+    if(cfg){
+      const grid=document.getElementById(cfg.gridId);
+      if(grid){
+        const items=[...grid.querySelectorAll(cfg.selector)];
+        const idx=items.indexOf(item.el);
+        if(idx>=0)renderPage(key,Math.floor(idx/pageSize[key])+1,false);
+      }
+    }
     scrollToSection(targetSection);
     setTimeout(()=>{
       const el=item.el;
@@ -2743,7 +2746,13 @@ document.addEventListener('click',hideTip);
       body:(el.querySelector('.ldesc')?.textContent||'').trim(),
       section:'labs'
     }));
-    return notes.concat(papers).concat(labs);
+    const projects=[...document.querySelectorAll('#pgrid .pcard')].map(el=>({
+      el,type:'project',
+      title:(el.querySelector('.pname')?.textContent||'').trim(),
+      body:(el.querySelector('.pdesc')?.textContent||'').trim(),
+      section:'projects'
+    }));
+    return notes.concat(papers).concat(labs).concat(projects);
   }
 
   function snippet(text,q){
@@ -2756,6 +2765,31 @@ document.addEventListener('click',hideTip);
 
   function goToResult(m){
     closeSearchFn();
+    const sectionKeyMap={timeline:'fieldNotes',research:'research',labs:'labs',projects:'projects'};
+    const key=sectionKeyMap[m.section];
+    if(key&&pageConfig[key]){
+      if(activeFilter[key]){
+        activeFilter[key]=null;
+        if(key==='fieldNotes'){
+          currentTag=null;
+          const chips=[...document.querySelectorAll('#fnChips .fn-chip')];
+          chips.forEach(c=>c.classList.remove('active'));
+          if(chips[0])chips[0].classList.add('active');
+          checkFnEmpty();
+        }else if(key==='projects'){
+          const chips=[...document.querySelectorAll('#projectTypeChips .fn-chip')];
+          chips.forEach(c=>c.classList.remove('active'));
+          if(chips[0])chips[0].classList.add('active');
+        }
+      }
+      const cfg=pageConfig[key];
+      const grid=document.getElementById(cfg.gridId);
+      if(grid){
+        const items=[...grid.querySelectorAll(cfg.selector)];
+        const idx=items.indexOf(m.el);
+        if(idx>=0)renderPage(key,Math.floor(idx/pageSize[key])+1,false);
+      }
+    }
     scrollToSection(m.section);
     setTimeout(()=>{
       m.el.scrollIntoView({behavior:'smooth',block:'center'});
@@ -2767,7 +2801,7 @@ document.addEventListener('click',hideTip);
     const index=buildIndex();
     resultsEl.innerHTML='';
     if(!q.trim()){
-      resultsEl.innerHTML='<div class="search-empty">// type to search field notes, research &amp; labs</div>';
+      resultsEl.innerHTML='<div class="search-empty">// type to search field notes, research, labs &amp; projects</div>';
       return;
     }
     const ql=q.toLowerCase();
@@ -2776,11 +2810,13 @@ document.addEventListener('click',hideTip);
       resultsEl.innerHTML='<div class="search-empty">// no results</div>';
       return;
     }
+    const badgeClassMap={paper:' paper',lab:' lab',project:' project'};
+    const badgeTextMap={paper:'RESEARCH',lab:'LAB',project:'PROJECT'};
     matches.forEach((m,i)=>{
       const row=document.createElement('div');
       row.className='search-result'+(i===0?' sel':'');
-      const badgeClass=m.type==='paper'?' paper':(m.type==='lab'?' lab':'');
-      const badgeText=m.type==='paper'?'RESEARCH':(m.type==='lab'?'LAB':'FIELD NOTE');
+      const badgeClass=badgeClassMap[m.type]||'';
+      const badgeText=badgeTextMap[m.type]||'FIELD NOTE';
       row.innerHTML='<div class="search-result-top"><span class="search-result-badge'+badgeClass+'">'+badgeText+'</span><span class="search-result-title">'+escapeHtml(m.title)+'</span></div><div class="search-result-snippet">'+escapeHtml(snippet(m.body,q))+'</div>';
       row.addEventListener('click',()=>goToResult(m));
       resultsEl.appendChild(row);
