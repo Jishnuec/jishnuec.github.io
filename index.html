@@ -2370,6 +2370,7 @@ function sortPosts(order){
 }
 
 /* ── LAB MODAL ────────────────────────────────── */
+// LABDATA_START
 const labData={
   dvwa:{active:true,title:'Kali vs DVWA Attack Lab',sub:'Kali Linux Attacker · Linux Mint Target · Splunk SIEM · VirtualBox',overview:'A full red team attack simulation. Kali Linux (attacker) targets a Linux Mint machine running DVWA, with all traffic monitored by Splunk SIEM on Windows.',tools:['Kali Linux','Linux Mint','DVWA','Splunk','Metasploit','Burp Suite','SQLMap','Nmap','Hydra','Netcat'],findings:'19 findings across the kill chain including SQL Injection, Blind SQLi, XSS (Reflected & Stored), Command Injection, File Inclusion (LFI/RFI), CSRF, Brute Force, File Upload bypass, and more.'},
   ad:{active:false,title:'Active Directory Lab',sub:'Windows Server 2019 · VirtualBox',overview:'Planned lab with Windows Server 2019 domain controller for practicing AD enumeration, privilege escalation, pass-the-hash, and lateral movement.',tools:['Windows Server 2019','Kali Linux','BloodHound','Impacket','CrackMapExec']},
@@ -2378,6 +2379,7 @@ const labData={
   ctf:{active:false,title:'CTF Practice Environment',sub:'VulnHub · HackTheBox · Offline Practice',overview:'Planned environment for spinning up VulnHub and HackTheBox machines locally for offline practice.',tools:['Kali Linux','VulnHub','HackTheBox','VirtualBox','Nmap','Gobuster','SQLMap']},
   docker:{active:false,title:'Docker Security Lab',sub:'Docker · Vulnerable Apps',overview:'Planned containerized lab for web app security testing and Docker-specific attack vector practice.',tools:['Docker','DVWA','WebGoat','Trivy','Kali Linux']}
 };
+// LABDATA_END
 function openLab(id){
   const d=labData[id];if(!d)return;
   const tagClass=d.active?'g':'p';
