@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Admin — Jishnu EC</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --g:#00ff41;--cyan:#00e5ff;--amber:#ffd700;--red:#ff5555;--purple:#d580ff;
+  --bg:#020d02;--bg2:#071a07;--bg3:#0c250c;
+  --border:rgba(0,255,65,.5);--border2:rgba(0,255,65,.25);
+  --text:#eeffee;--text2:#c5e8c5;
+  --mono:'Share Tech Mono',monospace;--vt:'VT323',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--mono);padding:2.2rem 1.4rem}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:1.3rem}
+.tcard{background:var(--bg2);border:1px solid var(--border)}
+.tbar{background:var(--bg3);border-bottom:1px solid var(--border);padding:.5rem 1rem;display:flex;align-items:center;gap:.5rem}
+.tdots{display:flex;gap:.35rem}
+.tdot{width:10px;height:10px;border-radius:50%}
+.tdot:nth-child(1){background:#ff5f56}.tdot:nth-child(2){background:#ffbd2e}.tdot:nth-child(3){background:#27c93f}
+.ttitle{font-size:.6rem;letter-spacing:2.5px;color:var(--text2);margin-left:.4rem}
+.tbody{padding:1.6rem}
+h1{font-family:var(--vt);font-size:1.6rem;color:var(--g);letter-spacing:2px;margin:0 0 .5rem;text-shadow:0 0 12px rgba(0,255,65,.3)}
+h2{font-family:var(--vt);font-size:1.25rem;color:var(--g);letter-spacing:1.5px;margin:0}
+.who{font-size:.68rem;color:var(--g)}
+p{font-size:.76rem;line-height:1.8;color:var(--text2)}
+button{font-family:var(--mono);cursor:pointer}
+.topline{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.btn-outline{background:transparent;border:1px solid var(--border2);color:var(--text2);font-size:.6rem;letter-spacing:1.5px;padding:.55rem 1rem;transition:all .2s}
+.btn-outline:hover{border-color:var(--g);color:var(--g)}
+.btn-primary{background:transparent;border:1px solid var(--g);color:var(--g);font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;padding:.6rem 1.1rem;transition:all .2s}
+.btn-primary:hover{background:rgba(0,255,65,.08)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;gap:1rem;flex-wrap:wrap}
+
+.note-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem .9rem;border:1px solid var(--border2);margin-bottom:.5rem;font-size:.72rem}
+.note-row-title{color:var(--text);margin-bottom:.2rem}
+.note-row-meta{color:var(--text2);font-size:.6rem;letter-spacing:.5px;opacity:.75}
+.note-row-actions{flex-shrink:0;display:flex;gap:.4rem}
+.empty-note{font-size:.68rem;color:var(--text2);opacity:.55;padding:.8rem 0;line-height:1.8}
+
+.field-group{margin-bottom:1.3rem}
+label{display:block;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:.4rem}
+.hint-text{font-size:.6rem;color:var(--text2);opacity:.65;margin-top:.35rem;line-height:1.6}
+input[type=text],input[type=date],input[type=url],textarea,select{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);
+  font-family:var(--mono);font-size:.75rem;padding:.6rem .75rem;outline:none;transition:border-color .2s
+}
+input:focus,textarea:focus,select:focus{border-color:var(--g)}
+textarea{resize:vertical;min-height:70px;line-height:1.6;font-family:var(--mono)}
+select{cursor:pointer}
+option{background:var(--bg3)}
+
+.color-swatch-row{display:flex;gap:.55rem;margin-top:.3rem}
+.color-swatch{width:30px;height:30px;border:2px solid var(--border2);cursor:pointer;transition:all .15s;padding:0}
+.color-swatch.selected{border-color:var(--text);box-shadow:0 0 0 2px var(--bg2),0 0 0 3px var(--text)}
+
+.tag-input-row{display:flex;gap:.5rem}
+.tag-input-row input{flex:1}
+.pill-list{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.tag-pill{display:inline-flex;align-items:center;gap:.45rem;font-size:.62rem;padding:.28rem .6rem;border:1px solid var(--border2);color:var(--text2);background:var(--bg3)}
+.tag-pill button{background:none;border:none;color:var(--red);cursor:pointer;font-size:.72rem;padding:0;line-height:1}
+.suggestions-row{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-top:.6rem}
+.suggestion-chip{font-size:.58rem;padding:.22rem .55rem;border:1px dashed var(--border2);color:var(--text2);background:transparent}
+.suggestion-chip:hover{border-color:var(--g);color:var(--g)}
+
+.repeatable-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:.7rem}
+.repeatable-item{display:flex;gap:.6rem;align-items:flex-start;padding:.7rem;border:1px solid var(--border2);background:var(--bg3)}
+.repeatable-item-fields{flex:1;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.repeatable-item .smallbtn{flex-shrink:0}
+.smallbtn{background:transparent;border:1px solid var(--border2);color:var(--text2);font-size:.58rem;letter-spacing:1px;padding:.4rem .6rem}
+.smallbtn:hover{border-color:var(--red);color:var(--red)}
+.smallbtn.edit-note:hover{border-color:var(--g);color:var(--g)}
+
+.msg{font-size:.66rem;letter-spacing:.3px;line-height:1.6;padding:.65rem .8rem;border:1px solid;margin-bottom:1rem;display:none}
+.msg.err{display:block;color:var(--red);border-color:rgba(255,85,85,.4);background:rgba(255,85,85,.06)}
+
+.formfoot{display:flex;gap:.7rem;margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid var(--border2)}
+.back{font-size:.6rem;letter-spacing:1.5px;color:var(--text2);text-decoration:none;text-align:center;display:block}
+.back:hover{color:var(--g)}
+
+.tab-nav{display:flex;gap:.5rem;flex-wrap:wrap}
+.tab-btn{background:transparent;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;padding:.55rem 1.1rem;transition:all .2s}
+.tab-btn:hover{border-color:var(--g);color:var(--text)}
+.tab-btn.active{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
+.tab-content{display:flex;flex-direction:column;gap:1.3rem}
+
+.status-toggle{display:flex;gap:.5rem}
+.status-btn{flex:1;background:transparent;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.64rem;letter-spacing:1px;padding:.6rem;transition:all .2s}
+.status-btn.selected{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="tcard">
+    <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle">jishnu@kali:~$ admin</span></div>
+    <div class="tbody">
+      <div class="topline">
+        <div>
+          <h1>ADMIN PANEL</h1>
+          <div class="who" id="whoLine">checking session…</div>
+        </div>
+        <button type="button" class="btn-outline" id="signOutBtn">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-nav">
+    <button type="button" class="tab-btn active" data-tab="fieldnotes">Field Notes</button>
+    <button type="button" class="tab-btn" data-tab="research">Research</button>
+    <button type="button" class="tab-btn" data-tab="labs">Labs</button>
+    <button type="button" class="tab-btn" data-tab="projects">Projects</button>
+  </div>
+
+  <div class="tab-content" id="tab-fieldnotes">
+  <div class="tcard">
+    <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle">field notes</span></div>
+    <div class="tbody">
+      <div class="section-head">
+        <h2>Field Notes</h2>
+        <button type="button" class="btn-primary" id="newNoteBtn">+ New Field Note</button>
+      </div>
+      <div id="notesList"><div class="empty-note">Loading…</div></div>
+    </div>
+  </div>
+
+  <div class="tcard" id="formCard" style="display:none">
+    <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle" id="formTitleBar">new field note</span></div>
+    <div class="tbody">
+      <div class="msg err" id="formErr"></div>
+
+      <div class="field-group">
+        <label for="fTitle">Title</label>
+        <input type="text" id="fTitle" placeholder="🧠 Completed: History of Malware — TryHackMe"/>
+        <div class="hint-text">Lead with an emoji if you want one — it's just plain text, one field, matching how the site already works.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="fDate">Date</label>
+        <input type="date" id="fDate"/>
+      </div>
+
+      <div class="field-group">
+        <label for="fBadgeText">Badge text (top-left)</label>
+        <input type="text" id="fBadgeText" placeholder="MALWARE"/>
+        <label style="margin-top:.9rem">Badge color</label>
+        <div class="color-swatch-row" id="badgeColorRow"></div>
+      </div>
+
+      <div class="field-group">
+        <label>Accent color (top border-glow)</label>
+        <div class="color-swatch-row" id="accentColorRow"></div>
+      </div>
+
+      <div class="field-group">
+        <label for="fBody">Body</label>
+        <textarea id="fBody" placeholder="What you worked through, what you found…"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="fImage">Image URL (optional)</label>
+        <input type="url" id="fImage" placeholder="https://jishnuec.github.io/yourimage.png"/>
+        <div class="hint-text">Same as always — upload the file to the repo yourself, paste the resulting URL here. Leave blank for no image.</div>
+      </div>
+
+      <div class="field-group">
+        <label>Tags</label>
+        <div class="tag-input-row">
+          <input type="text" id="fTagInput" placeholder="Type a tag and press Enter"/>
+          <button type="button" class="btn-outline" id="addTagBtn">Add</button>
+        </div>
+        <div class="pill-list" id="tagPillList"></div>
+        <div class="suggestions-row" id="tagSuggestions"></div>
+      </div>
+
+      <div class="field-group">
+        <label>Findings (optional)</label>
+        <div class="repeatable-list" id="findingsList"></div>
+        <button type="button" class="btn-outline" id="addFindingBtn">+ Add Finding</button>
+      </div>
+
+      <div class="field-group">
+        <label>Links (optional)</label>
+        <div class="repeatable-list" id="linksList"></div>
+        <button type="button" class="btn-outline" id="addLinkBtn">+ Add Link</button>
+      </div>
+
+      <div class="formfoot">
+        <button type="button" class="btn-primary" id="saveNoteBtn">Save Field Note</button>
+        <button type="button" class="btn-outline" id="cancelFormBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+  </div><!-- /tab-fieldnotes -->
+
+  <div class="tab-content" id="tab-research" style="display:none">
+    <div class="tcard">
+      <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle">research, papers &amp; write-ups</span></div>
+      <div class="tbody">
+        <div class="section-head">
+          <h2>Research</h2>
+          <button type="button" class="btn-primary" id="newResearchBtn">+ New Research Entry</button>
+        </div>
+        <div id="researchList"><div class="empty-note">Loading…</div></div>
+      </div>
+    </div>
+
+    <div class="tcard" id="researchFormCard" style="display:none">
+      <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle" id="researchFormTitleBar">new research entry</span></div>
+      <div class="tbody">
+        <div class="msg err" id="researchFormErr"></div>
+
+        <div class="field-group">
+          <label for="rTitle">Title</label>
+          <input type="text" id="rTitle" placeholder="Shitty Human — Case Study"/>
+        </div>
+
+        <div class="field-group">
+          <label for="rBadge">Badge (emoji + label, one field)</label>
+          <input type="text" id="rBadge" placeholder="📄 Case Study"/>
+          <label style="margin-top:.9rem">Badge color</label>
+          <div class="color-swatch-row" id="researchColorRow"></div>
+        </div>
+
+        <div class="field-group">
+          <label for="rDesc">Description</label>
+          <textarea id="rDesc" placeholder="What this covers…"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label for="rLink">Link (optional)</label>
+          <input type="text" id="rLink" placeholder="shitty-human-writeup.html — or a .pdf URL"/>
+          <div class="hint-text">Leave blank to show "// COMING SOON" and keep the card non-clickable, matching current behavior exactly. A link ending in .pdf opens in a new tab automatically ("Click to open PDF"); anything else navigates in the same tab ("Click to read") — matching how the site already treats your one PDF report differently from your writeup pages.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="rDate">Date</label>
+          <input type="date" id="rDate"/>
+        </div>
+
+        <div class="formfoot">
+          <button type="button" class="btn-primary" id="saveResearchBtn">Save Research Entry</button>
+          <button type="button" class="btn-outline" id="cancelResearchFormBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /tab-research -->
+
+  <div class="tab-content" id="tab-labs" style="display:none">
+    <div class="tcard">
+      <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle">home labs</span></div>
+      <div class="tbody">
+        <div class="section-head">
+          <h2>Labs</h2>
+          <button type="button" class="btn-primary" id="newLabBtn">+ New Lab</button>
+        </div>
+        <div id="labsList"><div class="empty-note">Loading…</div></div>
+      </div>
+    </div>
+
+    <div class="tcard" id="labFormCard" style="display:none">
+      <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle" id="labFormTitleBar">new lab</span></div>
+      <div class="tbody">
+        <div class="msg err" id="labFormErr"></div>
+
+        <div class="field-group">
+          <label for="lName">Name</label>
+          <input type="text" id="lName" placeholder="Kali vs DVWA Attack Lab"/>
+          <div class="hint-text">Used as both the card title and the modal title — they're the same text in every existing lab.</div>
+        </div>
+
+        <div class="field-group">
+          <label>Status</label>
+          <div class="status-toggle" id="labStatusToggle">
+            <button type="button" class="status-btn" data-active="true">&#x25CF; Active Lab</button>
+            <button type="button" class="status-btn" data-active="false">&#x23F3; Planned</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="lCardDesc">Card description</label>
+          <textarea id="lCardDesc" placeholder="Short description shown on the grid card…" style="min-height:55px"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>Tags (optional)</label>
+          <div class="tag-input-row">
+            <input type="text" id="lTagInput" placeholder="Type a tag and press Enter"/>
+            <button type="button" class="btn-outline" id="addLabTagBtn">Add</button>
+          </div>
+          <div class="pill-list" id="labTagPillList"></div>
+          <div class="suggestions-row" id="labTagSuggestions"></div>
+          <div class="hint-text">Leave empty and the card shows "// COMING SOON" instead of tags — matches how your 5 planned labs work today.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="lDate">Date</label>
+          <input type="date" id="lDate"/>
+        </div>
+
+        <div class="field-group" style="border-top:1px solid var(--border2);padding-top:1.2rem">
+          <label style="font-size:.62rem;color:var(--g);margin-bottom:1rem">— Modal / popup content —</label>
+        </div>
+
+        <div class="field-group">
+          <label for="lSubtitle">Modal subtitle</label>
+          <input type="text" id="lSubtitle" placeholder="Kali Linux Attacker · Linux Mint Target · Splunk SIEM · VirtualBox"/>
+        </div>
+
+        <div class="field-group">
+          <label for="lOverview">Overview</label>
+          <textarea id="lOverview" placeholder="Longer description shown in the modal…"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>Tools &amp; Technologies</label>
+          <div class="tag-input-row">
+            <input type="text" id="lToolInput" placeholder="Type a tool and press Enter"/>
+            <button type="button" class="btn-outline" id="addLabToolBtn">Add</button>
+          </div>
+          <div class="pill-list" id="labToolPillList"></div>
+          <div class="suggestions-row" id="labToolSuggestions"></div>
+        </div>
+
+        <div class="field-group">
+          <label for="lFindings">Findings summary (optional)</label>
+          <textarea id="lFindings" placeholder="Leave blank to show &quot;WRITEUP COMING SOON&quot; in the modal…"></textarea>
+          <div class="hint-text">Also flips the card's bottom line from "Click for details →" to "Click to read writeup →" once this is filled in.</div>
+        </div>
+
+        <div class="formfoot">
+          <button type="button" class="btn-primary" id="saveLabBtn">Save Lab</button>
+          <button type="button" class="btn-outline" id="cancelLabFormBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /tab-labs -->
+
+  <div class="tab-content" id="tab-projects" style="display:none">
+    <div class="tcard">
+      <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle">projects</span></div>
+      <div class="tbody">
+        <div class="section-head">
+          <h2>Projects</h2>
+          <button type="button" class="btn-primary" id="newProjectBtn">+ New Project</button>
+        </div>
+        <div id="projectsList"><div class="empty-note">Loading…</div></div>
+      </div>
+    </div>
+
+    <div class="tcard" id="projectFormCard" style="display:none">
+      <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle" id="projectFormTitleBar">new project</span></div>
+      <div class="tbody">
+        <div class="msg err" id="projectFormErr"></div>
+
+        <div class="field-group">
+          <label for="pName">Name</label>
+          <input type="text" id="pName" placeholder="InstaGrep"/>
+        </div>
+
+        <div class="field-group">
+          <label for="pCategoryTag">Category tag line (above the name)</label>
+          <input type="text" id="pCategoryTag" placeholder="OSINT Tool"/>
+        </div>
+
+        <div class="field-group">
+          <label for="pSubtitle">Subtitle / version line</label>
+          <input type="text" id="pSubtitle" placeholder="v4.0 — ~3,000 Lines of Code"/>
+        </div>
+
+        <div class="field-group">
+          <label for="pDesc">Description</label>
+          <textarea id="pDesc" placeholder="Full description paragraph…"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>Tech stack</label>
+          <div class="tag-input-row">
+            <input type="text" id="pTechInput" placeholder="Type a tech and press Enter"/>
+            <button type="button" class="btn-outline" id="addTechBtn">Add</button>
+          </div>
+          <div class="pill-list" id="pTechPillList"></div>
+          <div class="suggestions-row" id="pTechSuggestions"></div>
+        </div>
+
+        <div class="field-group">
+          <label>Filter category</label>
+          <div class="hint-text" style="margin-top:0;margin-bottom:.7rem">Drives the filter chips at the top of the Projects section — short code for the filter logic, emoji+label for the button. Not the same thing as the category tag line above.</div>
+          <div class="suggestions-row" id="pCategorySuggestions"></div>
+          <label for="pFilterCode" style="margin-top:.8rem">Code</label>
+          <input type="text" id="pFilterCode" placeholder="tool"/>
+          <label for="pFilterLabel" style="margin-top:.8rem">Button label</label>
+          <input type="text" id="pFilterLabel" placeholder="🛠 Tools"/>
+        </div>
+
+        <div class="field-group">
+          <label>Links</label>
+          <div class="repeatable-list" id="pLinksList"></div>
+          <button type="button" class="btn-outline" id="addProjectLinkBtn">+ Add Link</button>
+        </div>
+
+        <div class="field-group">
+          <label for="pDate">Date</label>
+          <input type="date" id="pDate"/>
+        </div>
+
+        <div class="formfoot">
+          <button type="button" class="btn-primary" id="saveProjectBtn">Save Project</button>
+          <button type="button" class="btn-outline" id="cancelProjectFormBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /tab-projects -->
+
+  <a href="index.html" class="back">&larr; Back to site</a>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+import {
+  getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const COLORS = ['green','cyan','amber','red','purple'];
+const COLOR_HEX = {green:'#00ff41',cyan:'#00e5ff',amber:'#ffd700',red:'#ff5555',purple:'#d580ff'};
+
+// Preset link types. Color is applied at render time (Step 2b), not stored —
+// derived here only so the admin form itself has nothing color-related to manage.
+const LINK_TYPES = [
+  {value:'writeup',  label:'Writeup'},
+  {value:'github',   label:'GitHub'},
+  {value:'live-app', label:'Live App'},
+  {value:'docs',     label:'Documentation'},
+  {value:'download', label:'Download'},
+  {value:'medium',   label:'Medium'},
+  {value:'view-x',   label:'View [Platform] Room/Challenge'},
+  {value:'custom',   label:'Custom'}
+];
+
+function esc(s){
+  return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ---- auth gate ----
+onAuthStateChanged(auth, user=>{
+  if(!user){ window.location.href='login.html'; return; }
+  document.getElementById('whoLine').textContent='✓ signed in as '+user.email;
+  loadNotes();
+  loadResearch();
+  loadLabs();
+  loadProjects();
+});
+document.getElementById('signOutBtn').addEventListener('click', async()=>{
+  await signOut(auth);
+  window.location.href='login.html';
+});
+
+// ---- tabs ----
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.style.display='none');
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).style.display='flex';
+  });
+});
+
+// ---- load + list existing notes ----
+let allNotes=[];
+let allTagsUnion=[];
+
+async function loadNotes(){
+  const listEl=document.getElementById('notesList');
+  try{
+    const q=query(collection(db,'fieldNotes'), orderBy('date','desc'));
+    const snap=await getDocs(q);
+    allNotes=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderNotesList();
+    const tagSet=new Set();
+    allNotes.forEach(n=>(n.tags||[]).forEach(t=>tagSet.add(t)));
+    allTagsUnion=[...tagSet].sort((a,b)=>a.localeCompare(b));
+  }catch(err){
+    listEl.innerHTML='<div class="empty-note">Couldn\'t load notes: '+esc(err.code||err.message)+'</div>';
+  }
+}
+
+function renderNotesList(){
+  const listEl=document.getElementById('notesList');
+  if(!allNotes.length){
+    listEl.innerHTML='<div class="empty-note">No field notes yet — click "+ New Field Note" to add your first one.</div>';
+    return;
+  }
+  listEl.innerHTML=allNotes.map((n,i)=>{
+    const tagCount=(n.tags||[]).length;
+    return '<div class="note-row" data-i="'+i+'">'
+      +'<div class="note-row-main">'
+        +'<div class="note-row-title">'+esc(n.title||'(untitled)')+'</div>'
+        +'<div class="note-row-meta">'+esc(n.date||'')+' &middot; '+tagCount+' tag'+(tagCount===1?'':'s')+'</div>'
+      +'</div>'
+      +'<div class="note-row-actions">'
+        +'<button type="button" class="smallbtn edit-note">Edit</button>'
+        +'<button type="button" class="smallbtn delete-note">Delete</button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+  [...listEl.querySelectorAll('.note-row')].forEach(row=>{
+    const n=allNotes[Number(row.dataset.i)];
+    row.querySelector('.edit-note').addEventListener('click',()=>openForm(n));
+    row.querySelector('.delete-note').addEventListener('click',()=>deleteNote(n));
+  });
+}
+
+async function deleteNote(n){
+  if(!confirm('Delete "'+(n.title||'this note')+'"? This cannot be undone.')) return;
+  try{
+    await deleteDoc(doc(db,'fieldNotes',n.id));
+    await loadNotes();
+  }catch(err){
+    alert('Delete failed: '+(err.code||err.message));
+  }
+}
+
+// ---- form state ----
+let formState=null;
+let editingId=null;
+let saveLabelIdle='Save Field Note';
+
+function blankForm(){
+  return {
+    title:'', date: new Date().toISOString().slice(0,10),
+    badgeText:'', badgeColor:'cyan', accentColor:'green',
+    body:'', imageUrl:'',
+    tags:[], findings:[], links:[]
+  };
+}
+
+// When editing, stored links only have {type,label,url} — reverse-derive the
+// "extra text" the view-x/custom inputs need from the already-computed label.
+function deriveExtraText(l){
+  if(l.type==='view-x') return (l.label||'').replace(/^View\s*/,'');
+  if(l.type==='custom') return l.label||'';
+  return '';
+}
+
+function openForm(existing){
+  if(existing){
+    editingId=existing.id;
+    saveLabelIdle='Save Changes';
+    formState={
+      title: existing.title||'',
+      date: existing.date||new Date().toISOString().slice(0,10),
+      badgeText: existing.badgeText||'',
+      badgeColor: existing.badgeColor||'cyan',
+      accentColor: existing.accentColor||'green',
+      body: existing.body||'',
+      imageUrl: existing.imageUrl||'',
+      tags: [...(existing.tags||[])],
+      findings: (existing.findings||[]).map(f=>({label:f.label||'',description:f.description||''})),
+      links: (existing.links||[]).map(l=>({type:l.type||'writeup', extraText:deriveExtraText(l), url:l.url||''}))
+    };
+  }else{
+    editingId=null;
+    saveLabelIdle='Save Field Note';
+    formState=blankForm();
+  }
+  document.getElementById('formTitleBar').textContent=existing?'edit field note':'new field note';
+  document.getElementById('saveNoteBtn').textContent=saveLabelIdle;
+  document.getElementById('formErr').style.display='none';
+  document.getElementById('fTitle').value=formState.title;
+  document.getElementById('fDate').value=formState.date;
+  document.getElementById('fBadgeText').value=formState.badgeText;
+  document.getElementById('fBody').value=formState.body;
+  document.getElementById('fImage').value=formState.imageUrl;
+  renderColorRow('badgeColorRow',formState,'badgeColor');
+  renderColorRow('accentColorRow',formState,'accentColor');
+  renderTagPills();
+  renderTagSuggestions();
+  renderFindings();
+  renderLinks();
+  document.getElementById('formCard').style.display='block';
+  document.getElementById('formCard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeForm(){
+  document.getElementById('formCard').style.display='none';
+  formState=null;
+  editingId=null;
+}
+
+document.getElementById('newNoteBtn').addEventListener('click', ()=>openForm(null));
+document.getElementById('cancelFormBtn').addEventListener('click', closeForm);
+
+document.getElementById('fTitle').addEventListener('input', e=>{ if(formState) formState.title=e.target.value; });
+document.getElementById('fDate').addEventListener('input', e=>{ if(formState) formState.date=e.target.value; });
+document.getElementById('fBadgeText').addEventListener('input', e=>{ if(formState) formState.badgeText=e.target.value; });
+document.getElementById('fBody').addEventListener('input', e=>{ if(formState) formState.body=e.target.value; });
+document.getElementById('fImage').addEventListener('input', e=>{ if(formState) formState.imageUrl=e.target.value; });
+
+// ---- color swatches (shared across all sections — pass the state object explicitly) ----
+function renderColorRow(containerId, stateObj, stateKey){
+  const el=document.getElementById(containerId);
+  el.innerHTML=COLORS.map(c=>
+    '<button type="button" class="color-swatch'+(stateObj[stateKey]===c?' selected':'')+'" '
+    +'style="background:'+COLOR_HEX[c]+'" data-color="'+c+'" title="'+c+'" aria-label="'+c+'"></button>'
+  ).join('');
+  [...el.querySelectorAll('.color-swatch')].forEach(sw=>{
+    sw.addEventListener('click',()=>{
+      stateObj[stateKey]=sw.dataset.color;
+      renderColorRow(containerId,stateObj,stateKey);
+    });
+  });
+}
+
+// ---- tags ----
+function addTag(raw){
+  const t=raw.trim();
+  if(!t) return;
+  if(!formState.tags.includes(t)) formState.tags.push(t);
+  document.getElementById('fTagInput').value='';
+  renderTagPills();
+  renderTagSuggestions();
+}
+document.getElementById('addTagBtn').addEventListener('click',()=>{
+  addTag(document.getElementById('fTagInput').value);
+});
+document.getElementById('fTagInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){ e.preventDefault(); addTag(e.target.value); }
+});
+function renderTagPills(){
+  const el=document.getElementById('tagPillList');
+  el.innerHTML=formState.tags.map((t,i)=>
+    '<span class="tag-pill">'+esc(t)+' <button type="button" data-i="'+i+'" aria-label="Remove tag">&times;</button></span>'
+  ).join('');
+  [...el.querySelectorAll('button')].forEach(b=>{
+    b.addEventListener('click',()=>{
+      formState.tags.splice(Number(b.dataset.i),1);
+      renderTagPills();
+      renderTagSuggestions();
+    });
+  });
+}
+function renderTagSuggestions(){
+  const el=document.getElementById('tagSuggestions');
+  const remaining=allTagsUnion.filter(t=>!formState.tags.includes(t));
+  if(!remaining.length){ el.innerHTML=''; return; }
+  el.innerHTML='<span class="hint-text">Reuse an existing tag:</span>'
+    +remaining.map(t=>'<button type="button" class="suggestion-chip" data-t="'+esc(t)+'">'+esc(t)+'</button>').join('');
+  [...el.querySelectorAll('.suggestion-chip')].forEach(b=>{
+    b.addEventListener('click',()=>addTag(b.dataset.t));
+  });
+}
+
+// ---- findings ----
+function renderFindings(){
+  const el=document.getElementById('findingsList');
+  if(!formState.findings.length){ el.innerHTML=''; return; }
+  el.innerHTML=formState.findings.map((f,i)=>
+    '<div class="repeatable-item" data-i="'+i+'">'
+      +'<div class="repeatable-item-fields">'
+        +'<input type="text" class="finding-label" placeholder="Short bold label" value="'+esc(f.label)+'"/>'
+        +'<textarea class="finding-desc" placeholder="Longer description" style="min-height:50px">'+esc(f.description)+'</textarea>'
+      +'</div>'
+      +'<button type="button" class="smallbtn remove-finding">Remove</button>'
+    +'</div>'
+  ).join('');
+  [...el.querySelectorAll('.repeatable-item')].forEach(item=>{
+    const i=Number(item.dataset.i);
+    item.querySelector('.finding-label').addEventListener('input',e=>{formState.findings[i].label=e.target.value;});
+    item.querySelector('.finding-desc').addEventListener('input',e=>{formState.findings[i].description=e.target.value;});
+    item.querySelector('.remove-finding').addEventListener('click',()=>{
+      formState.findings.splice(i,1);
+      renderFindings();
+    });
+  });
+}
+document.getElementById('addFindingBtn').addEventListener('click',()=>{
+  formState.findings.push({label:'',description:''});
+  renderFindings();
+});
+
+// ---- links ----
+function linkNeedsInput(type){
+  if(type==='view-x') return {show:true, placeholder:'e.g. "TryHackMe Room" — becomes "View TryHackMe Room"'};
+  if(type==='custom') return {show:true, placeholder:'Your custom link label'};
+  return {show:false, placeholder:''};
+}
+function renderLinks(){
+  const el=document.getElementById('linksList');
+  if(!formState.links.length){ el.innerHTML=''; return; }
+  el.innerHTML=formState.links.map((l,i)=>{
+    const extra=linkNeedsInput(l.type);
+    return '<div class="repeatable-item" data-i="'+i+'">'
+      +'<div class="repeatable-item-fields">'
+        +'<select class="link-type">'+LINK_TYPES.map(t=>'<option value="'+t.value+'"'+(t.value===l.type?' selected':'')+'>'+esc(t.label)+'</option>').join('')+'</select>'
+        +(extra.show?'<input type="text" class="link-extra" placeholder="'+esc(extra.placeholder)+'" value="'+esc(l.extraText||'')+'"/>':'')
+        +'<input type="url" class="link-url" placeholder="https://…" value="'+esc(l.url||'')+'"/>'
+      +'</div>'
+      +'<button type="button" class="smallbtn remove-link">Remove</button>'
+    +'</div>';
+  }).join('');
+  [...el.querySelectorAll('.repeatable-item')].forEach(item=>{
+    const i=Number(item.dataset.i);
+    item.querySelector('.link-type').addEventListener('change',e=>{
+      formState.links[i].type=e.target.value;
+      formState.links[i].extraText='';
+      renderLinks();
+    });
+    const extraInput=item.querySelector('.link-extra');
+    if(extraInput) extraInput.addEventListener('input',e=>{formState.links[i].extraText=e.target.value;});
+    item.querySelector('.link-url').addEventListener('input',e=>{formState.links[i].url=e.target.value;});
+    item.querySelector('.remove-link').addEventListener('click',()=>{
+      formState.links.splice(i,1);
+      renderLinks();
+    });
+  });
+}
+document.getElementById('addLinkBtn').addEventListener('click',()=>{
+  formState.links.push({type:'writeup', extraText:'', url:''});
+  renderLinks();
+});
+
+// ---- save ----
+function computeLinkLabel(l){
+  if(l.type==='view-x') return 'View '+(l.extraText||'').trim();
+  if(l.type==='custom') return (l.extraText||'').trim();
+  const t=LINK_TYPES.find(x=>x.value===l.type);
+  return t?t.label:'Link';
+}
+
+document.getElementById('saveNoteBtn').addEventListener('click', async()=>{
+  const errEl=document.getElementById('formErr');
+  errEl.style.display='none';
+
+  formState.title=document.getElementById('fTitle').value.trim();
+  formState.date=document.getElementById('fDate').value;
+  formState.badgeText=document.getElementById('fBadgeText').value.trim();
+  formState.body=document.getElementById('fBody').value.trim();
+  formState.imageUrl=document.getElementById('fImage').value.trim();
+
+  if(!formState.title||!formState.date||!formState.badgeText||!formState.body){
+    errEl.textContent='Title, date, badge text, and body are all required.';
+    errEl.style.display='block';
+    return;
+  }
+  for(const l of formState.links){
+    if(!l.url||!l.url.trim()){
+      errEl.textContent='Every link needs a URL (or remove the empty one).';
+      errEl.style.display='block';
+      return;
+    }
+    if((l.type==='view-x'||l.type==='custom') && !(l.extraText||'').trim()){
+      errEl.textContent='Custom and "View…" links need their label text filled in.';
+      errEl.style.display='block';
+      return;
+    }
+  }
+
+  const saveBtn=document.getElementById('saveNoteBtn');
+  saveBtn.disabled=true;
+  saveBtn.textContent='Saving…';
+
+  const payload={
+    title: formState.title,
+    date: formState.date,
+    badgeText: formState.badgeText,
+    badgeColor: formState.badgeColor,
+    accentColor: formState.accentColor,
+    body: formState.body,
+    imageUrl: formState.imageUrl || null,
+    tags: formState.tags,
+    findings: formState.findings.filter(f=>f.label.trim()||f.description.trim()),
+    links: formState.links.map(l=>({type:l.type, label:computeLinkLabel(l), url:l.url.trim()})),
+    updatedAt: serverTimestamp()
+  };
+
+  try{
+    if(editingId){
+      await updateDoc(doc(db,'fieldNotes',editingId), payload);
+    }else{
+      await addDoc(collection(db,'fieldNotes'), {...payload, createdAt: serverTimestamp()});
+    }
+    closeForm();
+    await loadNotes();
+  }catch(err){
+    errEl.textContent='Save failed: '+(err.code||err.message);
+    errEl.style.display='block';
+  }finally{
+    saveBtn.disabled=false;
+    saveBtn.textContent=saveLabelIdle;
+  }
+});
+
+// ==================== RESEARCH ====================
+// Same 5-color palette as Field Notes badges, mapped onto Research's existing rb-*
+// classes at render time: purple=rb-w, cyan=rb-p, red=rb-v, amber=rb-d, green=rb-ml.
+// No tags/findings/links here — Research has no filter-chip UI, badges are pure display.
+
+let allResearch=[];
+let researchFormState=null;
+let researchEditingId=null;
+let researchSaveLabelIdle='Save Research Entry';
+
+function blankResearchForm(){
+  return { title:'', badge:'', badgeColor:'cyan', description:'', link:'', date: new Date().toISOString().slice(0,10) };
+}
+
+async function loadResearch(){
+  const listEl=document.getElementById('researchList');
+  try{
+    const q=query(collection(db,'research'), orderBy('date','desc'));
+    const snap=await getDocs(q);
+    allResearch=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderResearchList();
+  }catch(err){
+    listEl.innerHTML='<div class="empty-note">Couldn\'t load research: '+esc(err.code||err.message)+'</div>';
+  }
+}
+
+function renderResearchList(){
+  const listEl=document.getElementById('researchList');
+  if(!allResearch.length){
+    listEl.innerHTML='<div class="empty-note">No research entries yet — click "+ New Research Entry" to add your first one.</div>';
+    return;
+  }
+  listEl.innerHTML=allResearch.map((r,i)=>{
+    return '<div class="note-row" data-i="'+i+'">'
+      +'<div class="note-row-main">'
+        +'<div class="note-row-title">'+esc(r.title||'(untitled)')+'</div>'
+        +'<div class="note-row-meta">'+esc(r.date||'')+' &middot; '+(r.link?'has link':'coming soon')+'</div>'
+      +'</div>'
+      +'<div class="note-row-actions">'
+        +'<button type="button" class="smallbtn edit-note">Edit</button>'
+        +'<button type="button" class="smallbtn delete-note">Delete</button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+  [...listEl.querySelectorAll('.note-row')].forEach(row=>{
+    const r=allResearch[Number(row.dataset.i)];
+    row.querySelector('.edit-note').addEventListener('click',()=>openResearchForm(r));
+    row.querySelector('.delete-note').addEventListener('click',()=>deleteResearch(r));
+  });
+}
+
+async function deleteResearch(r){
+  if(!confirm('Delete "'+(r.title||'this entry')+'"? This cannot be undone.')) return;
+  try{
+    await deleteDoc(doc(db,'research',r.id));
+    await loadResearch();
+  }catch(err){
+    alert('Delete failed: '+(err.code||err.message));
+  }
+}
+
+function openResearchForm(existing){
+  if(existing){
+    researchEditingId=existing.id;
+    researchSaveLabelIdle='Save Changes';
+    researchFormState={
+      title: existing.title||'', badge: existing.badge||'', badgeColor: existing.badgeColor||'cyan',
+      description: existing.description||'', link: existing.link||'',
+      date: existing.date||new Date().toISOString().slice(0,10)
+    };
+  }else{
+    researchEditingId=null;
+    researchSaveLabelIdle='Save Research Entry';
+    researchFormState=blankResearchForm();
+  }
+  document.getElementById('researchFormTitleBar').textContent=existing?'edit research entry':'new research entry';
+  document.getElementById('saveResearchBtn').textContent=researchSaveLabelIdle;
+  document.getElementById('researchFormErr').style.display='none';
+  document.getElementById('rTitle').value=researchFormState.title;
+  document.getElementById('rBadge').value=researchFormState.badge;
+  document.getElementById('rDesc').value=researchFormState.description;
+  document.getElementById('rLink').value=researchFormState.link;
+  document.getElementById('rDate').value=researchFormState.date;
+  renderColorRow('researchColorRow', researchFormState, 'badgeColor');
+  document.getElementById('researchFormCard').style.display='block';
+  document.getElementById('researchFormCard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeResearchForm(){
+  document.getElementById('researchFormCard').style.display='none';
+  researchFormState=null;
+  researchEditingId=null;
+}
+
+document.getElementById('newResearchBtn').addEventListener('click', ()=>openResearchForm(null));
+document.getElementById('cancelResearchFormBtn').addEventListener('click', closeResearchForm);
+
+document.getElementById('rTitle').addEventListener('input', e=>{ if(researchFormState) researchFormState.title=e.target.value; });
+document.getElementById('rBadge').addEventListener('input', e=>{ if(researchFormState) researchFormState.badge=e.target.value; });
+document.getElementById('rDesc').addEventListener('input', e=>{ if(researchFormState) researchFormState.description=e.target.value; });
+document.getElementById('rLink').addEventListener('input', e=>{ if(researchFormState) researchFormState.link=e.target.value; });
+document.getElementById('rDate').addEventListener('input', e=>{ if(researchFormState) researchFormState.date=e.target.value; });
+
+document.getElementById('saveResearchBtn').addEventListener('click', async()=>{
+  const errEl=document.getElementById('researchFormErr');
+  errEl.style.display='none';
+
+  researchFormState.title=document.getElementById('rTitle').value.trim();
+  researchFormState.badge=document.getElementById('rBadge').value.trim();
+  researchFormState.description=document.getElementById('rDesc').value.trim();
+  researchFormState.link=document.getElementById('rLink').value.trim();
+  researchFormState.date=document.getElementById('rDate').value;
+
+  if(!researchFormState.title||!researchFormState.badge||!researchFormState.description||!researchFormState.date){
+    errEl.textContent='Title, badge, description, and date are all required.';
+    errEl.style.display='block';
+    return;
+  }
+
+  const saveBtn=document.getElementById('saveResearchBtn');
+  saveBtn.disabled=true;
+  saveBtn.textContent='Saving…';
+
+  const payload={
+    title: researchFormState.title,
+    badge: researchFormState.badge,
+    badgeColor: researchFormState.badgeColor,
+    description: researchFormState.description,
+    link: researchFormState.link || null,
+    date: researchFormState.date,
+    updatedAt: serverTimestamp()
+  };
+
+  try{
+    if(researchEditingId){
+      await updateDoc(doc(db,'research',researchEditingId), payload);
+    }else{
+      await addDoc(collection(db,'research'), {...payload, createdAt: serverTimestamp()});
+    }
+    closeResearchForm();
+    await loadResearch();
+  }catch(err){
+    errEl.textContent='Save failed: '+(err.code||err.message);
+    errEl.style.display='block';
+  }finally{
+    saveBtn.disabled=false;
+    saveBtn.textContent=researchSaveLabelIdle;
+  }
+});
+
+// ==================== LABS ====================
+// Status stays boolean (decided) — drives the badge text/style AND the card's
+// solid-vs-dashed border at render time, exactly like the current site.
+// "Click to read writeup" vs "Click for details" and the modal's Findings
+// Summary vs "WRITEUP COMING SOON" are both derived from whether findingsSummary
+// is filled in — not stored separately, matching how labData/openLab works today.
+
+let allLabs=[];
+let labTagsUnion=[];
+let labToolsUnion=[];
+let labFormState=null;
+let labEditingId=null;
+let labSaveLabelIdle='Save Lab';
+
+function blankLabForm(){
+  return {
+    name:'', isActive:true, cardDescription:'', tags:[], date: new Date().toISOString().slice(0,10),
+    modalSubtitle:'', overview:'', tools:[], findingsSummary:''
+  };
+}
+
+async function loadLabs(){
+  const listEl=document.getElementById('labsList');
+  try{
+    const q=query(collection(db,'labs'), orderBy('date','desc'));
+    const snap=await getDocs(q);
+    allLabs=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderLabsList();
+    const tagSet=new Set(), toolSet=new Set();
+    allLabs.forEach(l=>{
+      (l.tags||[]).forEach(t=>tagSet.add(t));
+      (l.tools||[]).forEach(t=>toolSet.add(t));
+    });
+    labTagsUnion=[...tagSet].sort((a,b)=>a.localeCompare(b));
+    labToolsUnion=[...toolSet].sort((a,b)=>a.localeCompare(b));
+  }catch(err){
+    listEl.innerHTML='<div class="empty-note">Couldn\'t load labs: '+esc(err.code||err.message)+'</div>';
+  }
+}
+
+function renderLabsList(){
+  const listEl=document.getElementById('labsList');
+  if(!allLabs.length){
+    listEl.innerHTML='<div class="empty-note">No labs yet — click "+ New Lab" to add your first one.</div>';
+    return;
+  }
+  listEl.innerHTML=allLabs.map((l,i)=>{
+    const status=l.isActive?'● Active':'⏳ Planned';
+    return '<div class="note-row" data-i="'+i+'">'
+      +'<div class="note-row-main">'
+        +'<div class="note-row-title">'+esc(l.name||'(untitled)')+'</div>'
+        +'<div class="note-row-meta">'+esc(l.date||'')+' &middot; '+status+'</div>'
+      +'</div>'
+      +'<div class="note-row-actions">'
+        +'<button type="button" class="smallbtn edit-note">Edit</button>'
+        +'<button type="button" class="smallbtn delete-note">Delete</button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+  [...listEl.querySelectorAll('.note-row')].forEach(row=>{
+    const l=allLabs[Number(row.dataset.i)];
+    row.querySelector('.edit-note').addEventListener('click',()=>openLabForm(l));
+    row.querySelector('.delete-note').addEventListener('click',()=>deleteLab(l));
+  });
+}
+
+async function deleteLab(l){
+  if(!confirm('Delete "'+(l.name||'this lab')+'"? This cannot be undone.')) return;
+  try{
+    await deleteDoc(doc(db,'labs',l.id));
+    await loadLabs();
+  }catch(err){
+    alert('Delete failed: '+(err.code||err.message));
+  }
+}
+
+function renderLabStatusToggle(){
+  const el=document.getElementById('labStatusToggle');
+  [...el.querySelectorAll('.status-btn')].forEach(btn=>{
+    const isThisActive=btn.dataset.active==='true';
+    btn.classList.toggle('selected', labFormState.isActive===isThisActive);
+  });
+}
+document.querySelectorAll('#labStatusToggle .status-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(!labFormState) return;
+    labFormState.isActive = btn.dataset.active==='true';
+    renderLabStatusToggle();
+  });
+});
+
+function openLabForm(existing){
+  if(existing){
+    labEditingId=existing.id;
+    labSaveLabelIdle='Save Changes';
+    labFormState={
+      name: existing.name||'', isActive: existing.isActive!==false, cardDescription: existing.cardDescription||'',
+      tags: [...(existing.tags||[])], date: existing.date||new Date().toISOString().slice(0,10),
+      modalSubtitle: existing.modalSubtitle||'', overview: existing.overview||'',
+      tools: [...(existing.tools||[])], findingsSummary: existing.findingsSummary||''
+    };
+  }else{
+    labEditingId=null;
+    labSaveLabelIdle='Save Lab';
+    labFormState=blankLabForm();
+  }
+  document.getElementById('labFormTitleBar').textContent=existing?'edit lab':'new lab';
+  document.getElementById('saveLabBtn').textContent=labSaveLabelIdle;
+  document.getElementById('labFormErr').style.display='none';
+  document.getElementById('lName').value=labFormState.name;
+  document.getElementById('lCardDesc').value=labFormState.cardDescription;
+  document.getElementById('lDate').value=labFormState.date;
+  document.getElementById('lSubtitle').value=labFormState.modalSubtitle;
+  document.getElementById('lOverview').value=labFormState.overview;
+  document.getElementById('lFindings').value=labFormState.findingsSummary;
+  renderLabStatusToggle();
+  renderLabTagPills();
+  renderLabTagSuggestions();
+  renderLabToolPills();
+  renderLabToolSuggestions();
+  document.getElementById('labFormCard').style.display='block';
+  document.getElementById('labFormCard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeLabForm(){
+  document.getElementById('labFormCard').style.display='none';
+  labFormState=null;
+  labEditingId=null;
+}
+
+document.getElementById('newLabBtn').addEventListener('click', ()=>openLabForm(null));
+document.getElementById('cancelLabFormBtn').addEventListener('click', closeLabForm);
+
+document.getElementById('lName').addEventListener('input', e=>{ if(labFormState) labFormState.name=e.target.value; });
+document.getElementById('lCardDesc').addEventListener('input', e=>{ if(labFormState) labFormState.cardDescription=e.target.value; });
+document.getElementById('lDate').addEventListener('input', e=>{ if(labFormState) labFormState.date=e.target.value; });
+document.getElementById('lSubtitle').addEventListener('input', e=>{ if(labFormState) labFormState.modalSubtitle=e.target.value; });
+document.getElementById('lOverview').addEventListener('input', e=>{ if(labFormState) labFormState.overview=e.target.value; });
+document.getElementById('lFindings').addEventListener('input', e=>{ if(labFormState) labFormState.findingsSummary=e.target.value; });
+
+// ---- lab tags (mirrors Field Notes tag pattern) ----
+function addLabTag(raw){
+  const t=raw.trim();
+  if(!t) return;
+  if(!labFormState.tags.includes(t)) labFormState.tags.push(t);
+  document.getElementById('lTagInput').value='';
+  renderLabTagPills();
+  renderLabTagSuggestions();
+}
+document.getElementById('addLabTagBtn').addEventListener('click',()=>{
+  addLabTag(document.getElementById('lTagInput').value);
+});
+document.getElementById('lTagInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){ e.preventDefault(); addLabTag(e.target.value); }
+});
+function renderLabTagPills(){
+  const el=document.getElementById('labTagPillList');
+  el.innerHTML=labFormState.tags.map((t,i)=>
+    '<span class="tag-pill">'+esc(t)+' <button type="button" data-i="'+i+'" aria-label="Remove tag">&times;</button></span>'
+  ).join('');
+  [...el.querySelectorAll('button')].forEach(b=>{
+    b.addEventListener('click',()=>{
+      labFormState.tags.splice(Number(b.dataset.i),1);
+      renderLabTagPills();
+      renderLabTagSuggestions();
+    });
+  });
+}
+function renderLabTagSuggestions(){
+  const el=document.getElementById('labTagSuggestions');
+  const remaining=labTagsUnion.filter(t=>!labFormState.tags.includes(t));
+  if(!remaining.length){ el.innerHTML=''; return; }
+  el.innerHTML='<span class="hint-text">Reuse an existing tag:</span>'
+    +remaining.map(t=>'<button type="button" class="suggestion-chip" data-t="'+esc(t)+'">'+esc(t)+'</button>').join('');
+  [...el.querySelectorAll('.suggestion-chip')].forEach(b=>{
+    b.addEventListener('click',()=>addLabTag(b.dataset.t));
+  });
+}
+
+// ---- lab tools (same pattern as tags, separate list) ----
+function addLabTool(raw){
+  const t=raw.trim();
+  if(!t) return;
+  if(!labFormState.tools.includes(t)) labFormState.tools.push(t);
+  document.getElementById('lToolInput').value='';
+  renderLabToolPills();
+  renderLabToolSuggestions();
+}
+document.getElementById('addLabToolBtn').addEventListener('click',()=>{
+  addLabTool(document.getElementById('lToolInput').value);
+});
+document.getElementById('lToolInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){ e.preventDefault(); addLabTool(e.target.value); }
+});
+function renderLabToolPills(){
+  const el=document.getElementById('labToolPillList');
+  el.innerHTML=labFormState.tools.map((t,i)=>
+    '<span class="tag-pill">'+esc(t)+' <button type="button" data-i="'+i+'" aria-label="Remove tool">&times;</button></span>'
+  ).join('');
+  [...el.querySelectorAll('button')].forEach(b=>{
+    b.addEventListener('click',()=>{
+      labFormState.tools.splice(Number(b.dataset.i),1);
+      renderLabToolPills();
+      renderLabToolSuggestions();
+    });
+  });
+}
+function renderLabToolSuggestions(){
+  const el=document.getElementById('labToolSuggestions');
+  const remaining=labToolsUnion.filter(t=>!labFormState.tools.includes(t));
+  if(!remaining.length){ el.innerHTML=''; return; }
+  el.innerHTML='<span class="hint-text">Reuse an existing tool:</span>'
+    +remaining.map(t=>'<button type="button" class="suggestion-chip" data-t="'+esc(t)+'">'+esc(t)+'</button>').join('');
+  [...el.querySelectorAll('.suggestion-chip')].forEach(b=>{
+    b.addEventListener('click',()=>addLabTool(b.dataset.t));
+  });
+}
+
+document.getElementById('saveLabBtn').addEventListener('click', async()=>{
+  const errEl=document.getElementById('labFormErr');
+  errEl.style.display='none';
+
+  labFormState.name=document.getElementById('lName').value.trim();
+  labFormState.cardDescription=document.getElementById('lCardDesc').value.trim();
+  labFormState.date=document.getElementById('lDate').value;
+  labFormState.modalSubtitle=document.getElementById('lSubtitle').value.trim();
+  labFormState.overview=document.getElementById('lOverview').value.trim();
+  labFormState.findingsSummary=document.getElementById('lFindings').value.trim();
+
+  if(!labFormState.name||!labFormState.cardDescription||!labFormState.date||!labFormState.modalSubtitle||!labFormState.overview){
+    errEl.textContent='Name, card description, date, modal subtitle, and overview are all required.';
+    errEl.style.display='block';
+    return;
+  }
+
+  const saveBtn=document.getElementById('saveLabBtn');
+  saveBtn.disabled=true;
+  saveBtn.textContent='Saving…';
+
+  const payload={
+    name: labFormState.name,
+    isActive: labFormState.isActive,
+    cardDescription: labFormState.cardDescription,
+    tags: labFormState.tags,
+    date: labFormState.date,
+    modalSubtitle: labFormState.modalSubtitle,
+    overview: labFormState.overview,
+    tools: labFormState.tools,
+    findingsSummary: labFormState.findingsSummary || null,
+    updatedAt: serverTimestamp()
+  };
+
+  try{
+    if(labEditingId){
+      await updateDoc(doc(db,'labs',labEditingId), payload);
+    }else{
+      await addDoc(collection(db,'labs'), {...payload, createdAt: serverTimestamp()});
+    }
+    closeLabForm();
+    await loadLabs();
+  }catch(err){
+    errEl.textContent='Save failed: '+(err.code||err.message);
+    errEl.style.display='block';
+  }finally{
+    saveBtn.disabled=false;
+    saveBtn.textContent=labSaveLabelIdle;
+  }
+});
+
+// ==================== PROJECTS ====================
+// Links reuse LINK_TYPES / computeLinkLabel / linkNeedsInput already defined above for
+// Field Notes — same 8-type dropdown, same color mapping, matching "same pattern as
+// Field Notes" from the spec. Filter category chips regenerate from whatever distinct
+// code+label pairs exist, same "no fixed lists" rule as Field Notes tags.
+// Category tag line (free text, e.g. "OSINT Tool") is a separate concept from the
+// filter code+label pair — one's a per-card descriptive line, the other drives the
+// actual filter chips, matching what the real cards vs. real filter chips show today.
+
+let allProjects=[];
+let projectTechUnion=[];
+let projectCategoriesUnion=[];
+let projectFormState=null;
+let projectEditingId=null;
+let projectSaveLabelIdle='Save Project';
+
+function blankProjectForm(){
+  return {
+    name:'', categoryTagline:'', subtitle:'', description:'',
+    techStack:[], filterCode:'', filterLabel:'', links:[],
+    date: new Date().toISOString().slice(0,10)
+  };
+}
+
+async function loadProjects(){
+  const listEl=document.getElementById('projectsList');
+  try{
+    const q=query(collection(db,'projects'), orderBy('date','desc'));
+    const snap=await getDocs(q);
+    allProjects=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderProjectsList();
+    const techSet=new Set();
+    const catMap=new Map();
+    allProjects.forEach(p=>{
+      (p.techStack||[]).forEach(t=>techSet.add(t));
+      if(p.filterCode) catMap.set(p.filterCode, {code:p.filterCode, label:p.filterLabel||p.filterCode});
+    });
+    projectTechUnion=[...techSet].sort((a,b)=>a.localeCompare(b));
+    projectCategoriesUnion=[...catMap.values()].sort((a,b)=>a.label.localeCompare(b.label));
+  }catch(err){
+    listEl.innerHTML='<div class="empty-note">Couldn\'t load projects: '+esc(err.code||err.message)+'</div>';
+  }
+}
+
+function renderProjectsList(){
+  const listEl=document.getElementById('projectsList');
+  if(!allProjects.length){
+    listEl.innerHTML='<div class="empty-note">No projects yet — click "+ New Project" to add your first one.</div>';
+    return;
+  }
+  listEl.innerHTML=allProjects.map((p,i)=>{
+    const linkCount=(p.links||[]).length;
+    return '<div class="note-row" data-i="'+i+'">'
+      +'<div class="note-row-main">'
+        +'<div class="note-row-title">'+esc(p.name||'(untitled)')+'</div>'
+        +'<div class="note-row-meta">'+esc(p.date||'')+' &middot; '+esc(p.filterLabel||'no category')+' &middot; '+linkCount+' link'+(linkCount===1?'':'s')+'</div>'
+      +'</div>'
+      +'<div class="note-row-actions">'
+        +'<button type="button" class="smallbtn edit-note">Edit</button>'
+        +'<button type="button" class="smallbtn delete-note">Delete</button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+  [...listEl.querySelectorAll('.note-row')].forEach(row=>{
+    const p=allProjects[Number(row.dataset.i)];
+    row.querySelector('.edit-note').addEventListener('click',()=>openProjectForm(p));
+    row.querySelector('.delete-note').addEventListener('click',()=>deleteProject(p));
+  });
+}
+
+async function deleteProject(p){
+  if(!confirm('Delete "'+(p.name||'this project')+'"? This cannot be undone.')) return;
+  try{
+    await deleteDoc(doc(db,'projects',p.id));
+    await loadProjects();
+  }catch(err){
+    alert('Delete failed: '+(err.code||err.message));
+  }
+}
+
+function openProjectForm(existing){
+  if(existing){
+    projectEditingId=existing.id;
+    projectSaveLabelIdle='Save Changes';
+    projectFormState={
+      name: existing.name||'', categoryTagline: existing.categoryTagline||'', subtitle: existing.subtitle||'',
+      description: existing.description||'', techStack: [...(existing.techStack||[])],
+      filterCode: existing.filterCode||'', filterLabel: existing.filterLabel||'',
+      links: (existing.links||[]).map(l=>({type:l.type||'writeup', extraText:deriveExtraText(l), url:l.url||''})),
+      date: existing.date||new Date().toISOString().slice(0,10)
+    };
+  }else{
+    projectEditingId=null;
+    projectSaveLabelIdle='Save Project';
+    projectFormState=blankProjectForm();
+  }
+  document.getElementById('projectFormTitleBar').textContent=existing?'edit project':'new project';
+  document.getElementById('saveProjectBtn').textContent=projectSaveLabelIdle;
+  document.getElementById('projectFormErr').style.display='none';
+  document.getElementById('pName').value=projectFormState.name;
+  document.getElementById('pCategoryTag').value=projectFormState.categoryTagline;
+  document.getElementById('pSubtitle').value=projectFormState.subtitle;
+  document.getElementById('pDesc').value=projectFormState.description;
+  document.getElementById('pFilterCode').value=projectFormState.filterCode;
+  document.getElementById('pFilterLabel').value=projectFormState.filterLabel;
+  document.getElementById('pDate').value=projectFormState.date;
+  renderProjectTechPills();
+  renderProjectTechSuggestions();
+  renderProjectCategorySuggestions();
+  renderProjectLinks();
+  document.getElementById('projectFormCard').style.display='block';
+  document.getElementById('projectFormCard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeProjectForm(){
+  document.getElementById('projectFormCard').style.display='none';
+  projectFormState=null;
+  projectEditingId=null;
+}
+
+document.getElementById('newProjectBtn').addEventListener('click', ()=>openProjectForm(null));
+document.getElementById('cancelProjectFormBtn').addEventListener('click', closeProjectForm);
+
+document.getElementById('pName').addEventListener('input', e=>{ if(projectFormState) projectFormState.name=e.target.value; });
+document.getElementById('pCategoryTag').addEventListener('input', e=>{ if(projectFormState) projectFormState.categoryTagline=e.target.value; });
+document.getElementById('pSubtitle').addEventListener('input', e=>{ if(projectFormState) projectFormState.subtitle=e.target.value; });
+document.getElementById('pDesc').addEventListener('input', e=>{ if(projectFormState) projectFormState.description=e.target.value; });
+document.getElementById('pFilterCode').addEventListener('input', e=>{ if(projectFormState) projectFormState.filterCode=e.target.value; });
+document.getElementById('pFilterLabel').addEventListener('input', e=>{ if(projectFormState) projectFormState.filterLabel=e.target.value; });
+document.getElementById('pDate').addEventListener('input', e=>{ if(projectFormState) projectFormState.date=e.target.value; });
+
+// ---- tech stack pills ----
+function addProjectTech(raw){
+  const t=raw.trim();
+  if(!t) return;
+  if(!projectFormState.techStack.includes(t)) projectFormState.techStack.push(t);
+  document.getElementById('pTechInput').value='';
+  renderProjectTechPills();
+  renderProjectTechSuggestions();
+}
+document.getElementById('addTechBtn').addEventListener('click',()=>{
+  addProjectTech(document.getElementById('pTechInput').value);
+});
+document.getElementById('pTechInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){ e.preventDefault(); addProjectTech(e.target.value); }
+});
+function renderProjectTechPills(){
+  const el=document.getElementById('pTechPillList');
+  el.innerHTML=projectFormState.techStack.map((t,i)=>
+    '<span class="tag-pill">'+esc(t)+' <button type="button" data-i="'+i+'" aria-label="Remove">&times;</button></span>'
+  ).join('');
+  [...el.querySelectorAll('button')].forEach(b=>{
+    b.addEventListener('click',()=>{
+      projectFormState.techStack.splice(Number(b.dataset.i),1);
+      renderProjectTechPills();
+      renderProjectTechSuggestions();
+    });
+  });
+}
+function renderProjectTechSuggestions(){
+  const el=document.getElementById('pTechSuggestions');
+  const remaining=projectTechUnion.filter(t=>!projectFormState.techStack.includes(t));
+  if(!remaining.length){ el.innerHTML=''; return; }
+  el.innerHTML='<span class="hint-text">Reuse existing tech:</span>'
+    +remaining.map(t=>'<button type="button" class="suggestion-chip" data-t="'+esc(t)+'">'+esc(t)+'</button>').join('');
+  [...el.querySelectorAll('.suggestion-chip')].forEach(b=>{
+    b.addEventListener('click',()=>addProjectTech(b.dataset.t));
+  });
+}
+
+// ---- filter category (code+label pair) suggestions ----
+function renderProjectCategorySuggestions(){
+  const el=document.getElementById('pCategorySuggestions');
+  if(!projectCategoriesUnion.length){ el.innerHTML=''; return; }
+  el.innerHTML='<span class="hint-text">Reuse an existing category:</span>'
+    +projectCategoriesUnion.map(c=>'<button type="button" class="suggestion-chip" data-code="'+esc(c.code)+'" data-label="'+esc(c.label)+'">'+esc(c.label)+'</button>').join('');
+  [...el.querySelectorAll('.suggestion-chip')].forEach(b=>{
+    b.addEventListener('click',()=>{
+      projectFormState.filterCode=b.dataset.code;
+      projectFormState.filterLabel=b.dataset.label;
+      document.getElementById('pFilterCode').value=b.dataset.code;
+      document.getElementById('pFilterLabel').value=b.dataset.label;
+    });
+  });
+}
+
+// ---- links (LINK_TYPES/computeLinkLabel/linkNeedsInput defined earlier, shared) ----
+function renderProjectLinks(){
+  const el=document.getElementById('pLinksList');
+  if(!projectFormState.links.length){ el.innerHTML=''; return; }
+  el.innerHTML=projectFormState.links.map((l,i)=>{
+    const extra=linkNeedsInput(l.type);
+    return '<div class="repeatable-item" data-i="'+i+'">'
+      +'<div class="repeatable-item-fields">'
+        +'<select class="link-type">'+LINK_TYPES.map(t=>'<option value="'+t.value+'"'+(t.value===l.type?' selected':'')+'>'+esc(t.label)+'</option>').join('')+'</select>'
+        +(extra.show?'<input type="text" class="link-extra" placeholder="'+esc(extra.placeholder)+'" value="'+esc(l.extraText||'')+'"/>':'')
+        +'<input type="url" class="link-url" placeholder="https://…" value="'+esc(l.url||'')+'"/>'
+      +'</div>'
+      +'<button type="button" class="smallbtn remove-link">Remove</button>'
+    +'</div>';
+  }).join('');
+  [...el.querySelectorAll('.repeatable-item')].forEach(item=>{
+    const i=Number(item.dataset.i);
+    item.querySelector('.link-type').addEventListener('change',e=>{
+      projectFormState.links[i].type=e.target.value;
+      projectFormState.links[i].extraText='';
+      renderProjectLinks();
+    });
+    const extraInput=item.querySelector('.link-extra');
+    if(extraInput) extraInput.addEventListener('input',e=>{projectFormState.links[i].extraText=e.target.value;});
+    item.querySelector('.link-url').addEventListener('input',e=>{projectFormState.links[i].url=e.target.value;});
+    item.querySelector('.remove-link').addEventListener('click',()=>{
+      projectFormState.links.splice(i,1);
+      renderProjectLinks();
+    });
+  });
+}
+document.getElementById('addProjectLinkBtn').addEventListener('click',()=>{
+  projectFormState.links.push({type:'github', extraText:'', url:''});
+  renderProjectLinks();
+});
+
+document.getElementById('saveProjectBtn').addEventListener('click', async()=>{
+  const errEl=document.getElementById('projectFormErr');
+  errEl.style.display='none';
+
+  projectFormState.name=document.getElementById('pName').value.trim();
+  projectFormState.categoryTagline=document.getElementById('pCategoryTag').value.trim();
+  projectFormState.subtitle=document.getElementById('pSubtitle').value.trim();
+  projectFormState.description=document.getElementById('pDesc').value.trim();
+  projectFormState.filterCode=document.getElementById('pFilterCode').value.trim();
+  projectFormState.filterLabel=document.getElementById('pFilterLabel').value.trim();
+  projectFormState.date=document.getElementById('pDate').value;
+
+  if(!projectFormState.name||!projectFormState.categoryTagline||!projectFormState.subtitle||!projectFormState.description
+     ||!projectFormState.filterCode||!projectFormState.filterLabel||!projectFormState.date){
+    errEl.textContent='Name, category tag line, subtitle, description, filter code+label, and date are all required.';
+    errEl.style.display='block';
+    return;
+  }
+  for(const l of projectFormState.links){
+    if(!l.url||!l.url.trim()){
+      errEl.textContent='Every link needs a URL (or remove the empty one).';
+      errEl.style.display='block';
+      return;
+    }
+    if((l.type==='view-x'||l.type==='custom') && !(l.extraText||'').trim()){
+      errEl.textContent='Custom and "View…" links need their label text filled in.';
+      errEl.style.display='block';
+      return;
+    }
+  }
+
+  const saveBtn=document.getElementById('saveProjectBtn');
+  saveBtn.disabled=true;
+  saveBtn.textContent='Saving…';
+
+  const payload={
+    name: projectFormState.name,
+    categoryTagline: projectFormState.categoryTagline,
+    subtitle: projectFormState.subtitle,
+    description: projectFormState.description,
+    techStack: projectFormState.techStack,
+    filterCode: projectFormState.filterCode,
+    filterLabel: projectFormState.filterLabel,
+    links: projectFormState.links.map(l=>({type:l.type, label:computeLinkLabel(l), url:l.url.trim()})),
+    date: projectFormState.date,
+    updatedAt: serverTimestamp()
+  };
+
+  try{
+    if(projectEditingId){
+      await updateDoc(doc(db,'projects',projectEditingId), payload);
+    }else{
+      await addDoc(collection(db,'projects'), {...payload, createdAt: serverTimestamp()});
+    }
+    closeProjectForm();
+    await loadProjects();
+  }catch(err){
+    errEl.textContent='Save failed: '+(err.code||err.message);
+    errEl.style.display='block';
+  }finally{
+    saveBtn.disabled=false;
+    saveBtn.textContent=projectSaveLabelIdle;
+  }
+});
+</script>
+</body>
+</html>

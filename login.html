@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Admin Login — Jishnu EC</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --g:#00ff41;--bg:#020d02;--bg2:#071a07;--bg3:#0c250c;
+  --border:rgba(0,255,65,.5);--border2:rgba(0,255,65,.25);
+  --text:#eeffee;--text2:#c5e8c5;--red:#ff5555;--amber:#ffd700;
+  --mono:'Share Tech Mono',monospace;--vt:'VT323',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--mono);
+  display:flex;align-items:center;justify-content:center;padding:2rem}
+.wrap{width:100%;max-width:420px;display:flex;flex-direction:column;gap:1.4rem}
+.tcard{background:var(--bg2);border:1px solid var(--border)}
+.tbar{background:var(--bg3);border-bottom:1px solid var(--border);padding:.5rem 1rem;display:flex;align-items:center;gap:.5rem}
+.tdots{display:flex;gap:.35rem}
+.tdot{width:10px;height:10px;border-radius:50%}
+.tdot:nth-child(1){background:#ff5f56}.tdot:nth-child(2){background:#ffbd2e}.tdot:nth-child(3){background:#27c93f}
+.ttitle{font-size:.6rem;letter-spacing:2.5px;color:var(--text2);margin-left:.4rem}
+.tbody{padding:1.7rem}
+h1{font-family:var(--vt);font-size:1.7rem;color:var(--g);letter-spacing:2px;margin:0 0 .3rem;text-shadow:0 0 12px rgba(0,255,65,.3)}
+.sub{font-size:.66rem;color:var(--text2);letter-spacing:1px;margin-bottom:1.5rem}
+label{display:block;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:.35rem}
+input{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);
+  font-size:.78rem;padding:.65rem .8rem;outline:none;margin-bottom:1rem;transition:border-color .2s}
+input:focus{border-color:var(--g)}
+input:focus-visible{outline:2px solid var(--g);outline-offset:1px}
+button{width:100%;background:transparent;border:1px solid var(--g);color:var(--g);font-family:var(--mono);
+  font-size:.66rem;letter-spacing:2px;text-transform:uppercase;padding:.75rem;cursor:pointer;transition:all .2s}
+button:hover:not(:disabled){background:rgba(0,255,65,.08)}
+button:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+button:disabled{opacity:.4;cursor:not-allowed}
+.msg{font-size:.66rem;letter-spacing:.3px;line-height:1.6;padding:.65rem .8rem;border:1px solid;margin-bottom:1rem;display:none}
+.msg.err{display:block;color:var(--red);border-color:rgba(255,85,85,.4);background:rgba(255,85,85,.06)}
+.msg.ok{display:block;color:var(--g);border-color:var(--border);background:rgba(0,255,65,.06)}
+.diag{font-size:.64rem;line-height:1.9;color:var(--text2)}
+.diag .row{display:flex;justify-content:space-between;gap:1rem;padding:.32rem 0;border-bottom:1px solid var(--border2)}
+.diag .row:last-child{border-bottom:none}
+.stok{color:var(--g)}.stbad{color:var(--red)}.stwait{color:var(--amber)}
+.back{font-size:.6rem;letter-spacing:1.5px;color:var(--text2);text-decoration:none;text-align:center}
+.back:hover{color:var(--g)}
+.testbtn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);
+  font-size:.58rem;letter-spacing:1.5px;padding:.55rem;margin-top:.9rem;cursor:pointer;transition:all .2s}
+.testbtn:hover{border-color:var(--g);color:var(--g)}
+.testbtn:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+.hint{font-size:.58rem;color:var(--text2);opacity:.6;line-height:1.7;margin-top:.9rem}
+.signedout-btn{margin-top:.6rem;border-color:var(--border2);color:var(--text2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="tcard">
+    <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle">jishnu@kali:~$ auth</span></div>
+    <div class="tbody">
+      <h1>ADMIN LOGIN</h1>
+      <div class="sub">Sign in to manage site content</div>
+
+      <div id="authedBox" style="display:none">
+        <div class="msg ok" id="authedMsg" style="display:block"></div>
+        <button type="button" id="goAdminBtn">Go to Admin Panel</button>
+        <button type="button" id="signOutBtn" class="signedout-btn">Sign Out</button>
+      </div>
+
+      <form id="loginForm">
+        <div class="msg err" id="errMsg"></div>
+        <label for="email">Email</label>
+        <input type="email" id="email" autocomplete="username" required/>
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="current-password" required/>
+        <button type="submit" id="submitBtn">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="tcard">
+    <div class="tbar"><div class="tdots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div><span class="ttitle">connection diagnostics</span></div>
+    <div class="tbody">
+      <div class="diag">
+        <div class="row"><span>Firebase SDK</span><span id="diagSdk" class="stwait">checking…</span></div>
+        <div class="row"><span>Auth state</span><span id="diagAuth" class="stwait">checking…</span></div>
+        <div class="row"><span>Firestore write test</span><span id="diagWrite" class="stwait">not run</span></div>
+      </div>
+      <button type="button" class="testbtn" id="testWriteBtn">Run Firestore Write Test</button>
+      <div class="hint">Signed out, this should read "denied" — that's the rule working. Sign in and run it again; it should switch to "succeeded."</div>
+    </div>
+  </div>
+
+  <a href="index.html" class="back">&larr; Back to site</a>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
+  from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
+
+const diagSdk=document.getElementById('diagSdk');
+const diagAuth=document.getElementById('diagAuth');
+const diagWrite=document.getElementById('diagWrite');
+const errMsg=document.getElementById('errMsg');
+const authedBox=document.getElementById('authedBox');
+const authedMsg=document.getElementById('authedMsg');
+const loginForm=document.getElementById('loginForm');
+const submitBtn=document.getElementById('submitBtn');
+
+let app,auth,db;
+try{
+  app=initializeApp(firebaseConfig);
+  auth=getAuth(app);
+  db=getFirestore(app);
+  diagSdk.textContent='✓ loaded';
+  diagSdk.className='stok';
+}catch(e){
+  diagSdk.textContent='✗ init failed — check firebase-config.js';
+  diagSdk.className='stbad';
+  console.error(e);
+}
+
+if(auth){
+  onAuthStateChanged(auth,(user)=>{
+    if(user){
+      diagAuth.textContent='signed in ('+user.email+')';
+      diagAuth.className='stok';
+      authedBox.style.display='block';
+      loginForm.style.display='none';
+      authedMsg.textContent='Signed in as '+user.email;
+    }else{
+      diagAuth.textContent='signed out';
+      diagAuth.className='stwait';
+      authedBox.style.display='none';
+      loginForm.style.display='block';
+    }
+  });
+}
+
+loginForm.addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  errMsg.style.display='none';
+  submitBtn.disabled=true;
+  submitBtn.textContent='Signing in…';
+  const email=document.getElementById('email').value.trim();
+  const password=document.getElementById('password').value;
+  try{
+    await signInWithEmailAndPassword(auth,email,password);
+    window.location.href='admin.html';
+  }catch(err){
+    errMsg.textContent=friendlyAuthError(err);
+    errMsg.style.display='block';
+    submitBtn.disabled=false;
+    submitBtn.textContent='Sign In';
+  }
+});
+
+document.getElementById('signOutBtn').addEventListener('click',()=>signOut(auth));
+document.getElementById('goAdminBtn').addEventListener('click',()=>{window.location.href='admin.html';});
+
+document.getElementById('testWriteBtn').addEventListener('click',async()=>{
+  diagWrite.textContent='writing…';
+  diagWrite.className='stwait';
+  try{
+    await setDoc(doc(db,'_healthcheck','ping'),{ts:Date.now()});
+    diagWrite.textContent='✓ write succeeded';
+    diagWrite.className='stok';
+  }catch(err){
+    if(err.code==='permission-denied'){
+      const signedIn=!!(auth&&auth.currentUser);
+      diagWrite.textContent=signedIn?'✗ denied (unexpected — check UID in rules)':'✓ denied (expected, signed out)';
+      diagWrite.className=signedIn?'stbad':'stok';
+    }else{
+      diagWrite.textContent='✗ error: '+err.code;
+      diagWrite.className='stbad';
+    }
+  }
+});
+
+function friendlyAuthError(err){
+  const map={
+    'auth/invalid-email':'That email address looks malformed.',
+    'auth/user-not-found':'No user with that email.',
+    'auth/wrong-password':'Incorrect password.',
+    'auth/invalid-credential':'Email or password is incorrect.',
+    'auth/too-many-requests':'Too many attempts — wait a bit and try again.'
+  };
+  return map[err.code]||('Sign-in failed: '+err.code);
+}
+</script>
+</body>
+</html>

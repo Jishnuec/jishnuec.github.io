@@ -1,0 +1,48 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Replace with the UID from Authentication → Users after you create your admin account.
+    // Left as a placeholder, this can never match a real signed-in user, so it fails closed.
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.uid == "REPLACE_WITH_YOUR_ADMIN_UID";
+    }
+
+    // Public content: anyone can read, only the admin account can write.
+    // Collection names match the 4 content types (Field Notes uses camelCase to
+    // match the site's own JS naming — fnFeed, filterByTag, etc.)
+    match /projects/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /research/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /labs/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /fieldNotes/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Used only by login.html's connection test below — never holds real content.
+    match /_healthcheck/{docId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Everything else is denied by default (this line is redundant with Firestore's
+    // own default-deny, but it's here so the intent is unmistakable on a re-read).
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
