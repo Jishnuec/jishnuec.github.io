@@ -1,6 +1,6 @@
 name: Regenerate Site Content
 
-# Manual only — the "Run workflow" button on the Actions tab. Never triggered by the
+# Manual only: the "Run workflow" button on the Actions tab. Never triggered by the
 # client; the admin panel only ever writes to Firestore, never to GitHub.
 on:
   workflow_dispatch:
@@ -29,14 +29,35 @@ jobs:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: node scripts/regenerate.mjs
 
-      - name: Commit and push if index.html changed
+      - name: Check whether index.html changed
+        id: changed
         run: |
           if git diff --quiet -- index.html; then
-            echo "No changes to index.html — nothing to commit."
-            exit 0
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes to index.html, nothing to commit."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # A push made by this workflow does not start the "Sync RSS feed & share pages"
+      # workflow (GitHub blocks that on purpose), so the same script runs here instead.
+      - name: Set up Python
+        if: steps.changed.outputs.changed == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Regenerate RSS feed and share pages
+        if: steps.changed.outputs.changed == 'true'
+        run: |
+          pip install beautifulsoup4
+          python3 scripts/generate_derived_files.py
+
+      - name: Commit and push
+        if: steps.changed.outputs.changed == 'true'
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html
-          git commit -m "Regenerate site content from Firestore (Field Notes, Research, Labs)"
+          git add index.html rss.xml share/
+          git commit -m "Regenerate site content from Firestore"
           git push
