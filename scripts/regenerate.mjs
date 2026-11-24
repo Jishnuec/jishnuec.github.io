@@ -12,7 +12,7 @@
 //
 // Local dry run, no Firestore/credentials needed:
 //   node regenerate.mjs --local sample-data.json
-//   (sample-data.json is an object keyed by collection name, e.g. {"fieldNotes":[...],"research":[...],"labs":[...]})
+//   (sample-data.json is an object keyed by collection name, e.g. {"fieldNotes":[...],"research":[...],"labs":[...],"projects":[...]})
 //
 // Real run (what the Action does):
 //   FIREBASE_SERVICE_ACCOUNT='<json>' node regenerate.mjs
@@ -22,6 +22,7 @@ import * as cheerio from 'cheerio';
 import { renderFeed as renderFieldNotesFeed, renderChips as renderFieldNotesChips } from './render-field-notes.mjs';
 import { renderGrid as renderResearchGrid } from './render-research.mjs';
 import { renderGrid as renderLabsGrid, renderLabDataObject } from './render-labs.mjs';
+import { renderGrid as renderProjectsGrid, renderChips as renderProjectsChips } from './render-projects.mjs';
 
 const INDEX_PATH = 'index.html';
 
@@ -47,6 +48,14 @@ const SECTIONS = [
     regions: [
       { type: 'html-id', id: 'labsGrid', render: renderLabsGrid },
       { type: 'js-marker', startMarker: '// LABDATA_START', endMarker: '// LABDATA_END', render: renderLabDataObject }
+    ]
+  },
+  {
+    name: 'Projects',
+    collection: 'projects',
+    regions: [
+      { type: 'html-id', id: 'pgrid', render: renderProjectsGrid },
+      { type: 'html-id', id: 'projectTypeChips', render: renderProjectsChips }
     ]
   }
 ];
@@ -126,6 +135,10 @@ async function main() {
   for (const section of SECTIONS) {
     const items = dataByCollection[section.collection] || [];
     console.log('Fetched ' + items.length + ' ' + section.name + ' item(s).');
+    if (!items.length && !process.argv.includes('--allow-empty')) {
+      throw new Error('Firestore returned 0 ' + section.name + ' entries, so nothing was changed. '
+        + 'Run the one-time import first. (Pass --allow-empty only if you really want that section empty.)');
+    }
     for (const region of section.regions) {
       const rendered = region.render(items);
       html = region.type === 'js-marker'
