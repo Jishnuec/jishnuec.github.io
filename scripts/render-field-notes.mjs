@@ -52,7 +52,9 @@ function renderFinding(f) {
 function renderLink(l) {
   const color = LINK_COLOR[l.type];
   const style = color ? ' style="color:var(--' + color + ')"' : '';
-  return '<a href="' + esc(l.url) + '" target="_blank" class="fn-link"' + style + '>' + esc(l.label) + '</a>';
+  // Links to pages on this site open in the same tab (as they do today); full http(s) links open a new tab.
+  const target = /^https?:\/\//i.test(String(l.url || '')) ? ' target="_blank"' : '';
+  return '<a href="' + esc(l.url) + '"' + target + ' class="fn-link"' + style + '>' + esc(l.label) + '</a>';
 }
 
 function renderTagPill(tag) {
@@ -67,6 +69,10 @@ export function renderNote(n) {
     + '" data-accent="' + esc(n.accentColor) + '">';
   html += '<div class="fn-meta">';
   html += '<div class="fn-badge ' + badgeClass + '">' + esc(n.badgeText) + '</div>';
+  // Optional second badge (badge2Text/badge2Color). Same markup the site already used for two-badge notes.
+  if (n.badge2Text) {
+    html += '<div class="fn-badge ' + (BADGE_CLASS[n.badge2Color] || BADGE_CLASS.cyan) + '" style="margin-left:.2rem">' + esc(n.badge2Text) + '</div>';
+  }
   html += '<div class="fn-date">' + formatDate(n.date) + '</div>';
   html += '</div>';
   html += '<div class="fn-card-body">';
