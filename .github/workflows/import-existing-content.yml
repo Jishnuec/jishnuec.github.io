@@ -1,0 +1,37 @@
+name: Import Existing Content (one time)
+
+# Manual only: the "Run workflow" button on the Actions tab.
+# Copies the entries that are hard-coded in index.html (Field Notes, Research, Labs,
+# Projects) into Firestore, so the admin panel starts out with everything on the site.
+# Run it ONCE, before the first "Regenerate Site Content" run.
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Overwrite if the collections already have documents (leave off the first time)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Import into Firestore
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node scripts/migrate.mjs ${{ inputs.force && '--force' || '' }}
