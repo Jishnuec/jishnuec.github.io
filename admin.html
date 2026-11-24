@@ -155,6 +155,13 @@ option{background:var(--bg3)}
       </div>
 
       <div class="field-group">
+        <label for="fBadge2Text">Second badge (optional)</label>
+        <input type="text" id="fBadge2Text" placeholder="Leave empty for no second badge"/>
+        <label style="margin-top:.9rem">Second badge color</label>
+        <div class="color-swatch-row" id="badge2ColorRow"></div>
+      </div>
+
+      <div class="field-group">
         <label>Accent color (top border-glow)</label>
         <div class="color-swatch-row" id="accentColorRow"></div>
       </div>
@@ -293,6 +300,7 @@ option{background:var(--bg3)}
           <label>Tags (optional)</label>
           <div class="tag-input-row">
             <input type="text" id="lTagInput" placeholder="Type a tag and press Enter"/>
+            <select id="lTagColor" aria-label="Tag color" style="width:auto;flex:0 0 auto"><option>green</option><option>cyan</option><option>amber</option><option>red</option><option>purple</option></select>
             <button type="button" class="btn-outline" id="addLabTagBtn">Add</button>
           </div>
           <div class="pill-list" id="labTagPillList"></div>
@@ -368,6 +376,8 @@ option{background:var(--bg3)}
         <div class="field-group">
           <label for="pCategoryTag">Category tag line (above the name)</label>
           <input type="text" id="pCategoryTag" placeholder="OSINT Tool"/>
+          <label for="pTaglineColor" style="margin-top:.9rem">Tag line color</label>
+          <select id="pTaglineColor"><option value="">Default</option><option>green</option><option>cyan</option><option>amber</option><option>red</option><option>purple</option></select>
         </div>
 
         <div class="field-group">
@@ -541,18 +551,10 @@ let saveLabelIdle='Save Field Note';
 function blankForm(){
   return {
     title:'', date: new Date().toISOString().slice(0,10),
-    badgeText:'', badgeColor:'cyan', accentColor:'green',
+    badgeText:'', badgeColor:'cyan', badge2Text:'', badge2Color:'purple', accentColor:'green',
     body:'', imageUrl:'',
     tags:[], findings:[], links:[]
   };
-}
-
-// When editing, stored links only have {type,label,url} — reverse-derive the
-// "extra text" the view-x/custom inputs need from the already-computed label.
-function deriveExtraText(l){
-  if(l.type==='view-x') return (l.label||'').replace(/^View\s*/,'');
-  if(l.type==='custom') return l.label||'';
-  return '';
 }
 
 function openForm(existing){
@@ -564,12 +566,14 @@ function openForm(existing){
       date: existing.date||new Date().toISOString().slice(0,10),
       badgeText: existing.badgeText||'',
       badgeColor: existing.badgeColor||'cyan',
+      badge2Text: existing.badge2Text||'',
+      badge2Color: existing.badge2Color||'purple',
       accentColor: existing.accentColor||'green',
       body: existing.body||'',
       imageUrl: existing.imageUrl||'',
       tags: [...(existing.tags||[])],
       findings: (existing.findings||[]).map(f=>({label:f.label||'',description:f.description||''})),
-      links: (existing.links||[]).map(l=>({type:l.type||'writeup', extraText:deriveExtraText(l), url:l.url||''}))
+      links: (existing.links||[]).map(l=>({type:l.type||'writeup', label:l.label||LINK_DEFAULT_LABEL[l.type]||'', url:l.url||''}))
     };
   }else{
     editingId=null;
@@ -582,9 +586,11 @@ function openForm(existing){
   document.getElementById('fTitle').value=formState.title;
   document.getElementById('fDate').value=formState.date;
   document.getElementById('fBadgeText').value=formState.badgeText;
+  document.getElementById('fBadge2Text').value=formState.badge2Text;
   document.getElementById('fBody').value=formState.body;
   document.getElementById('fImage').value=formState.imageUrl;
   renderColorRow('badgeColorRow',formState,'badgeColor');
+  renderColorRow('badge2ColorRow',formState,'badge2Color');
   renderColorRow('accentColorRow',formState,'accentColor');
   renderTagPills();
   renderTagSuggestions();
@@ -692,54 +698,41 @@ document.getElementById('addFindingBtn').addEventListener('click',()=>{
 });
 
 // ---- links ----
-function linkNeedsInput(type){
-  if(type==='view-x') return {show:true, placeholder:'e.g. "TryHackMe Room" — becomes "View TryHackMe Room"'};
-  if(type==='custom') return {show:true, placeholder:'Your custom link label'};
-  return {show:false, placeholder:''};
+const LINK_DEFAULT_LABEL = {writeup:'Writeup', github:'GitHub', 'live-app':'Live App', docs:'Documentation', download:'Download', medium:'Medium', 'view-x':'View ', custom:''};
+function linkTypeChanged(l, newType){
+  // The type only sets the color. Its default text is filled in only when the text box
+  // is empty or still holds the old type's default, so wording you typed is never overwritten.
+  const wasDefault = !(l.label||'').trim() || l.label===(LINK_DEFAULT_LABEL[l.type]||'');
+  l.type = newType;
+  if(wasDefault) l.label = LINK_DEFAULT_LABEL[newType]||'';
 }
-function renderLinks(){
-  const el=document.getElementById('linksList');
-  if(!formState.links.length){ el.innerHTML=''; return; }
-  el.innerHTML=formState.links.map((l,i)=>{
-    const extra=linkNeedsInput(l.type);
-    return '<div class="repeatable-item" data-i="'+i+'">'
+function renderLinkEditor(el, links, rerender){
+  if(!links.length){ el.innerHTML=''; return; }
+  el.innerHTML=links.map((l,i)=>
+    '<div class="repeatable-item" data-i="'+i+'">'
       +'<div class="repeatable-item-fields">'
         +'<select class="link-type">'+LINK_TYPES.map(t=>'<option value="'+t.value+'"'+(t.value===l.type?' selected':'')+'>'+esc(t.label)+'</option>').join('')+'</select>'
-        +(extra.show?'<input type="text" class="link-extra" placeholder="'+esc(extra.placeholder)+'" value="'+esc(l.extraText||'')+'"/>':'')
+        +'<input type="text" class="link-label" placeholder="Link text (the type only sets the color)" value="'+esc(l.label||'')+'"/>'
         +'<input type="url" class="link-url" placeholder="https://…" value="'+esc(l.url||'')+'"/>'
       +'</div>'
       +'<button type="button" class="smallbtn remove-link">Remove</button>'
-    +'</div>';
-  }).join('');
+    +'</div>'
+  ).join('');
   [...el.querySelectorAll('.repeatable-item')].forEach(item=>{
     const i=Number(item.dataset.i);
-    item.querySelector('.link-type').addEventListener('change',e=>{
-      formState.links[i].type=e.target.value;
-      formState.links[i].extraText='';
-      renderLinks();
-    });
-    const extraInput=item.querySelector('.link-extra');
-    if(extraInput) extraInput.addEventListener('input',e=>{formState.links[i].extraText=e.target.value;});
-    item.querySelector('.link-url').addEventListener('input',e=>{formState.links[i].url=e.target.value;});
-    item.querySelector('.remove-link').addEventListener('click',()=>{
-      formState.links.splice(i,1);
-      renderLinks();
-    });
+    item.querySelector('.link-type').addEventListener('change',e=>{ linkTypeChanged(links[i], e.target.value); rerender(); });
+    item.querySelector('.link-label').addEventListener('input',e=>{ links[i].label=e.target.value; });
+    item.querySelector('.link-url').addEventListener('input',e=>{ links[i].url=e.target.value; });
+    item.querySelector('.remove-link').addEventListener('click',()=>{ links.splice(i,1); rerender(); });
   });
 }
+function renderLinks(){ renderLinkEditor(document.getElementById('linksList'), formState.links, renderLinks); }
 document.getElementById('addLinkBtn').addEventListener('click',()=>{
-  formState.links.push({type:'writeup', extraText:'', url:''});
+  formState.links.push({type:'writeup', label:'Writeup', url:''});
   renderLinks();
 });
 
 // ---- save ----
-function computeLinkLabel(l){
-  if(l.type==='view-x') return 'View '+(l.extraText||'').trim();
-  if(l.type==='custom') return (l.extraText||'').trim();
-  const t=LINK_TYPES.find(x=>x.value===l.type);
-  return t?t.label:'Link';
-}
-
 document.getElementById('saveNoteBtn').addEventListener('click', async()=>{
   const errEl=document.getElementById('formErr');
   errEl.style.display='none';
@@ -747,6 +740,7 @@ document.getElementById('saveNoteBtn').addEventListener('click', async()=>{
   formState.title=document.getElementById('fTitle').value.trim();
   formState.date=document.getElementById('fDate').value;
   formState.badgeText=document.getElementById('fBadgeText').value.trim();
+  formState.badge2Text=document.getElementById('fBadge2Text').value.trim();
   formState.body=document.getElementById('fBody').value.trim();
   formState.imageUrl=document.getElementById('fImage').value.trim();
 
@@ -761,8 +755,8 @@ document.getElementById('saveNoteBtn').addEventListener('click', async()=>{
       errEl.style.display='block';
       return;
     }
-    if((l.type==='view-x'||l.type==='custom') && !(l.extraText||'').trim()){
-      errEl.textContent='Custom and "View…" links need their label text filled in.';
+    if(!(l.label||'').trim()){
+      errEl.textContent='Every link needs its text (the words shown on the button).';
       errEl.style.display='block';
       return;
     }
@@ -777,12 +771,14 @@ document.getElementById('saveNoteBtn').addEventListener('click', async()=>{
     date: formState.date,
     badgeText: formState.badgeText,
     badgeColor: formState.badgeColor,
+    badge2Text: formState.badge2Text || null,
+    badge2Color: formState.badge2Text ? formState.badge2Color : null,
     accentColor: formState.accentColor,
     body: formState.body,
     imageUrl: formState.imageUrl || null,
     tags: formState.tags,
     findings: formState.findings.filter(f=>f.label.trim()||f.description.trim()),
-    links: formState.links.map(l=>({type:l.type, label:computeLinkLabel(l), url:l.url.trim()})),
+    links: formState.links.map(l=>({type:l.type, label:(l.label||'').trim(), url:l.url.trim()})),
     updatedAt: serverTimestamp()
   };
 
@@ -983,7 +979,7 @@ async function loadLabs(){
     renderLabsList();
     const tagSet=new Set(), toolSet=new Set();
     allLabs.forEach(l=>{
-      (l.tags||[]).forEach(t=>tagSet.add(t));
+      (l.tags||[]).forEach(t=>tagSet.add(typeof t==='string'?t:t.text));
       (l.tools||[]).forEach(t=>toolSet.add(t));
     });
     labTagsUnion=[...tagSet].sort((a,b)=>a.localeCompare(b));
@@ -1050,7 +1046,7 @@ function openLabForm(existing){
     labSaveLabelIdle='Save Changes';
     labFormState={
       name: existing.name||'', isActive: existing.isActive!==false, cardDescription: existing.cardDescription||'',
-      tags: [...(existing.tags||[])], date: existing.date||new Date().toISOString().slice(0,10),
+      tags: (existing.tags||[]).map(t=>typeof t==='string'?{text:t,color:'green'}:{text:t.text,color:t.color||'green'}), date: existing.date||new Date().toISOString().slice(0,10),
       modalSubtitle: existing.modalSubtitle||'', overview: existing.overview||'',
       tools: [...(existing.tools||[])], findingsSummary: existing.findingsSummary||''
     };
@@ -1097,7 +1093,7 @@ document.getElementById('lFindings').addEventListener('input', e=>{ if(labFormSt
 function addLabTag(raw){
   const t=raw.trim();
   if(!t) return;
-  if(!labFormState.tags.includes(t)) labFormState.tags.push(t);
+  if(!labFormState.tags.some(x=>x.text===t)) labFormState.tags.push({text:t,color:document.getElementById('lTagColor').value});
   document.getElementById('lTagInput').value='';
   renderLabTagPills();
   renderLabTagSuggestions();
@@ -1111,7 +1107,10 @@ document.getElementById('lTagInput').addEventListener('keydown',e=>{
 function renderLabTagPills(){
   const el=document.getElementById('labTagPillList');
   el.innerHTML=labFormState.tags.map((t,i)=>
-    '<span class="tag-pill">'+esc(t)+' <button type="button" data-i="'+i+'" aria-label="Remove tag">&times;</button></span>'
+    '<span class="tag-pill" style="border-color:'+COLOR_HEX[t.color]+';color:'+COLOR_HEX[t.color]+'">'+esc(t.text)
+    +' <select class="tag-color" data-i="'+i+'" aria-label="Tag color" style="width:auto;font-size:.6rem;padding:.1rem">'
+    +COLORS.map(c=>'<option value="'+c+'"'+(c===t.color?' selected':'')+'>'+c+'</option>').join('')+'</select>'
+    +' <button type="button" data-i="'+i+'" aria-label="Remove tag">&times;</button></span>'
   ).join('');
   [...el.querySelectorAll('button')].forEach(b=>{
     b.addEventListener('click',()=>{
@@ -1120,10 +1119,13 @@ function renderLabTagPills(){
       renderLabTagSuggestions();
     });
   });
+  [...el.querySelectorAll('.tag-color')].forEach(sel=>{
+    sel.addEventListener('change',()=>{ labFormState.tags[Number(sel.dataset.i)].color=sel.value; renderLabTagPills(); });
+  });
 }
 function renderLabTagSuggestions(){
   const el=document.getElementById('labTagSuggestions');
-  const remaining=labTagsUnion.filter(t=>!labFormState.tags.includes(t));
+  const remaining=labTagsUnion.filter(t=>!labFormState.tags.some(x=>x.text===t));
   if(!remaining.length){ el.innerHTML=''; return; }
   el.innerHTML='<span class="hint-text">Reuse an existing tag:</span>'
     +remaining.map(t=>'<button type="button" class="suggestion-chip" data-t="'+esc(t)+'">'+esc(t)+'</button>').join('');
@@ -1223,7 +1225,7 @@ document.getElementById('saveLabBtn').addEventListener('click', async()=>{
 });
 
 // ==================== PROJECTS ====================
-// Links reuse LINK_TYPES / computeLinkLabel / linkNeedsInput already defined above for
+// Links reuse LINK_TYPES / renderLinkEditor already defined above for
 // Field Notes — same 8-type dropdown, same color mapping, matching "same pattern as
 // Field Notes" from the spec. Filter category chips regenerate from whatever distinct
 // code+label pairs exist, same "no fixed lists" rule as Field Notes tags.
@@ -1241,7 +1243,7 @@ let projectSaveLabelIdle='Save Project';
 function blankProjectForm(){
   return {
     name:'', categoryTagline:'', subtitle:'', description:'',
-    techStack:[], filterCode:'', filterLabel:'', links:[],
+    techStack:[], filterCode:'', filterLabel:'', taglineColor:'', links:[],
     date: new Date().toISOString().slice(0,10)
   };
 }
@@ -1309,8 +1311,8 @@ function openProjectForm(existing){
     projectFormState={
       name: existing.name||'', categoryTagline: existing.categoryTagline||'', subtitle: existing.subtitle||'',
       description: existing.description||'', techStack: [...(existing.techStack||[])],
-      filterCode: existing.filterCode||'', filterLabel: existing.filterLabel||'',
-      links: (existing.links||[]).map(l=>({type:l.type||'writeup', extraText:deriveExtraText(l), url:l.url||''})),
+      filterCode: existing.filterCode||'', filterLabel: existing.filterLabel||'', taglineColor: existing.taglineColor||'',
+      links: (existing.links||[]).map(l=>({type:l.type||'writeup', label:l.label||LINK_DEFAULT_LABEL[l.type]||'', url:l.url||''})),
       date: existing.date||new Date().toISOString().slice(0,10)
     };
   }else{
@@ -1323,6 +1325,7 @@ function openProjectForm(existing){
   document.getElementById('projectFormErr').style.display='none';
   document.getElementById('pName').value=projectFormState.name;
   document.getElementById('pCategoryTag').value=projectFormState.categoryTagline;
+  document.getElementById('pTaglineColor').value=projectFormState.taglineColor;
   document.getElementById('pSubtitle').value=projectFormState.subtitle;
   document.getElementById('pDesc').value=projectFormState.description;
   document.getElementById('pFilterCode').value=projectFormState.filterCode;
@@ -1408,39 +1411,10 @@ function renderProjectCategorySuggestions(){
   });
 }
 
-// ---- links (LINK_TYPES/computeLinkLabel/linkNeedsInput defined earlier, shared) ----
-function renderProjectLinks(){
-  const el=document.getElementById('pLinksList');
-  if(!projectFormState.links.length){ el.innerHTML=''; return; }
-  el.innerHTML=projectFormState.links.map((l,i)=>{
-    const extra=linkNeedsInput(l.type);
-    return '<div class="repeatable-item" data-i="'+i+'">'
-      +'<div class="repeatable-item-fields">'
-        +'<select class="link-type">'+LINK_TYPES.map(t=>'<option value="'+t.value+'"'+(t.value===l.type?' selected':'')+'>'+esc(t.label)+'</option>').join('')+'</select>'
-        +(extra.show?'<input type="text" class="link-extra" placeholder="'+esc(extra.placeholder)+'" value="'+esc(l.extraText||'')+'"/>':'')
-        +'<input type="url" class="link-url" placeholder="https://…" value="'+esc(l.url||'')+'"/>'
-      +'</div>'
-      +'<button type="button" class="smallbtn remove-link">Remove</button>'
-    +'</div>';
-  }).join('');
-  [...el.querySelectorAll('.repeatable-item')].forEach(item=>{
-    const i=Number(item.dataset.i);
-    item.querySelector('.link-type').addEventListener('change',e=>{
-      projectFormState.links[i].type=e.target.value;
-      projectFormState.links[i].extraText='';
-      renderProjectLinks();
-    });
-    const extraInput=item.querySelector('.link-extra');
-    if(extraInput) extraInput.addEventListener('input',e=>{projectFormState.links[i].extraText=e.target.value;});
-    item.querySelector('.link-url').addEventListener('input',e=>{projectFormState.links[i].url=e.target.value;});
-    item.querySelector('.remove-link').addEventListener('click',()=>{
-      projectFormState.links.splice(i,1);
-      renderProjectLinks();
-    });
-  });
-}
+// ---- links (LINK_TYPES / renderLinkEditor defined earlier, shared) ----
+function renderProjectLinks(){ renderLinkEditor(document.getElementById('pLinksList'), projectFormState.links, renderProjectLinks); }
 document.getElementById('addProjectLinkBtn').addEventListener('click',()=>{
-  projectFormState.links.push({type:'github', extraText:'', url:''});
+  projectFormState.links.push({type:'github', label:'GitHub', url:''});
   renderProjectLinks();
 });
 
@@ -1450,6 +1424,7 @@ document.getElementById('saveProjectBtn').addEventListener('click', async()=>{
 
   projectFormState.name=document.getElementById('pName').value.trim();
   projectFormState.categoryTagline=document.getElementById('pCategoryTag').value.trim();
+  projectFormState.taglineColor=document.getElementById('pTaglineColor').value;
   projectFormState.subtitle=document.getElementById('pSubtitle').value.trim();
   projectFormState.description=document.getElementById('pDesc').value.trim();
   projectFormState.filterCode=document.getElementById('pFilterCode').value.trim();
@@ -1468,8 +1443,8 @@ document.getElementById('saveProjectBtn').addEventListener('click', async()=>{
       errEl.style.display='block';
       return;
     }
-    if((l.type==='view-x'||l.type==='custom') && !(l.extraText||'').trim()){
-      errEl.textContent='Custom and "View…" links need their label text filled in.';
+    if(!(l.label||'').trim()){
+      errEl.textContent='Every link needs its text (the words shown on the button).';
       errEl.style.display='block';
       return;
     }
@@ -1482,12 +1457,13 @@ document.getElementById('saveProjectBtn').addEventListener('click', async()=>{
   const payload={
     name: projectFormState.name,
     categoryTagline: projectFormState.categoryTagline,
+    taglineColor: projectFormState.taglineColor || null,
     subtitle: projectFormState.subtitle,
     description: projectFormState.description,
     techStack: projectFormState.techStack,
     filterCode: projectFormState.filterCode,
     filterLabel: projectFormState.filterLabel,
-    links: projectFormState.links.map(l=>({type:l.type, label:computeLinkLabel(l), url:l.url.trim()})),
+    links: projectFormState.links.map(l=>({type:l.type, label:(l.label||'').trim(), url:l.url.trim()})),
     date: projectFormState.date,
     updatedAt: serverTimestamp()
   };

@@ -373,7 +373,7 @@ option{background:var(--bg3)}
 .pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border2);flex-wrap:wrap;gap:1rem}
 .pagination-info{font-size:.6rem;letter-spacing:1.5px;color:var(--text2)}
 .pagination-info span{color:var(--g)}
-.pagination-btns{display:flex;gap:.45rem}
+.pagination-btns{display:flex;gap:.45rem;flex-wrap:wrap}
 .pg-btn{background:var(--bg2);border:1px solid var(--border2);color:var(--text2);font-family:var(--mono);font-size:.6rem;letter-spacing:1.5px;padding:.38rem .95rem;cursor:pointer;transition:all .2s}
 .pg-btn:hover:not(:disabled){border-color:var(--g);color:var(--g);background:rgba(0,255,65,.04)}
 .pg-btn:disabled{opacity:.3;cursor:not-allowed}
@@ -1319,6 +1319,12 @@ body:not(.hero-intro-done) .scroll-cue{opacity:1}
 <section id="labs">
   <div class="sw">
     <div class="sh rv"><span class="sn">06</span><span class="st">Home Labs</span><div class="sl"></div></div>
+    <div class="fn-filter-bar rv" style="margin-bottom:1.5rem">
+      <div class="fn-chips" id="labSortChips">
+        <button class="fn-chip active" onclick="sortLabs('newest',this)">Newest</button>
+        <button class="fn-chip" onclick="sortLabs('oldest',this)">Oldest</button>
+      </div>
+    </div>
     <div class="labs-grid" id="labsGrid">
       <div class="lcard act rv" data-d="1" onclick="openLab('dvwa')">
         <div class="lbdg ab">&#x25CF; Active Lab</div>
@@ -2270,15 +2276,21 @@ function renderPage(key,page,doScroll){
   const totalEl=document.getElementById(cfg.totalId);
   if(showingEl)showingEl.textContent=total===0?0:Math.min(end,total);
   if(totalEl)totalEl.textContent=total;
-  for(let p=1;p<=cfg.maxPages;p++){
-    const btn=document.getElementById(cfg.btnPrefix+p);
-    if(btn){
-      btn.classList.toggle('active',p===page);
-      btn.style.display=p<=totalPages?'':'none';
-    }
-  }
   const prev=document.getElementById(cfg.prevId);
   const next=document.getElementById(cfg.nextId);
+  /* numbered buttons are rebuilt every time, so any number of pages gets a button */
+  if(prev&&next&&prev.parentNode===next.parentNode){
+    const wrap=prev.parentNode;
+    [...wrap.querySelectorAll('.pg-btn')].forEach(b=>{if(b!==prev&&b!==next)b.remove();});
+    for(let p=1;p<=totalPages;p++){
+      const b=document.createElement('button');
+      b.className='pg-btn'+(p===page?' active':'');
+      b.id=cfg.btnPrefix+p;
+      b.textContent=p;
+      b.onclick=()=>goPage(key,p,b);
+      wrap.insertBefore(b,next);
+    }
+  }
   if(prev)prev.disabled=page<=1;
   if(next)next.disabled=page>=totalPages;
   const pagEl=document.getElementById(cfg.paginationId);
@@ -2324,6 +2336,18 @@ function sortResearch(order,btn){
   cards.sort((a,b)=>{const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';return order==='newest'?db.localeCompare(da):da.localeCompare(db);});
   cards.forEach(c=>grid.appendChild(c));
   renderPage('research',1,true);
+}
+
+/* ── LABS SORT ────────────────────────────────── */
+function sortLabs(order,btn){
+  document.querySelectorAll('#labSortChips .fn-chip').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const grid=document.getElementById('labsGrid');
+  if(!grid)return;
+  const cards=[...grid.querySelectorAll('.lcard')];
+  cards.sort((a,b)=>{const da=a.dataset.date||'2000-01-01',db=b.dataset.date||'2000-01-01';return order==='newest'?db.localeCompare(da):da.localeCompare(db);});
+  cards.forEach(c=>grid.appendChild(c));
+  renderPage('labs',1,true);
 }
 
 /* ── EDUCATION & CERTIFICATIONS SORT ──────────── */
