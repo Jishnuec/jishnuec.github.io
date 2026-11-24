@@ -31,6 +31,14 @@ function escJs(s) {
   return String(s ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 }
 
+const TAG_CLASS = { green: 'g', cyan: 'c', amber: 'a', red: 'r', purple: 'p' };
+
+function renderTag(t) {
+  const text = typeof t === 'string' ? t : t.text;
+  const cls = TAG_CLASS[typeof t === 'string' ? 'green' : t.color] || 'g';
+  return '<span class="sk ' + cls + '" style="font-size:.58rem">' + esc(text) + '</span>';
+}
+
 export function renderCard(lab, staggerIndex) {
   const staggerD = (staggerIndex % 3) + 1;
   const activeClass = lab.isActive ? ' act' : '';
@@ -39,17 +47,16 @@ export function renderCard(lab, staggerIndex) {
     : '<div class="lbdg">⏳ Planned</div>';
 
   const tags = lab.tags || [];
-  // No per-tag color field was ever requested for Labs (unlike badge/accent elsewhere),
-  // and the one real example's tag colors don't follow any derivable system — so all
-  // tags render in one consistent color rather than inventing an unrequested scheme.
+  // Each tag is {text, color} (color: green/cyan/amber/red/purple). A plain string is
+  // accepted too and renders green, so older data never breaks the build.
   const tagsOrComingSoon = tags.length
-    ? '<div class="ltags">' + tags.map(t => '<span class="sk g" style="font-size:.58rem">' + esc(t) + '</span>').join('') + '</div>'
+    ? '<div class="ltags">' + tags.map(renderTag).join('') + '</div>'
     : '<div class="lsoon">// COMING SOON</div>';
 
   const hasFindings = !!(lab.findingsSummary && lab.findingsSummary.trim());
   const clickText = hasFindings ? 'Click to read writeup →' : 'Click for details →';
 
-  return '<div class="lcard' + activeClass + ' rv" data-d="' + staggerD + '" onclick="openLab(\'' + escJs(lab.id) + '\')">'
+  return '<div class="lcard' + activeClass + ' rv" data-d="' + staggerD + '" data-date="' + esc(lab.date) + '" onclick="openLab(\'' + escJs(lab.id) + '\')">'
     + badgeHtml
     + '<div class="ltitle">' + esc(lab.name) + '</div>'
     + '<div class="ldesc">' + esc(lab.cardDescription) + '</div>'
